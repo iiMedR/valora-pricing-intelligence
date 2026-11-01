@@ -1,0 +1,28 @@
+package com.smartpricing.health;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@WebMvcTest(HealthController.class)
+class HealthControllerTest {
+    @Autowired MockMvc mvc;
+
+    @Test void returnsStableStatus() throws Exception {
+        mvc.perform(get("/api/v1/health")).andExpect(status().isOk())
+                .andExpect(content().json("{\"status\":\"UP\"}"));
+    }
+
+    @Test void allowsConfiguredLocalOrigin() throws Exception {
+        mvc.perform(get("/api/v1/health").header("Origin", "http://localhost:4200"))
+                .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:4200"));
+    }
+
+    @Test void rejectsUnconfiguredOrigin() throws Exception {
+        mvc.perform(get("/api/v1/health").header("Origin", "https://example.com"))
+                .andExpect(status().isForbidden());
+    }
+}
