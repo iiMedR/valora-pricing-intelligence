@@ -1,4 +1,8 @@
 spring:
+  jackson:
+    deserialization:
+      fail-on-numbers-for-enums: true
+      fail-on-unknown-properties: true
   application:
     name: smartpricing
   jpa:
