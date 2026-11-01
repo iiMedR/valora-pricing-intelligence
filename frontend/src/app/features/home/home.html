@@ -1,0 +1,10 @@
+<section aria-labelledby="title"><p class="eyebrow">YOUR PRICING WORKSPACE</p><h1 id="title">A foundation for<br>better pricing decisions.</h1><p class="lead">SmartPricing is a pricing optimization platform. This local workspace establishes the application and database foundation for the work ahead.</p></section>
+<section class="status-card" aria-labelledby="connection-title"><div><p class="eyebrow">SYSTEM CONNECTION</p><h2 id="connection-title">Backend service</h2><div role="status" aria-live="polite" aria-atomic="true">
+@switch (status()) {
+@case ('loading') { <p>Checking connection…</p><p class="muted">Waiting for the application health response.</p> }
+@case ('connected') { <p class="online">● Connected</p><p class="muted">The backend reports UP. Application connectivity is confirmed.</p> }
+@case ('unavailable') { <p class="offline">● Backend unavailable</p><p class="muted">No healthy response received. Start the backend and check again.</p> }
+}
+</div></div><button type="button" (click)="refresh()" [disabled]="status() === 'loading'">Check again ↗</button></section>
+<section><p class="eyebrow">MILESTONE 01</p><h2>Start with the essentials.</h2><p class="muted">The application shell and health connection are in place. There is no business data in this workspace yet.</p><div class="planned"><p class="eyebrow">PLANNED, NOT IMPLEMENTED</p><p>Catalog and sales history · Demand modeling · Pricing recommendations · Shopify ingestion</p></div></section>
+
