@@ -21,9 +21,9 @@ Restart the backend to apply Flyway migrations. Startup never automatically rese
 
 ## Troubleshooting
 
-- Docker reports `Docker Desktop is unable to start`: restore Docker Desktop's Linux engine, then rerun `docker version` and the Compose startup. PostgreSQL, Flyway runtime verification, full context tests, and a live connected UI remain blocked until then.
-- Port 5432 occupied: set `POSTGRES_PORT` and match the backend `DB_URL`. For backend port changes, also update the frontend proxy target.
-- On this machine an existing PostgreSQL service answers on port 5432 and rejects the default SmartPricing credentials (`28P01`). Do not modify that unrelated server. Once Docker works, start Compose on another port: set `$env:POSTGRES_PORT = '5433'` before `docker compose -f infra/compose.yaml up -d --wait`, and set `$env:DB_URL = 'jdbc:postgresql://localhost:5433/smartpricing'` in the backend terminal before startup.
+- Docker reports `Docker Desktop is unable to start`: inspect Desktop's startup error. This machine had a stale `WSL update required` state. `wsl --update` confirmed WSL 3.0.5.0 was already current; `docker desktop restart --timeout 50` cleared the failure and started the Linux engine. Verify `docker version` shows a Server section before starting Compose. Never reset Docker data to address this error.
+- SmartPricing uses host port 5433 by default, keeping the existing Windows PostgreSQL service on 5432 separate. No changes to that service or its credentials are required.
+- Port 5433 occupied: set `$env:POSTGRES_PORT = '5434'` in both the Compose and backend terminals before startup. An explicit `DB_URL` overrides this setting; update or remove a stale `DB_URL` if necessary. For backend HTTP port changes, also update the frontend proxy target.
 - Backend unavailable in the UI: verify the direct health URL, local profile, PostgreSQL health, and backend logs. The UI times out after five seconds and permits retry.
 - Credential changes do not alter users in an existing PostgreSQL volume. Use the original credentials or intentionally reset local data after reading the warning above.
 - A sandbox temporary-file ENOENT during Angular tests can be an environment restriction; rerun in a normal terminal. Do not interpret a build as a passed unit test.

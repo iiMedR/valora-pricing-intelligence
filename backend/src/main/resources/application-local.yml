@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/smartpricing}
+    url: ${DB_URL:jdbc:postgresql://localhost:${POSTGRES_PORT:5433}/smartpricing}
     username: ${DB_USERNAME:smartpricing}
     password: ${DB_PASSWORD:smartpricing_local}

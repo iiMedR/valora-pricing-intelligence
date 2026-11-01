@@ -9,8 +9,8 @@ The existing `SmartPricing` directory is the repository root (no redundant `smar
 - Java 21 (verified: Oracle JDK 21.0.11).
 - Spring Boot 3.5.16; Maven wrapper downloads Maven 3.9.11. System Maven is not required.
 - Node 24.22.1 and npm 11.19.1 verified; Angular framework and CLI 22.2.6, TypeScript 6.0.x. Use `npm ci` to reproduce the lockfile.
-- Docker Desktop with Linux containers and Compose. Client 29.8.0 is installed; its engine currently cannot start.
-- PostgreSQL image `postgres:17.7-alpine` is pinned in Compose and Testcontainers. The server version has **not** been verified at runtime because Docker is unavailable.
+- Docker Desktop with Linux containers and Compose (verified: Desktop 4.92.0, client/engine 29.8.0).
+- PostgreSQL image `postgres:17.7-alpine` is pinned in Compose and Testcontainers.
 
 Version references: [Angular compatibility](https://angular.dev/reference/versions), [Spring Boot 3.5 requirements](https://docs.spring.io/spring-boot/3.5/system-requirements.html).
 
@@ -52,7 +52,7 @@ The Angular development proxy forwards `/api/**` to `http://localhost:8080`, avo
 
 ## Configuration
 
-The `local` profile defaults to `jdbc:postgresql://localhost:5432/smartpricing`, user `smartpricing`, password `smartpricing_local`. These credentials are for development only. Override backend settings using `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`. Compose accepts `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_PORT`; keep the backend values consistent. Environment files are ignored. No database defaults are enabled outside the local profile.
+The `local` profile defaults to `jdbc:postgresql://localhost:5433/smartpricing`, user `smartpricing`, password `smartpricing_local`. Host port 5433 avoids a collision with an existing PostgreSQL service on 5432; the container still listens on 5432. These credentials are for development only. Override backend settings using `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`. Compose accepts `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_PORT`; keep the backend values consistent. The backend also reads `POSTGRES_PORT` when `DB_URL` is not set: export the same port in both terminals to change it. Environment files are ignored. No database defaults are enabled outside the local profile.
 
 Flyway owns schema changes. Hibernate uses `validate`, never schema creation. The initial empty `app_metadata` table supports future application metadata; there are no business seed rows.
 
