@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
 import { Home } from './features/home/home';
-export const routes: Routes = [{path: '', component: Home, title: 'Overview | SmartPricing'}, {path: '**', redirectTo: ''}];
-
+export const routes: Routes = [
+  { path: '', component: Home, title: 'Overview | SmartPricing' },
+  { path: '**', redirectTo: '' },
+];
