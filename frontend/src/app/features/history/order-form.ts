@@ -77,7 +77,10 @@ function lineForm() {
               formControlName="externalReference"
               maxlength="160" /></label
           ><label
-            >Placed at (local time)<input type="datetime-local" step="0.001" formControlName="placedAt" /></label
+            >Placed at (local time)<input
+              type="datetime-local"
+              step="0.001"
+              formControlName="placedAt" /></label
           ><label
             >Status<select formControlName="status">
               <option>COMPLETED</option>
@@ -176,8 +179,7 @@ function lineForm() {
         }
         <div class="actions">
           <button type="submit" class="primary" [disabled]="saving()">
-            {{ saving() ? 'Saving…' : 'Save order' }}</button
-          ><a routerLink="/orders">Cancel</a>
+            {{ saving() ? 'Saving…' : 'Save order' }}</button><a routerLink="/orders">Cancel</a>
         </div>
       </form>
     }`,

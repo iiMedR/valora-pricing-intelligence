@@ -144,7 +144,8 @@ import { moneyPattern } from '../catalog/components/form-validation';
                 formControlName="amount" /></label
             ><label
               >Refunded at (local time)<input
-                type="datetime-local" step="0.001"
+                type="datetime-local"
+                step="0.001"
                 formControlName="refundedAt" /></label
             ><label
               >Source reference / retry key<input
@@ -166,8 +167,11 @@ import { moneyPattern } from '../catalog/components/form-validation';
           }
           <div class="actions">
             <button class="primary" [disabled]="saving()">
-              {{ saving() ? 'Saving…' : 'Save refund' }}</button
-            ><button type="button" (click)="editing.set(false)" [disabled]="saving()">
+              {{ saving() ? 'Saving…' : 'Save refund' }}</button><button
+              type="button"
+              (click)="editing.set(false)"
+              [disabled]="saving()"
+            >
               Cancel
             </button>
           </div>

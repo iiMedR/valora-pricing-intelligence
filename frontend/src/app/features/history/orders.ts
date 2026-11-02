@@ -25,9 +25,13 @@ import { Order } from './history.models';
       <div class="error" role="alert">{{ error() }} <button (click)="load()">Retry</button></div>
     }
     <form class="filters history-filters" [formGroup]="filters" (ngSubmit)="apply()">
-      <label>From (local time)<input type="datetime-local" step="0.001" formControlName="from" /></label
+      <label
+        >From (local time)<input type="datetime-local" step="0.001" formControlName="from" /></label
       ><label
-        >Until, exclusive (local time)<input type="datetime-local" step="0.001" formControlName="to"
+        >Until, exclusive (local time)<input
+          type="datetime-local"
+          step="0.001"
+          formControlName="to"
       /></label>
       <label
         >Status<select formControlName="status">

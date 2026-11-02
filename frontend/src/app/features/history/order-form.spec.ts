@@ -23,14 +23,12 @@ describe('OrderForm', () => {
   }
   it('does not send invalid quantities or precision', () => {
     const { component } = setup();
-    component.form.controls.lines
-      .at(0)
-      .patchValue({
-        productId: 'product',
-        variantId: 'variant',
-        quantity: 0,
-        unitPrice: '1.00001',
-      });
+    component.form.controls.lines.at(0).patchValue({
+      productId: 'product',
+      variantId: 'variant',
+      quantity: 0,
+      unitPrice: '1.00001',
+    });
     component.submit();
     expect(component.form.invalid).toBe(true);
     expect(component.saving()).toBe(false);
@@ -38,15 +36,13 @@ describe('OrderForm', () => {
   it('sends exact money and unknown cost without substituting catalog cost', async () => {
     const { component, http, fixture } = setup();
     vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
-    component.form.controls.lines
-      .at(0)
-      .patchValue({
-        productId: 'product',
-        variantId: 'variant',
-        quantity: 1,
-        unitPrice: '999999999999999.9999',
-        discountAmount: '0',
-      });
+    component.form.controls.lines.at(0).patchValue({
+      productId: 'product',
+      variantId: 'variant',
+      quantity: 1,
+      unitPrice: '999999999999999.9999',
+      discountAmount: '0',
+    });
     component.submit();
     const request = http.expectOne('/api/v1/sales/orders');
     expect(request.request.body.lines[0].unitPrice).toBe('999999999999999.9999');

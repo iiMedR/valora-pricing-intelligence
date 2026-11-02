@@ -118,13 +118,15 @@ import { HistoryKind, HistoryPage, Inventory, Period, Quality } from './history.
         }
         <label
           >{{ tab() === 'inventory' ? 'Observed at' : 'Valid from' }} (local time)<input
-            type="datetime-local" step="0.001"
+            type="datetime-local"
+            step="0.001"
             formControlName="from"
         /></label>
         @if (tab() !== 'inventory') {
           <label
             >Valid until, exclusive (optional, local time)<input
-              type="datetime-local" step="0.001"
+              type="datetime-local"
+              step="0.001"
               formControlName="to"
           /></label>
         }
