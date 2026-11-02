@@ -19,13 +19,16 @@ public class CatalogService {
     private final ProductRepository products;
     private final VariantRepository variants;
     private final BusinessSettingsRepository settings;
+    private final com.smartpricing.history.service.VariantHistoryService history;
 
     public CatalogService(CategoryRepository categories, ProductRepository products,
-                          VariantRepository variants, BusinessSettingsRepository settings) {
+                          VariantRepository variants, BusinessSettingsRepository settings,
+                          com.smartpricing.history.service.VariantHistoryService history) {
         this.categories = categories;
         this.products = products;
         this.variants = variants;
         this.settings = settings;
+        this.history = history;
     }
 
     public List<CategoryView> categories() {
@@ -139,11 +142,13 @@ public class CatalogService {
         CatalogRules.prices(input);
         Product parent = lockedProduct(productId);
         ProductVariant entity = variant(productId, variantId);
+        java.math.BigDecimal oldPrice = entity.getCurrentPrice(), oldCost = entity.getCostPrice();
         entity.checkVersion(input.version());
         String sku = CatalogRules.text(input.sku(), 1, 80, "SKU");
         if (variants.existsBySkuIgnoreCaseAndIdNot(sku, variantId)) throw duplicateSku();
         apply(entity, input, sku);
         VariantView result = variantView(variants.saveAndFlush(entity));
+        history.recordCatalogChange(variantId, oldPrice, oldCost, entity.getCurrentPrice(), entity.getCostPrice());
         archiveParentIfEmpty(parent);
         return result;
     }

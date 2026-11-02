@@ -25,7 +25,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     ResponseEntity<Object> handleIntegrity(DataIntegrityViolationException exception) {
         return error(HttpStatus.CONFLICT, "DATA_CONFLICT",
-                "A category name or SKU is already used, or this record is referenced by another record.", java.util.Map.of());
+                "This write conflicts with an existing key, historical period, immutable record, or dependent data.", java.util.Map.of());
     }
 
     @ExceptionHandler({OptimisticLockingFailureException.class, PessimisticLockingFailureException.class})
