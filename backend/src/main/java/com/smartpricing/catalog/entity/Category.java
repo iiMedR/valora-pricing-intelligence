@@ -15,7 +15,7 @@ public class Category extends AuditedEntity {
     @Column(length = 500)
     private String description;
     public UUID getId() { return id; }
-    
+
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public String getDescription() { return description; }

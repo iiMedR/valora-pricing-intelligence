@@ -29,7 +29,7 @@ public class ProductVariant extends AuditedEntity {
     @Column(nullable = false, length = 16)
     private CatalogStatus status;
     public UUID getId() { return id; }
-    
+
     public UUID getProductId() { return productId; }
     public void setProductId(UUID productId) { this.productId = productId; }
     public String getSku() { return sku; }

@@ -14,13 +14,13 @@ public class Product extends AuditedEntity {
     private String name;
     @Column(length = 2000)
     private String description;
-    
+
     private UUID categoryId;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 16)
     private CatalogStatus status;
     public UUID getId() { return id; }
-    
+
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public String getDescription() { return description; }
