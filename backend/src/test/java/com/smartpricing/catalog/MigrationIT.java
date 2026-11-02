@@ -16,7 +16,7 @@ class MigrationIT {
         try (Connection connection = DriverManager.getConnection(database.getJdbcUrl(), database.getUsername(), database.getPassword());
              Statement sql = connection.createStatement()) {
             sql.executeUpdate("INSERT INTO app_metadata(key, value) VALUES ('upgrade-check', 'preserve')");
-            assertThat(Flyway.configure().dataSource(database.getJdbcUrl(), database.getUsername(), database.getPassword()).load().migrate().migrationsExecuted).isEqualTo(1);
+            assertThat(Flyway.configure().dataSource(database.getJdbcUrl(), database.getUsername(), database.getPassword()).target("2").load().migrate().migrationsExecuted).isEqualTo(1);
             try (ResultSet rows = sql.executeQuery("SELECT value FROM app_metadata WHERE key = 'upgrade-check'")) {
                 assertThat(rows.next()).isTrue(); assertThat(rows.getString(1)).isEqualTo("preserve");
             }

@@ -21,7 +21,8 @@ class CatalogServiceTest {
     ProductRepository products = mock(ProductRepository.class);
     VariantRepository variants = mock(VariantRepository.class);
     BusinessSettingsRepository settings = mock(BusinessSettingsRepository.class);
-    CatalogService service = new CatalogService(categories, products, variants, settings);
+    CatalogService service = new CatalogService(categories, products, variants, settings,
+            mock(com.smartpricing.history.service.VariantHistoryService.class));
     UUID id = UUID.randomUUID();
 
     VariantWrite input(String cost, String current, String min, String max) {
