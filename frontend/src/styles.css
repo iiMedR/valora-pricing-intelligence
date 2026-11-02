@@ -3,6 +3,46 @@
   color: #182c29;
   background: #f5f7f4;
 }
+.button-link {
+  display: inline-block;
+  border: 1px solid #234e42;
+  border-radius: 6px;
+  padding: 12px 18px;
+  font-size: 13px;
+  text-decoration: none;
+}
+.top-space {
+  margin-top: 26px;
+}
+.wide-editor {
+  max-width: none;
+}
+fieldset {
+  min-width: 0;
+  margin: 24px 0;
+  padding: 20px;
+  border: 1px solid #c7d4c9;
+  border-radius: 8px;
+}
+legend {
+  font-size: 15px;
+  font-weight: 600;
+  padding: 0 8px;
+}
+.history-tabs {
+  margin: 24px 0;
+}
+.history-filters {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 600px) {
+  .history-filters {
+    grid-template-columns: 1fr;
+  }
+  fieldset {
+    padding: 14px;
+  }
+}
 * {
   box-sizing: border-box;
 }

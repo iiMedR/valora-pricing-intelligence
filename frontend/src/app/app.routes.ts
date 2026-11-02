@@ -3,6 +3,26 @@ import { Home } from './features/home/home';
 export const routes: Routes = [
   { path: '', component: Home, title: 'Overview | SmartPricing' },
   {
+    path: 'orders',
+    loadComponent: () => import('./features/history/orders').then((m) => m.Orders),
+    title: 'Sales orders | SmartPricing',
+  },
+  {
+    path: 'orders/new',
+    loadComponent: () => import('./features/history/order-form').then((m) => m.OrderForm),
+    title: 'Enter order | SmartPricing',
+  },
+  {
+    path: 'orders/:id',
+    loadComponent: () => import('./features/history/order-detail').then((m) => m.OrderDetail),
+    title: 'Order detail | SmartPricing',
+  },
+  {
+    path: 'products/:productId/variants/:variantId/history',
+    loadComponent: () => import('./features/history/variant-history').then((m) => m.VariantHistory),
+    title: 'Variant history | SmartPricing',
+  },
+  {
     path: 'products',
     loadComponent: () => import('./features/catalog/pages/product-list').then((m) => m.ProductList),
     title: 'Products | SmartPricing',

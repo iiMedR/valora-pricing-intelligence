@@ -88,6 +88,9 @@ import { VariantForm } from '../components/variant-form';
               <div class="section-heading">
                 <div>
                   <h3>{{ v.name }}</h3>
+                  <a [routerLink]="['/products', data.product.id, 'variants', v.id, 'history']"
+                    >Price, cost &amp; inventory history</a
+                  >
                   <p class="muted">
                     {{ v.sku }} · <span class="badge">{{ v.status }}</span>
                   </p>
