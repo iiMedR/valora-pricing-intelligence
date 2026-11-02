@@ -33,4 +33,10 @@ Restart the backend to apply Flyway migrations. Startup never automatically rese
 
 Inspect the working tree before changes, implement only the current milestone, run independent tests first, then PostgreSQL integration tests and browser checks. Keep unit tests independent of Docker: Surefire runs `*Test`; Failsafe runs `*IT` during `verify`. The full-context integration test starts real PostgreSQL, verifies V1 and the empty metadata table, and exercises HTTP health. An unavailable Docker engine fails that check rather than silently passing it.
 
-Use conventional local commits with genuine timestamps and the configured author. Do not push, fetch, create remotes, or begin Milestone 02 without a new instruction. Formatting: UTF-8, LF, two spaces for TypeScript/config, four spaces for Java. Source and lockfiles belong in Git; generated output and secrets do not.
+Use conventional local commits with genuine timestamps and the configured author. Do not push, fetch, create remotes, or begin a later milestone without a new instruction. Formatting: UTF-8, LF, two spaces for TypeScript/config, four spaces for Java. Source and lockfiles belong in Git; generated output and secrets do not.
+
+## Catalog development (Milestone 02)
+
+See [catalog.md](catalog.md) for archived-first product creation, decimal-string prices, versioned updates, and the currency restriction. V2 upgrades the existing local database automatically on backend startup; never reset a volume to apply this milestone. Fresh-database and V1-upgrade tests use isolated PostgreSQL containers. The complete current check results are in [milestone-02-verification.md](milestone-02-verification.md).
+
+The delivered scope ends at Milestone 02. Begin Milestone 03 only after a new user instruction. Use the existing commands above; no new package installation or external service is required.

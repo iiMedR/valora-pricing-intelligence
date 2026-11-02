@@ -1,6 +1,6 @@
 # SmartPricing
 
-A single-business pricing optimization platform. Milestone 01 provides the local application foundation only: Angular shell, health API, PostgreSQL configuration, and Flyway baseline. No business data, pricing engine, authentication, or store integration is implemented.
+A single-business pricing optimization platform. Milestones 01–02 provide the local application foundation, business settings, categories, products, and sellable variants with prices and constraints. No demo catalog, pricing engine, authentication, or store integration is implemented.
 
 The existing `SmartPricing` directory is the repository root (no redundant `smartpricing-platform` wrapper).
 
@@ -54,7 +54,11 @@ The Angular development proxy forwards `/api/**` to `http://localhost:8080`, avo
 
 The `local` profile defaults to `jdbc:postgresql://localhost:5433/smartpricing`, user `smartpricing`, password `smartpricing_local`. Host port 5433 avoids a collision with an existing PostgreSQL service on 5432; the container still listens on 5432. These credentials are for development only. Override backend settings using `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`. Compose accepts `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_PORT`; keep the backend values consistent. The backend also reads `POSTGRES_PORT` when `DB_URL` is not set: export the same port in both terminals to change it. Environment files are ignored. No database defaults are enabled outside the local profile.
 
-Flyway owns schema changes. Hibernate uses `validate`, never schema creation. The initial empty `app_metadata` table supports future application metadata; there are no business seed rows.
+Flyway owns schema changes. Hibernate uses `validate`, never schema creation. V1 supplies the empty metadata table. V2 creates the catalog and initializes exactly one settings row (`My Business`, `MAD`), without catalog/demo records. Products start archived; add an active variant before activating a product. Currency cannot change once any variant exists, including archived variants.
+
+## Catalog management
+
+Open Products, Categories, or Business settings in the navigation. Monetary values are decimal strings with at most four decimal places; below-cost prices are allowed and flagged. Archive retains catalog records. See the [catalog API and domain guide](docs/catalog.md) for endpoint examples, validation, concurrent edits, and archive rules.
 
 ## Checks
 
@@ -70,3 +74,5 @@ npm.cmd run build
 On macOS/Linux use `./mvnw` (make executable if necessary) and `npm` in place of `npm.cmd`.
 
 See [verification](docs/verification.md) for actual outcomes, [architecture](docs/architecture.md) for boundaries, and [development](docs/development.md) for workflow and troubleshooting.
+
+Milestone 02 results are recorded separately in [catalog verification](docs/milestone-02-verification.md).
