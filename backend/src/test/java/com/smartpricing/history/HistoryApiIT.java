@@ -71,6 +71,7 @@ class HistoryApiIT {
         assertThat(jdbc.queryForObject("SELECT count(*) FROM sales_refunds",Integer.class)).isZero();
         var invalidCurrency=order("wrong-currency"); invalidCurrency.put("currencyCode","USD"); post("/sales/orders",invalidCurrency,400);
         var invalidMoney=order("invalid-money"); var badLine=line(variantId); badLine.put("unitPrice","1.00001"); invalidMoney.put("lines",List.of(badLine)); post("/sales/orders",invalidMoney,400);
+        var fractional=order("fractional-quantity"); var fractionalLine=line(variantId); fractionalLine.put("quantity",new java.math.BigDecimal("1.5")); fractional.put("lines",List.of(fractionalLine)); post("/sales/orders",fractional,400);
         assertThat(jdbc.queryForObject("SELECT count(*) FROM sales_orders",Integer.class)).isEqualTo(1);
     }
 

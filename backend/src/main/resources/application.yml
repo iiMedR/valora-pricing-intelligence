@@ -1,6 +1,7 @@
 spring:
   jackson:
     deserialization:
+      accept-float-as-int: false
       fail-on-numbers-for-enums: true
       fail-on-unknown-properties: true
   application:
