@@ -15,7 +15,10 @@ import org.springframework.stereotype.Component;
 public class HistorySupport {
     private final JdbcTemplate jdbc;
     private final ObjectMapper mapper;
-    public HistorySupport(JdbcTemplate jdbc,ObjectMapper mapper) { this.jdbc=jdbc; this.mapper=mapper; }
+    private final com.smartpricing.demo.config.DemoSafetyGuard demoGuard;
+    public HistorySupport(JdbcTemplate jdbc,ObjectMapper mapper,com.smartpricing.demo.config.DemoSafetyGuard demoGuard) {
+        this.jdbc=jdbc; this.mapper=mapper; this.demoGuard=demoGuard;
+    }
     public String fingerprint(Object input) {
         try { return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(canonical(mapper.valueToTree(input)).toString().getBytes(StandardCharsets.UTF_8))); }
         catch(NoSuchAlgorithmException exception) { throw new IllegalStateException(exception); }
@@ -31,11 +34,15 @@ public class HistorySupport {
         return node;
     }
     public void lockKey(String type,Source source,String reference) {
+        if(source==Source.DEMO) demoGuard.requireVerifiedDemo();
         HistoryRules.reference(source,reference);
         if(reference!=null) {
             try {
                 byte[] bytes=MessageDigest.getInstance("SHA-256").digest((type+":"+source+":"+reference).getBytes(StandardCharsets.UTF_8));
-                jdbc.queryForList("SELECT pg_advisory_xact_lock(?)",ByteBuffer.wrap(bytes).getLong());
+                // Bound lock-table usage for atomic bulk ingestion. Hash collisions only serialize unrelated keys;
+                // exact source/reference unique constraints and payload fingerprints still determine idempotency.
+                long stripe=0x53504B4559000000L | (ByteBuffer.wrap(bytes).getLong() & 1023L);
+                jdbc.queryForList("SELECT pg_advisory_xact_lock(?)",stripe);
             } catch(NoSuchAlgorithmException exception) { throw new IllegalStateException(exception); }
         }
     }

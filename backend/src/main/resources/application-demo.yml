@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DEMO_DB_HOST:localhost}:${DEMO_DB_PORT:5434}/smartpricing_demo
+    username: smartpricing_demo
+    password: ${DEMO_DB_PASSWORD}
+server:
+  port: ${DEMO_API_PORT:8081}
+app:
+  mode: demo
+  cors:
+    allowed-origins: http://localhost:4201
