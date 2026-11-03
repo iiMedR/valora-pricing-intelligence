@@ -41,6 +41,7 @@ class DemoSeederIT {
     @Autowired JdbcTemplate jdbc;
     @Autowired BusinessService business;
     @Autowired EnvironmentController environment;
+    @Autowired com.smartpricing.analytics.service.AnalyticsService analytics;
     @MockitoSpyBean SalesService sales;
 
     @Test void reproducibilityAtomicFailureIdempotencyResetAndIsolation() {
@@ -60,6 +61,15 @@ class DemoSeederIT {
         assertThat(first.scenarios()).hasSize(10);assertThat(environment.info().datasetState()).isEqualTo("READY");
         var completed=jdbc.queryForObject("SELECT completed_at FROM demo_control.seed_runs",java.sql.Timestamp.class);
         assertThat(seeds.seed(DemoSeedConfig.defaults())).isEqualTo(first);
+        var reportingEnd=first.endDate().plusDays(1);
+        var report=analytics.overview(first.startDate(),reportingEnd);
+        assertThat(report.metrics().orders()).isEqualTo(first.orders());
+        var trend=analytics.trends(first.startDate(),reportingEnd,com.smartpricing.analytics.dto.AnalyticsDtos.Granularity.MONTH);
+        var trendNet=trend.content().stream().map(b->new java.math.BigDecimal(b.metrics().netSales())).reduce(java.math.BigDecimal.ZERO,java.math.BigDecimal::add);
+        assertThat(trendNet).isEqualByComparingTo(report.metrics().netSales());
+        analytics.products(first.startDate(),reportingEnd,null,0,20,com.smartpricing.analytics.dto.AnalyticsDtos.Sort.NET_DESC,"");
+        analytics.inventory(first.startDate(),reportingEnd,0,20);
+        assertThat(seeds.seed(DemoSeedConfig.defaults())).isEqualTo(first); // Read-only analytics preserves normalized checksum.
         assertThat(jdbc.queryForObject("SELECT completed_at FROM demo_control.seed_runs",java.sql.Timestamp.class)).isEqualTo(completed);
         invariants(jdbc);
         assertThatThrownBy(()->seeds.resetAndSeed(DemoSeedConfig.defaults(),null)).isInstanceOf(ApiException.class);
