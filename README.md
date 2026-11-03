@@ -1,6 +1,6 @@
 # SmartPricing
 
-A single-business pricing optimization platform. Milestones 01–02 provide the local application foundation, business settings, categories, products, and sellable variants with prices and constraints. No demo catalog, pricing engine, authentication, or store integration is implemented.
+A single-business pricing optimization platform. Milestones 01–03 provide the local foundation, business settings, catalog, immutable sales/refund snapshots, effective listed-price/cost history, and inventory observations. No demo seeder, pricing engine, authentication, or store integration is implemented.
 
 The existing `SmartPricing` directory is the repository root (no redundant `smartpricing-platform` wrapper).
 
@@ -76,3 +76,11 @@ On macOS/Linux use `./mvnw` (make executable if necessary) and `npm` in place of
 See [verification](docs/verification.md) for actual outcomes, [architecture](docs/architecture.md) for boundaries, and [development](docs/development.md) for workflow and troubleshooting.
 
 Milestone 02 results are recorded separately in [catalog verification](docs/milestone-02-verification.md).
+
+## Sales and variant history
+
+Open Sales orders to enter/inspect manual transactions and refunds. Each variant's product-detail card links to listed-price, unit-cost, and inventory history. Unknown historical cost or inventory is displayed explicitly rather than replaced with current catalog data. Verified current price/cost changes synchronize with the catalog atomically; snapshots remain point observations.
+
+V3 adds history without backfilling data or modifying V1/V2. It uses PostgreSQL's `btree_gist` extension for authoritative period-overlap constraints; the migration role needs permission to create this trusted extension. The supplied local PostgreSQL image supports it. APIs retain the current unauthenticated local-development posture; provider authorization is future work.
+
+See [history contracts and API examples](docs/history.md), [implementation design](docs/milestone-03-design.md), and [Milestone 03 verification](docs/milestone-03-verification.md). No new setup commands or package installations are needed.

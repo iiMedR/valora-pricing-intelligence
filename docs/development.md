@@ -39,4 +39,8 @@ Use conventional local commits with genuine timestamps and the configured author
 
 See [catalog.md](catalog.md) for archived-first product creation, decimal-string prices, versioned updates, and the currency restriction. V2 upgrades the existing local database automatically on backend startup; never reset a volume to apply this milestone. Fresh-database and V1-upgrade tests use isolated PostgreSQL containers. The complete current check results are in [milestone-02-verification.md](milestone-02-verification.md).
 
-The delivered scope ends at Milestone 02. Begin Milestone 03 only after a new user instruction. Use the existing commands above; no new package installation or external service is required.
+Milestone 03 extends this catalog with immutable sales/refund history and variant observations; see [history.md](history.md). V3 applies during normal startup and preserves catalog data. Verification includes fresh migration and V2-to-V3 retention tests in isolated containers. Do not reset local volumes.
+
+On Windows, a running `java -jar target/...jar` can lock the file and prevent Maven repackaging. Stop only that application process before rebuilding, or use `mvnw.cmd spring-boot:run` for local development so the target JAR is not held open. Restart the backend after changes; the Angular development server reloads frontend changes automatically.
+
+The delivered scope ends at Milestone 03. Begin Milestone 04 only after a new user instruction. No new package installation or external service is required.
