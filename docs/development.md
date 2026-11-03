@@ -23,7 +23,7 @@ Restart the backend to apply Flyway migrations. Startup never automatically rese
 
 - Docker reports `Docker Desktop is unable to start`: inspect Desktop's startup error. This machine had a stale `WSL update required` state. `wsl --update` confirmed WSL 3.0.5.0 was already current; `docker desktop restart --timeout 50` cleared the failure and started the Linux engine. Verify `docker version` shows a Server section before starting Compose. Never reset Docker data to address this error.
 - SmartPricing uses host port 5433 by default, keeping the existing Windows PostgreSQL service on 5432 separate. No changes to that service or its credentials are required.
-- Port 5433 occupied: set `$env:POSTGRES_PORT = '5434'` in both the Compose and backend terminals before startup. An explicit `DB_URL` overrides this setting; update or remove a stale `DB_URL` if necessary. For backend HTTP port changes, also update the frontend proxy target.
+- Port 5433 occupied: choose an unused port other than 5434 (reserved for the isolated demo) and set `POSTGRES_PORT` in both the Compose and backend terminals. An explicit `DB_URL` overrides this setting; update or remove a stale `DB_URL` if necessary. For backend HTTP port changes, also update the frontend proxy target.
 - Backend unavailable in the UI: verify the direct health URL, local profile, PostgreSQL health, and backend logs. The UI times out after five seconds and permits retry.
 - Credential changes do not alter users in an existing PostgreSQL volume. Use the original credentials or intentionally reset local data after reading the warning above.
 - A sandbox temporary-file ENOENT during Angular tests can be an environment restriction; rerun in a normal terminal. Do not interpret a build as a passed unit test.
@@ -43,4 +43,10 @@ Milestone 03 extends this catalog with immutable sales/refund history and varian
 
 On Windows, a running `java -jar target/...jar` can lock the file and prevent Maven repackaging. Stop only that application process before rebuilding, or use `mvnw.cmd spring-boot:run` for local development so the target JAR is not held open. Restart the backend after changes; the Angular development server reloads frontend changes automatically.
 
-The delivered scope ends at Milestone 03. Begin Milestone 04 only after a new user instruction. No new package installation or external service is required.
+The delivered scope ends at Milestone 04. No analytics, optimization, authentication, Shopify, tenancy, or deployment is included.
+
+## Isolated demo development (Milestone 04)
+
+Follow [demo-data.md](demo-data.md) for explicit initialization, seed, summary, serve and confirmed reset commands. Demo PostgreSQL has its own Compose project, volume, restricted role, database identity marker and port 5434. Do not use the normal database reset commands above for demo setup. Ordinary startup in either profile never seeds. The demo backend runs on 8081, and `npm.cmd run start:demo` runs Angular on 4201. Credentials stay in ignored `infra/.env.demo.local`.
+
+Run backend builds sequentially; integration tests seed several independent PostgreSQL databases and take several minutes. They validate atomic rollback, reproducibility, controlled variation and refusal against preexisting normal data. No V4 migration is needed: existing business tables are reused, and control metadata is bootstrapped only in the isolated demo database. See [Milestone 04 verification](milestone-04-verification.md).

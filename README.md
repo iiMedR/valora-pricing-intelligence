@@ -1,6 +1,6 @@
 # SmartPricing
 
-A single-business pricing optimization platform. Milestones 01–03 provide the local foundation, business settings, catalog, immutable sales/refund snapshots, effective listed-price/cost history, and inventory observations. No demo seeder, pricing engine, authentication, or store integration is implemented.
+A single-business pricing optimization platform. Milestones 01–04 provide the local foundation, business settings, catalog, immutable sales/refund snapshots, effective listed-price/cost history, inventory observations, and an isolated reproducible synthetic demo. Pricing recommendations, authentication, and store integration remain future work.
 
 The existing `SmartPricing` directory is the repository root (no redundant `smartpricing-platform` wrapper).
 
@@ -50,7 +50,21 @@ The application endpoint returns `{"status":"UP"}` and confirms application resp
 
 The Angular development proxy forwards `/api/**` to `http://localhost:8080`, avoiding browser cross-origin requests. Backend CORS separately permits `http://localhost:4200`; override using `CORS_ALLOWED_ORIGINS` (comma-separated explicit origins). No wildcard is used.
 
-## Configuration
+## Isolated synthetic demo
+
+From the repository root, initialize once, then run the demo backend and frontend in separate terminals:
+
+```powershell
+.\scripts\demo.ps1 init
+.\scripts\demo.ps1 serve
+# Separate terminal:
+cd frontend
+npm.cmd run start:demo
+```
+
+Open [the synthetic demo](http://localhost:4201). It uses backend 8081 and a separate PostgreSQL database on 5434; normal development remains on 4200/8080/5433. Ordinary startup never seeds. Initialization creates ignored local credentials and explicitly seeds 30 products, 9,466 orders and 114 refunds for January–December 2025. Repeat with `.\scripts\demo.ps1 seed`; destructive reseeding requires `.\scripts\demo.ps1 reset -ConfirmReset` and validates the dedicated database identity before changing anything. See [demo setup, scenarios and limitations](docs/demo-data.md) and [Milestone 04 verification](docs/milestone-04-verification.md).
+
+## Normal database configuration
 
 The `local` profile defaults to `jdbc:postgresql://localhost:5433/smartpricing`, user `smartpricing`, password `smartpricing_local`. Host port 5433 avoids a collision with an existing PostgreSQL service on 5432; the container still listens on 5432. These credentials are for development only. Override backend settings using `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`. Compose accepts `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_PORT`; keep the backend values consistent. The backend also reads `POSTGRES_PORT` when `DB_URL` is not set: export the same port in both terminals to change it. Environment files are ignored. No database defaults are enabled outside the local profile.
 

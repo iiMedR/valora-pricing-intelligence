@@ -116,6 +116,10 @@ Invoke-RestMethod 'http://localhost:8080/api/v1/products/variants/<variant UUID>
 Invoke-RestMethod 'http://localhost:8080/api/v1/sales/orders' -Method Post -ContentType 'application/json' -Body (Get-Content ./order.json -Raw)
 ```
 
-## Future demo seeder and Shopify adapter
+## Demo seeder and future Shopify adapter
 
-The deterministic seeder can supply DEMO references and known historical timestamps through these services; source keys make reruns safe, and conflicting datasets are rejected. It must remain isolated from real-store data; source labels alone are provenance, not a complete isolation boundary. No seeder exists now. The Shopify adapter must normalize orders/refunds, currency, discounts, cost provenance and event quality into these contracts, add connection-scoped uniqueness and authorization, and explicitly reconcile status/correction events. The pricing engine must depend on normalized domain history, not Shopify payloads. Forecasting, optimization, CSV imports, webhooks and integrations remain out of scope.
+The deterministic seeder supplies DEMO references and known historical timestamps through these services; source keys make reruns safe, and conflicting datasets are rejected. It uses a dedicated database with identity/profile/reset guards, not a source label alone. Normal ingestion rejects DEMO sources. See [demo-data.md](demo-data.md).
+
+Idempotency advisory locks use 1,024 deterministic stripes so atomic bulk seeding has bounded PostgreSQL lock-table usage. Hash collisions only serialize unrelated keys; exact source/reference uniqueness and payload fingerprints still determine replay versus conflict.
+
+The Shopify adapter must normalize orders/refunds, currency, discounts, cost provenance and event quality into these contracts, add connection-scoped uniqueness and authorization, and explicitly reconcile status/correction events. The pricing engine must depend on normalized domain history, not Shopify payloads. Forecasting, optimization, CSV imports, webhooks and integrations remain out of scope.
