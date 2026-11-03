@@ -52,11 +52,20 @@ class HistoryRulesTest {
         assertThatThrownBy(()->HistoryRules.stockState(-1,Quality.SNAPSHOT)).isInstanceOf(ApiException.class);
     }
     @Test void canonicalKeysPreserveIdempotencyAndRejectConflicts() {
-        var support=new HistorySupport(mock(JdbcTemplate.class),new ObjectMapper().findAndRegisterModules());
+        var support=new HistorySupport(mock(JdbcTemplate.class),new ObjectMapper().findAndRegisterModules(),
+                mock(com.smartpricing.demo.config.DemoSafetyGuard.class));
         assertThat(support.fingerprint(Map.of("amount",new BigDecimal("1.0000")))).isEqualTo(support.fingerprint(Map.of("amount",BigDecimal.ONE)));
         assertThatThrownBy(()->support.samePayload("old","new")).isInstanceOf(ApiException.class);
         assertThatThrownBy(()->HistoryRules.reference(Source.SHOPIFY,null)).isInstanceOf(ApiException.class);
         assertThatThrownBy(()->HistoryRules.reference(Source.MANUAL," ")).isInstanceOf(ApiException.class);
+    }
+    @Test void atomicBulkIngestionUsesBoundedLockStripes() {
+        JdbcTemplate jdbc=mock(JdbcTemplate.class);
+        Set<Long> locks=new HashSet<>();
+        when(jdbc.queryForList(anyString(),anyLong())).thenAnswer(call->{ locks.add(call.getArgument(1,Long.class)); return List.of(); });
+        var support=new HistorySupport(jdbc,new ObjectMapper(),mock(com.smartpricing.demo.config.DemoSafetyGuard.class));
+        for(int i=0;i<20000;i++) support.lockKey("ORDER",Source.MANUAL,"bulk-"+i);
+        assertThat(locks.size()).isBetween(900,1024);
     }
     OrderView order() {
         return new ObjectMapper().findAndRegisterModules().convertValue(Map.of("status","COMPLETED","placedAt",a.toString(),"currencyCode","MAD","shippingAmount","2"),OrderView.class);

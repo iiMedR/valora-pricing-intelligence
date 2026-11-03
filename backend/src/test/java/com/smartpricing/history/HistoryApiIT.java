@@ -15,8 +15,9 @@ import java.util.*;
 import java.util.concurrent.*;
 import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes=com.smartpricing.SmartPricingApplication.class, webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
+@org.springframework.test.annotation.DirtiesContext(classMode=org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_CLASS)
 class HistoryApiIT {
     @Container @ServiceConnection static PostgreSQLContainer<?> postgres=new PostgreSQLContainer<>("postgres:17.7-alpine");
     @Autowired TestRestTemplate rest;
@@ -76,6 +77,7 @@ class HistoryApiIT {
     }
 
     @Test void statusesFiltersPaginationAndConflictingSourceKeys() {
+        var forbiddenDemo=order("demo-in-normal-mode"); forbiddenDemo.put("source","DEMO"); post("/sales/orders",forbiddenDemo,409);
         var unpaid=order("unpaid"); unpaid.put("status","UNPAID"); JsonNode created=post("/sales/orders",unpaid,201);
         assertThat(created.path("order").path("recognizedNetMerchandise").asText()).isEqualTo("0.0000");
         post("/sales/orders/"+created.path("order").path("id").asText()+"/refunds",refund(created.path("lines").get(0).path("id").asText(),"unpaid-refund",1,"1"),409);
