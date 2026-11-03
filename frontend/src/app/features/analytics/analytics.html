@@ -1,0 +1,452 @@
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">BUSINESS ANALYTICS · UTC</p>
+    <h1 class="page-title">The story in your sales.</h1>
+    <p class="muted">Observed transactions, historical costs and inventory signals.</p>
+  </div>
+  <span class="report-tag">Read-only reporting</span>
+</div>
+<form class="report-filters" [formGroup]="filters" (ngSubmit)="apply()">
+  <label>Start date (UTC)<input type="date" formControlName="startDate" required /></label>
+  <label>End date, exclusive (UTC)<input type="date" formControlName="endDate" required /></label>
+  <label
+    >Trend interval<select formControlName="granularity">
+      <option value="DAY">Daily</option>
+      <option value="MONTH">Monthly</option>
+    </select></label
+  >
+  <button class="primary">Apply report</button>
+</form>
+<div class="presets" aria-label="Date presets">
+  <button (click)="preset('30')">Last 30 days</button
+  ><button (click)="preset('90')">Last 90 days</button
+  ><button (click)="preset('2025')">Full 2025 · demo period</button>
+</div>
+@if (error()) {
+  <div class="error" role="alert">{{ error() }} <button (click)="load()">Retry report</button></div>
+}
+@if (loading()) {
+  <p role="status">Loading analytics…</p>
+} @else if (!error() && overview(); as report) {
+  <p class="range-note">
+    {{ report.range.startDate }} ≤ reporting date &lt; {{ report.range.endDate }} ·
+    {{ report.range.timezone }} · {{ report.range.currencyCode }}
+  </p>
+  @if (report.metrics.salesLines === 0 && report.metrics.refundEvents === 0) {
+    <div class="empty">
+      <h2>No sales activity in this period</h2>
+      <p>Try another date range. Missing historical cost and stock remain unknown.</p>
+    </div>
+  }
+  <div class="kpi-grid">
+    <article class="kpi featured">
+      <h2>Net sales</h2>
+      <p class="kpi-value">
+        {{ money(report.metrics.netSales) }} <small>{{ report.range.currencyCode }}</small>
+      </p>
+      <p>After period merchandise refunds</p>
+    </article>
+    <article class="kpi">
+      <h2>Gross sales</h2>
+      <p class="kpi-value">{{ money(report.metrics.grossSales) }}</p>
+      <p>After discounts · before refunds</p>
+    </article>
+    <article class="kpi">
+      <h2>Merchandise refunds</h2>
+      <p class="kpi-value">{{ money(report.metrics.refundAmount) }}</p>
+      <p>By refund date, including earlier sales</p>
+    </article>
+    <article class="kpi">
+      <h2>Completed orders</h2>
+      <p class="kpi-value">{{ report.metrics.orders }}</p>
+      <p>{{ report.metrics.unitsSold }} units sold · {{ report.metrics.unitsRefunded }} returned</p>
+    </article>
+    <article class="kpi">
+      <h2>Gross average order value</h2>
+      <p class="kpi-value">{{ money(report.metrics.grossAverageOrderValue) }}</p>
+      <p>Gross sales / completed orders</p>
+    </article>
+    <article class="kpi">
+      <h2>Known contribution</h2>
+      <p class="kpi-value">{{ money(report.metrics.knownContributionBeforeReturnRecovery) }}</p>
+      <p>Before return cost recovery · {{ report.metrics.costCoverageState }}</p>
+    </article>
+    <article class="kpi">
+      <h2>Known contribution margin</h2>
+      <p class="kpi-value">
+        {{
+          report.metrics.knownContributionMarginPercent === null
+            ? 'Unavailable'
+            : report.metrics.knownContributionMarginPercent + '%'
+        }}
+      </p>
+      <p>On positive known-cost net sales only</p>
+    </article>
+    <article class="kpi">
+      <h2>Historical cost coverage</h2>
+      <p class="kpi-value">
+        {{
+          report.metrics.salesCostCoveragePercent === null
+            ? 'Unavailable'
+            : report.metrics.salesCostCoveragePercent + '%'
+        }}
+      </p>
+      <p>
+        {{ report.metrics.knownCostLines }} / {{ report.metrics.salesLines }} sales lines ·
+        {{ report.metrics.knownCostRefundEvents }} / {{ report.metrics.refundEvents }} refund events
+      </p>
+    </article>
+  </div>
+  <p class="accounting-note">
+    All money in {{ report.range.currencyCode }}. Shipping and tax excluded. Contribution covers
+    only cost-known lines and related refunds; returned goods receive no assumed cost credit. It is
+    partial contribution, before overhead and fees, not full-business profit.
+  </p>
+  @if (trends(); as trend) {
+    <section class="analytics-panel" aria-labelledby="trend-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">SALES OVER TIME</p>
+          <h2 id="trend-title">Net sales trend</h2>
+        </div>
+        <span>{{ trend.granularity }} · {{ report.range.currencyCode }}</span>
+      </div>
+      <svg
+        class="sales-chart"
+        viewBox="0 0 800 230"
+        role="img"
+        aria-labelledby="chart-title chart-description"
+      >
+        <title id="chart-title">
+          Net sales by {{ trend.granularity === 'DAY' ? 'day' : 'month' }}
+        </title>
+        <desc id="chart-description">
+          Merchandise sales minus refunds in each UTC period. Zero baseline shown; refunds may make
+          net sales negative. Exact values are in the trend data table below.
+        </desc>
+        <line
+          x1="45"
+          x2="755"
+          [attr.y1]="chart().zero"
+          [attr.y2]="chart().zero"
+          class="zero-line"
+        />
+        <polyline [attr.points]="chart().points" fill="none" class="trend-line" />
+        <text x="45" y="18">{{ chart().high }}</text>
+        <text x="45" y="211">{{ chart().low }}</text>
+        <text x="45" y="229">{{ chart().first }}</text>
+        <text x="755" y="229" text-anchor="end">{{ chart().last }}</text>
+      </svg>
+      <details>
+        <summary>View exact trend data ({{ trend.content.length }} periods)</summary>
+        <div class="analytics-scroll" role="region" aria-label="Trend data table" tabindex="0">
+          <table>
+            <caption class="sr-only">
+              Exact UTC trend values in
+              {{
+                report.range.currencyCode
+              }}
+            </caption>
+            <thead>
+              <tr>
+                <th>UTC bucket start</th>
+                <th>Gross sales</th>
+                <th>Refunds</th>
+                <th>Net sales</th>
+                <th>Orders</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of trend.content; track row.date) {
+                <tr>
+                  <th scope="row">{{ row.date }}</th>
+                  <td>{{ money(row.metrics.grossSales) }}</td>
+                  <td>{{ money(row.metrics.refundAmount) }}</td>
+                  <td>{{ money(row.metrics.netSales) }}</td>
+                  <td>{{ row.metrics.orders }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+  }
+  @if (products(); as performance) {
+    <section class="analytics-panel" aria-labelledby="products-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">CATALOG PERFORMANCE</p>
+          <h2 id="products-title">Products, including archived</h2>
+        </div>
+        <span>Current names · historical financials</span>
+      </div>
+      <form class="performance-filters" [formGroup]="filters" (ngSubmit)="apply()">
+        <label
+          >Search product name<input
+            formControlName="search"
+            maxlength="100"
+            type="search" /></label
+        ><label
+          >Sort products<select formControlName="sort">
+            <option value="NET_DESC">Net sales ↓</option>
+            <option value="GROSS_DESC">Gross sales ↓</option>
+            <option value="NAME_ASC">Name A–Z</option>
+          </select></label
+        ><button>Update products</button>
+      </form>
+      <div
+        class="analytics-scroll"
+        role="region"
+        aria-label="Product performance table"
+        tabindex="0"
+      >
+        <table>
+          <caption class="sr-only">
+            Product performance in
+            {{
+              report.range.currencyCode
+            }}
+          </caption>
+          <thead>
+            <tr>
+              <th>Product / status</th>
+              <th>Gross</th>
+              <th>Refunds</th>
+              <th>Net</th>
+              <th>Sold / returned</th>
+              <th>Orders</th>
+              <th>Cost coverage</th>
+              <th>Known contribution*</th>
+              <th>Inspect</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of performance.results.content; track row.productId) {
+              <tr>
+                <th scope="row">
+                  <a [routerLink]="['/products', row.productId]">{{ row.name }}</a
+                  ><small>{{ row.status }}</small>
+                </th>
+                <td>{{ money(row.metrics.grossSales) }}</td>
+                <td>{{ money(row.metrics.refundAmount) }}</td>
+                <td>{{ money(row.metrics.netSales) }}</td>
+                <td>{{ row.metrics.unitsSold }} / {{ row.metrics.unitsRefunded }}</td>
+                <td>{{ row.metrics.orders }}</td>
+                <td>
+                  {{ row.metrics.costCoverageState
+                  }}<small>{{
+                    row.metrics.salesCostCoveragePercent === null
+                      ? 'No sales denominator'
+                      : row.metrics.salesCostCoveragePercent + '% of sales lines'
+                  }}</small>
+                </td>
+                <td>{{ money(row.metrics.knownContributionBeforeReturnRecovery) }}</td>
+                <td>
+                  <button
+                    (click)="showVariants(row)"
+                    [attr.aria-label]="'Inspect variants for ' + row.name"
+                  >
+                    Variants
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="9">No products match this search.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <span
+          >{{ performance.results.totalElements }} products · Page
+          {{ performance.results.page + 1 }} of {{ performance.results.totalPages || 1 }}</span
+        >
+        <div class="actions">
+          <button (click)="changePage(-1)" [disabled]="page === 0">Previous products</button
+          ><button (click)="changePage(1)" [disabled]="page + 1 >= performance.results.totalPages">
+            Next products
+          </button>
+        </div>
+      </div>
+      @if (selectedProduct(); as selected) {
+        <div class="variant-detail">
+          <div class="section-heading">
+            <h3>Variants · {{ selected.name }}</h3>
+            <button (click)="closeVariants()">Close variants</button>
+          </div>
+          @if (detailLoading()) {
+            <p role="status">Loading variants…</p>
+          }
+          @if (detailError()) {
+            <p class="error" role="alert">
+              {{ detailError() }} <button (click)="showVariants(selected)">Retry variants</button>
+            </p>
+          }
+          @if (variants(); as detail) {
+            <div
+              class="analytics-scroll"
+              role="region"
+              aria-label="Variant performance table"
+              tabindex="0"
+            >
+              <table>
+                <caption class="sr-only">
+                  Variant performance
+                </caption>
+                <thead>
+                  <tr>
+                    <th>SKU / current name</th>
+                    <th>Status</th>
+                    <th>Gross</th>
+                    <th>Refunds</th>
+                    <th>Net</th>
+                    <th>Units sold / returned</th>
+                    <th>Orders</th>
+                    <th>Cost coverage</th>
+                    <th>Known contribution*</th>
+                    <th>History</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (row of detail.results.content; track row.variantId) {
+                    <tr>
+                      <th scope="row">
+                        {{ row.sku }}<small>{{ row.name }}</small>
+                      </th>
+                      <td>{{ row.status }}</td>
+                      <td>{{ money(row.metrics.grossSales) }}</td>
+                      <td>{{ money(row.metrics.refundAmount) }}</td>
+                      <td>{{ money(row.metrics.netSales) }}</td>
+                      <td>{{ row.metrics.unitsSold }} / {{ row.metrics.unitsRefunded }}</td>
+                      <td>{{ row.metrics.orders }}</td>
+                      <td>{{ row.metrics.costCoverageState }}</td>
+                      <td>{{ money(row.metrics.knownContributionBeforeReturnRecovery) }}</td>
+                      <td>
+                        <a
+                          [routerLink]="[
+                            '/products',
+                            row.productId,
+                            'variants',
+                            row.variantId,
+                            'history',
+                          ]"
+                          >Price, cost & stock</a
+                        >
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination">
+              <span
+                >Page {{ detail.results.page + 1 }} of {{ detail.results.totalPages || 1 }}</span
+              >
+              <div class="actions">
+                <button (click)="showVariants(selected, -1)" [disabled]="variantPage === 0">
+                  Previous variants</button
+                ><button
+                  (click)="showVariants(selected, 1)"
+                  [disabled]="variantPage + 1 >= detail.results.totalPages"
+                >
+                  Next variants
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+      <p class="muted">
+        * Before return cost recovery. Product order counts can overlap across products.
+      </p>
+    </section>
+  }
+  @if (inventory(); as stock) {
+    <section class="analytics-panel" aria-labelledby="inventory-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">INVENTORY SIGNALS</p>
+          <h2 id="inventory-title">Last observed stock</h2>
+        </div>
+        <span>Before {{ stock.asOf | date: 'yyyy-MM-dd HH:mm' : 'UTC' }} UTC</span>
+      </div>
+      <p>
+        {{ stock.summary.variants }} variants · {{ stock.summary.stockouts }} observed stockouts ·
+        {{ stock.summary.unknown }} unknown · {{ stock.summary.uncertain }} uncertain ·
+        {{ stock.summary.stale }} stale
+      </p>
+      <p class="muted">
+        Stale means older than {{ stock.staleAfterHours }} hours at the selected reporting end.
+        Stockouts and stale counts may overlap. These observations do not establish current
+        availability or lost demand.
+      </p>
+      <div
+        class="analytics-scroll"
+        role="region"
+        aria-label="Inventory observations table"
+        tabindex="0"
+      >
+        <table>
+          <caption class="sr-only">
+            Latest observed inventory before reporting end
+          </caption>
+          <thead>
+            <tr>
+              <th>Product / SKU</th>
+              <th>Status</th>
+              <th>Quantity</th>
+              <th>Signal</th>
+              <th>Observed (UTC)</th>
+              <th>Freshness</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of stock.results.content; track row.variantId) {
+              <tr>
+                <th scope="row">
+                  {{ row.productName }}<small>{{ row.sku }}</small>
+                </th>
+                <td>{{ row.status }} / {{ row.productStatus }}</td>
+                <td>{{ row.quantityAvailable === null ? 'Unknown' : row.quantityAvailable }}</td>
+                <td>{{ row.stockState }}</td>
+                <td>
+                  {{
+                    row.observedAt ? (row.observedAt | date: 'yyyy-MM-dd HH:mm' : 'UTC') : 'Unknown'
+                  }}
+                </td>
+                <td>
+                  {{
+                    row.observedAt === null ? 'Unknown' : row.stale ? 'Stale' : 'Within 24 hours'
+                  }}
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6">No variants in the catalog.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <span
+          >{{ stock.results.totalElements }} variants · Page {{ stock.results.page + 1 }} of
+          {{ stock.results.totalPages || 1 }}</span
+        >
+        <div class="actions">
+          <button (click)="changePage(-1, true)" [disabled]="inventoryPage === 0">
+            Previous inventory</button
+          ><button
+            (click)="changePage(1, true)"
+            [disabled]="inventoryPage + 1 >= stock.results.totalPages"
+          >
+            Next inventory
+          </button>
+        </div>
+      </div>
+    </section>
+  }
+}
