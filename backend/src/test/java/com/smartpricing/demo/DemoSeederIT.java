@@ -42,6 +42,7 @@ class DemoSeederIT {
     @Autowired BusinessService business;
     @Autowired EnvironmentController environment;
     @Autowired com.smartpricing.analytics.service.AnalyticsService analytics;
+    @Autowired com.smartpricing.forecasting.service.ForecastService forecasting;
     @MockitoSpyBean SalesService sales;
 
     @Test void reproducibilityAtomicFailureIdempotencyResetAndIsolation() {
@@ -69,6 +70,16 @@ class DemoSeederIT {
         assertThat(trendNet).isEqualByComparingTo(report.metrics().netSales());
         analytics.products(first.startDate(),reportingEnd,null,0,20,com.smartpricing.analytics.dto.AnalyticsDtos.Sort.NET_DESC,"");
         analytics.inventory(first.startDate(),reportingEnd,0,20);
+        var demandOverview=forecasting.overview(first.startDate(),reportingEnd,0,10,"");
+        assertThat(demandOverview.results().totalElements()).isEqualTo(first.variants());
+        for(String sku:java.util.List.of("DEMO-ELASTIC_HIGH-1","DEMO-ELASTIC_LOW-1","DEMO-SPARSE-1","DEMO-ZERO_SALES-1")) {
+            var variantId=jdbc.queryForObject("SELECT id FROM product_variants WHERE sku=?",java.util.UUID.class,sku);
+            var demand=forecasting.detail(variantId,first.startDate(),reportingEnd,7);
+            if(sku.contains("ELASTIC_")) {
+                assertThat(demand.elasticity().estimate()).isNotNull();assertThat(demand.forecast().daily()).hasSize(7);
+                assertThat(forecasting.backtest(variantId,first.startDate(),reportingEnd,7).folds()).hasSize(2);
+            } else assertThat(demand.elasticity().estimate()).isNull();
+        }
         assertThat(seeds.seed(DemoSeedConfig.defaults())).isEqualTo(first); // Read-only analytics preserves normalized checksum.
         assertThat(jdbc.queryForObject("SELECT completed_at FROM demo_control.seed_runs",java.sql.Timestamp.class)).isEqualTo(completed);
         invariants(jdbc);
