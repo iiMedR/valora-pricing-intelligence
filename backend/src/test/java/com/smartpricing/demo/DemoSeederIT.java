@@ -43,6 +43,7 @@ class DemoSeederIT {
     @Autowired EnvironmentController environment;
     @Autowired com.smartpricing.analytics.service.AnalyticsService analytics;
     @Autowired com.smartpricing.forecasting.service.ForecastService forecasting;
+    @Autowired com.smartpricing.optimization.service.OptimizationService optimization;
     @MockitoSpyBean SalesService sales;
 
     @Test void reproducibilityAtomicFailureIdempotencyResetAndIsolation() {
@@ -71,6 +72,16 @@ class DemoSeederIT {
         analytics.products(first.startDate(),reportingEnd,null,0,20,com.smartpricing.analytics.dto.AnalyticsDtos.Sort.NET_DESC,"");
         analytics.inventory(first.startDate(),reportingEnd,0,20);
         var demandOverview=forecasting.overview(first.startDate(),reportingEnd,0,10,"");
+        var optimizationPage=optimization.overview(first.startDate(),reportingEnd,7,0,10,"");
+        assertThat(optimizationPage.results().totalElements()).isEqualTo(first.variants());
+        for(String scenario:java.util.List.of("SEASONAL","ELASTIC_HIGH","SPARSE","ZERO_SALES","STOCKOUT","COST_CHANGE_UNKNOWN","ARCHIVE")) {
+            var variantId=jdbc.queryForObject("SELECT id FROM product_variants WHERE sku=?",java.util.UUID.class,"DEMO-"+scenario+"-1");
+            var evaluation=optimization.recommendation(variantId,first.startDate(),reportingEnd,7);
+            assertThat(evaluation.status()).isNotEqualTo(com.smartpricing.optimization.dto.OptimizationDtos.Status.ACTIONABLE);
+            assertThat(evaluation.recommendedPrice()).isNull();assertThat(evaluation.comparison()).isNull();assertThat(evaluation.sensitivity()).isEmpty();
+            if(scenario.equals("SEASONAL"))assertThat(evaluation.reasons()).contains("SEASONAL_OR_CALENDAR_CONFOUNDING");
+            if(scenario.equals("COST_CHANGE_UNKNOWN"))assertThat(optimization.recommendation(variantId,first.startDate(),first.startDate().plusMonths(5),7).status()).isEqualTo(com.smartpricing.optimization.dto.OptimizationDtos.Status.MISSING_COST);
+        }
         assertThat(demandOverview.results().totalElements()).isEqualTo(first.variants());
         for(String sku:java.util.List.of("DEMO-ELASTIC_HIGH-1","DEMO-ELASTIC_LOW-1","DEMO-SPARSE-1","DEMO-ZERO_SALES-1")) {
             var variantId=jdbc.queryForObject("SELECT id FROM product_variants WHERE sku=?",java.util.UUID.class,sku);
