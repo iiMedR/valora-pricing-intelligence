@@ -61,6 +61,7 @@ public class DemandModel {
         Readiness readiness=new Readiness(status,raw.size(),fit.size(),unknown,censored,zero,missing,discrepancy,outlier,prices.size(),prices.isEmpty()?null:prices.getFirst().toPlainString(),prices.isEmpty()?null:prices.getLast().toPlainString(),List.copyOf(reasons));
         return new Analysis(List.copyOf(history),readiness,new Elasticity(estimate==null?status:"READY","calendar-log-ols-v1",estimate,rmse,fit.size(),null,null,readiness,List.copyOf(reasons)));
     }
+    public List<Day> baselineTraining(Analysis analysis) { return recent(analysis.history()); }
     private List<Day> recent(List<Day> history) {
         if(history.isEmpty())return List.of();
         LocalDate from=history.getLast().date().plusDays(1).minusDays(settings.lookbackDays());

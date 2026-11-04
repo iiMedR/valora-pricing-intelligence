@@ -24,6 +24,13 @@ public class ForecastService {
         String currency=business.get().currencyCode();currencies.currency(currencies.params(start,end),currency);return new Window(start,end,"UTC",currency);
     }
     private void horizon(int horizon){if(horizon!=7&&horizon!=14&&horizon!=30)throw ApiException.invalid("horizonDays must be 7, 14 or 30.");}
+    public record Input(Identity variant,Window window,List<Day> days) {}
+    public record Batch(Window window,PageView<Identity> identities,Map<UUID,List<Day>> series) {}
+    public Input input(UUID id,LocalDate start,LocalDate end){var window=window(start,end);var identity=repository.identity(id);return new Input(identity,window,repository.series(List.of(id),start,end).get(id));}
+    public Batch batch(LocalDate start,LocalDate end,int page,int size,String search){
+        if(page<0||page>100000||size<1||size>10||search.length()>100)throw ApiException.invalid("Page 0–100000, size 1–10 and search at most 100 characters are required.");
+        var window=window(start,end);var identities=repository.page(page,size,search);return new Batch(window,identities,repository.series(identities.content().stream().map(Identity::variantId).toList(),start,end));
+    }
     public Overview overview(LocalDate start,LocalDate end,int page,int size,String search){
         if(page<0||page>100000||size<1||size>10||search.length()>100)throw ApiException.invalid("Page 0–100000, size 1–10 and search at most 100 characters are required.");
         var window=window(start,end);var identities=repository.page(page,size,search);var series=repository.series(identities.content().stream().map(Identity::variantId).toList(),start,end);
