@@ -1,0 +1,352 @@
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">OBSERVATIONAL DEMAND · UTC</p>
+    <h1 class="page-title">Demand Forecasting</h1>
+    <p class="muted">
+      Explainable sales baselines and guarded price associations. No price recommendations.
+    </p>
+  </div>
+</div>
+<form class="demand-filters" [formGroup]="filters" (ngSubmit)="apply()">
+  <label>Training start (UTC)<input type="date" formControlName="startDate" required /></label
+  ><label
+    >Training end, exclusive (UTC)<input type="date" formControlName="endDate" required /></label
+  ><label>Search variants<input type="search" formControlName="search" maxlength="100" /></label
+  ><button class="primary">Apply window</button>
+</form>
+<button class="preset" (click)="preset()">Full 2025 · demo period</button>
+<p class="muted">
+  A historical end date is a retrospective as-of forecast. Forecasts start at that date; future
+  observations are excluded from training.
+</p>
+@if (error()) {
+  <div class="error" role="alert">
+    {{ error() }} <button (click)="load()">Retry variants</button>
+  </div>
+}
+@if (loading()) {
+  <p role="status">Loading demand readiness…</p>
+} @else if (!error() && result(); as report) {
+  @if (!report.results.content.length) {
+    <div class="empty">
+      <h2>No variants found</h2>
+      <p>
+        Create catalog records and ingest dated sales, prices and inventory, or inspect the separate
+        synthetic demo. No predictions are fabricated.
+      </p>
+    </div>
+  } @else {
+    <div class="scroll-region" role="region" aria-label="Variant readiness table" tabindex="0">
+      <table>
+        <caption class="sr-only">
+          Variant demand readiness
+        </caption>
+        <thead>
+          <tr>
+            <th>Variant</th>
+            <th>Readiness</th>
+            <th>Eligible days</th>
+            <th>Unknown / censored days</th>
+            <th>Diagnostics</th>
+            <th>Inspect</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of report.results.content; track row.variant.variantId) {
+            <tr>
+              <th scope="row">
+                {{ row.variant.productName
+                }}<small
+                  >{{ row.variant.sku }} · {{ row.variant.status }} /
+                  {{ row.variant.productStatus }}</small
+                >
+              </th>
+              <td>
+                <span class="badge">{{ row.readiness.status }}</span>
+              </td>
+              <td>{{ row.readiness.eligibleDays }} / {{ row.readiness.days }}</td>
+              <td>{{ row.readiness.unknownDays }} / {{ row.readiness.censoredDays }}</td>
+              <td class="reasons">{{ row.readiness.reasons.join(' · ') }}</td>
+              <td>
+                <button
+                  (click)="select(row.variant)"
+                  [attr.aria-label]="'Inspect demand for ' + row.variant.sku"
+                >
+                  Inspect
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  <div class="pagination">
+    <span
+      >{{ report.results.totalElements }} variants · Page {{ report.results.page + 1 }} of
+      {{ report.results.totalPages || 1 }}</span
+    >
+    <div class="actions">
+      <button (click)="changePage(-1)" [disabled]="page === 0">Previous variants</button
+      ><button (click)="changePage(1)" [disabled]="page + 1 >= report.results.totalPages">
+        Next variants
+      </button>
+    </div>
+  </div>
+}
+@if (selected(); as variant) {
+  <section class="demand-detail" aria-labelledby="demand-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">VARIANT ANALYSIS</p>
+        <h2 id="demand-title">{{ variant.sku }}</h2>
+        <p>{{ variant.productName }} · {{ variant.status }}</p>
+      </div>
+      <button (click)="close()">Close analysis</button>
+    </div>
+    <label class="horizon" [formGroup]="filters"
+      >Forecast horizon<select formControlName="horizonDays" (change)="horizon()">
+        <option [ngValue]="7">7 days</option>
+        <option [ngValue]="14">14 days</option>
+        <option [ngValue]="30">30 days</option>
+      </select></label
+    >
+    @if (detailLoading()) {
+      <p role="status">Loading forecast and chronological backtests…</p>
+    }
+    @if (detailError()) {
+      <div class="error" role="alert">
+        {{ detailError() }} <button (click)="select(variant)">Retry forecast</button>
+      </div>
+    }
+    @if (detail(); as d) {
+      <p class="muted">
+        Training: {{ d.window.startDate }} ≤ date &lt; {{ d.window.endDate }} UTC. Forecast starts
+        {{ d.window.endDate }} UTC.
+      </p>
+      <div class="metrics">
+        <article>
+          <h3>Expected observed units</h3>
+          <p class="value">{{ format(d.forecast.totalUnits) }}</p>
+          <p>{{ d.forecast.status }} · {{ d.forecast.daily.length }} forecast days</p>
+        </article>
+        <article>
+          <h3>Assumed listed price</h3>
+          <p class="value">{{ format(d.forecast.assumedPrice) }} {{ d.window.currencyCode }}</p>
+          <p>Latest authoritative price held constant. No price-response adjustment.</p>
+        </article>
+        <article>
+          <h3>Price association</h3>
+          <p class="value">
+            {{
+              d.elasticity.estimate === null
+                ? 'Unavailable'
+                : (d.elasticity.estimate | number: '1.3-3')
+            }}
+          </p>
+          <p>{{ d.elasticity.status }} · {{ d.elasticity.samples }} daily samples</p>
+        </article>
+        <article>
+          <h3>Fit diagnostics</h3>
+          <p>
+            Log RMSE:
+            {{
+              d.elasticity.logRmse === null
+                ? 'Unavailable'
+                : (d.elasticity.logRmse | number: '1.3-3')
+            }}
+          </p>
+          <p>
+            {{ d.readiness.distinctPrices }} prices · {{ d.readiness.minPrice ?? 'Unknown' }}–{{
+              d.readiness.maxPrice ?? 'Unknown'
+            }}
+          </p>
+        </article>
+      </div>
+      <p class="caveat">
+        Association is not causation. Prices and seasons can move together; unmeasured changes can
+        affect the estimate. Forecasts describe observed sales conditional on availability, not
+        recovered latent demand. No calibrated uncertainty interval is available. Daily aggregates
+        are not independent customers.
+      </p>
+      <details open>
+        <summary>Quality and exclusion reasons</summary>
+        <p class="reasons">{{ d.elasticity.reasons.join(' · ') }}</p>
+        <p class="reasons">Forecast: {{ d.forecast.reasons.join(' · ') }}</p>
+        <p>
+          {{ d.readiness.zeroDays }} zero-sale candidates ·
+          {{ d.readiness.missingPriceDays }} missing/invalid prices ·
+          {{ d.readiness.discrepancyDays }} price discrepancies ·
+          {{ d.readiness.outlierDays }} outliers
+        </p>
+      </details>
+      <div class="chart-panel">
+        <h3>Observed sales and forecast</h3>
+        <p class="legend">
+          <span>Solid green: last 90 observed days</span><span>Dashed amber: forecast</span
+          ><span>Red dots: censored observations</span>
+        </p>
+        <svg
+          viewBox="0 0 800 230"
+          role="img"
+          aria-labelledby="demand-chart-title demand-chart-desc"
+        >
+          <title id="demand-chart-title">Observed units and expected sales forecast</title>
+          <desc id="demand-chart-desc">
+            Zero baseline. Observed and forecast series are distinct. Censored stock observations
+            have red markers. Exact values and exclusions are in the tables below. No uncertainty
+            band is claimed.
+          </desc>
+          <line x1="40" y1="190" x2="760" y2="190" class="baseline" />
+          <polyline [attr.points]="chart().observed" class="observed" />
+          <polyline [attr.points]="chart().predicted" class="predicted" />
+          @for (point of chart().censored; track $index) {
+            <circle [attr.cx]="point.x" [attr.cy]="point.y" r="3" fill="#a54030" />
+          }
+          <text x="40" y="18">{{ chart().max }} units</text>
+          <text x="40" y="208">0</text>
+          <text x="40" y="229">{{ chart().first }}</text>
+          <text x="760" y="229" text-anchor="end">{{ chart().last }}</text>
+        </svg>
+      </div>
+      <details>
+        <summary>Exact observed history and exclusions ({{ d.history.length }} dates)</summary>
+        <div
+          class="scroll-region"
+          role="region"
+          aria-label="Observed demand history table"
+          tabindex="0"
+        >
+          <table>
+            <caption class="sr-only">
+              UTC gross sales, returns and stock exclusions
+            </caption>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Gross units</th>
+                <th>Returned units</th>
+                <th>Effective price / source</th>
+                <th>Stock signal</th>
+                <th>Exclusions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (day of d.history; track day.date) {
+                <tr>
+                  <th scope="row">{{ day.date }}</th>
+                  <td>{{ day.units }}</td>
+                  <td>{{ day.returnedUnits }}</td>
+                  <td>{{ day.effectivePrice ?? 'Unknown' }} · {{ day.priceSource }}</td>
+                  <td>
+                    {{ day.availability }} ·
+                    {{ day.observedStock === null ? 'Unknown' : day.observedStock
+                    }}<small>{{ day.censored ? 'CENSORED' : '' }}</small>
+                  </td>
+                  <td>{{ day.exclusions.join(' · ') || 'Eligible' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </details>
+      @if (d.forecast.daily.length) {
+        <div class="scroll-region" role="region" aria-label="Forecast values table" tabindex="0">
+          <table>
+            <caption>
+              Expected observed units ·
+              {{
+                d.forecast.method
+              }}
+            </caption>
+            <thead>
+              <tr>
+                <th>UTC date</th>
+                <th>Expected units</th>
+                <th>Uncertainty interval</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (day of d.forecast.daily; track day.date) {
+                <tr>
+                  <th scope="row">{{ day.date }}</th>
+                  <td>{{ day.expectedUnits }}</td>
+                  <td>Unavailable · not calibrated</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+      @if (backtest(); as b) {
+        <h3>Chronological backtest · observed sales</h3>
+        <p class="muted">
+          Each cutoff trains on preceding dates only. Stock-constrained sales are evaluation
+          outcomes, not latent-demand truth. Naive comparison uses a trailing eligible mean.
+        </p>
+        @for (fold of b.folds; track fold.cutoff) {
+          <article class="fold">
+            <h4>{{ fold.cutoff }} ≤ held-out date &lt; {{ fold.endDate }}</h4>
+            <p>
+              {{ fold.status }} · {{ fold.trainingDays }} recent training days ·
+              {{ fold.evaluatedDays }} evaluated dates · {{ fold.actualUnits }} observed units ·
+              {{ fold.censoredDays }} censored / {{ fold.unknownDays }} unknown dates
+            </p>
+            @if (fold.model; as score) {
+              <div
+                class="scroll-region"
+                role="region"
+                aria-label="Backtest metrics table"
+                tabindex="0"
+              >
+                <table>
+                  <caption class="sr-only">
+                    Model versus trailing mean
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>Method</th>
+                      <th>MAE (units/day)</th>
+                      <th>WAPE (%)</th>
+                      <th>Bias (units/day)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Weekday baseline</th>
+                      <td>{{ score.mae | number: '1.3-3' }}</td>
+                      <td>
+                        {{
+                          score.wapePercent === null
+                            ? 'Unavailable'
+                            : (score.wapePercent | number: '1.3-3')
+                        }}
+                      </td>
+                      <td>{{ score.bias | number: '1.3-3' }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Trailing mean</th>
+                      <td>{{ fold.naive?.mae | number: '1.3-3' }}</td>
+                      <td>
+                        {{
+                          fold.naive?.wapePercent === null
+                            ? 'Unavailable'
+                            : (fold.naive?.wapePercent | number: '1.3-3')
+                        }}
+                      </td>
+                      <td>{{ fold.naive?.bias | number: '1.3-3' }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            }
+            <p class="reasons">{{ fold.reasons.join(' · ') }}</p>
+          </article>
+        }
+      }
+      <a [routerLink]="['/products', variant.productId, 'variants', variant.variantId, 'history']"
+        >Inspect price, cost and inventory history</a
+      >
+    }
+  </section>
+}
