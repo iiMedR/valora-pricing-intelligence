@@ -6,6 +6,10 @@ Package by feature. `health` contains the liveness API; `business` and `catalog`
 
 PostgreSQL is the source of truth. Flyway owns migrations, and Hibernate validates JPA mappings. V1 creates an empty metadata table; V2 creates the catalog/settings; V3 adds immutable order/refund financial snapshots, effective listed-price/cost periods, and inventory observations. Current catalog values are distinct from historical realized transaction amounts. Unknown cost/inventory stays explicit; source keys provide idempotent append semantics. Verified periods have PostgreSQL overlap constraints and synchronize current catalog values atomically. Local Compose runs only PostgreSQL; neither application has a production image or hosting configuration.
 
+## Read-only analytics
+
+Milestone 05 adds the read-only `analytics` feature with thin controllers, typed decimal-string DTOs, testable metric rules, and focused PostgreSQL aggregate repositories. Sale and refund events are aggregated independently; historical immutable line snapshots supply financial amounts/costs. Inventory latest-observation queries preserve unknown, uncertain and stale states. Read-only repeatable-read transactions make each response consistent; no durable analytics tables or migration are needed. Angular's lazy analytics route uses accessible SVG plus exact text tables, with no new chart dependency. See [metric contract](analytics.md).
+
 ## Planned, not implemented
 
 Demand modeling and pricing recommendations belong to later milestones. The pricing engine should consume normalized domain inputs through application boundaries, independently of ingestion provider. Shopify-specific payloads and transport concerns must stay in a future ingestion adapter so file imports, demo generation, and future providers can share the same pricing engine. Future pricing operations must require both the parent product and variant to be ACTIVE. Historical ingestion may reference archived variants without rewriting their snapshots.

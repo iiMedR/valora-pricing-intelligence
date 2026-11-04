@@ -43,10 +43,14 @@ Milestone 03 extends this catalog with immutable sales/refund history and varian
 
 On Windows, a running `java -jar target/...jar` can lock the file and prevent Maven repackaging. Stop only that application process before rebuilding, or use `mvnw.cmd spring-boot:run` for local development so the target JAR is not held open. Restart the backend after changes; the Angular development server reloads frontend changes automatically.
 
-The delivered scope ends at Milestone 04. No analytics, optimization, authentication, Shopify, tenancy, or deployment is included.
+The delivered scope ends at Milestone 05. Read-only analytics are included; demand estimation, optimization, authentication, Shopify, tenancy, and deployment remain future work.
 
 ## Isolated demo development (Milestone 04)
 
 Follow [demo-data.md](demo-data.md) for explicit initialization, seed, summary, serve and confirmed reset commands. Demo PostgreSQL has its own Compose project, volume, restricted role, database identity marker and port 5434. Do not use the normal database reset commands above for demo setup. Ordinary startup in either profile never seeds. The demo backend runs on 8081, and `npm.cmd run start:demo` runs Angular on 4201. Credentials stay in ignored `infra/.env.demo.local`.
 
 Run backend builds sequentially; integration tests seed several independent PostgreSQL databases and take several minutes. They validate atomic rollback, reproducibility, controlled variation and refusal against preexisting normal data. No V4 migration is needed: existing business tables are reused, and control metadata is bootstrapped only in the isolated demo database. See [Milestone 04 verification](milestone-04-verification.md).
+
+## Analytics development (Milestone 05)
+
+Navigate to `/analytics` in either workspace. Read [analytics.md](analytics.md) before changing accounting or date filters. All analytics operations are read-only, report UTC half-open date ranges, preserve unknown costs/stock and never use generator ground truth. No analytics migration, chart package, npm dependency change or reseed is needed. Run `mvnw.cmd verify`, frontend tests/build and browser checks; full backend verification includes the existing multi-database demo reproducibility fixture. See [Milestone 05 verification](milestone-05-verification.md).

@@ -1,6 +1,6 @@
 # SmartPricing
 
-A single-business pricing optimization platform. Milestones 01–04 provide the local foundation, business settings, catalog, immutable sales/refund snapshots, effective listed-price/cost history, inventory observations, and an isolated reproducible synthetic demo. Pricing recommendations, authentication, and store integration remain future work.
+A single-business pricing optimization platform. Milestones 01–05 provide the local foundation, business settings, catalog, immutable sales/refund snapshots, effective listed-price/cost history, inventory observations, an isolated reproducible synthetic demo, and read-only business analytics. Pricing recommendations, authentication, and store integration remain future work.
 
 The existing `SmartPricing` directory is the repository root (no redundant `smartpricing-platform` wrapper).
 
@@ -98,3 +98,7 @@ Open Sales orders to enter/inspect manual transactions and refunds. Each variant
 V3 adds history without backfilling data or modifying V1/V2. It uses PostgreSQL's `btree_gist` extension for authoritative period-overlap constraints; the migration role needs permission to create this trusted extension. The supplied local PostgreSQL image supports it. APIs retain the current unauthenticated local-development posture; provider authorization is future work.
 
 See [history contracts and API examples](docs/history.md), [implementation design](docs/milestone-03-design.md), and [Milestone 03 verification](docs/milestone-03-verification.md). No new setup commands or package installations are needed.
+
+## Business analytics
+
+Open Analytics in the navigation: [normal dashboard](http://localhost:4200/analytics) or [synthetic demo dashboard](http://localhost:4201/analytics). Use Full 2025 to inspect the existing demo's historical period. UTC date ranges, sale/refund timing, exact monetary strings, partial known-cost contribution, trends, product/variant drill-downs and inventory freshness all use persisted data. No initialization/reset runs from the dashboard. See [metric definitions and API contract](docs/analytics.md) and [Milestone 05 verification](docs/milestone-05-verification.md). Existing startup commands and dependencies are unchanged.
