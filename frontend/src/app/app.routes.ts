@@ -3,6 +3,11 @@ import { Home } from './features/home/home';
 export const routes: Routes = [
   { path: '', component: Home, title: 'Overview | SmartPricing' },
   {
+    path: 'optimization',
+    loadComponent: () => import('./features/optimization/optimization').then((m) => m.Optimization),
+    title: 'Pricing Recommendations | SmartPricing',
+  },
+  {
     path: 'forecasting',
     loadComponent: () => import('./features/forecasting/forecasting').then((m) => m.Forecasting),
     title: 'Demand Forecasting | SmartPricing',

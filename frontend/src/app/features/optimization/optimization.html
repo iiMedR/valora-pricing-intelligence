@@ -1,0 +1,413 @@
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">CONSTRAINED CONTRIBUTION · READ ONLY</p>
+    <h1 class="page-title">Pricing Recommendations</h1>
+    <p class="muted">Evidence first. Conditional estimates, with explicit reasons to abstain.</p>
+  </div>
+</div>
+<p class="notice">
+  No prices are changed here. Forecast readiness alone does not authorize a price recommendation.
+  Results are not saved evaluation history.
+</p>
+<form class="optimization-filters" [formGroup]="filters" (ngSubmit)="apply()">
+  <label>Training start (UTC)<input type="date" formControlName="startDate" required /></label
+  ><label
+    >Evaluation end, exclusive (UTC)<input type="date" formControlName="endDate" required /></label
+  ><label
+    >Horizon<select formControlName="horizonDays">
+      <option [ngValue]="7">7 days</option>
+      <option [ngValue]="14">14 days</option>
+      <option [ngValue]="30">30 days</option>
+    </select></label
+  ><label>Search variants<input type="search" formControlName="search" maxlength="100" /></label
+  ><button class="primary">Evaluate window</button>
+</form>
+<button class="preset" (click)="preset()">Full 2025 · demo period</button>
+<p class="muted">
+  Historical end dates evaluate past inputs. Catalog bounds/statuses remain current policies. The
+  permanent demo's calendar-confounded estimates may correctly produce no actionable prices.
+</p>
+@if (error()) {
+  <div class="error" role="alert">
+    {{ error() }} <button (click)="load()">Retry evaluations</button>
+  </div>
+}
+@if (loading()) {
+  <p role="status">Evaluating pricing evidence…</p>
+} @else if (!error() && result(); as report) {
+  <p class="muted">
+    {{ report.window.startDate }} ≤ training date &lt; {{ report.window.endDate }} UTC ·
+    {{ report.horizonDays }} days · {{ report.window.currencyCode }}
+  </p>
+  <h2 class="summary-title">Status counts · this page only</h2>
+  <div class="status-grid">
+    <article>
+      <h3>Actionable</h3>
+      <p>{{ report.statusCounts.ACTIONABLE }}</p>
+    </article>
+    <article>
+      <h3>Diagnostic only</h3>
+      <p>{{ report.statusCounts.DIAGNOSTIC_ONLY }}</p>
+    </article>
+    <article>
+      <h3>Insufficient data</h3>
+      <p>{{ report.statusCounts.INSUFFICIENT_DATA }}</p>
+    </article>
+    <article>
+      <h3>Missing cost</h3>
+      <p>{{ report.statusCounts.MISSING_COST }}</p>
+    </article>
+    <article>
+      <h3>Other abstentions</h3>
+      <p>{{ otherCount() }}</p>
+    </article>
+  </div>
+  @if (!report.results.content.length) {
+    <div class="empty">
+      <h2>No variants to evaluate</h2>
+      <p>
+        Existing catalog records and reliable dated sales, price, cost and inventory evidence are
+        required. No sample recommendation is generated.
+      </p>
+    </div>
+  } @else {
+    <div
+      class="scroll-region"
+      role="region"
+      aria-label="Recommendation evaluations table"
+      tabindex="0"
+    >
+      <table>
+        <caption class="sr-only">
+          Read-only pricing evaluations in
+          {{
+            report.window.currencyCode
+          }}
+        </caption>
+        <thead>
+          <tr>
+            <th>Variant / status</th>
+            <th>Effective reference price</th>
+            <th>Suggested price</th>
+            <th>Estimated contribution uplift</th>
+            <th>Eligibility</th>
+            <th>Reason</th>
+            <th>Inspect</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of report.results.content; track row.variant.variantId) {
+            <tr>
+              <th scope="row">
+                {{ row.variant.productName
+                }}<small
+                  >{{ row.variant.sku }} · {{ row.variant.status }} /
+                  {{ row.variant.productStatus }}</small
+                >
+              </th>
+              <td>{{ money(row.inputs.currentPrice) }}</td>
+              <td>{{ row.status === 'ACTIONABLE' ? money(row.recommendedPrice) : 'Withheld' }}</td>
+              <td>
+                {{
+                  row.status === 'ACTIONABLE' && row.comparison
+                    ? money(row.comparison.estimatedUplift)
+                    : 'Unavailable'
+                }}
+              </td>
+              <td>{{ row.status }}</td>
+              <td class="reason">
+                {{
+                  row.reasons.length
+                    ? reason(row.reasons[0])
+                    : 'All configured evidence gates passed; assumptions still apply.'
+                }}
+              </td>
+              <td>
+                <button
+                  (click)="select(row.variant.variantId)"
+                  [attr.aria-label]="'Inspect pricing for ' + row.variant.sku"
+                >
+                  Inspect
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  <div class="pagination">
+    <span
+      >{{ report.results.totalElements }} variants · Page {{ report.results.page + 1 }} of
+      {{ report.results.totalPages || 1 }}</span
+    >
+    <div class="actions">
+      <button (click)="changePage(-1)" [disabled]="page === 0">Previous evaluations</button
+      ><button (click)="changePage(1)" [disabled]="page + 1 >= report.results.totalPages">
+        Next evaluations
+      </button>
+    </div>
+  </div>
+}
+@if (selectedId()) {
+  <section class="evaluation" aria-labelledby="evaluation-title">
+    <div class="section-heading">
+      <h2 id="evaluation-title">Evaluation details</h2>
+      <button (click)="close()">Close evaluation</button>
+    </div>
+    @if (detailLoading()) {
+      <p role="status">Loading evaluation diagnostics…</p>
+    }
+    @if (detailError()) {
+      <div class="error" role="alert">
+        {{ detailError() }} <button (click)="select(selectedId()!)">Retry evaluation</button>
+      </div>
+    }
+    @if (detail(); as d) {
+      <h3>{{ d.variant.productName }} · {{ d.variant.sku }}</h3>
+      <p>
+        {{ d.status }} · {{ d.horizonDays }} days · evaluated at
+        {{ d.evaluationInstant | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC
+      </p>
+      @if (d.reasons.includes('SEASONAL_OR_CALENDAR_CONFOUNDING')) {
+        <p class="notice" role="note">
+          Seasonal/calendar confounding: price changes move with calendar patterns. This evidence
+          cannot reliably separate seasonality from price response. No actionable recommendation is
+          available.
+        </p>
+      }
+      @if (d.status !== 'ACTIONABLE') {
+        <div class="abstention">
+          <h3>Recommendation withheld</h3>
+          <p>
+            We cannot justify a price change from these inputs. A negative elasticity or successful
+            sales forecast alone is not enough.
+          </p>
+        </div>
+      }
+      <div class="input-grid">
+        <article>
+          <h3>Effective reference price</h3>
+          <p class="value">{{ money(d.inputs.currentPrice) }} {{ d.window.currencyCode }}</p>
+          <p>
+            Authoritative since
+            {{
+              d.inputs.priceEffectiveFrom
+                ? (d.inputs.priceEffectiveFrom | date: 'yyyy-MM-dd' : 'UTC')
+                : 'Unknown'
+            }}
+          </p>
+        </article>
+        <article>
+          <h3>Applicable unit variable cost</h3>
+          <p class="value">{{ money(d.inputs.unitCost) }}</p>
+          <p>
+            Authoritative since
+            {{
+              d.inputs.costEffectiveFrom
+                ? (d.inputs.costEffectiveFrom | date: 'yyyy-MM-dd' : 'UTC')
+                : 'Unknown'
+            }}
+          </p>
+        </article>
+        <article>
+          <h3>Feasible price grid</h3>
+          <p>{{ money(d.inputs.lowerBound) }}–{{ money(d.inputs.upperBound) }}</p>
+          <p>
+            Catalog: {{ money(d.inputs.catalogMin) }}–{{ money(d.inputs.catalogMax) }} · 0.0001
+            precision
+          </p>
+        </article>
+        <article>
+          <h3>Availability assumption</h3>
+          <p>Horizon stock cap: {{ d.inputs.stockCap === null ? 'Unknown' : d.inputs.stockCap }}</p>
+          <p>
+            Observed
+            {{
+              d.inputs.stockObservedAt
+                ? (d.inputs.stockObservedAt | date: 'yyyy-MM-dd HH:mm' : 'UTC')
+                : 'Unknown'
+            }}
+            UTC · {{ d.inputs.stockQuality ?? 'Unknown' }}
+          </p>
+          <p>No future restocking assumed.</p>
+        </article>
+      </div>
+      @if (d.status === 'ACTIONABLE' && d.comparison; as comparison) {
+        <div class="candidate">
+          <h3>
+            Conditional suggested price: {{ money(d.recommendedPrice) }} {{ d.window.currencyCode }}
+          </h3>
+          <p>
+            Estimated contribution uplift: {{ money(comparison.estimatedUplift) }} ·
+            {{
+              comparison.estimatedUpliftPercent === null
+                ? 'Percentage unavailable: reference contribution is not positive'
+                : comparison.estimatedUpliftPercent + '%'
+            }}
+          </p>
+          <div
+            class="scroll-region"
+            role="region"
+            aria-label="Contribution comparison table"
+            tabindex="0"
+          >
+            <table>
+              <caption>
+                Modeled contribution · not net profit or realized uplift
+              </caption>
+              <thead>
+                <tr>
+                  <th>Scenario</th>
+                  <th>Price</th>
+                  <th>Expected observed units</th>
+                  <th>Estimated contribution</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Reference</th>
+                  <td>{{ comparison.current.price }}</td>
+                  <td>{{ comparison.current.expectedUnits }}</td>
+                  <td>{{ comparison.current.estimatedContribution }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Candidate</th>
+                  <td>{{ comparison.candidate.price }}</td>
+                  <td>{{ comparison.candidate.expectedUnits }}</td>
+                  <td>{{ comparison.candidate.estimatedContribution }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <svg viewBox="0 0 800 230" role="img" aria-labelledby="sensitivity-title sensitivity-desc">
+          <title id="sensitivity-title">Conditional contribution sensitivity</title>
+          <desc id="sensitivity-desc">
+            Estimated contribution across the feasible price grid. Zero baseline. Exact values are
+            in the following table. No confidence interval or realized uplift is claimed.
+          </desc>
+          <line x1="40" x2="760" y1="190" y2="190" class="baseline" />
+          <polyline [attr.points]="chart().points" class="curve" />
+          <text x="40" y="18">{{ chart().max }} {{ d.window.currencyCode }}</text>
+          <text x="40" y="209">0</text>
+          <text x="40" y="229">{{ chart().first }}</text>
+          <text x="760" y="229" text-anchor="end">{{ chart().last }}</text>
+        </svg>
+        <details>
+          <summary>Exact sensitivity values ({{ d.sensitivity.length }} points)</summary>
+          <div class="scroll-region" role="region" aria-label="Sensitivity data table" tabindex="0">
+            <table>
+              <caption class="sr-only">
+                Conditional price, demand and contribution
+              </caption>
+              <thead>
+                <tr>
+                  <th>Price</th>
+                  <th>Expected observed units</th>
+                  <th>Contribution</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (p of d.sensitivity; track p.price) {
+                  <tr>
+                    <th scope="row">{{ p.price }}</th>
+                    <td>{{ p.expectedUnits }}</td>
+                    <td>{{ p.estimatedContribution }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </details>
+      }
+      <h3>Evidence and diagnostics</h3>
+      <p>
+        Elasticity association:
+        {{
+          d.elasticity.estimate === null ? 'Unavailable' : (d.elasticity.estimate | number: '1.3-3')
+        }}
+        · {{ d.elasticity.samples }} samples · log RMSE
+        {{
+          d.elasticity.logRmse === null ? 'Unavailable' : (d.elasticity.logRmse | number: '1.3-3')
+        }}
+      </p>
+      <p>
+        Uncapped reference baseline: {{ money(d.inputs.referenceUnits) }} availability-conditional
+        observed units, not latent demand. No causal guarantee or calibrated interval.
+      </p>
+      <ul>
+        @for (reasonCode of d.reasons; track reasonCode) {
+          <li>{{ reason(reasonCode) }}</li>
+        } @empty {
+          <li>Configured evidence gates passed; model assumptions remain.</li>
+        }
+      </ul>
+      <details>
+        <summary>Underlying forecasting warnings</summary>
+        <ul>
+          @for (code of d.elasticity.reasons; track code) {
+            <li>{{ reason(code) }}</li>
+          }
+        </ul>
+      </details>
+      <h3>Backtest evidence</h3>
+      <div
+        class="scroll-region"
+        role="region"
+        aria-label="Recommendation backtest table"
+        tabindex="0"
+      >
+        <table>
+          <caption class="sr-only">
+            Chronological observed-sales backtests
+          </caption>
+          <thead>
+            <tr>
+              <th>UTC held-out range</th>
+              <th>Status</th>
+              <th>Model MAE</th>
+              <th>Naive MAE</th>
+              <th>WAPE (%)</th>
+              <th>Censored / unknown dates</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (fold of d.backtests; track fold.cutoff) {
+              <tr>
+                <th scope="row">{{ fold.cutoff }}–{{ fold.endDate }} (exclusive)</th>
+                <td>{{ fold.status }}</td>
+                <td>{{ fold.model?.mae ?? 'Unavailable' }}</td>
+                <td>{{ fold.naive?.mae ?? 'Unavailable' }}</td>
+                <td>{{ fold.model?.wapePercent ?? 'Unavailable' }}</td>
+                <td>{{ fold.censoredDays }} / {{ fold.unknownDays }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="notice">
+        Estimated contribution excludes returns, taxes, shipping, fees, marketing and overhead.
+        Future availability and price response are assumptions. No improvement is promised.
+      </p>
+      <details>
+        <summary>All model assumptions</summary>
+        <ul>
+          @for (code of d.assumptions; track code) {
+            <li>{{ reason(code) }}</li>
+          }
+        </ul>
+      </details>
+      <a
+        [routerLink]="[
+          '/products',
+          d.variant.productId,
+          'variants',
+          d.variant.variantId,
+          'history',
+        ]"
+        >Inspect source price, cost and inventory history</a
+      >
+    }
+  </section>
+}

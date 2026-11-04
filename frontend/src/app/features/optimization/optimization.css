@@ -1,0 +1,216 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+.optimization-filters {
+  display: flex;
+  align-items: end;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.optimization-filters label {
+  flex: 1;
+  min-width: 150px;
+}
+label {
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+}
+.preset {
+  margin: 16px 0;
+  padding: 9px 12px;
+}
+.notice {
+  padding: 16px;
+  background: #fff1c7;
+  font-size: 13px;
+  line-height: 1.7;
+  border-radius: 6px;
+}
+.summary-title {
+  font-size: 16px;
+  margin-top: 24px;
+}
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0 24px;
+}
+.status-grid article,
+.input-grid article {
+  border: 1px solid #d4dfd7;
+  border-radius: 8px;
+  padding: 18px;
+  background: white;
+}
+.status-grid h3,
+.input-grid h3 {
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0 0 12px;
+}
+.status-grid p {
+  font-size: 28px;
+  margin: 0;
+}
+.scroll-region {
+  overflow: auto;
+  max-width: 100%;
+  border: 1px solid #d4dfd7;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+.scroll-region table {
+  min-width: 850px;
+  width: 100%;
+  table-layout: auto;
+  margin: 0;
+  border: 0;
+}
+.scroll-region th,
+.scroll-region td {
+  padding: 16px 12px;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+.scroll-region th:first-child {
+  white-space: normal;
+  min-width: 180px;
+}
+.scroll-region .reason {
+  white-space: normal;
+  min-width: 230px;
+  max-width: 320px;
+}
+small {
+  display: block;
+  margin-top: 6px;
+  font-weight: 400;
+}
+.evaluation {
+  padding: 26px;
+  border: 1px solid #d4dfd7;
+  border-radius: 10px;
+  margin-top: 30px;
+  background: white;
+}
+.section-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.section-heading h2 {
+  margin: 0;
+  font-size: 26px;
+}
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 22px 0;
+}
+.input-grid p {
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.input-grid .value {
+  font-size: 22px;
+  font-weight: 600;
+}
+.abstention {
+  background: #edf2ef;
+  border-left: 4px solid #52665f;
+  padding: 16px;
+}
+.abstention h3 {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+.abstention p {
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 0;
+}
+.candidate {
+  background: #edf5ef;
+  border-radius: 8px;
+  padding: 18px;
+  margin: 24px 0;
+}
+li {
+  font-size: 13px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+summary {
+  cursor: pointer;
+  font-size: 13px;
+}
+details {
+  margin: 20px 0;
+}
+svg {
+  width: 100%;
+  height: auto;
+  min-height: 150px;
+}
+svg text {
+  font-size: 11px;
+  fill: #52665f;
+}
+.baseline {
+  stroke: #b7c8bd;
+}
+.curve {
+  fill: none;
+  stroke: #234e42;
+  stroke-width: 2.5;
+}
+@media (max-width: 1000px) {
+  .status-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .input-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .status-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .optimization-filters label {
+    flex-basis: 100%;
+  }
+  .optimization-filters button {
+    width: 100%;
+  }
+  .evaluation {
+    padding: 18px 12px;
+  }
+  .input-grid {
+    gap: 8px;
+  }
+  .input-grid article {
+    padding: 12px;
+  }
+  .input-grid .value {
+    font-size: 18px;
+  }
+  .pagination {
+    flex-direction: column;
+    align-items: start;
+    gap: 12px;
+  }
+  .actions {
+    flex-wrap: wrap;
+  }
+  .page-title {
+    font-size: 34px;
+  }
+}
