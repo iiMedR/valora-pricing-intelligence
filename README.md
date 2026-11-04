@@ -1,6 +1,6 @@
 # SmartPricing
 
-A single-business pricing optimization platform. Milestones 01–05 provide the local foundation, business settings, catalog, immutable sales/refund snapshots, effective listed-price/cost history, inventory observations, an isolated reproducible synthetic demo, and read-only business analytics. Pricing recommendations, authentication, and store integration remain future work.
+A single-business pricing optimization platform. Milestones 01–06 provide the local foundation, business settings, catalog, immutable sales/refund snapshots, effective listed-price/cost history, inventory observations, an isolated reproducible synthetic demo, read-only business analytics, and guarded demand estimation/forecasting. Pricing recommendations, authentication, and store integration remain future work.
 
 The existing `SmartPricing` directory is the repository root (no redundant `smartpricing-platform` wrapper).
 
@@ -102,3 +102,7 @@ See [history contracts and API examples](docs/history.md), [implementation desig
 ## Business analytics
 
 Open Analytics in the navigation: [normal dashboard](http://localhost:4200/analytics) or [synthetic demo dashboard](http://localhost:4201/analytics). Use Full 2025 to inspect the existing demo's historical period. UTC date ranges, sale/refund timing, exact monetary strings, partial known-cost contribution, trends, product/variant drill-downs and inventory freshness all use persisted data. No initialization/reset runs from the dashboard. See [metric definitions and API contract](docs/analytics.md) and [Milestone 05 verification](docs/milestone-05-verification.md). Existing startup commands and dependencies are unchanged.
+
+## Demand Forecasting
+
+Open [demo forecasting](http://localhost:4201/forecasting) or [normal forecasting](http://localhost:4200/forecasting). Select Full 2025 to inspect existing demo history, search a variant, and inspect 7/14/30-day observed-sales baselines, guarded association-based elasticity and chronological backtests. Sparse, missing-stock and zero-sales histories produce explicit limitations rather than fabricated elasticity. Historical forecasts state their as-of date and latest known price assumption. No calibrated uncertainty/causal claim, model tables, new dependency, data reset or price recommendation is introduced. See [model/data contract](docs/forecasting.md) and [Milestone 06 verification](docs/milestone-06-verification.md). Existing normal/demo startup commands and isolated ports remain unchanged.

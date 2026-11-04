@@ -43,7 +43,7 @@ Milestone 03 extends this catalog with immutable sales/refund history and varian
 
 On Windows, a running `java -jar target/...jar` can lock the file and prevent Maven repackaging. Stop only that application process before rebuilding, or use `mvnw.cmd spring-boot:run` for local development so the target JAR is not held open. Restart the backend after changes; the Angular development server reloads frontend changes automatically.
 
-The delivered scope ends at Milestone 05. Read-only analytics are included; demand estimation, optimization, authentication, Shopify, tenancy, and deployment remain future work.
+The delivered scope ends at Milestone 06. Read-only analytics, observational demand estimation and forecasting are included; optimization, authentication, Shopify, tenancy, and deployment remain future work.
 
 ## Isolated demo development (Milestone 04)
 
@@ -54,3 +54,7 @@ Run backend builds sequentially; integration tests seed several independent Post
 ## Analytics development (Milestone 05)
 
 Navigate to `/analytics` in either workspace. Read [analytics.md](analytics.md) before changing accounting or date filters. All analytics operations are read-only, report UTC half-open date ranges, preserve unknown costs/stock and never use generator ground truth. No analytics migration, chart package, npm dependency change or reseed is needed. Run `mvnw.cmd verify`, frontend tests/build and browser checks; full backend verification includes the existing multi-database demo reproducibility fixture. See [Milestone 05 verification](milestone-05-verification.md).
+
+## Demand forecasting (Milestone 06)
+
+Navigate to `/forecasting`. Read [forecasting.md](forecasting.md) for event-time semantics, availability exclusions, thresholds, zero handling and explicit limitations. Java typed `app.forecasting` settings are validated at startup. Runtime code never reads demo ground truth; only test fixtures compare known scenarios. Run the same full backend/frontend checks. No schema migration, infrastructure, package installation or reseed is required. Historical as-of reports intentionally do not simulate late import arrival. Never present the baseline as a price recommendation or latent-demand estimate.
