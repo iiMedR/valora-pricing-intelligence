@@ -18,7 +18,8 @@ export interface ApplicationEnvironment {
       <aside class="demo-banner" role="note" aria-label="Synthetic demo environment">
         <strong>Synthetic Demo Data</strong>
         <span
-          >Generated records, not real business sales. {{ environment()?.datasetVersion }} ·
+          >Read-only browsing · Generated records, not real business sales.
+          {{ environment()?.datasetVersion }} ·
           {{
             environment()?.datasetState === 'READY'
               ? 'Dataset initialized'

@@ -10,14 +10,15 @@ it('renders workspace navigation', async () => {
   });
   const fixture = TestBed.createComponent(App);
   TestBed.inject(HttpTestingController)
-    .expectOne('/api/v1/environment')
-    .flush({
-      mode: 'NORMAL',
-      synthetic: false,
-      label: 'Local workspace',
-      datasetVersion: null,
-      datasetState: 'NOT_APPLICABLE',
-    });
+    .expectOne('/api/v1/auth/me')
+    .flush({ mode: 'NORMAL', authenticated: false, readOnly: false, username: null });
+  TestBed.inject(HttpTestingController).expectOne('/api/v1/environment').flush({
+    mode: 'NORMAL',
+    synthetic: false,
+    label: 'Local workspace',
+    datasetVersion: null,
+    datasetState: 'NOT_APPLICABLE',
+  });
   await fixture.whenStable();
   expect(fixture.nativeElement.querySelector('nav').textContent).toContain('Overview');
   TestBed.inject(HttpTestingController).verify();
