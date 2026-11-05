@@ -1,6 +1,6 @@
 # SmartPricing
 
-A single-business pricing optimization platform. Milestones 01–07 provide the local foundation, business settings, catalog, immutable sales/refund snapshots, effective listed-price/cost history, inventory observations, an isolated reproducible synthetic demo, read-only business analytics, guarded demand estimation/forecasting, and constrained read-only pricing recommendations. Authentication, store integration and automatic price changes remain future work.
+A single-business pricing optimization platform. Milestones 01–08 provide the local foundation, catalog, immutable sales/refund and price/cost/inventory history, isolated synthetic demo, analytics, guarded forecasting, constrained recommendations, administrator sessions and a Shopify OAuth connection lifecycle. Shopify synchronization and automatic price changes remain future work.
 
 The existing `SmartPricing` directory is the repository root (no redundant `smartpricing-platform` wrapper).
 
@@ -48,6 +48,8 @@ curl.exe -i http://localhost:8080/actuator/health
 
 The application endpoint returns `{"status":"UP"}` and confirms application responsiveness; Actuator also checks database health. The UI does not claim database or business-data readiness from the application endpoint.
 
+Normal business pages/APIs now require sign-in. Provision your own administrator once with `.\scripts\admin.ps1 -Username owner` (secure password prompt), then sign in at `/login`. No default account or HTTP setup exists; existing accounts are never replaced. See [authentication and local credential recovery](docs/authentication.md). The demo remains anonymous and read-only. [Shopify connection setup](docs/shopify-connection.md) is optional and requires a separately configured app and public HTTPS callback; connection does not import data. The [Milestone 08 verification report](docs/milestone-08-verification.md) records tested scope and limitations.
+
 The Angular development proxy forwards `/api/**` to `http://localhost:8080`, avoiding browser cross-origin requests. Backend CORS separately permits `http://localhost:4200`; override using `CORS_ALLOWED_ORIGINS` (comma-separated explicit origins). No wildcard is used.
 
 ## Isolated synthetic demo
@@ -68,7 +70,7 @@ Open [the synthetic demo](http://localhost:4201). It uses backend 8081 and a sep
 
 The `local` profile defaults to `jdbc:postgresql://localhost:5433/smartpricing`, user `smartpricing`, password `smartpricing_local`. Host port 5433 avoids a collision with an existing PostgreSQL service on 5432; the container still listens on 5432. These credentials are for development only. Override backend settings using `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`. Compose accepts `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_PORT`; keep the backend values consistent. The backend also reads `POSTGRES_PORT` when `DB_URL` is not set: export the same port in both terminals to change it. Environment files are ignored. No database defaults are enabled outside the local profile.
 
-Flyway owns schema changes. Hibernate uses `validate`, never schema creation. V1 supplies the empty metadata table. V2 creates the catalog and initializes exactly one settings row (`My Business`, `MAD`), without catalog/demo records. Products start archived; add an active variant before activating a product. Currency cannot change once any variant exists, including archived variants.
+Flyway owns schema changes. Hibernate uses `validate`, never schema creation. V1 supplies the empty metadata table. V2 creates the catalog and initializes exactly one settings row (`My Business`, `MAD`), without catalog/demo records. V3 adds business history; V4 adds accounts, encrypted Shopify credentials and hashed one-time OAuth states without changing business data. Products start archived; add an active variant before activating a product. Currency cannot change once any variant exists, including archived variants.
 
 ## Catalog management
 

@@ -43,13 +43,13 @@ Milestone 03 extends this catalog with immutable sales/refund history and varian
 
 On Windows, a running `java -jar target/...jar` can lock the file and prevent Maven repackaging. Stop only that application process before rebuilding, or use `mvnw.cmd spring-boot:run` for local development so the target JAR is not held open. Restart the backend after changes; the Angular development server reloads frontend changes automatically.
 
-The delivered scope ends at Milestone 07. Read-only analytics, observational demand/forecasting and constrained contribution recommendations are included; authentication, Shopify, tenancy, automatic price changes and deployment remain future work.
+The delivered scope ends at Milestone 08. Administrator sessions and Shopify connection lifecycle are included alongside analytics, forecasting and recommendations. Shopify synchronization, tenancy, automatic price changes and deployment remain future work.
 
 ## Isolated demo development (Milestone 04)
 
 Follow [demo-data.md](demo-data.md) for explicit initialization, seed, summary, serve and confirmed reset commands. Demo PostgreSQL has its own Compose project, volume, restricted role, database identity marker and port 5434. Do not use the normal database reset commands above for demo setup. Ordinary startup in either profile never seeds. The demo backend runs on 8081, and `npm.cmd run start:demo` runs Angular on 4201. Credentials stay in ignored `infra/.env.demo.local`.
 
-Run backend builds sequentially; integration tests seed several independent PostgreSQL databases and take several minutes. They validate atomic rollback, reproducibility, controlled variation and refusal against preexisting normal data. No V4 migration is needed: existing business tables are reused, and control metadata is bootstrapped only in the isolated demo database. See [Milestone 04 verification](milestone-04-verification.md).
+Run backend builds sequentially; integration tests seed several independent PostgreSQL databases and take several minutes. They validate atomic rollback, reproducibility, controlled variation and refusal against preexisting normal data. Milestone 04 reused existing business tables; Milestone 08's V4 adds empty security metadata without changing seed/reset data or checksum. Control metadata is bootstrapped only in the isolated demo database. See [Milestone 04 verification](milestone-04-verification.md).
 
 ## Analytics development (Milestone 05)
 
@@ -61,4 +61,10 @@ Navigate to `/forecasting`. Read [forecasting.md](forecasting.md) for event-time
 
 ## Contribution recommendations (Milestone 07)
 
-Navigate to `/optimization`, using unchanged normal/demo startup. Read [optimization.md](optimization.md) before altering constraints, evidence gates, freshness or rounding. Typed `app.optimization` settings govern conservative actionability; existing M06 estimation is reused. Effective price/cost and stock are batched at the retrospective evaluation instant. GETs never write or apply prices; evaluation history is intentionally not implemented, so no V4 is required. The permanent demo correctly abstains under calendar-confounding gates. A separate ephemeral PostgreSQL fixture tests supported actionable cases; never alter permanent demo data to manufacture a suggestion. Run full Maven verify, Angular tests/build, UI and checksum checks.
+Navigate to `/optimization`, using normal/demo startup (normal now requires sign-in). Read [optimization.md](optimization.md) before altering constraints, evidence gates, freshness or rounding. Typed `app.optimization` settings govern conservative actionability; existing M06 estimation is reused. Effective price/cost and stock are batched at the retrospective evaluation instant. GETs never write or apply prices; evaluation history is intentionally not implemented, and M07 needed no migration. The permanent demo correctly abstains under calendar-confounding gates. A separate ephemeral PostgreSQL fixture tests supported actionable cases; never alter permanent demo data to manufacture a suggestion. Run full Maven verify, Angular tests/build, UI and checksum checks.
+
+## Authentication and Shopify connection (Milestone 08)
+
+Follow [authentication.md](authentication.md) for explicit one-time `.\scripts\admin.ps1 -Username owner` provisioning and session/CSRF contracts. Normal business APIs require ADMIN; public health/environment/session lookup remain available. Existing API integration tests now use real cookie/CSRF login through `auth/TestHttp`, without disabling security filters. Dedicated HTTP tests verify cookie attributes, fixation and logout revocation. Demo remains anonymous with server-enforced GET-only business access.
+
+V4 is forward-only; never edit V1–V3 or reset volumes. `SecurityMigrationIT` verifies a V3 upgrade and retained migration checksums/data; historical V2-to-V3 testing explicitly targets V3. Spring Boot manages Spring Security 6.5.11, including its test module. No Angular dependency changes are required. Run Maven builds sequentially, then `npm.cmd test -- --watch=false` and `npm.cmd run build` in frontend. See [Shopify setup](shopify-connection.md) for optional disabled-by-default configuration and provider mock tests. No synchronization is implemented; actual OAuth needs a real app and public HTTPS validation.
