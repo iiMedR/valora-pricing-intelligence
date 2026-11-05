@@ -4,8 +4,13 @@ spring:
     username: smartpricing_demo
     password: ${DEMO_DB_PASSWORD}
 server:
+  servlet:
+    session:
+      cookie:
+        name: SP_DEMO_SESSION
   port: ${DEMO_API_PORT:8081}
 app:
+  frontend-origin: http://localhost:4201
   mode: demo
   cors:
     allowed-origins: http://localhost:4201
