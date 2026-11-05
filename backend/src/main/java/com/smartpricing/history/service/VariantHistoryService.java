@@ -88,7 +88,7 @@ public class VariantHistoryService {
         Instant now=HistoryRules.time(Instant.now());
         for(PeriodKind kind:PeriodKind.values()) {
             BigDecimal old=kind==PeriodKind.PRICE?oldPrice:oldCost,value=kind==PeriodKind.PRICE?price:cost;
-            if(old.compareTo(value)==0) continue;
+            if(value==null || old!=null&&old.compareTo(value)==0) continue;
             PeriodWrite input=new PeriodWrite(value,currency,now,null,Source.MANUAL,Quality.VERIFIED_CHANGE,"catalog-edit:"+UUID.randomUUID(),null);
             insertPeriod(kind,variant,input,value,now,null,support.fingerprint(input),false);
         }

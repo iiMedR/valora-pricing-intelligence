@@ -60,7 +60,7 @@ public class DemoSeedService {
         validateDates(config);
         lock();
         // Only the verified dedicated demo database; transactional TRUNCATE bypasses immutable-row DELETE triggers.
-        jdbc.execute("TRUNCATE sales_refunds,sales_order_items,sales_orders,variant_price_history,variant_cost_history,inventory_snapshots,product_variants,products,categories,app_metadata,demo_control.catalog_mappings,demo_control.seed_runs");
+        jdbc.execute("TRUNCATE shopify_order_metadata,sales_refunds,sales_order_items,sales_orders,variant_price_history,variant_cost_history,inventory_snapshots,product_variants,products,categories,app_metadata,demo_control.catalog_mappings,demo_control.seed_runs");
         entities.clear();
         var settings=business.get();
         business.update(new Update("My Business","MAD",settings.version()));

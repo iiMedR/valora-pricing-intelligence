@@ -44,8 +44,10 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(c->{
                 c.requestMatchers(HttpMethod.GET,"/api/v1/health","/actuator/health","/api/v1/environment","/api/v1/auth/me","/api/v1/auth/csrf","/api/v1/integrations/shopify/callback").permitAll();
                 if(demo){
+                    c.requestMatchers(HttpMethod.GET,"/api/v1/shopify/sync/status").permitAll();
                     c.requestMatchers(HttpMethod.GET,"/api/v1/products/**","/api/v1/categories/**","/api/v1/business-settings","/api/v1/sales/**","/api/v1/analytics/**","/api/v1/forecasting/**","/api/v1/optimization/**","/api/v1/demo/summary","/api/v1/integrations/shopify/status").permitAll();
                 }else{
+                    c.requestMatchers("/api/v1/shopify/sync","/api/v1/shopify/sync/**").hasRole("ADMIN");
                     c.requestMatchers(HttpMethod.POST,"/api/v1/auth/login").permitAll();
                     c.requestMatchers("/api/v1/products/**","/api/v1/categories/**","/api/v1/business-settings","/api/v1/sales/**","/api/v1/analytics/**","/api/v1/forecasting/**","/api/v1/optimization/**","/api/v1/integrations/shopify/status","/api/v1/integrations/shopify/connect","/api/v1/integrations/shopify/disconnect").hasRole("ADMIN");
                 }

@@ -195,8 +195,8 @@ public class CatalogService {
         return new ProductView(entity.getId(), entity.getName(), entity.getDescription(), entity.getCategoryId(), entity.getStatus(), entity.getCreatedAt(), entity.getUpdatedAt(), entity.getVersion());
     }
     private VariantView variantView(ProductVariant entity) {
-        return new VariantView(entity.getId(), entity.getProductId(), entity.getSku(), entity.getName(), entity.getCostPrice().toPlainString(),
+        return new VariantView(entity.getId(), entity.getProductId(), entity.getSku(), entity.getName(), entity.getCostPrice()==null?null:entity.getCostPrice().toPlainString(),
                 entity.getCurrentPrice().toPlainString(), entity.getMinPrice().toPlainString(), entity.getMaxPrice().toPlainString(), entity.getStatus(),
-                entity.getCurrentPrice().compareTo(entity.getCostPrice()) < 0, entity.getCreatedAt(), entity.getUpdatedAt(), entity.getVersion());
+                entity.getCostPrice()!=null&&entity.getCurrentPrice().compareTo(entity.getCostPrice()) < 0, entity.getCreatedAt(), entity.getUpdatedAt(), entity.getVersion());
     }
 }

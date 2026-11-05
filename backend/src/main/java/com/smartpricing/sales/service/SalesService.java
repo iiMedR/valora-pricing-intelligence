@@ -26,8 +26,17 @@ public class SalesService {
 
     @Transactional
     public WriteResult<OrderDetail> create(OrderWrite input) {
+        return createInternal(input,Map.of());
+    }
+    public record ImportedIdentity(String sku,String name){}
+    @Transactional
+    public WriteResult<OrderDetail> createImported(OrderWrite input,Map<String,ImportedIdentity> identities){
+        if(input.source()!=Source.SHOPIFY)throw ApiException.invalid("Imported identities require Shopify source.");
+        return createInternal(input,identities);
+    }
+    private WriteResult<OrderDetail> createInternal(OrderWrite input,Map<String,ImportedIdentity> identities) {
         support.lockKey("ORDER",input.source(),input.externalReference());
-        String hash=support.fingerprint(input);
+        String hash=identities.isEmpty()?support.fingerprint(input):support.fingerprint(List.of(input,identities));
         var existing=repository.existing(false,input.source(),input.externalReference());
         if(existing!=null) { support.samePayload(existing.hash(),hash); return new WriteResult<>(detail(existing.id()),false); }
         support.currency(input.currencyCode());
@@ -52,7 +61,8 @@ public class SalesService {
                 if(!costs.isEmpty()) effectiveCost=costs.getFirst();
             }
             var costSnapshot=HistoryRules.cost(cost,effectiveCost);
-            snapshots.add(new LineView(UUID.randomUUID(),line.variantId(),variants.getFirst().get("sku").toString(),variants.getFirst().get("name").toString(),
+            var identity=line.sourceLineReference()==null?null:identities.get(line.sourceLineReference());
+            snapshots.add(new LineView(UUID.randomUUID(),line.variantId(),identity==null?variants.getFirst().get("sku").toString():identity.sku(),identity==null?variants.getFirst().get("name").toString():identity.name(),
                     line.quantity(),input.currencyCode(),HistoryRules.decimal(line.listUnitPrice()),HistoryRules.decimal(line.unitPrice()),
                     HistoryRules.decimal(line.discountAmount()),HistoryRules.decimal(net),HistoryRules.decimal(costSnapshot.amount()),costSnapshot.provenance(),line.sourceLineReference()));
             subtotal=subtotal.add(line.unitPrice().multiply(BigDecimal.valueOf(line.quantity()))); discount=discount.add(line.discountAmount());

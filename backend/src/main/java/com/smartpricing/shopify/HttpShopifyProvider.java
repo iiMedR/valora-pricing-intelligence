@@ -16,9 +16,13 @@ public class HttpShopifyProvider implements ShopifyProvider {
     public HttpShopifyProvider(ShopifySettings settings,ObjectMapper mapper,Clock clock){this(settings,mapper,clock,HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5)).followRedirects(HttpClient.Redirect.NEVER).build());}
     HttpShopifyProvider(ShopifySettings settings,ObjectMapper mapper,Clock clock,HttpClient client){this.settings=settings;this.mapper=mapper;this.clock=clock;this.client=client;}
     @Override public Tokens exchange(String domain,String code){
+        return token(domain,code,false);
+    }
+    @Override public Tokens refresh(String domain,String refresh){return token(domain,refresh,true);}
+    private Tokens token(String domain,String code,boolean refreshing){
         try{
-            String shop=ShopifyRules.shop(domain);if(!settings.enabled()||code==null||code.isBlank()||code.length()>2048)throw new IllegalStateException();
-            String form="client_id="+encode(settings.clientId())+"&client_secret="+encode(settings.clientSecret())+"&code="+encode(code)+"&expiring=1";
+            String shop=ShopifyRules.shop(domain);if(!settings.enabled()||code==null||code.isBlank()||code.length()>(refreshing?8192:2048))throw new IllegalStateException();
+            String form="client_id="+encode(settings.clientId())+"&client_secret="+encode(settings.clientSecret())+(refreshing?"&grant_type=refresh_token&refresh_token=":"&code=")+encode(code)+(refreshing?"":"&expiring=1");
             var request=HttpRequest.newBuilder(URI.create("https://"+shop+"/admin/oauth/access_token")).timeout(Duration.ofSeconds(10)).header("Content-Type","application/x-www-form-urlencoded").header("Accept","application/json").POST(HttpRequest.BodyPublishers.ofString(form)).build();
             JsonNode body=send(request);String access=body.path("access_token").asText(),refresh=body.path("refresh_token").asText();long seconds=body.path("expires_in").asLong(0),refreshSeconds=body.path("refresh_token_expires_in").asLong(0);
             if(access.isBlank()||refresh.isBlank()||access.length()>8192||refresh.length()>8192||seconds<=0||seconds>366L*86400||refreshSeconds>366L*86400)throw new IllegalStateException();
@@ -33,7 +37,7 @@ public class HttpShopifyProvider implements ShopifyProvider {
         }catch(Exception exception){if(exception instanceof InterruptedException)Thread.currentThread().interrupt();return false;}
     }
     private JsonNode send(HttpRequest request)throws Exception{
-        var response=client.send(request,HttpResponse.BodyHandlers.ofInputStream());try(var input=response.body()){if(response.statusCode()!=200)throw new IllegalStateException();byte[] body=input.readNBytes(65537);if(body.length>65536)throw new IllegalStateException();return mapper.readTree(body);}
+        var response=com.smartpricing.common.BoundedHttp.send(client,request,65536,10);if(response.statusCode()!=200||response.body().length>65536)throw new IllegalStateException();return mapper.readTree(response.body());
     }
     private String encode(String value){return URLEncoder.encode(value,StandardCharsets.UTF_8);}
 }

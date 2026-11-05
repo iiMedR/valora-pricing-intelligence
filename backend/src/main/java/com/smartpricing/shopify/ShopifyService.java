@@ -23,7 +23,7 @@ public class ShopifyService {
         if(!settings.enabled())status="CONFIGURATION_REQUIRED";
         else if(status.equals("CONNECTED")&&record.accessExpires()!=null&&!record.accessExpires().isAfter(clock.instant()))status="REAUTHORIZATION_REQUIRED";
         else if(status.equals("PENDING")&&record.updated().isBefore(clock.instant().minus(Duration.ofMinutes(10))))status="AUTHORIZATION_EXPIRED";
-        return new Status(status,settings.enabled(),record.shop(),record.scopes()==null?List.of():List.of(record.scopes().split(",")),record.connected(),record.disconnected(),record.accessExpires(),record.refreshExpires(),record.error(),"NOT_YET_SYNCHRONIZED_MILESTONE_09");
+        return new Status(status,settings.enabled(),record.shop(),record.scopes()==null?List.of():List.of(record.scopes().split(",")),record.connected(),record.disconnected(),record.accessExpires(),record.refreshExpires(),record.error(),"SEE_SYNC_STATUS");
     }
     private void normal(){if(guard.demoRequested())throw new ApiException(HttpStatus.FORBIDDEN,"DEMO_CONNECTION_DISABLED","Real store connections are disabled in the synthetic demo.");}
     @Transactional public String connect(String domain,HttpSession session){

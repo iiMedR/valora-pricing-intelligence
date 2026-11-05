@@ -17,7 +17,7 @@ public class ProductVariant extends AuditedEntity {
     private String sku;
     @Column(nullable = false, length = 120)
     private String name;
-    @Column(nullable = false, precision = 19, scale = 4)
+    @Column(precision = 19, scale = 4)
     private BigDecimal costPrice;
     @Column(nullable = false, precision = 19, scale = 4)
     private BigDecimal currentPrice;
