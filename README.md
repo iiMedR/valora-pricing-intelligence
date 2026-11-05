@@ -1,6 +1,6 @@
 # SmartPricing
 
-A single-business pricing optimization platform. Milestones 01–06 provide the local foundation, business settings, catalog, immutable sales/refund snapshots, effective listed-price/cost history, inventory observations, an isolated reproducible synthetic demo, read-only business analytics, and guarded demand estimation/forecasting. Pricing recommendations, authentication, and store integration remain future work.
+A single-business pricing optimization platform. Milestones 01–07 provide the local foundation, business settings, catalog, immutable sales/refund snapshots, effective listed-price/cost history, inventory observations, an isolated reproducible synthetic demo, read-only business analytics, guarded demand estimation/forecasting, and constrained read-only pricing recommendations. Authentication, store integration and automatic price changes remain future work.
 
 The existing `SmartPricing` directory is the repository root (no redundant `smartpricing-platform` wrapper).
 
@@ -106,3 +106,7 @@ Open Analytics in the navigation: [normal dashboard](http://localhost:4200/analy
 ## Demand Forecasting
 
 Open [demo forecasting](http://localhost:4201/forecasting) or [normal forecasting](http://localhost:4200/forecasting). Select Full 2025 to inspect existing demo history, search a variant, and inspect 7/14/30-day observed-sales baselines, guarded association-based elasticity and chronological backtests. Sparse, missing-stock and zero-sales histories produce explicit limitations rather than fabricated elasticity. Historical forecasts state their as-of date and latest known price assumption. No calibrated uncertainty/causal claim, model tables, new dependency, data reset or price recommendation is introduced. See [model/data contract](docs/forecasting.md) and [Milestone 06 verification](docs/milestone-06-verification.md). Existing normal/demo startup commands and isolated ports remain unchanged.
+
+## Pricing Recommendations
+
+Open [demo evaluations](http://localhost:4201/optimization) or [normal evaluations](http://localhost:4200/optimization). Full 2025 evaluates the existing historical demo. A stricter gate than forecasting readiness withholds suggestions for calendar-confounded, sparse, baseline-only, missing-cost and inactive cases. The seasonal weak-elasticity case is explicitly non-actionable; good forecasting alone never authorizes a price change. Supported cases optimize estimated contribution on the existing 0.0001 grid with effective known cost, constraints and a conservative horizon stock cap. No price is applied, no GET writes occur, and evaluation history is not persisted. See [objective, gates and APIs](docs/optimization.md) and [Milestone 07 verification](docs/milestone-07-verification.md). No migration, dependency installation or reseed is needed.
