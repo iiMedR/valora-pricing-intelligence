@@ -23,6 +23,7 @@ class CatalogApiIT {
     @Autowired JdbcTemplate jdbc;
 
     @BeforeEach void cleanIsolatedTestDatabase() {
+        com.smartpricing.auth.TestHttp.authenticate(rest,jdbc);
         jdbc.execute("TRUNCATE sales_refunds, sales_order_items, sales_orders, variant_price_history, variant_cost_history, inventory_snapshots, product_variants, products, categories");
         jdbc.update("UPDATE business_settings SET display_name='My Business', currency_code='MAD', version=0 WHERE id=1");
     }

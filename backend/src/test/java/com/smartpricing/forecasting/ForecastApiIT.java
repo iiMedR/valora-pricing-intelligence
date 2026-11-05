@@ -22,7 +22,7 @@ class ForecastApiIT {
     @Container @ServiceConnection static PostgreSQLContainer<?> database=new PostgreSQLContainer<>("postgres:17.7-alpine");
     @Autowired TestRestTemplate rest;@Autowired JdbcTemplate jdbc;@Autowired DemandRepository repository;@Autowired DemandModel model;
     String product,variant;
-    @BeforeEach void prepare(){jdbc.execute("TRUNCATE sales_refunds,sales_order_items,sales_orders,variant_price_history,variant_cost_history,inventory_snapshots,product_variants,products,categories");product=post("/products",Map.of("name","Demand fixture")).path("id").asText();variant=post("/products/"+product+"/variants",Map.of("name","Standard","sku","DEMAND-TEST","costPrice","1","currentPrice","10","minPrice","1","maxPrice","100","status","ACTIVE")).path("id").asText();}
+    @BeforeEach void prepare(){com.smartpricing.auth.TestHttp.authenticate(rest,jdbc);jdbc.execute("TRUNCATE sales_refunds,sales_order_items,sales_orders,variant_price_history,variant_cost_history,inventory_snapshots,product_variants,products,categories");product=post("/products",Map.of("name","Demand fixture")).path("id").asText();variant=post("/products/"+product+"/variants",Map.of("name","Standard","sku","DEMAND-TEST","costPrice","1","currentPrice","10","minPrice","1","maxPrice","100","status","ACTIVE")).path("id").asText();}
     JsonNode post(String path,Object body){var r=rest.postForEntity("/api/v1"+path,body,JsonNode.class);assertThat(r.getStatusCode().value()).as(r.toString()).isEqualTo(201);return r.getBody();}
     JsonNode get(String path){var r=rest.getForEntity("/api/v1/forecasting"+path,JsonNode.class);assertThat(r.getStatusCode().value()).as(r.toString()).isEqualTo(200);return r.getBody();}
     String range="?startDate=2025-01-01&endDate=2025-03-01";
