@@ -25,7 +25,7 @@ class HistoryApiIT {
     String productId,variantId;
     @BeforeEach void prepareIsolatedDatabase() {
         com.smartpricing.auth.TestHttp.authenticate(rest,jdbc);
-        jdbc.execute("TRUNCATE sales_refunds,sales_order_items,sales_orders,variant_price_history,variant_cost_history,inventory_snapshots,product_variants,products,categories");
+        jdbc.execute("TRUNCATE shopify_order_metadata,sales_refunds,sales_order_items,sales_orders,variant_price_history,variant_cost_history,inventory_snapshots,product_variants,products,categories");
         productId=post("/products",Map.of("name","History product"),201).path("id").asText();
         variantId=post("/products/"+productId+"/variants",Map.of("sku","HISTORY-1","name","Standard","costPrice","9","currentPrice","10","minPrice","5","maxPrice","20","status","ACTIVE"),201).path("id").asText();
     }

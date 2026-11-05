@@ -30,6 +30,8 @@ class DemoReadOnlyIT {
     @Test void demoBrowsesAnonymouslyButCannotWriteOrConnectOrProvisionSecrets()throws Exception{
         mvc.perform(get("/api/v1/products")).andExpect(status().isOk());mvc.perform(get("/api/v1/auth/me")).andExpect(jsonPath("$.mode").value("DEMO")).andExpect(jsonPath("$.readOnly").value(true)).andExpect(jsonPath("$.authenticated").value(false));
         mvc.perform(get("/api/v1/integrations/shopify/status")).andExpect(jsonPath("$.status").value("DEMO_DISABLED"));
+        mvc.perform(get("/api/v1/shopify/sync/status")).andExpect(status().isOk()).andExpect(jsonPath("$.demo").value(true)).andExpect(jsonPath("$.connected").value(false)).andExpect(jsonPath("$.shop").isEmpty());
+        mvc.perform(post("/api/v1/shopify/sync").with(csrf()).contentType("application/json").content("{}")).andExpect(status().isForbidden());
         for(String path:List.of("/api/v1/products","/api/v1/auth/login","/api/v1/integrations/shopify/connect","/api/v1/integrations/shopify/disconnect"))mvc.perform(post(path).with(csrf()).contentType("application/json").content("{}")).andExpect(status().isForbidden());
         assertThat(jdbc.queryForObject("SELECT count(*) FROM app_accounts",Long.class)).isZero();assertThat(jdbc.queryForObject("SELECT count(*) FROM shopify_oauth_states",Long.class)).isZero();assertThat(jdbc.queryForObject("SELECT encrypted_access_token FROM shopify_connection",String.class)).isNull();assertThat(jdbc.queryForObject("SELECT success FROM flyway_schema_history WHERE version='4'",Boolean.class)).isTrue();
     }

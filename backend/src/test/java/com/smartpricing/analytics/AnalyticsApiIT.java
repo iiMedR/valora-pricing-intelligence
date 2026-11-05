@@ -24,7 +24,7 @@ class AnalyticsApiIT {
     String product,known,unknown,missing;
     @BeforeEach void setup() {
         com.smartpricing.auth.TestHttp.authenticate(rest,jdbc);
-        jdbc.execute("TRUNCATE sales_refunds,sales_order_items,sales_orders,variant_price_history,variant_cost_history,inventory_snapshots,product_variants,products,categories");
+        jdbc.execute("TRUNCATE shopify_order_metadata,sales_refunds,sales_order_items,sales_orders,variant_price_history,variant_cost_history,inventory_snapshots,product_variants,products,categories");
         product=post("/products",Map.of("name","Analytics item")).path("id").asText();
         known=variant("KNOWN");unknown=variant("UNKNOWN");missing=variant("MISSING");
     }

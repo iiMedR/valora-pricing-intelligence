@@ -1,0 +1,36 @@
+{
+  "catalog": {
+    "shop": {"currencyCode":"MAD"},
+    "productVariants": {
+      "nodes":[{"id":"gid://shopify/ProductVariant/501","title":"Blue / Medium","sku":"","price":"10.0000","updatedAt":"$updated",
+        "product":{"id":"gid://shopify/Product/50","title":"Synthetic import shirt","status":"ACTIVE","updatedAt":"$updated"},
+        "inventoryItem":{"id":"gid://shopify/InventoryItem/51","tracked":true,"unitCost":null}}],
+      "pageInfo":{"hasNextPage":false,"endCursor":"catalog-end"}
+    }
+  },
+  "inventory":{"inventoryItem":{"inventoryLevels":{"nodes":[
+    {"id":"gid://shopify/InventoryLevel/500","updatedAt":"$updated","location":{"id":"gid://shopify/Location/1"},"quantities":[{"name":"available","quantity":0}]},
+    {"id":"gid://shopify/InventoryLevel/501","updatedAt":"$updated","location":{"id":"gid://shopify/Location/2"},"quantities":[{"name":"available","quantity":0}]}
+  ],"pageInfo":{"hasNextPage":false,"endCursor":"inventory-end"}}}},
+  "orders":{"orders":{"nodes":[{
+    "id":"gid://shopify/Order/100","createdAt":"$created","updatedAt":"$updated","cancelledAt":null,"test":false,"currencyCode":"MAD","taxesIncluded":false,
+    "displayFinancialStatus":"PARTIALLY_REFUNDED","displayFulfillmentStatus":"FULFILLED",
+    "totalShippingPriceSet":{"shopMoney":{"amount":"3.00","currencyCode":"MAD"}},
+    "totalTaxSet":{"shopMoney":{"amount":"1.00","currencyCode":"MAD"}},
+    "lineItems":{"nodes":[{"id":"gid://shopify/LineItem/1001","title":"Original sale title","sku":"","quantity":2,"unfulfilledQuantity":0,
+      "variant":{"id":"gid://shopify/ProductVariant/501","product":{"id":"gid://shopify/Product/50","title":"Synthetic import shirt","status":"ACTIVE","updatedAt":"$updated"}},
+      "originalUnitPriceSet":{"shopMoney":{"amount":"10.00","currencyCode":"MAD"}},
+      "discountAllocations":[{"allocatedAmountSet":{"shopMoney":{"amount":"2.00","currencyCode":"MAD"}}}]
+    }],"pageInfo":{"hasNextPage":false,"endCursor":"lines-end"}},
+    "refunds":[{"id":"gid://shopify/Refund/200"}]
+  }],"pageInfo":{"hasNextPage":false,"endCursor":"orders-end"}}},
+  "refund":{"node":{
+    "id":"gid://shopify/Refund/200","createdAt":"$updated","processedAt":"$updated",
+    "totalRefundedSet":{"shopMoney":{"amount":"9.00","currencyCode":"MAD"}},
+    "transactions":{"nodes":[{"status":"SUCCESS","kind":"REFUND","amountSet":{"shopMoney":{"amount":"9.00","currencyCode":"MAD"}}}],"pageInfo":{"hasNextPage":false,"endCursor":null}},
+    "refundLineItems":{"nodes":[{"id":"gid://shopify/RefundLineItem/201","quantity":1,"restockType":"RETURN","lineItem":{"id":"gid://shopify/LineItem/1001"},
+      "subtotalSet":{"shopMoney":{"amount":"9.00","currencyCode":"MAD"}},"totalTaxSet":{"shopMoney":{"amount":"0.00","currencyCode":"MAD"}}
+    }],"pageInfo":{"hasNextPage":false,"endCursor":"refund-lines-end"}},
+    "refundShippingLines":{"nodes":[],"pageInfo":{"hasNextPage":false,"endCursor":null}}
+  }}
+}
