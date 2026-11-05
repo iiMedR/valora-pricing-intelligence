@@ -10,14 +10,15 @@ import {
   validAuthorizationUrl,
 } from './store-api.service';
 import { apiError } from '../catalog/services/catalog-api.service';
+import { SyncPanel } from './sync-panel';
 @Component({
-  imports: [DatePipe, ReactiveFormsModule, RouterLink],
+  imports: [DatePipe, ReactiveFormsModule, RouterLink, SyncPanel],
   template: `
     <div class="page-heading">
       <div>
         <p class="eyebrow">SETTINGS · SINGLE BUSINESS</p>
         <h1 class="page-title">Store Connection</h1>
-        <p class="muted">Authorize Shopify access. No store data is imported in this milestone.</p>
+        <p class="muted">Authorize Shopify access, then explicitly import store data.</p>
       </div>
       <a routerLink="/settings">Business settings</a>
     </div>
@@ -52,7 +53,10 @@ import { apiError } from '../catalog/services/catalog-api.service';
             </p>
           }
           @if (store.status === 'CONNECTED') {
-            <p class="notice">Not yet synchronized — available in Milestone 09.</p>
+            <p class="notice">
+              Connected authorization is separate from import completion. Check synchronization
+              below.
+            </p>
             <p>Authorization is not a claim that catalog, inventory, orders or costs are ready.</p>
           }
           @if (store.status === 'PENDING') {
@@ -63,8 +67,8 @@ import { apiError } from '../catalog/services/catalog-api.service';
           }
           @if (store.status === 'REAUTHORIZATION_REQUIRED') {
             <p>
-              Access has expired. Disconnect and authorize again. No automatic token refresh or
-              synchronization runs here.
+              Access has expired. Import jobs attempt server-side refresh; if renewal fails,
+              disconnect and authorize again.
             </p>
           }
           @if (store.shop) {
@@ -121,6 +125,7 @@ import { apiError } from '../catalog/services/catalog-api.service';
         }
       </section>
     }
+    <app-sync-panel />
     @if (confirming()) {
       <section
         class="confirmation"

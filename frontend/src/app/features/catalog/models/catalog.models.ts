@@ -33,7 +33,7 @@ export interface Variant extends Versioned {
   productId: string;
   sku: string;
   name: string;
-  costPrice: string;
+  costPrice: string | null;
   currentPrice: string;
   minPrice: string;
   maxPrice: string;

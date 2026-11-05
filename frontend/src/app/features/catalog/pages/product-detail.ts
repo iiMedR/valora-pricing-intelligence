@@ -113,7 +113,7 @@ import { VariantForm } from '../components/variant-form';
                 </div>
                 <div>
                   <dt>Cost</dt>
-                  <dd>{{ v.costPrice }}</dd>
+                  <dd>{{ v.costPrice ?? 'Unknown' }}</dd>
                 </div>
                 <div>
                   <dt>Minimum</dt>

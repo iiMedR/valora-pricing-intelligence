@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
     <p class="eyebrow">SHOPIFY AUTHORIZATION</p>
     <h1 class="page-title">Authorization outcome</h1>
     <p role="status">{{ message }}</p>
-    <p>Connection status is verified by the server. No store data is synchronized yet.</p>
+    <p>Connection status is verified by the server. Importing data requires a separate explicit action.</p>
     <a routerLink="/store-connection">Check store connection</a> ·
     <a routerLink="/login">Sign in</a>
   </section>`,

@@ -37,6 +37,18 @@ describe('Shopify connection', () => {
     TestBed.inject(HttpTestingController)
       .expectOne('/api/v1/integrations/shopify/status')
       .flush(value);
+    TestBed.inject(HttpTestingController)
+      .expectOne('/api/v1/shopify/sync/status')
+      .flush({
+        demo: value.status === 'DEMO_DISABLED',
+        connected: value.status === 'CONNECTED',
+        shop: value.shop,
+        lastSuccessfulSync: null,
+        latest: null,
+        checkpoints: [],
+        requiredScopes: [],
+        liveValidation: 'LIVE_SHOPIFY_NOT_VERIFIED',
+      });
     return f;
   }
   it('validates canonical shop and navigates only to its authorization endpoint', async () => {
@@ -79,7 +91,7 @@ describe('Shopify connection', () => {
     });
     await f.whenStable();
     expect(f.nativeElement.textContent).toContain(
-      'Not yet synchronized — available in Milestone 09',
+      'Connected authorization is separate from import completion',
     );
     f.componentInstance.disconnect();
     TestBed.inject(HttpTestingController).expectNone('/api/v1/integrations/shopify/disconnect');
