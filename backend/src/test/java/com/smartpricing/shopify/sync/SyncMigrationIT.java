@@ -14,7 +14,7 @@ class SyncMigrationIT {
         Flyway.configure().dataSource(database.getJdbcUrl(),database.getUsername(),database.getPassword()).target("4").load().migrate();
         try(var connection=DriverManager.getConnection(database.getJdbcUrl(),database.getUsername(),database.getPassword());var sql=connection.createStatement()){
             sql.executeUpdate("INSERT INTO app_metadata(key,value) VALUES('v5-retention','preserved')");String before=checksums(sql);
-            assertThat(Flyway.configure().dataSource(database.getJdbcUrl(),database.getUsername(),database.getPassword()).load().migrate().migrationsExecuted).isEqualTo(1);assertThat(checksums(sql)).isEqualTo(before);
+            assertThat(Flyway.configure().dataSource(database.getJdbcUrl(),database.getUsername(),database.getPassword()).target("5").load().migrate().migrationsExecuted).isEqualTo(1);assertThat(checksums(sql)).isEqualTo(before);
             try(var rows=sql.executeQuery("SELECT (SELECT value FROM app_metadata WHERE key='v5-retention'),(SELECT count(*) FROM products),(SELECT count(*) FROM shopify_sync_job),(SELECT count(*) FROM app_accounts)")){rows.next();assertThat(rows.getString(1)).isEqualTo("preserved");assertThat(rows.getLong(2)).isZero();assertThat(rows.getLong(3)).isZero();assertThat(rows.getLong(4)).isZero();}
         }
     }

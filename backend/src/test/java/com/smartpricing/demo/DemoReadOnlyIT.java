@@ -34,6 +34,8 @@ class DemoReadOnlyIT {
         mvc.perform(post("/api/v1/shopify/sync").with(csrf()).contentType("application/json").content("{}")).andExpect(status().isForbidden());
         mvc.perform(get("/api/v1/onboarding/summary")).andExpect(status().isOk()).andExpect(jsonPath("$.synthetic").value(true)).andExpect(jsonPath("$.workflowState").value("SYNTHETIC_DEMO")).andExpect(jsonPath("$.synchronization.shop").isEmpty());
         mvc.perform(get("/api/v1/onboarding/readiness/variants")).andExpect(status().isOk());mvc.perform(post("/api/v1/onboarding/summary").with(csrf())).andExpect(status().isForbidden());
+        mvc.perform(post("/api/v1/optimization/variants/"+UUID.randomUUID()+"/evaluations").with(csrf())).andExpect(status().isForbidden());
+        assertThat(jdbc.queryForObject("SELECT count(*) FROM model_evaluation_audit",Long.class)).isZero();
         for(String path:List.of("/api/v1/products","/api/v1/auth/login","/api/v1/integrations/shopify/connect","/api/v1/integrations/shopify/disconnect"))mvc.perform(post(path).with(csrf()).contentType("application/json").content("{}")).andExpect(status().isForbidden());
         assertThat(jdbc.queryForObject("SELECT count(*) FROM app_accounts",Long.class)).isZero();assertThat(jdbc.queryForObject("SELECT count(*) FROM shopify_oauth_states",Long.class)).isZero();assertThat(jdbc.queryForObject("SELECT encrypted_access_token FROM shopify_connection",String.class)).isNull();assertThat(jdbc.queryForObject("SELECT success FROM flyway_schema_history WHERE version='4'",Boolean.class)).isTrue();
     }

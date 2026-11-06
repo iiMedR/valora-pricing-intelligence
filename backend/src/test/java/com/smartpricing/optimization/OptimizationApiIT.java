@@ -44,6 +44,28 @@ class OptimizationApiIT {
         var later=get("/variants/"+variant+"/recommendation?startDate=2025-02-01&endDate=2026-02-01");assertThat(later.path("status").asText()).isEqualTo("MISSING_COST");assertThat(later.path("inputs").path("unitCost").isNull()).isTrue();assertThat(later.path("recommendedPrice").isNull()).isTrue();assertThat(later.path("comparison").isNull()).isTrue();
         rest.delete("/api/v1/products/"+product+"/variants/"+variant);var archived=get("/variants/"+variant+"/recommendation"+range);assertThat(archived.path("status").asText()).isEqualTo("INACTIVE_VARIANT");assertThat(archived.path("recommendedPrice").isNull()).isTrue();assertThat(jdbc.queryForObject("SELECT count(*) FROM sales_order_items",Integer.class)).isEqualTo(365);
     }
+    @Test void explicitAuditIsDeduplicatedImmutableAndSeparateFromBusinessOutcomes(){fixture();
+        String path="/api/v1/optimization/variants/"+variant+"/evaluations"+range;
+        var saved=rest.postForEntity(path,null,JsonNode.class);assertThat(saved.getStatusCode().value()).isEqualTo(200);
+        var snapshot=saved.getBody();assertThat(snapshot.path("outcomeStatus").asText()).isEqualTo("NOT_MEASURED");assertThat(snapshot.path("result").path("recommendedPrice").asText()).isEqualTo("90.0000");
+        assertThat(snapshot.path("fingerprint").asText()).hasSize(64);assertThat(snapshot.toString()).doesNotContain("password","accessToken","clientSecret");
+        assertThat(rest.postForEntity(path,null,JsonNode.class).getBody()).isEqualTo(snapshot);
+        var history=get("/variants/"+variant+"/evaluations");assertThat(history.path("totalElements").asInt()).isEqualTo(1);assertThat(history.path("content").get(0)).isEqualTo(snapshot);
+        get("/variants/"+variant+"/recommendation"+range);assertThat(get("/variants/"+variant+"/evaluations").path("totalElements").asInt()).isEqualTo(1);
+        assertThat(rest.postForEntity(path+"&horizonDays=14",null,JsonNode.class).getStatusCode().value()).isEqualTo(200);
+        assertThat(get("/variants/"+variant+"/evaluations?size=1&page=1").path("content").size()).isEqualTo(1);
+        assertThatThrownBy(()->jdbc.update("UPDATE model_evaluation_audit SET model_version='tampered' WHERE id=?",UUID.fromString(snapshot.path("id").asText()))).hasMessageContaining("append-only");
+        assertThatThrownBy(()->jdbc.update("DELETE FROM model_evaluation_audit WHERE id=?",UUID.fromString(snapshot.path("id").asText()))).hasMessageContaining("append-only");
+        assertThat(jdbc.queryForObject("SELECT count(*) FROM sales_orders",Integer.class)).isEqualTo(365);
+    }
+    @Test void auditRequiresSessionAndCsrfAndValidBoundedHistory(){
+        var anonymous=new org.springframework.web.client.RestTemplate();String path=rest.getRootUri()+"/api/v1/optimization/variants/"+variant+"/evaluations";
+        assertThatThrownBy(()->anonymous.getForEntity(path,String.class)).isInstanceOf(org.springframework.web.client.HttpClientErrorException.Unauthorized.class);
+        assertThatThrownBy(()->anonymous.postForEntity(path,null,String.class)).isInstanceOf(org.springframework.web.client.HttpClientErrorException.Forbidden.class);
+        rest.getRestTemplate().getInterceptors().add((request,body,execution)->{request.getHeaders().remove("X-XSRF-TOKEN");return execution.execute(request,body);});
+        assertThat(rest.postForEntity("/api/v1/optimization/variants/"+variant+"/evaluations"+range,null,JsonNode.class).getStatusCode().value()).isEqualTo(403);
+        assertThat(rest.getForEntity("/api/v1/optimization/variants/"+variant+"/evaluations?size=11",JsonNode.class).getStatusCode().value()).isEqualTo(400);
+    }
     @Test void emptyNormalValidationAndMissingIdsAreSafe(){jdbc.execute("TRUNCATE product_variants,products CASCADE");assertThat(get("/overview"+range).path("results").path("content").isEmpty()).isTrue();
         for(String path:List.of("/overview?startDate=bad&endDate=2026-01-01","/overview"+range+"&horizonDays=8","/overview"+range+"&size=11","/overview"+range+"&page=-1","/overview?startDate=2026-01-01&endDate=2025-01-01"))assertThat(rest.getForEntity("/api/v1/optimization"+path,JsonNode.class).getStatusCode().value()).as(path).isEqualTo(400);
         assertThat(rest.getForEntity("/api/v1/optimization/variants/"+variant+"/recommendation"+range,JsonNode.class).getStatusCode().value()).isEqualTo(404);

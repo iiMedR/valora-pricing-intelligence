@@ -43,7 +43,7 @@ class DemoNormalSafetyIT {
                     .run("--demo.action="+action,"--demo.confirm-reset="+DemoSafetyGuard.RESET_CONFIRMATION)).isInstanceOf(Exception.class);
             assertThat(jdbc.queryForObject("SELECT name FROM products WHERE id=?",String.class,product.id())).isEqualTo("Protected normal product");
             assertThat(jdbc.queryForObject("SELECT value FROM app_metadata WHERE key='protected-marker'",String.class)).isEqualTo("retained");
-            assertThat(jdbc.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success",Integer.class)).isEqualTo(5);
+            assertThat(jdbc.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success",Integer.class)).isEqualTo(6);
             assertThat(jdbc.queryForObject("SELECT count(*) FROM sales_orders",Integer.class)).isZero();
         }
     }
