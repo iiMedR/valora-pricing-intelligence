@@ -41,6 +41,7 @@ class SecurityFlowIT {
         MockHttpSession session=login();mvc.perform(get("/api/v1/products").session(session)).andExpect(status().isOk());mvc.perform(get("/api/v1/auth/me").session(session)).andExpect(jsonPath("$.authenticated").value(true)).andExpect(jsonPath("$.username").value("test-admin"));mvc.perform(post("/api/v1/integrations/shopify/disconnect").session(session)).andExpect(status().isForbidden());
         mvc.perform(post("/api/v1/shopify/sync").session(session).contentType("application/json").content("{}")).andExpect(status().isForbidden());
         mvc.perform(get("/api/v1/shopify/sync/status").with(user("viewer").roles("VIEWER"))).andExpect(status().isForbidden());
+        mvc.perform(get("/api/v1/onboarding/summary").with(user("viewer").roles("VIEWER"))).andExpect(status().isForbidden());
     }
     @Test void loginRotatesSessionAndLogoutRevokesAccess()throws Exception{
         MockHttpSession before=new MockHttpSession();String old=before.getId();var result=mvc.perform(post("/api/v1/auth/login").session(before).with(csrf()).contentType("application/json").content(mapper.writeValueAsString(Map.of("username","test-admin","password",PASSWORD)))).andExpect(status().isOk()).andReturn();MockHttpSession session=(MockHttpSession)result.getRequest().getSession(false);assertThat(session.getId()).isNotEqualTo(old);

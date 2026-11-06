@@ -79,6 +79,12 @@ class SyncIT {
         assertThat(rest.postForEntity("/api/v1/shopify/sync",new SyncCoordinator.Start("INITIAL",now.minus(Duration.ofDays(7)),now,100,null),String.class).getStatusCode().value()).isEqualTo(409);
         assertThat(finish(jobId).state()).isEqualTo("SUCCEEDED");assertThat(rest.getForEntity("/api/v1/shopify/sync/jobs/"+jobId,JsonNode.class).getBody().path("job").path("state").asText()).isEqualTo("SUCCEEDED");assertThat(rest.getForEntity("/api/v1/shopify/sync/jobs?page=0&size=20",JsonNode.class).getBody()).hasSize(1);
         UUID product=jdbc.queryForObject("SELECT id FROM products",UUID.class);assertThat(rest.getForEntity("/api/v1/products/"+product,JsonNode.class).getBody().path("variants").get(0).path("costPrice").isNull()).isTrue();
+        JsonNode saved=rest.getForEntity("/api/v1/products/"+product,JsonNode.class).getBody().path("variants").get(0);UUID imported=UUID.fromString(saved.path("id").asText());
+        var edit=Map.of("sku",saved.path("sku").asText(),"name",saved.path("name").asText(),"costPrice","4","currentPrice","10","minPrice","5","maxPrice","15","status","ACTIVE","version",saved.path("version").asLong());
+        assertThat(rest.exchange("/api/v1/products/"+product+"/variants/"+imported,org.springframework.http.HttpMethod.PUT,new org.springframework.http.HttpEntity<>(edit),JsonNode.class).getStatusCode().value()).isEqualTo(200);
+        assertThat(jdbc.queryForObject("SELECT unit_cost FROM sales_order_items",BigDecimal.class)).isNull();assertThat(jdbc.queryForObject("SELECT source FROM variant_cost_history WHERE quality='VERIFIED_CHANGE'",String.class)).isEqualTo("MANUAL");
+        assertThat(finish(start(100).id()).errorCode()).isEqualTo("LOCAL_EDIT_CONFLICT");assertThat(jdbc.queryForObject("SELECT cost_price FROM product_variants",BigDecimal.class)).isEqualByComparingTo("4");
+        assertThat(rest.getForEntity("/api/v1/onboarding/readiness/variants/"+imported,JsonNode.class).getBody().path("assessment").path("inputs").path("localEditConflict").asBoolean()).isTrue();
         jdbc.update("UPDATE shopify_connection SET status='DISCONNECTED',encrypted_access_token=NULL,encrypted_refresh_token=NULL");assertThat(rest.postForEntity("/api/v1/shopify/sync",new SyncCoordinator.Start("INITIAL",now.minus(Duration.ofDays(7)),now,100,null),String.class).getStatusCode().value()).isEqualTo(409);
         assertThat(count("products")).isEqualTo(1);
     }
