@@ -10,7 +10,7 @@ The isolated container's administrator creates `demo_control.environment`. The a
 
 Normal mode rejects `DEMO` source ingestion through the shared ingestion services. A verified demo context may use it. Source labels remain provenance, not the isolation boundary. There is no destructive HTTP endpoint. `GET /api/v1/environment` identifies the actual environment; the Angular shell shows **Synthetic Demo Data** for demo responses, and an unverified-environment warning if identity cannot be loaded.
 
-No V4 is necessary: V1–V3 already support all generated domain records and remain unchanged. Demo-only control tables are bootstrapped by `infra/demo/10-isolated-demo.sh` exclusively in the separate container, outside the public/domain schema. They hold the identity marker, stable logical catalog mappings, seed-run metadata, normalized checksum and generator ground truth. Normal databases never receive these tables.
+Milestone 04 needed no new domain migration: V1–V3 support all generated records. Later V4/V5 add empty security/import metadata without altering the permanent dataset. M08/M09 keep demo browsing anonymous and read-only; real connections and imports are disabled. The existing guarded reset includes the V5 order-metadata FK table explicitly, while retaining identity/confirmation checks and checksum semantics. Demo-only control tables are bootstrapped by `infra/demo/10-isolated-demo.sh` exclusively in the separate container, outside the public/domain schema. They hold the identity marker, stable logical catalog mappings, seed-run metadata, normalized checksum and generator ground truth. Normal databases never receive these tables.
 
 ## Exact local commands (PowerShell)
 

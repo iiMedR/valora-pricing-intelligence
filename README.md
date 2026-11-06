@@ -1,6 +1,6 @@
 # SmartPricing
 
-A single-business pricing optimization platform. Milestones 01–08 provide the local foundation, catalog, immutable sales/refund and price/cost/inventory history, isolated synthetic demo, analytics, guarded forecasting, constrained recommendations, administrator sessions and a Shopify OAuth connection lifecycle. Shopify synchronization and automatic price changes remain future work.
+A single-business pricing optimization platform. Milestones 01–09 provide the local foundation, catalog, immutable sales/refund and price/cost/inventory history, isolated synthetic demo, analytics, guarded forecasting, constrained recommendations, administrator sessions, Shopify OAuth and bounded read-only Shopify imports. Real-store onboarding/readiness and automatic price changes remain future work. Live Shopify compatibility remains unverified.
 
 The existing `SmartPricing` directory is the repository root (no redundant `smartpricing-platform` wrapper).
 
@@ -48,7 +48,7 @@ curl.exe -i http://localhost:8080/actuator/health
 
 The application endpoint returns `{"status":"UP"}` and confirms application responsiveness; Actuator also checks database health. The UI does not claim database or business-data readiness from the application endpoint.
 
-Normal business pages/APIs now require sign-in. Provision your own administrator once with `.\scripts\admin.ps1 -Username owner` (secure password prompt), then sign in at `/login`. No default account or HTTP setup exists; existing accounts are never replaced. See [authentication and local credential recovery](docs/authentication.md). The demo remains anonymous and read-only. [Shopify connection setup](docs/shopify-connection.md) is optional and requires a separately configured app and public HTTPS callback; connection does not import data. The [Milestone 08 verification report](docs/milestone-08-verification.md) records tested scope and limitations.
+Normal business pages/APIs require sign-in. Provision your own administrator once with `.\scripts\admin.ps1 -Username owner` (secure password prompt), then sign in at `/login`. No default account or HTTP setup exists; existing accounts are never replaced. See [authentication and local credential recovery](docs/authentication.md). The demo remains anonymous and read-only. [Shopify connection setup](docs/shopify-connection.md) is optional and requires a separately configured app and public HTTPS callback; authorization alone does not import data. Use Store Connection's explicit historical/latest import actions only after configuring a permitted store. [Import contracts and limitations](docs/shopify-sync.md) and [Milestone 09 verification](docs/milestone-09-verification.md) distinguish fixture tests from live validation.
 
 The Angular development proxy forwards `/api/**` to `http://localhost:8080`, avoiding browser cross-origin requests. Backend CORS separately permits `http://localhost:4200`; override using `CORS_ALLOWED_ORIGINS` (comma-separated explicit origins). No wildcard is used.
 
@@ -70,7 +70,7 @@ Open [the synthetic demo](http://localhost:4201). It uses backend 8081 and a sep
 
 The `local` profile defaults to `jdbc:postgresql://localhost:5433/smartpricing`, user `smartpricing`, password `smartpricing_local`. Host port 5433 avoids a collision with an existing PostgreSQL service on 5432; the container still listens on 5432. These credentials are for development only. Override backend settings using `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`. Compose accepts `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_PORT`; keep the backend values consistent. The backend also reads `POSTGRES_PORT` when `DB_URL` is not set: export the same port in both terminals to change it. Environment files are ignored. No database defaults are enabled outside the local profile.
 
-Flyway owns schema changes. Hibernate uses `validate`, never schema creation. V1 supplies the empty metadata table. V2 creates the catalog and initializes exactly one settings row (`My Business`, `MAD`), without catalog/demo records. V3 adds business history; V4 adds accounts, encrypted Shopify credentials and hashed one-time OAuth states without changing business data. Products start archived; add an active variant before activating a product. Currency cannot change once any variant exists, including archived variants.
+Flyway owns schema changes. Hibernate uses `validate`, never schema creation. V1 supplies the empty metadata table. V2 creates the catalog and initializes exactly one settings row (`My Business`, `MAD`), without catalog/demo records. V3 adds business history; V4 adds security/connection metadata; V5 adds sync jobs, checkpoints, source mappings, inventory provenance and order metadata. V5 permits unknown imported current costs and archived zero-price placeholders without changing existing rows or seeding. Products start archived; add an active variant before activating a product. Currency cannot change once any variant exists, including archived variants.
 
 ## Catalog management
 
@@ -97,7 +97,7 @@ Milestone 02 results are recorded separately in [catalog verification](docs/mile
 
 Open Sales orders to enter/inspect manual transactions and refunds. Each variant's product-detail card links to listed-price, unit-cost, and inventory history. Unknown historical cost or inventory is displayed explicitly rather than replaced with current catalog data. Verified current price/cost changes synchronize with the catalog atomically; snapshots remain point observations.
 
-V3 adds history without backfilling data or modifying V1/V2. It uses PostgreSQL's `btree_gist` extension for authoritative period-overlap constraints; the migration role needs permission to create this trusted extension. The supplied local PostgreSQL image supports it. APIs retain the current unauthenticated local-development posture; provider authorization is future work.
+V3 adds history without backfilling data or modifying V1/V2. It uses PostgreSQL's `btree_gist` extension for authoritative period-overlap constraints; the migration role needs permission to create this trusted extension. The supplied local PostgreSQL image supports it. Normal APIs require the M08 administrator session; M09 imports use provider-scoped source mappings and preserve immutable snapshots.
 
 See [history contracts and API examples](docs/history.md), [implementation design](docs/milestone-03-design.md), and [Milestone 03 verification](docs/milestone-03-verification.md). No new setup commands or package installations are needed.
 

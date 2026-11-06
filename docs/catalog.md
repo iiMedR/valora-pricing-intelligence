@@ -2,6 +2,8 @@
 
 Milestone 02 adds a single-business catalog. Start the normal app as documented in the root README: Compose PostgreSQL on host port 5433, backend `local` profile on 8080, Angular on 4200. No new dependencies, deployment components, remote operations, or demo seeder were added.
 
+M09 import extension: Shopify-owned variants use stable shop/ID mappings and generated local SKUs rather than matching manual records. V5 allows unknown imported current cost (`null`, shown as Unknown); manual writes retain their known-cost/positive-price validation. Imported positive-price bounds are fixed at the quote until explicitly reconciled. Free/unavailable historical placeholders stay archived. Local edits of mapped catalog records are preserved and block subsequent provider overwrite with LOCAL_EDIT_CONFLICT. Current provider prices/costs add only point snapshots, not reconstructed historical periods. See [mapping and limits](shopify-sync.md).
+
 ## Domain and creation flow
 
 V2 initializes settings ID 1 with display name `My Business` and currency `MAD`. Change these before adding variants if another currency is needed. ISO 4217 currency codes must be recognized by Java's currency registry, uppercase, and three letters. Once any variant exists, including archived variants, changing currency returns 409 `CURRENCY_LOCKED`. Display-name edits remain allowed.
