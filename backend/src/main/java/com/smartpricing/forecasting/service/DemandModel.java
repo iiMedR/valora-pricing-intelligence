@@ -34,6 +34,7 @@ public class DemandModel {
         List<String> reasons=new ArrayList<>(List.of("OBSERVATIONAL_ASSOCIATION","NO_CALIBRATED_INTERVAL","CONTINUOUS_AVAILABILITY_NOT_PROVEN"));
         List<String> blockers=new ArrayList<>();
         if(fit.size()<settings.minFitDays())blockers.add("TOO_FEW_ELIGIBLE_DAYS");
+        if(fit.size()<130)blockers.add("TOO_FEW_CONTROLLED_SAMPLES");
         if(prices.size()<settings.minDistinctPrices())blockers.add("INSUFFICIENT_DISTINCT_PRICES");
         if(prices.isEmpty()||prices.getLast().doubleValue()/prices.getFirst().doubleValue()-1<settings.minSpread())blockers.add("INSUFFICIENT_PRICE_SPREAD");
         if(!raw.isEmpty()&&(double)unknown/raw.size()>settings.maxUnknownShare())blockers.add("EXCESS_UNKNOWN_INVENTORY");
@@ -42,9 +43,14 @@ public class DemandModel {
         if(discrepancy>0)reasons.add("PRICE_DISCREPANCY_CONFOUNDING");
         if(censored>0)reasons.add("CENSORED_DAYS_EXCLUDED");
         Double estimate=null,rmse=null;
+        Identification identification=new Identification("NOT_ESTIMABLE",null,null,null,"UNCERTAINTY_UNAVAILABLE","PROMOTION_LABELS_UNAVAILABLE",List.of("weekday[6]","annual harmonics[4]","linear trend"));
         if(blockers.isEmpty()) {
             try {
-                Fit fitted=fit(fit);rmse=finite(fitted.rmse());
+                Fit legacy=fit(fit);
+                var controlled=ControlledElasticity.fit(fit,settings.rankTolerance());
+                identification=new Identification(controlled.calendarR2()>.70||controlled.residualPriceSd()<.03?"WEAK_PRICE_IDENTIFICATION":"CONDITIONAL_ASSOCIATION_ONLY",finite(controlled.calendarR2()),finite(controlled.residualPriceSd()),controlled.degreesOfFreedom(),"UNCERTAINTY_UNAVAILABLE","PROMOTION_LABELS_UNAVAILABLE",List.of("weekday[6]","annual harmonics[4]","linear trend"));
+                if(controlled.residualPriceSd()<.03)blockers.add("INSUFFICIENT_INDEPENDENT_PRICE_VARIATION");
+                Fit fitted=new Fit(controlled.beta(),controlled.rmse(),Math.max(legacy.calendarExplainedPrice(),controlled.calendarR2()));rmse=finite(fitted.rmse());
                 if(fitted.calendarExplainedPrice()>0.70)reasons.add("PRICE_CALENDAR_CONFOUNDING_RISK");
                 if(fitted.calendarExplainedPrice()>0.95)blockers.add("PRICE_CALENDAR_COLLINEARITY");
                 if(!Double.isFinite(fitted.beta())||!Double.isFinite(fitted.rmse()))blockers.add("NONFINITE_FIT");
@@ -59,7 +65,7 @@ public class DemandModel {
         String status=!baseline?"INSUFFICIENT_DATA":estimate==null?"BASELINE_ONLY":"READY";
         if(!baseline)reasons.add("INSUFFICIENT_RECENT_BASELINE");
         Readiness readiness=new Readiness(status,raw.size(),fit.size(),unknown,censored,zero,missing,discrepancy,outlier,prices.size(),prices.isEmpty()?null:prices.getFirst().toPlainString(),prices.isEmpty()?null:prices.getLast().toPlainString(),List.copyOf(reasons));
-        return new Analysis(List.copyOf(history),readiness,new Elasticity(estimate==null?status:"READY","calendar-log-ols-v1",estimate,rmse,fit.size(),null,null,readiness,List.copyOf(reasons)));
+        return new Analysis(List.copyOf(history),readiness,new Elasticity(estimate==null?status:"READY",ControlledElasticity.VERSION,estimate,rmse,fit.size(),null,null,readiness,List.copyOf(reasons),identification));
     }
     public List<Day> baselineTraining(Analysis analysis) { return recent(analysis.history()); }
     private List<Day> recent(List<Day> history) {

@@ -13,8 +13,12 @@ public final class ForecastDtos {
     public record Readiness(String status,int days,int eligibleDays,int unknownDays,int censoredDays,int zeroDays,
             int missingPriceDays,int discrepancyDays,int outlierDays,int distinctPrices,String minPrice,String maxPrice,
             List<String> reasons) {}
+    public record Identification(String status,Double calendarPriceR2,Double residualLogPriceSd,Integer residualDegreesOfFreedom,
+            String uncertaintyStatus,String promotionControl,List<String> controls) {}
     public record Elasticity(String status,String method,Double estimate,Double logRmse,int samples,
-            Double confidenceLow,Double confidenceHigh,Readiness readiness,List<String> reasons) {}
+            Double confidenceLow,Double confidenceHigh,Readiness readiness,List<String> reasons,Identification identification) {
+        public Elasticity(String status,String method,Double estimate,Double logRmse,int samples,Double low,Double high,Readiness readiness,List<String> reasons){this(status,method,estimate,logRmse,samples,low,high,readiness,reasons,null);}
+    }
     public record Point(LocalDate date,String expectedUnits,Double lower,Double upper) {}
     public record Forecast(String status,String method,String target,String assumedPrice,String totalUnits,List<Point> daily,List<String> reasons) {}
     public record Detail(Identity variant,Window window,Readiness readiness,Elasticity elasticity,Forecast forecast,List<Day> history) {}
