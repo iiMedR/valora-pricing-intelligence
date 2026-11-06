@@ -4,6 +4,19 @@ import { authGuard, writeGuard } from './core/auth-integration';
 export const routes: Routes = [
   { path: '', component: Home, title: 'Overview | SmartPricing' },
   {
+    path: 'onboarding',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/onboarding/onboarding').then((m) => m.Onboarding),
+    title: 'Onboarding | SmartPricing',
+  },
+  {
+    path: 'onboarding/variants/:id',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/onboarding/variant-readiness').then((m) => m.VariantReadiness),
+    title: 'Variant Readiness | SmartPricing',
+  },
+  {
     path: 'login',
     loadComponent: () => import('./features/auth/login').then((m) => m.Login),
     title: 'Sign in | SmartPricing',

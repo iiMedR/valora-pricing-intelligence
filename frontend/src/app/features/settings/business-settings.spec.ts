@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { BusinessSettings } from './business-settings';
+import { SessionService } from '../../core/session.service';
 describe('BusinessSettings', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
@@ -10,20 +11,43 @@ describe('BusinessSettings', () => {
     }),
   );
   afterEach(() => TestBed.inject(HttpTestingController).verify());
-  it('validates input and preserves the backend currency restriction', async () => {
-    const fixture = TestBed.createComponent(BusinessSettings);
-    fixture.detectChanges();
-    const http = TestBed.inject(HttpTestingController);
+  it('shows synthetic settings without editable merchant controls', () => {
+    TestBed.inject(SessionService).value.set({
+      mode: 'DEMO',
+      authenticated: false,
+      readOnly: true,
+      username: null,
+    });
+    const fixture = TestBed.createComponent(BusinessSettings),
+      http = TestBed.inject(HttpTestingController);
     http
       .expectOne('/api/v1/business-settings')
       .flush({
         id: 1,
-        displayName: 'My Business',
+        displayName: 'Synthetic business',
         currencyCode: 'MAD',
         version: 0,
         createdAt: '',
         updatedAt: '',
       });
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('form')).toBeNull();
+    expect(fixture.nativeElement.textContent).toContain('Read-only synthetic settings');
+    fixture.componentInstance.save();
+    http.expectNone((r) => r.method === 'PUT');
+  });
+  it('validates input and preserves the backend currency restriction', async () => {
+    const fixture = TestBed.createComponent(BusinessSettings);
+    fixture.detectChanges();
+    const http = TestBed.inject(HttpTestingController);
+    http.expectOne('/api/v1/business-settings').flush({
+      id: 1,
+      displayName: 'My Business',
+      currencyCode: 'MAD',
+      version: 0,
+      createdAt: '',
+      updatedAt: '',
+    });
     await fixture.whenStable();
     fixture.componentInstance.form.controls.currencyCode.setValue('usd');
     expect(fixture.componentInstance.form.invalid).toBe(true);

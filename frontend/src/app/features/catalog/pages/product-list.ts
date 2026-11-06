@@ -6,6 +6,7 @@ import { forkJoin, Subscription } from 'rxjs';
 import { CatalogApi, apiError } from '../services/catalog-api.service';
 import { Category, Page, Product, ProductWrite } from '../models/catalog.models';
 import { ProductForm } from '../components/product-form';
+import { SessionService } from '../../../core/session.service';
 @Component({
   imports: [RouterLink, ReactiveFormsModule, ProductForm],
   template: ` <div class="page-heading">
@@ -14,14 +15,18 @@ import { ProductForm } from '../components/product-form';
         <h1 class="page-title">Products</h1>
         <p class="muted">Manage products and their sellable variants. Prices belong to variants.</p>
       </div>
-      <button class="primary" (click)="creating.set(true)" [disabled]="loading() || creating()">
+      <button
+        class="primary"
+        (click)="creating.set(true)"
+        [disabled]="loading() || readOnly() || creating()"
+      >
         Create product
       </button>
     </div>
     @if (error()) {
       <div class="error" role="alert">{{ error() }} <button (click)="load()">Retry</button></div>
     }
-    @if (creating()) {
+    @if (creating() && !readOnly()) {
       <app-product-form
         [categories]="categories()"
         [saving]="saving()"
@@ -112,6 +117,8 @@ import { ProductForm } from '../components/product-form';
     }`,
 })
 export class ProductList {
+  private readonly session = inject(SessionService);
+  readonly readOnly = () => this.session.value()?.readOnly === true;
   private readonly api = inject(CatalogApi);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
@@ -165,6 +172,7 @@ export class ProductList {
     return this.categories().find((c) => c.id === id)?.name ?? 'Uncategorized';
   }
   save(body: ProductWrite) {
+    if (this.readOnly()) return;
     this.saving.set(true);
     this.error.set('');
     this.api

@@ -8,6 +8,7 @@ import { CatalogApi, apiError } from '../catalog/services/catalog-api.service';
 import { moneyPattern, decimalUnits } from '../catalog/components/form-validation';
 import { HistoryApi, isoTime, localTimeNow } from './history-api.service';
 import { HistoryKind, HistoryPage, Inventory, Period, Quality } from './history.models';
+import { SessionService } from '../../core/session.service';
 @Component({
   imports: [RouterLink, ReactiveFormsModule],
   template: ` <a [routerLink]="['/products', productId]">← Product detail</a>
@@ -96,74 +97,80 @@ import { HistoryKind, HistoryPage, Inventory, Period, Quality } from './history.
           </button>
         </div>
       </div>
-      <form class="editor" [formGroup]="form" (ngSubmit)="submit()">
-        <h2>
-          Add
-          {{
-            tab() === 'inventory'
-              ? 'inventory observation'
-              : tab() === 'cost'
-                ? 'unit cost period / observation'
-                : 'listed price period / observation'
-          }}
-        </h2>
-        @if (tab() === 'inventory') {
-          <label
-            >Quantity available<input type="number" min="0" step="1" formControlName="quantity"
-          /></label>
-        } @else {
-          <label
-            >Amount ({{ currency() }})<input inputmode="decimal" formControlName="amount"
-          /></label>
-        }
-        <label
-          >{{ tab() === 'inventory' ? 'Observed at' : 'Valid from' }} (local time)<input
-            type="datetime-local"
-            step="0.001"
-            formControlName="from"
-        /></label>
-        @if (tab() !== 'inventory') {
-          <label
-            >Valid until, exclusive (optional, local time)<input
-              type="datetime-local"
-              step="0.001"
-              formControlName="to"
-          /></label>
-        }
-        <label
-          >Quality<select formControlName="quality">
-            <option value="VERIFIED_CHANGE">Verified change event</option>
-            <option value="SNAPSHOT">Snapshot / point observation</option>
-            <option value="INFERRED">Inferred / uncertain observation</option>
-          </select></label
-        >
-        <label
-          >Source reference / retry key<input formControlName="externalReference" maxlength="160"
-        /></label>
-        <p class="notice">
-          {{
-            tab() === 'inventory'
-              ? 'Zero at a trusted observation means known stockout at that instant, not a proven stockout period. Inferred quantities are uncertain.'
-              : 'Verified periods use [from,until). A verified open period closes the previous one and changes the current catalog value atomically. Snapshots/inferred entries are points only and never change current values.'
-          }}
-        </p>
-        @if (submitted() && form.invalid) {
-          <p role="alert" class="field-error">
-            Enter a valid timestamp, source reference, and
+      @if (!readOnly()) {
+        <form class="editor" [formGroup]="form" (ngSubmit)="submit()">
+          <h2>
+            Add
             {{
               tab() === 'inventory'
-                ? 'nonnegative integer quantity'
-                : 'nonnegative decimal amount with up to four decimal places'
-            }}.
+                ? 'inventory observation'
+                : tab() === 'cost'
+                  ? 'unit cost period / observation'
+                  : 'listed price period / observation'
+            }}
+          </h2>
+          @if (tab() === 'inventory') {
+            <label
+              >Quantity available<input type="number" min="0" step="1" formControlName="quantity"
+            /></label>
+          } @else {
+            <label
+              >Amount ({{ currency() }})<input inputmode="decimal" formControlName="amount"
+            /></label>
+          }
+          <label
+            >{{ tab() === 'inventory' ? 'Observed at' : 'Valid from' }} (local time)<input
+              type="datetime-local"
+              step="0.001"
+              formControlName="from"
+          /></label>
+          @if (tab() !== 'inventory') {
+            <label
+              >Valid until, exclusive (optional, local time)<input
+                type="datetime-local"
+                step="0.001"
+                formControlName="to"
+            /></label>
+          }
+          <label
+            >Quality<select formControlName="quality">
+              <option value="VERIFIED_CHANGE">Verified change event</option>
+              <option value="SNAPSHOT">Snapshot / point observation</option>
+              <option value="INFERRED">Inferred / uncertain observation</option>
+            </select></label
+          >
+          <label
+            >Source reference / retry key<input formControlName="externalReference" maxlength="160"
+          /></label>
+          <p class="notice">
+            {{
+              tab() === 'inventory'
+                ? 'Zero at a trusted observation means known stockout at that instant, not a proven stockout period. Inferred quantities are uncertain.'
+                : 'Verified periods use [from,until). A verified open period closes the previous one and changes the current catalog value atomically. Snapshots/inferred entries are points only and never change current values.'
+            }}
           </p>
-        }
-        <button class="primary" [disabled]="saving()">
-          {{ saving() ? 'Saving…' : 'Save observation' }}
-        </button>
-      </form>
+          @if (submitted() && form.invalid) {
+            <p role="alert" class="field-error">
+              Enter a valid timestamp, source reference, and
+              {{
+                tab() === 'inventory'
+                  ? 'nonnegative integer quantity'
+                  : 'nonnegative decimal amount with up to four decimal places'
+              }}.
+            </p>
+          }
+          <button class="primary" [disabled]="saving()">
+            {{ saving() ? 'Saving…' : 'Save observation' }}
+          </button>
+        </form>
+      } @else {
+        <p class="notice">Synthetic demo · observations are read-only.</p>
+      }
     }`,
 })
 export class VariantHistory {
+  private readonly session = inject(SessionService);
+  readonly readOnly = () => this.session.value()?.readOnly === true;
   private pending?: Subscription;
   private readonly api = inject(HistoryApi);
   private readonly catalog = inject(CatalogApi);
@@ -267,6 +274,7 @@ export class VariantHistory {
         : 'Point observation';
   }
   submit() {
+    if (this.readOnly()) return;
     this.submitted.set(true);
     this.form.markAllAsTouched();
     if (this.form.invalid || this.saving() || !this.variant()) return;

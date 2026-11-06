@@ -52,7 +52,7 @@ export class SessionService {
 }
 export function safeReturnUrl(value: string | null): string {
   return value &&
-    /^\/(?:products(?:\/[a-zA-Z0-9/-]+)?|categories|settings|orders(?:\/[a-zA-Z0-9/-]+)?|analytics|forecasting|optimization|store-connection)$/.test(
+    /^\/(?:onboarding(?:\/variants\/[a-zA-Z0-9-]+)?|products(?:\/[a-zA-Z0-9/-]+)?|categories|settings|orders(?:\/[a-zA-Z0-9/-]+)?|analytics|forecasting|optimization|store-connection)$/.test(
       value,
     )
     ? value

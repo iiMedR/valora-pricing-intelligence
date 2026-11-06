@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CatalogApi, apiError } from '../catalog/services/catalog-api.service';
 import { BusinessSettings as Settings } from '../catalog/models/catalog.models';
 import { requiredText } from '../catalog/components/form-validation';
+import { SessionService } from '../../core/session.service';
 @Component({
   imports: [ReactiveFormsModule],
   template: ` <p class="eyebrow">YOUR BUSINESS</p>
@@ -24,32 +25,44 @@ import { requiredText } from '../catalog/components/form-validation';
     @if (loading()) {
       <p role="status">Loading settings…</p>
     } @else if (settings()) {
-      <form class="editor" [formGroup]="form" (ngSubmit)="save()">
-        <label>Business display name<input formControlName="displayName" maxlength="120" /></label>
-        <label
-          >Currency code<input
-            formControlName="currencyCode"
-            maxlength="3"
-            pattern="[A-Z]{3}"
-            placeholder="MAD"
-            aria-describedby="currency-help"
-        /></label>
-        <p id="currency-help" class="muted">
-          Uppercase ISO 4217 code, such as MAD, EUR, or USD. The server checks that it is a
-          recognized code.
-        </p>
-        @if (form.touched && form.invalid) {
-          <p class="field-error">
-            Use a display name with 2–120 characters and a three-letter uppercase currency code.
+      @if (readOnly()) {
+        <section class="editor">
+          <h2>Read-only synthetic settings</h2>
+          <p>{{ settings()?.displayName }} · {{ settings()?.currencyCode }}</p>
+          <p>No merchant settings can be edited in the demo.</p>
+        </section>
+      } @else {
+        <form class="editor" [formGroup]="form" (ngSubmit)="save()">
+          <label
+            >Business display name<input formControlName="displayName" maxlength="120"
+          /></label>
+          <label
+            >Currency code<input
+              formControlName="currencyCode"
+              maxlength="3"
+              pattern="[A-Z]{3}"
+              placeholder="MAD"
+              aria-describedby="currency-help"
+          /></label>
+          <p id="currency-help" class="muted">
+            Uppercase ISO 4217 code, such as MAD, EUR, or USD. The server checks that it is a
+            recognized code.
           </p>
-        }
-        <button type="submit" class="primary" [disabled]="saving()">
-          {{ saving() ? 'Saving…' : 'Save settings' }}
-        </button>
-      </form>
+          @if (form.touched && form.invalid) {
+            <p class="field-error">
+              Use a display name with 2–120 characters and a three-letter uppercase currency code.
+            </p>
+          }
+          <button type="submit" class="primary" [disabled]="saving()">
+            {{ saving() ? 'Saving…' : 'Save settings' }}
+          </button>
+        </form>
+      }
     }`,
 })
 export class BusinessSettings {
+  private readonly session = inject(SessionService);
+  readonly readOnly = () => this.session.value()?.readOnly === true;
   private readonly api = inject(CatalogApi);
   private readonly destroyRef = inject(DestroyRef);
   readonly settings = signal<Settings | null>(null);
@@ -90,6 +103,7 @@ export class BusinessSettings {
       });
   }
   save() {
+    if (this.readOnly()) return;
     this.form.markAllAsTouched();
     const current = this.settings();
     if (!current || this.form.invalid || this.saving()) return;

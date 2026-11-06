@@ -13,6 +13,7 @@ import {
 } from '../models/catalog.models';
 import { ProductForm } from '../components/product-form';
 import { VariantForm } from '../components/variant-form';
+import { SessionService } from '../../../core/session.service';
 @Component({
   imports: [RouterLink, ProductForm, VariantForm],
   template: ` <a routerLink="/products">← All products</a>
@@ -34,10 +35,11 @@ import { VariantForm } from '../components/variant-form';
           <span class="badge">{{ data.product.status }}</span>
         </div>
         <div class="actions">
-          <button (click)="editingProduct.set(true)" [disabled]="saving()">Edit product</button
+          <button (click)="editingProduct.set(true)" [disabled]="saving() || readOnly()">
+            Edit product</button
           ><button
             (click)="archiveProduct()"
-            [disabled]="saving() || data.product.status === 'ARCHIVED'"
+            [disabled]="saving() || readOnly() || data.product.status === 'ARCHIVED'"
           >
             Archive product
           </button>
@@ -50,7 +52,10 @@ import { VariantForm } from '../components/variant-form';
           product to activate it.
         </p>
       }
-      @if (editingProduct()) {
+      @if (readOnly()) {
+        <p class="notice">Synthetic demo · read-only product and variant inspection.</p>
+      }
+      @if (editingProduct() && !readOnly()) {
         <app-product-form
           [product]="data.product"
           [categories]="categories()"
@@ -63,11 +68,15 @@ import { VariantForm } from '../components/variant-form';
         <h2>
           Variants <span class="muted">· {{ settings()?.currencyCode }}</span>
         </h2>
-        <button class="primary" (click)="newVariant()" [disabled]="saving() || editingVariant()">
+        <button
+          class="primary"
+          (click)="newVariant()"
+          [disabled]="saving() || readOnly() || editingVariant()"
+        >
           Add variant
         </button>
       </section>
-      @if (editingVariant()) {
+      @if (editingVariant() && !readOnly()) {
         <app-variant-form
           [variant]="selectedVariant()"
           [currency]="settings()?.currencyCode || ''"
@@ -96,11 +105,11 @@ import { VariantForm } from '../components/variant-form';
                   </p>
                 </div>
                 <div class="actions">
-                  <button (click)="editVariant(v)" [disabled]="saving()">
+                  <button (click)="editVariant(v)" [disabled]="saving() || readOnly()">
                     Edit<span class="sr-only"> {{ v.sku }}</span></button
                   ><button
                     (click)="archiveVariant(v)"
-                    [disabled]="saving() || v.status === 'ARCHIVED'"
+                    [disabled]="saving() || readOnly() || v.status === 'ARCHIVED'"
                   >
                     Archive<span class="sr-only"> {{ v.sku }}</span>
                   </button>
@@ -134,6 +143,8 @@ import { VariantForm } from '../components/variant-form';
     }`,
 })
 export class ProductDetail {
+  private readonly session = inject(SessionService);
+  readonly readOnly = () => this.session.value()?.readOnly === true;
   private readonly api = inject(CatalogApi);
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
@@ -175,12 +186,14 @@ export class ProductDetail {
       });
   }
   newVariant() {
+    if (this.readOnly()) return;
     this.selectedVariant.set(null);
     this.editingVariant.set(true);
     this.message.set('');
     this.error.set('');
   }
   editVariant(variant: Variant) {
+    if (this.readOnly()) return;
     this.selectedVariant.set(variant);
     this.editingVariant.set(true);
     this.error.set('');
@@ -197,6 +210,7 @@ export class ProductDetail {
     this.error.set(apiError(error));
   }
   saveProduct(body: ProductWrite) {
+    if (this.readOnly()) return;
     this.saving.set(true);
     this.error.set('');
     this.api
@@ -205,6 +219,7 @@ export class ProductDetail {
       .subscribe({ next: () => this.complete('Product saved.'), error: (e) => this.failed(e) });
   }
   saveVariant(body: VariantWrite) {
+    if (this.readOnly()) return;
     this.saving.set(true);
     this.error.set('');
     this.api
@@ -213,6 +228,7 @@ export class ProductDetail {
       .subscribe({ next: () => this.complete('Variant saved.'), error: (e) => this.failed(e) });
   }
   archiveProduct() {
+    if (this.readOnly()) return;
     const product = this.detail()?.product;
     if (!product || !window.confirm('Archive this product? Its variants will be retained.')) return;
     this.saving.set(true);
@@ -226,6 +242,7 @@ export class ProductDetail {
       });
   }
   archiveVariant(variant: Variant) {
+    if (this.readOnly()) return;
     if (
       !window.confirm(
         'Archive ' +
