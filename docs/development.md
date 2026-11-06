@@ -43,7 +43,7 @@ Milestone 03 extends this catalog with immutable sales/refund history and varian
 
 On Windows, a running `java -jar target/...jar` can lock the file and prevent Maven repackaging. Stop only that application process before rebuilding, or use `mvnw.cmd spring-boot:run` for local development so the target JAR is not held open. Restart the backend after changes; the Angular development server reloads frontend changes automatically.
 
-The delivered scope ends at Milestone 09. Administrator sessions, Shopify connection lifecycle and bounded read-only imports are included alongside analytics, forecasting and recommendations. Real-store onboarding/readiness, tenancy, automatic price changes and deployment remain future work. Live Shopify validation is still unavailable.
+The delivered scope ends at Milestone 10. Administrator sessions, Shopify connection lifecycle, bounded read-only imports and onboarding/readiness diagnostics are included alongside analytics, forecasting and recommendations. Recommendation quality improvements, interface refinement, tenancy, automatic price changes and deployment remain future work. Live Shopify validation is still unavailable.
 
 ## Isolated demo development (Milestone 04)
 
@@ -74,3 +74,9 @@ V4 is forward-only; never edit V1–V3 or reset volumes. `SecurityMigrationIT` v
 M09 implements [explicit background imports](shopify-sync.md). V5 preserves V1–V4 and existing data. Source mappings never match manual records by SKU. Page transactions atomically commit canonical records and checkpoints; a PostgreSQL guard prevents concurrent active jobs and recovers unfinished work after process restart. Provider reads happen outside write transactions, with generation revalidation before applying data. Refresh rotation alone uses the connection lock across its bounded provider request.
 
 `SyncIT` imports sanitized GraphQL fixtures into disposable PostgreSQL and tests replay, financial conflicts, refunds, unknown costs, pagination, resume, archival/reappearance and refresh. `SyncMigrationIT` checks V4-to-V5 retention. Existing isolated cleanup and guarded demo reset explicitly include `shopify_order_metadata` because of its FK to immutable orders; safety/confirmation checks and permanent demo checksum are unchanged. Never run those fixture/reset operations on normal user data. Ordinary startup never seeds. Browser fixture jobs are intercepted outside the server, not imported into either persistent workspace. No dependency/framework upgrade is needed. Run full backend verify and frontend tests/build; see [Milestone 09 evidence](milestone-09-verification.md).
+
+## Onboarding and readiness (Milestone 10)
+
+Open `/onboarding`. [onboarding.md](onboarding.md) defines the derived workflow, UTC windows, review filters, scoped read-only APIs and merchant/provider precedence. No V6 or cached readiness flags are needed. Page size is capped at ten to bound batch model evaluation. Existing forecasting/optimization algorithms and settings are unchanged; readiness reuses exact status/reasons without returning a recommended price. Current-input freshness and selected historical model time are distinct.
+
+Tests compare independent-fixture readiness with actual optimizer decisions and cover unknown costs, refund-only activity, sparse/stale/archived records, shop/product scope, auth/demo boundaries and zero GET writes. Merchant inputs use existing catalog/history APIs; `SyncIT` confirms immutable snapshots and retained merchant values when subsequent imports stop with LOCAL_EDIT_CONFLICT. Browser QA uses actual normal/demo data without seeding or real-provider claims. Demo configuration/history controls are read-only. Startup commands are unchanged; see [Milestone 10 evidence](milestone-10-verification.md).

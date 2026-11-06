@@ -122,3 +122,7 @@ Run `.\mvnw.cmd verify` in backend (Docker required), and `npm.cmd test -- --wat
 ## Before claiming real-store compatibility
 
 Supply a permitted development shop, app client credentials/external encryption key, registered public HTTPS callback and a same-origin secure-cookie session. Verify live OAuth/scopes, currency, a small tax-exclusive supported-order range, current catalog/cost/location visibility, incremental repeat, refund/payment semantics, access expiry/rotation, disconnect and read-only behavior. Capture sanitized counts/IDs only, never customer payloads or secrets. Validate actual query cost/schema and adjust bounded resource strategy if needed. **LIVE_SHOPIFY_NOT_VERIFIED** remains the current truthful status. M10 onboarding/data readiness and separate recommendation-quality work have not begun.
+
+## Onboarding and review (Milestone 10)
+
+Use the [onboarding/readiness workflow](onboarding.md) to inspect import state, source mappings, cost/stock/financial coverage and unchanged forecast/optimizer diagnostics. Successful jobs are not readiness certificates. Merchant cost/bounds edits use the existing catalog/history flow and remain protected from sync overwrite through LOCAL_EDIT_CONFLICT. No new migration or automatic source merge was added. Live provider validation remains unverified; see [Milestone 10 evidence](milestone-10-verification.md).

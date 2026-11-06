@@ -1,6 +1,6 @@
 # SmartPricing
 
-A single-business pricing optimization platform. Milestones 01–09 provide the local foundation, catalog, immutable sales/refund and price/cost/inventory history, isolated synthetic demo, analytics, guarded forecasting, constrained recommendations, administrator sessions, Shopify OAuth and bounded read-only Shopify imports. Real-store onboarding/readiness and automatic price changes remain future work. Live Shopify compatibility remains unverified.
+A single-business pricing optimization platform. Milestones 01–10 provide the local foundation, catalog, immutable sales/refund and price/cost/inventory history, isolated synthetic demo, analytics, guarded forecasting, constrained recommendations, administrator sessions, Shopify OAuth, bounded read-only imports and onboarding/readiness diagnostics. Readiness never bypasses model gates or applies prices. Recommendation quality improvements, interface refinement and automatic price writes remain future work. Live Shopify compatibility remains unverified.
 
 The existing `SmartPricing` directory is the repository root (no redundant `smartpricing-platform` wrapper).
 
@@ -73,6 +73,8 @@ The `local` profile defaults to `jdbc:postgresql://localhost:5433/smartpricing`,
 Flyway owns schema changes. Hibernate uses `validate`, never schema creation. V1 supplies the empty metadata table. V2 creates the catalog and initializes exactly one settings row (`My Business`, `MAD`), without catalog/demo records. V3 adds business history; V4 adds security/connection metadata; V5 adds sync jobs, checkpoints, source mappings, inventory provenance and order metadata. V5 permits unknown imported current costs and archived zero-price placeholders without changing existing rows or seeding. Products start archived; add an active variant before activating a product. Currency cannot change once any variant exists, including archived variants.
 
 ## Catalog management
+
+Open [Onboarding](http://localhost:4200/onboarding) for Connect → Sync → Review coverage → Complete inputs → Check readiness. It works without live credentials and separates imported data, observed analytics, forecast evaluation and actual optimization eligibility. The [synthetic view](http://localhost:4201/onboarding) is anonymous/read-only. See [onboarding contracts and source precedence](docs/onboarding.md) and [Milestone 10 evidence](docs/milestone-10-verification.md). No V6, dependency change or database reset is required; V1–V5 remain intact.
 
 Open Products, Categories, or Business settings in the navigation. Monetary values are decimal strings with at most four decimal places; below-cost prices are allowed and flagged. Archive retains catalog records. See the [catalog API and domain guide](docs/catalog.md) for endpoint examples, validation, concurrent edits, and archive rules.
 
