@@ -1,3 +1,4 @@
+import { EvaluationHistory } from './evaluation-history';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +14,7 @@ import {
   Evaluation,
 } from './optimization-api.service';
 @Component({
-  imports: [DatePipe, DecimalPipe, ReactiveFormsModule, RouterLink],
+  imports: [EvaluationHistory, DatePipe, DecimalPipe, ReactiveFormsModule, RouterLink],
   templateUrl: './optimization.html',
   styleUrl: './optimization.css',
 })

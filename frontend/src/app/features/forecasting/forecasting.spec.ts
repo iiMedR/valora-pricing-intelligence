@@ -125,6 +125,7 @@ describe('Demand Forecasting', () => {
     );
     expect(f.nativeElement.querySelector('[aria-label="Forecast values table"]')).toBeTruthy();
     expect(f.nativeElement.textContent).toContain('No calibrated uncertainty');
+    expect(f.nativeElement.textContent).toContain('UNCERTAINTY_UNAVAILABLE');
   });
   it('renders an instructive empty normal catalog and no fabricated chart', async () => {
     const f = TestBed.createComponent(Forecasting);

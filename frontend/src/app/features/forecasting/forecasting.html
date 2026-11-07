@@ -172,6 +172,23 @@
       <details open>
         <summary>Quality and exclusion reasons</summary>
         <p class="reasons">{{ d.elasticity.reasons.join(' · ') }}</p>
+        <p>
+          Elasticity model: {{ d.elasticity.method }} · Uncertainty:
+          {{ d.elasticity.identification?.uncertaintyStatus ?? 'UNCERTAINTY_UNAVAILABLE' }}
+        </p>
+        @if (d.elasticity.identification; as identification) {
+          <p>
+            Identification: {{ identification.status }} · Calendar price R²:
+            {{ identification.calendarPriceR2 ?? 'Unavailable' }} · Independent log-price SD:
+            {{ identification.residualLogPriceSd ?? 'Unavailable' }}
+          </p>
+          <p>
+            Prices that mostly change with the calendar cannot isolate price sensitivity. Calendar
+            controls do not establish causal effects. Promotion labels are unavailable; discrepant
+            prices remain excluded.
+          </p>
+        }
+
         <p class="reasons">Forecast: {{ d.forecast.reasons.join(' · ') }}</p>
         <p>
           {{ d.readiness.zeroDays }} zero-sale candidates ·

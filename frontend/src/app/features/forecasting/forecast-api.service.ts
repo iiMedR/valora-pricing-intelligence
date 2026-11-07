@@ -57,6 +57,13 @@ export interface DemandDetail {
   elasticity: {
     status: string;
     method: string;
+    identification?: {
+      status: string;
+      calendarPriceR2: number | null;
+      residualLogPriceSd: number | null;
+      uncertaintyStatus: string;
+      promotionControl: string;
+    };
     estimate: number | null;
     logRmse: number | null;
     samples: number;

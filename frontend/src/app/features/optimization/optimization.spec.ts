@@ -45,6 +45,13 @@ const evaluation: Evaluation = {
   elasticity: {
     status: 'READY',
     method: 'TEST',
+    identification: {
+      status: 'CONDITIONAL_ASSOCIATION_ONLY',
+      calendarPriceR2: 0.1,
+      residualLogPriceSd: 0.16,
+      uncertaintyStatus: 'UNCERTAINTY_UNAVAILABLE',
+      promotionControl: 'PROMOTION_LABELS_UNAVAILABLE',
+    },
     estimate: -2,
     logRmse: 0.01,
     samples: 365,
@@ -118,6 +125,8 @@ describe('Pricing Recommendations', () => {
     detail();
     await f.whenStable();
     expect(f.nativeElement.textContent).toContain('Conditional suggested price: 90.0000 MAD');
+    expect(f.nativeElement.textContent).toContain('UNCERTAINTY_UNAVAILABLE');
+    expect(f.nativeElement.textContent).toContain('CONDITIONAL_ASSOCIATION_ONLY');
     expect(f.nativeElement.textContent).toContain('1,209.8765');
     expect(f.nativeElement.querySelector('svg[role="img"] title').textContent).toContain(
       'Conditional contribution',

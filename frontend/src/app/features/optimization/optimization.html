@@ -323,6 +323,23 @@
       }
       <h3>Evidence and diagnostics</h3>
       <p>
+        Elasticity model: {{ d.elasticity.method }} · Uncertainty:
+        {{ d.elasticity.identification?.uncertaintyStatus ?? 'UNCERTAINTY_UNAVAILABLE' }}
+      </p>
+      @if (d.elasticity.identification; as identification) {
+        <p>
+          Identification: {{ identification.status }} · Calendar price R²:
+          {{ identification.calendarPriceR2 ?? 'Unavailable' }} · Independent log-price SD:
+          {{ identification.residualLogPriceSd ?? 'Unavailable' }}
+        </p>
+        <p>
+          Prices that mostly change with the calendar cannot isolate price sensitivity. Calendar
+          controls do not establish causal effects. Promotion labels are unavailable; discrepant
+          prices remain excluded.
+        </p>
+      }
+
+      <p>
         Elasticity association:
         {{
           d.elasticity.estimate === null ? 'Unavailable' : (d.elasticity.estimate | number: '1.3-3')
@@ -351,6 +368,7 @@
           }
         </ul>
       </details>
+      <app-evaluation-history [variantId]="d.variant.variantId" />
       <h3>Backtest evidence</h3>
       <div
         class="scroll-region"
