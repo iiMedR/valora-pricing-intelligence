@@ -1,5 +1,7 @@
 # Demand estimation and forecasting — model contract
 
+Milestone 10.5 supersedes the elasticity estimator below with `weekday-season-trend-qr-v2`, fuller weekday/trend controls, retained legacy confounding gates and additive `identification` metadata. Forecast baseline and observed-data selection remain unchanged. Scientific intervals remain unavailable. See [recommendation-quality.md](recommendation-quality.md) for the current specification and old/new benchmark.
+
 Milestone 06 is read-only observational reporting, not price optimization. UTC ranges are `[startDate,endDate)`, 28–731 days, end no later than tomorrow UTC. Forecast starts at the exclusive end (a historical end is an explicit retrospective as-of forecast). Event timestamps, not ingestion audit timestamps, determine retrospective availability: these are event-time backtests, not a simulation of late-arriving imports.
 
 Completed orders are dated by immutable placement. Daily gross units sum all completed lines for the variant. Returns/financial refunds do not become negative demand; returned units are separately summed on refund date. Costs are not predictors. Archived variants retain historical analysis; future forecasts are suppressed for currently archived variants/products because historical archival dates are unavailable.
@@ -18,7 +20,7 @@ Backtests use two nonoverlapping chronological origins at end−2h and end−h, 
 
 ## APIs and limits
 
-All GETs under `/api/v1/forecasting`, required ISO `startDate`, `endDate`. Existing safe 400/404 error conventions; currency mismatches refused. No database migration or model persistence.
+All GETs under `/api/v1/forecasting`, required ISO `startDate`, `endDate`. Existing safe 400/404 error conventions; currency mismatches refused. Forecasting GETs do not persist models or evaluations. The separate Milestone 10.5 optimization audit feature uses V6 and requires an explicit authenticated POST to save an evaluation.
 
 - `/overview?page=0&size=10&search=`: paginated current variant/product labels/status and readiness; literal case-insensitive SKU/name search. Size 1–10, page 0–100000, search ≤100; one bounded batch daily query for page IDs, never per-variant SQL calls. At most 7,310 daily rows per request. Status is a diagnostic, not an eligibility search filter.
 - `/variants/{id}/readiness`: coverage, eligible/zero/censored/unknown/missing-price/discrepancy/outlier counts, price range and status/reasons.

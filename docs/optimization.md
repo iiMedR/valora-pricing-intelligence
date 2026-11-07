@@ -1,6 +1,8 @@
 # Read-only contribution recommendations
 
-Milestone 07 computes on demand; it never applies a price or writes on GET. No evaluation-history persistence, history API, save action or V4 is implemented. Existing immutable domain price/cost/order history is input lineage, not saved recommendation history. Re-evaluation can change after later imports, so results are not immutable audit snapshots.
+Milestone 10.5 adds an explicit authenticated evaluation-save POST and bounded history GET, backed by append-only V6 metadata. Existing recommendation GETs still never save or apply prices. The objective/grid and safety thresholds below remain unchanged; elasticity now uses controlled model v2 while preserving legacy calendar-risk gates. See [recommendation-quality.md](recommendation-quality.md) for versioning, APIs, uncertainty and reproducible validation.
+
+Recommendation GETs compute on demand and never apply a price or save a snapshot. Existing immutable domain price/cost/order history provides input lineage. Re-evaluation can change after later imports. Only the explicit Milestone 10.5 evaluation POST saves an immutable audit snapshot; its bounded history GET is separate from current recommendation evaluation. Neither measures realized business uplift.
 
 ## Objective and grid
 

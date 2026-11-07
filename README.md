@@ -1,6 +1,6 @@
 # SmartPricing
 
-A single-business pricing optimization platform. Milestones 01–10 provide the local foundation, catalog, immutable sales/refund and price/cost/inventory history, isolated synthetic demo, analytics, guarded forecasting, constrained recommendations, administrator sessions, Shopify OAuth, bounded read-only imports and onboarding/readiness diagnostics. Readiness never bypasses model gates or applies prices. Recommendation quality improvements, interface refinement and automatic price writes remain future work. Live Shopify compatibility remains unverified.
+A single-business pricing optimization platform. Milestones 01–10 provide the local foundation, catalog, immutable sales/refund and price/cost/inventory history, isolated synthetic demo, analytics, guarded forecasting, constrained recommendations, administrator sessions, Shopify OAuth, bounded read-only imports and onboarding/readiness diagnostics. Readiness never bypasses model gates or applies prices. Milestone 10.5 adds controlled observational elasticity, independent validation fixtures and explicit append-only evaluation audits. Calibrated uncertainty, stronger identification and interface refinement remain future work; no automatic price writes are implemented. See [recommendation quality](docs/recommendation-quality.md) and [verification](docs/milestone-10-5-verification.md). Live Shopify compatibility remains unverified.
 
 The existing `SmartPricing` directory is the repository root (no redundant `smartpricing-platform` wrapper).
 
