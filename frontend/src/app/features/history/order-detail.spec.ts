@@ -1,3 +1,4 @@
+import { SessionService } from '../../core/session.service';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
@@ -69,5 +70,30 @@ describe('OrderDetail refunds', () => {
       .flush({ message: 'Refund exceeds paid amount.' }, { status: 409, statusText: 'Conflict' });
     expect(fixture.componentInstance.error()).toContain('exceeds');
     expect(fixture.componentInstance.form.controls.amount.value).toBe('11');
+  });
+  it('disables refunds in the anonymous demo and guards the handler even if an editor is forced open', async () => {
+    TestBed.inject(SessionService).value.set({
+      mode: 'DEMO',
+      authenticated: false,
+      readOnly: true,
+      username: null,
+    });
+    const f = TestBed.createComponent(OrderDetail),
+      http = TestBed.inject(HttpTestingController);
+    http.expectOne('/api/v1/sales/orders/order').flush({
+      order: { id: 'order', status: 'COMPLETED', currencyCode: 'MAD', source: 'DEMO' },
+      lines: [],
+      refunds: [],
+    });
+    await f.whenStable();
+    const button = [...f.nativeElement.querySelectorAll('button')].find((b: any) =>
+      b.textContent.includes('Record refund'),
+    ) as HTMLButtonElement;
+    expect(button.disabled).toBe(true);
+    f.componentInstance.editing.set(true);
+    await f.whenStable();
+    expect(f.nativeElement.querySelector('form')).toBeNull();
+    f.componentInstance.submit();
+    http.expectNone((r) => r.method === 'POST');
   });
 });

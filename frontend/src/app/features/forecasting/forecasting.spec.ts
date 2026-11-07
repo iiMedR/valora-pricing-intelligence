@@ -1,3 +1,4 @@
+import { SessionService } from '../../core/session.service';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
@@ -125,7 +126,7 @@ describe('Demand Forecasting', () => {
     );
     expect(f.nativeElement.querySelector('[aria-label="Forecast values table"]')).toBeTruthy();
     expect(f.nativeElement.textContent).toContain('No calibrated uncertainty');
-    expect(f.nativeElement.textContent).toContain('UNCERTAINTY_UNAVAILABLE');
+    expect(f.nativeElement.textContent).toContain('No uncertainty interval available');
   });
   it('renders an instructive empty normal catalog and no fabricated chart', async () => {
     const f = TestBed.createComponent(Forecasting);
@@ -225,5 +226,22 @@ describe('Demand Forecasting', () => {
     f.componentInstance.apply();
     await f.whenStable();
     expect(f.nativeElement.textContent).toContain('28–731');
+  });
+  it('opens the verified anonymous demo on its actual seeded 2025 window', async () => {
+    TestBed.inject(SessionService).value.set({
+      mode: 'DEMO',
+      authenticated: false,
+      readOnly: true,
+      username: null,
+    });
+    const f = TestBed.createComponent(Forecasting);
+    const request = TestBed.inject(HttpTestingController).expectOne((r) =>
+      r.url.endsWith('/overview'),
+    );
+    expect(request.request.params.get('startDate')).toBe('2025-01-01');
+    expect(request.request.params.get('endDate')).toBe('2026-01-01');
+    request.flush({ results: { content: [], page: 0, size: 10, totalElements: 0, totalPages: 0 } });
+    await f.whenStable();
+    expect(f.nativeElement.textContent).toContain('Demo dates: Full 2025');
   });
 });

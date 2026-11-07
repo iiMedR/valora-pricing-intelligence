@@ -1,25 +1,95 @@
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
-import { App } from './app';
+import { provideRouter, Router } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-it('renders workspace navigation', async () => {
-  TestBed.configureTestingModule({
-    imports: [App],
-    providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+import { App } from './app';
+@Component({ template: '<h1>Product record</h1>' })
+class RecordPage {}
+describe('Merchant application shell', () => {
+  // JSDOM has no layout/scroll implementation; Chrome QA checks actual viewport behavior.
+  beforeEach(() => {
+    window.scrollTo = vi.fn();
   });
-  const fixture = TestBed.createComponent(App);
-  TestBed.inject(HttpTestingController)
-    .expectOne('/api/v1/auth/me')
-    .flush({ mode: 'NORMAL', authenticated: false, readOnly: false, username: null });
-  TestBed.inject(HttpTestingController).expectOne('/api/v1/environment').flush({
-    mode: 'NORMAL',
-    synthetic: false,
-    label: 'Local workspace',
-    datasetVersion: null,
-    datasetState: 'NOT_APPLICABLE',
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      imports: [App],
+      providers: [
+        provideRouter([{ path: 'products/:id', component: RecordPage }]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
+    }),
+  );
+  afterEach(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    TestBed.inject(HttpTestingController).verify();
+    vi.restoreAllMocks();
   });
-  await fixture.whenStable();
-  expect(fixture.nativeElement.querySelector('nav').textContent).toContain('Overview');
-  TestBed.inject(HttpTestingController).verify();
+  async function create(demo = false) {
+    const f = TestBed.createComponent(App),
+      http = TestBed.inject(HttpTestingController);
+    http.expectOne('/api/v1/auth/me').flush({
+      mode: demo ? 'DEMO' : 'NORMAL',
+      authenticated: false,
+      readOnly: demo,
+      username: null,
+    });
+    http.expectOne('/api/v1/environment').flush({
+      mode: demo ? 'DEMO' : 'NORMAL',
+      synthetic: demo,
+      label: 'Workspace',
+      datasetVersion: demo ? 'demo-v1' : null,
+      datasetState: demo ? 'READY' : 'NOT_APPLICABLE',
+    });
+    await f.whenStable();
+    return f;
+  }
+  it('groups actual routes and distinguishes normal data from the seeded demo', async () => {
+    const f = await create();
+    const nav = f.nativeElement.querySelector('nav');
+    expect(nav.textContent).toContain('Overview');
+    expect(nav.textContent).toContain('Get started');
+    expect(nav.textContent).toContain('Orders & refunds');
+    expect(nav.querySelectorAll('a').length).toBe(10);
+    expect(f.nativeElement.textContent).toContain('Normal workspace');
+    expect(f.nativeElement.querySelector('a[href="http://localhost:4201/products"]')).toBeTruthy();
+  });
+  it('opens mobile disclosure with a button and restores toggle focus on Escape', async () => {
+    const f = await create(true);
+    const toggle = f.nativeElement.querySelector('.menu-toggle');
+    toggle.click();
+    await f.whenStable();
+    expect(toggle.getAttribute('aria-expanded')).toBe('true');
+    expect(f.nativeElement.querySelector('nav').classList.contains('is-open')).toBe(true);
+    const focus = vi.spyOn(toggle, 'focus');
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    await f.whenStable();
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+    expect(focus).toHaveBeenCalled();
+    expect(f.nativeElement.textContent).toContain('Anonymous · synthetic read-only demo');
+    expect(f.nativeElement.querySelector('.demo-banner')).toBeTruthy();
+  });
+  it('retains nested active navigation and focuses the destination landmark', async () => {
+    const f = await create(true);
+    f.componentInstance.menuOpen.set(true);
+    await TestBed.inject(Router).navigateByUrl('/products/example');
+    await f.whenStable();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(f.componentInstance.menuOpen()).toBe(false);
+    expect(f.nativeElement.querySelector('a[href="/products"]').getAttribute('aria-current')).toBe(
+      'page',
+    );
+    expect(document.activeElement).toBe(f.nativeElement.querySelector('main'));
+  });
+  it('brings mobile navigation into view when opening from a scrolled page', async () => {
+    const f = await create(true);
+    const scroll = vi.mocked(window.scrollTo);
+    f.componentInstance.toggleMenu();
+    expect(f.componentInstance.menuOpen()).toBe(true);
+    expect(scroll).toHaveBeenCalledWith({ top: 0, left: 0, behavior: 'auto' });
+    f.componentInstance.closeMenu();
+    expect(f.componentInstance.menuOpen()).toBe(false);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+  });
 });

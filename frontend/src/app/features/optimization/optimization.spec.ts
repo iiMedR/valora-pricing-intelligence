@@ -125,8 +125,8 @@ describe('Pricing Recommendations', () => {
     detail();
     await f.whenStable();
     expect(f.nativeElement.textContent).toContain('Conditional suggested price: 90.0000 MAD');
-    expect(f.nativeElement.textContent).toContain('UNCERTAINTY_UNAVAILABLE');
-    expect(f.nativeElement.textContent).toContain('CONDITIONAL_ASSOCIATION_ONLY');
+    expect(f.nativeElement.textContent).toContain('No uncertainty interval available');
+    expect(f.nativeElement.textContent).toContain('Observational association only');
     expect(f.nativeElement.textContent).toContain('1,209.8765');
     expect(f.nativeElement.querySelector('svg[role="img"] title').textContent).toContain(
       'Conditional contribution',

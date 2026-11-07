@@ -1,3 +1,4 @@
+import { SessionService } from '../../core/session.service';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
@@ -44,5 +45,20 @@ describe('Orders', () => {
     http
       .expectOne((r) => r.url === '/api/v1/sales/orders')
       .flush({ content: [], page: 0, size: 20, totalElements: 0, totalPages: 0 });
+  });
+  it('does not offer the manual order route in demo mode', async () => {
+    TestBed.inject(SessionService).value.set({
+      mode: 'DEMO',
+      authenticated: false,
+      readOnly: true,
+      username: null,
+    });
+    const f = TestBed.createComponent(Orders);
+    TestBed.inject(HttpTestingController)
+      .expectOne((r) => r.url === '/api/v1/sales/orders')
+      .flush({ content: [], page: 0, size: 20, totalElements: 0, totalPages: 0 });
+    await f.whenStable();
+    expect(f.nativeElement.querySelector('a[href="/orders/new"]')).toBeNull();
+    expect(f.nativeElement.textContent).toContain('orders and refunds are read-only');
   });
 });

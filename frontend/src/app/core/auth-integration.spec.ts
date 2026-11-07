@@ -104,4 +104,26 @@ describe('Session and CSRF integration', () => {
     expect(session.value()?.authenticated).toBe(false);
     expect(navigate).toHaveBeenCalled();
   });
+  it('preserves only supported dated deep links and explains a forbidden write without retry', () => {
+    expect(
+      safeReturnUrl('/onboarding/variants/example?startDate=2025-01-01&endDate=2026-01-01'),
+    ).toBe('/onboarding/variants/example?startDate=2025-01-01&endDate=2026-01-01');
+    for (const path of [
+      '/optimization?code=private',
+      '/products?returnUrl=https://evil.test',
+      '/onboarding?startDate=2025-01-01&startDate=2025-02-01',
+    ])
+      expect(safeReturnUrl(path)).toBe('/');
+    const http = TestBed.inject(HttpTestingController);
+    let errorStatus = 0;
+    TestBed.inject(HttpClient)
+      .post('/api/v1/business-settings', {})
+      .subscribe({ error: (e) => (errorStatus = e.status) });
+    http.expectOne('/api/v1/auth/csrf').flush({ status: 'READY' });
+    http
+      .expectOne('/api/v1/business-settings')
+      .flush({ code: 'ACCESS_DENIED' }, { status: 403, statusText: 'Forbidden' });
+    expect(errorStatus).toBe(403);
+    http.expectNone('/api/v1/business-settings');
+  });
 });
