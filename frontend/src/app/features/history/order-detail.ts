@@ -1,3 +1,5 @@
+import { SessionService } from '../../core/session.service';
+import { EditForm, ControlState } from '../../core/editor-state';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -7,7 +9,7 @@ import { OrderDetail as Detail, RefundKind } from './history.models';
 import { apiError } from '../catalog/services/catalog-api.service';
 import { moneyPattern } from '../catalog/components/form-validation';
 @Component({
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [EditForm, ControlState, RouterLink, ReactiveFormsModule],
   template: ` <a routerLink="/orders">← Sales orders</a>
     @if (error()) {
       <div class="error" role="alert">
@@ -94,11 +96,14 @@ import { moneyPattern } from '../catalog/components/form-validation';
           </dl>
         </article>
       }
+      @if (readOnly()) {
+        <p class="notice">Synthetic demo · refunds and transaction history are read-only.</p>
+      }
       <section class="section-heading">
         <h2>Refunds and returns</h2>
         <button
           (click)="editing.set(true)"
-          [disabled]="editing() || saving() || data.order.status !== 'COMPLETED'"
+          [disabled]="readOnly() || editing() || saving() || data.order.status !== 'COMPLETED'"
         >
           Record refund
         </button>
@@ -106,8 +111,14 @@ import { moneyPattern } from '../catalog/components/form-validation';
       @if (data.order.status !== 'COMPLETED') {
         <p class="muted">Refunds are available only for completed orders.</p>
       }
-      @if (editing()) {
-        <form class="editor" [formGroup]="form" (ngSubmit)="submit()">
+      @if (editing() && !readOnly()) {
+        <form
+          appEditForm
+          [editorBusy]="saving()"
+          class="editor"
+          [formGroup]="form"
+          (ngSubmit)="submit()"
+        >
           <h2>Record refund / return</h2>
           <label
             >Refund kind<select formControlName="kind" (change)="changeKind()">
@@ -180,7 +191,12 @@ import { moneyPattern } from '../catalog/components/form-validation';
       @if (!data.refunds.length) {
         <div class="empty">No refunds recorded.</div>
       } @else {
-        <div class="table-wrap">
+        <div
+          class="table-wrap"
+          role="region"
+          tabindex="0"
+          aria-label="Order refunds table, scroll horizontally"
+        >
           <table>
             <caption class="sr-only">
               Refunds
@@ -211,6 +227,8 @@ import { moneyPattern } from '../catalog/components/form-validation';
     }`,
 })
 export class OrderDetail {
+  private readonly session = inject(SessionService);
+  readonly readOnly = () => this.session.value()?.readOnly === true;
   private readonly api = inject(HistoryApi);
   private readonly destroyRef = inject(DestroyRef);
   private readonly id = inject(ActivatedRoute).snapshot.paramMap.get('id')!;
@@ -268,6 +286,7 @@ export class OrderDetail {
     else this.form.controls.quantity.setValue(1);
   }
   submit() {
+    if (this.readOnly()) return;
     this.submitted.set(true);
     this.form.markAllAsTouched();
     if (this.form.invalid || this.saving() || !this.detail()) return;

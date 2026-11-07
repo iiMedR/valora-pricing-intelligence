@@ -1,3 +1,4 @@
+import { SessionService } from '../../core/session.service';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -19,8 +20,13 @@ import { Order } from './history.models';
           orders.
         </p>
       </div>
-      <a class="button-link primary" routerLink="/orders/new">Enter manual order</a>
+      @if (!readOnly()) {
+        <a class="button-link primary" routerLink="/orders/new">Enter manual order</a>
+      }
     </div>
+    @if (readOnly()) {
+      <p class="notice">Synthetic demo · orders and refunds are read-only.</p>
+    }
     @if (error()) {
       <div class="error" role="alert">{{ error() }} <button (click)="load()">Retry</button></div>
     }
@@ -56,10 +62,18 @@ import { Order } from './history.models';
       @if (!page.content.length) {
         <div class="empty">
           <h2>No orders found</h2>
-          <p>Enter an order or adjust the filters. No demo transactions are generated.</p>
+          <p>
+            No records match this window. Adjust the filters, or use the separate synthetic demo to
+            inspect sample orders.
+          </p>
         </div>
       } @else {
-        <div class="table-wrap">
+        <div
+          class="table-wrap"
+          role="region"
+          tabindex="0"
+          aria-label="Sales orders table, scroll horizontally"
+        >
           <table>
             <caption class="sr-only">
               Sales orders
@@ -108,6 +122,8 @@ import { Order } from './history.models';
     }`,
 })
 export class Orders {
+  private readonly session = inject(SessionService);
+  readonly readOnly = () => this.session.value()?.readOnly === true;
   private readonly api = inject(HistoryApi);
   private readonly destroyRef = inject(DestroyRef);
   private pending?: Subscription;

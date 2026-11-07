@@ -1,3 +1,5 @@
+import { EditorState } from '../../../core/editor-state';
+import { Confirmation } from '../../../core/confirmation';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -19,7 +21,7 @@ import { SessionService } from '../../../core/session.service';
   template: ` <a routerLink="/products">← All products</a>
     @if (error()) {
       <div class="error" role="alert">
-        {{ error() }} <button (click)="load()" [disabled]="saving()">Reload</button>
+        {{ error() }} <button (click)="reload()" [disabled]="saving()">Reload</button>
       </div>
     }
     @if (message()) {
@@ -35,11 +37,20 @@ import { SessionService } from '../../../core/session.service';
           <span class="badge">{{ data.product.status }}</span>
         </div>
         <div class="actions">
-          <button (click)="editingProduct.set(true)" [disabled]="saving() || readOnly()">
+          <button
+            (click)="editingProduct.set(true)"
+            [disabled]="saving() || readOnly() || editingProduct() || editingVariant()"
+          >
             Edit product</button
           ><button
             (click)="archiveProduct()"
-            [disabled]="saving() || readOnly() || data.product.status === 'ARCHIVED'"
+            [disabled]="
+              saving() ||
+              readOnly() ||
+              editingProduct() ||
+              editingVariant() ||
+              data.product.status === 'ARCHIVED'
+            "
           >
             Archive product
           </button>
@@ -71,7 +82,7 @@ import { SessionService } from '../../../core/session.service';
         <button
           class="primary"
           (click)="newVariant()"
-          [disabled]="saving() || readOnly() || editingVariant()"
+          [disabled]="saving() || readOnly() || editingProduct() || editingVariant()"
         >
           Add variant
         </button>
@@ -109,7 +120,13 @@ import { SessionService } from '../../../core/session.service';
                     Edit<span class="sr-only"> {{ v.sku }}</span></button
                   ><button
                     (click)="archiveVariant(v)"
-                    [disabled]="saving() || readOnly() || v.status === 'ARCHIVED'"
+                    [disabled]="
+                      saving() ||
+                      readOnly() ||
+                      editingProduct() ||
+                      editingVariant() ||
+                      v.status === 'ARCHIVED'
+                    "
                   >
                     Archive<span class="sr-only"> {{ v.sku }}</span>
                   </button>
@@ -143,6 +160,11 @@ import { SessionService } from '../../../core/session.service';
     }`,
 })
 export class ProductDetail {
+  private readonly confirmation = inject(Confirmation);
+  private readonly editors = inject(EditorState);
+  async reload() {
+    if (await this.editors.canLeave()) this.load();
+  }
   private readonly session = inject(SessionService);
   readonly readOnly = () => this.session.value()?.readOnly === true;
   private readonly api = inject(CatalogApi);
@@ -186,7 +208,7 @@ export class ProductDetail {
       });
   }
   newVariant() {
-    if (this.readOnly()) return;
+    if (this.readOnly() || this.saving() || this.editingProduct() || this.editingVariant()) return;
     this.selectedVariant.set(null);
     this.editingVariant.set(true);
     this.message.set('');
@@ -227,10 +249,18 @@ export class ProductDetail {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({ next: () => this.complete('Variant saved.'), error: (e) => this.failed(e) });
   }
-  archiveProduct() {
+  async archiveProduct() {
     if (this.readOnly()) return;
     const product = this.detail()?.product;
-    if (!product || !window.confirm('Archive this product? Its variants will be retained.')) return;
+    if (
+      !product ||
+      !(await this.confirmation.ask(
+        'Archive product?',
+        'Its variants, orders and dated history will be retained. Archiving does not delete records.',
+        'Archive product',
+      ))
+    )
+      return;
     this.saving.set(true);
     this.error.set('');
     this.api
@@ -241,14 +271,16 @@ export class ProductDetail {
         error: (e) => this.failed(e),
       });
   }
-  archiveVariant(variant: Variant) {
+  async archiveVariant(variant: Variant) {
     if (this.readOnly()) return;
     if (
-      !window.confirm(
+      !(await this.confirmation.ask(
+        'Archive variant?',
         'Archive ' +
           variant.sku +
-          '? If this is the last active variant, the product will also be archived.',
-      )
+          '? All history is retained. If this is the last active variant, the product will also be archived.',
+        'Archive variant',
+      ))
     )
       return;
     this.saving.set(true);

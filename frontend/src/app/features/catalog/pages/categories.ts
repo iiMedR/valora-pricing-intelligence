@@ -1,3 +1,5 @@
+import { Confirmation } from '../../../core/confirmation';
+import { EditForm, ControlState } from '../../../core/editor-state';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -6,7 +8,7 @@ import { Category } from '../models/catalog.models';
 import { requiredText } from '../components/form-validation';
 import { SessionService } from '../../../core/session.service';
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [EditForm, ControlState, ReactiveFormsModule],
   template: ` <p class="eyebrow">CATALOG ORGANIZATION</p>
     <h1 class="page-title">Categories</h1>
     <p class="muted">Group products into flat categories. Categories in use cannot be deleted.</p>
@@ -19,7 +21,13 @@ import { SessionService } from '../../../core/session.service';
       <p role="status" class="success">{{ message() }}</p>
     }
     @if (!readOnly()) {
-      <form class="editor" [formGroup]="form" (ngSubmit)="save()">
+      <form
+        appEditForm
+        [editorBusy]="saving()"
+        class="editor"
+        [formGroup]="form"
+        (ngSubmit)="save()"
+      >
         <h2>{{ selected() ? 'Edit category' : 'Create category' }}</h2>
         <label>Category name<input formControlName="name" maxlength="100" /></label
         ><label
@@ -67,6 +75,7 @@ import { SessionService } from '../../../core/session.service';
     }`,
 })
 export class Categories {
+  private readonly confirmation = inject(Confirmation);
   private readonly session = inject(SessionService);
   readonly readOnly = () => this.session.value()?.readOnly === true;
   private readonly api = inject(CatalogApi);
@@ -108,7 +117,7 @@ export class Categories {
       });
   }
   edit(category: Category) {
-    if (this.readOnly()) return;
+    if (this.readOnly() || this.saving()) return;
     this.selected.set(category);
     this.form.reset({ name: category.name, description: category.description ?? '' });
     this.message.set('');
@@ -145,12 +154,14 @@ export class Categories {
         },
       });
   }
-  remove(category: Category) {
+  async remove(category: Category) {
     if (this.readOnly()) return;
     if (
-      !window.confirm(
+      !(await this.confirmation.ask(
+        'Delete unused category?',
         'Delete category ' + category.name + '? This is only allowed when no products use it.',
-      )
+        'Delete category',
+      ))
     )
       return;
     this.saving.set(true);

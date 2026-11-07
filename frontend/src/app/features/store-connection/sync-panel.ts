@@ -57,8 +57,8 @@ export interface SyncStatus {
             }}
           </p>
           <p class="muted">
-            Required read scopes: {{ sync.requiredScopes.join(', ') }}. Live Shopify compatibility
-            has not been verified.
+            Required read scopes: {{ sync.requiredScopes.join(', ') }}. Import progress and
+            readiness are assessed separately.
           </p>
           <div class="import-controls">
             <label>Historical start (UTC)<input type="date" [(ngModel)]="from" /></label>

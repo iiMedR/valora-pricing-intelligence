@@ -1,3 +1,5 @@
+import { Confirmation } from '../../core/confirmation';
+import { EditForm, ControlState } from '../../core/editor-state';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -10,7 +12,7 @@ import { HistoryApi, isoTime, localTimeNow } from './history-api.service';
 import { HistoryKind, HistoryPage, Inventory, Period, Quality } from './history.models';
 import { SessionService } from '../../core/session.service';
 @Component({
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [EditForm, ControlState, RouterLink, ReactiveFormsModule],
   template: ` <a [routerLink]="['/products', productId]">← Product detail</a>
     <p class="eyebrow top-space">VARIANT HISTORY</p>
     <h1 class="page-title">{{ variant()?.sku || 'Variant' }} history</h1>
@@ -53,7 +55,12 @@ import { SessionService } from '../../core/session.service';
           </p>
         </div>
       } @else {
-        <div class="table-wrap">
+        <div
+          class="table-wrap"
+          role="region"
+          tabindex="0"
+          aria-label="Variant observations table, scroll horizontally"
+        >
           <table>
             <caption class="sr-only">
               {{
@@ -98,7 +105,13 @@ import { SessionService } from '../../core/session.service';
         </div>
       </div>
       @if (!readOnly()) {
-        <form class="editor" [formGroup]="form" (ngSubmit)="submit()">
+        <form
+          appEditForm
+          [editorBusy]="saving()"
+          class="editor"
+          [formGroup]="form"
+          (ngSubmit)="submit()"
+        >
           <h2>
             Add
             {{
@@ -169,6 +182,7 @@ import { SessionService } from '../../core/session.service';
     }`,
 })
 export class VariantHistory {
+  private readonly confirmation = inject(Confirmation);
   private readonly session = inject(SessionService);
   readonly readOnly = () => this.session.value()?.readOnly === true;
   private pending?: Subscription;
@@ -217,6 +231,24 @@ export class VariantHistory {
     this.form.controls.quantity.updateValueAndValidity();
   }
   select(kind: HistoryKind) {
+    if (kind !== this.tab() && !this.readOnly() && this.form.dirty) {
+      void this.confirmation
+        .ask(
+          'Discard unsaved observation?',
+          'Changing the observation type clears this unfinished entry. No historical records will be changed.',
+          'Discard entry',
+        )
+        .then((accepted) => {
+          if (accepted) {
+            this.form.reset();
+            this.selectKind(kind);
+          }
+        });
+      return;
+    }
+    this.selectKind(kind);
+  }
+  private selectKind(kind: HistoryKind) {
     this.tab.set(kind);
     this.page = 0;
     this.message.set('');
@@ -318,6 +350,7 @@ export class VariantHistory {
         next: () => {
           this.saving.set(false);
           this.message.set('Observation recorded.');
+          this.form.markAsPristine();
           this.form.controls.externalReference.setValue(crypto.randomUUID());
           this.page = 0;
           this.load();

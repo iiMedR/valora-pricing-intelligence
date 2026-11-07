@@ -1,3 +1,4 @@
+import { ModalFocus } from '../../core/confirmation';
 import { Component, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -12,7 +13,7 @@ import {
 import { apiError } from '../catalog/services/catalog-api.service';
 import { SyncPanel } from './sync-panel';
 @Component({
-  imports: [DatePipe, ReactiveFormsModule, RouterLink, SyncPanel],
+  imports: [ModalFocus, DatePipe, ReactiveFormsModule, RouterLink, SyncPanel],
   template: `
     <div class="page-heading">
       <div>
@@ -48,8 +49,8 @@ import { SyncPanel } from './sync-panel';
         } @else {
           @if (!store.configured) {
             <p class="notice">
-              Server configuration is required before Shopify authorization. No live connection has
-              been attempted.
+              Server configuration is required before Shopify authorization. Authorization remains
+              disabled until configuration is complete.
             </p>
           }
           @if (store.status === 'CONNECTED') {
@@ -126,8 +127,10 @@ import { SyncPanel } from './sync-panel';
       </section>
     }
     <app-sync-panel />
-    @if (confirming()) {
-      <section
+    @if (confirming() && result()?.status !== 'DEMO_DISABLED') {
+      <dialog
+        appModal
+        (modalCancelled)="confirming.set(false)"
         class="confirmation"
         role="dialog"
         aria-modal="true"
@@ -141,15 +144,14 @@ import { SyncPanel } from './sync-panel';
         </p>
         <div class="actions">
           <button (click)="disconnect()" [disabled]="busy()">Confirm disconnect</button
-          ><button (click)="confirming.set(false)" [disabled]="busy()">Cancel</button>
+          ><button autofocus (click)="confirming.set(false)" [disabled]="busy()">Cancel</button>
         </div>
-      </section>
+      </dialog>
     }
   `,
   styles: [
     `
-      .connection-card,
-      .confirmation {
+      .connection-card {
         background: white;
         border: 1px solid #d4dfd7;
         border-radius: 10px;

@@ -1,3 +1,4 @@
+import { EditorState } from '../../../core/editor-state';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +24,11 @@ import { SessionService } from '../../../core/session.service';
         Create product
       </button>
     </div>
+    @if (readOnly()) {
+      <p class="notice">
+        Synthetic demo · product creation is disabled. Browse the existing seeded catalog.
+      </p>
+    }
     @if (error()) {
       <div class="error" role="alert">{{ error() }} <button (click)="load()">Retry</button></div>
     }
@@ -65,10 +71,21 @@ import { SessionService } from '../../../core/session.service';
       @if (page.content.length === 0) {
         <div class="empty">
           <h2>No products found</h2>
-          <p>Create a product or change your filters.</p>
+          <p>
+            {{
+              readOnly()
+                ? 'No synthetic records match these filters. Clear your search or status filter.'
+                : 'Create a product, connect a store, or change your filters.'
+            }}
+          </p>
         </div>
       } @else {
-        <div class="table-wrap">
+        <div
+          class="table-wrap"
+          role="region"
+          tabindex="0"
+          aria-label="Products table, scroll horizontally"
+        >
           <table>
             <caption class="sr-only">
               Products
@@ -117,6 +134,7 @@ import { SessionService } from '../../../core/session.service';
     }`,
 })
 export class ProductList {
+  private readonly editors = inject(EditorState);
   private readonly session = inject(SessionService);
   readonly readOnly = () => this.session.value()?.readOnly === true;
   private readonly api = inject(CatalogApi);
@@ -172,7 +190,7 @@ export class ProductList {
     return this.categories().find((c) => c.id === id)?.name ?? 'Uncategorized';
   }
   save(body: ProductWrite) {
-    if (this.readOnly()) return;
+    if (this.readOnly() || this.saving()) return;
     this.saving.set(true);
     this.error.set('');
     this.api
@@ -180,6 +198,7 @@ export class ProductList {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (product) => {
+          this.editors.saved();
           this.saving.set(false);
           void this.router.navigate(['/products', product.id]);
         },

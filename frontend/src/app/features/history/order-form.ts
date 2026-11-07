@@ -1,3 +1,4 @@
+import { EditForm, ControlState } from '../../core/editor-state';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -40,13 +41,13 @@ function lineForm() {
   });
 }
 @Component({
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [EditForm, ControlState, ReactiveFormsModule, RouterLink],
   template: ` <a routerLink="/orders">← Sales orders</a>
     <p class="eyebrow top-space">MANUAL ENTRY</p>
     <h1 class="page-title">Enter an order</h1>
     <p class="notice">
-      Local development API: authentication is not implemented. Enter actual historical amounts;
-      current catalog prices and costs are not substituted.
+      Enter actual historical amounts; current catalog prices and costs are not substituted. Order
+      lines retain their historical financial snapshots.
     </p>
     @if (error()) {
       <div class="error" role="alert">
@@ -70,7 +71,13 @@ function lineForm() {
           No matching products. Create a product and variant in the catalog first.
         </p>
       }
-      <form class="editor wide-editor" [formGroup]="form" (ngSubmit)="submit()">
+      <form
+        appEditForm
+        [editorBusy]="saving()"
+        class="editor wide-editor"
+        [formGroup]="form"
+        (ngSubmit)="submit()"
+      >
         <div class="form-grid">
           <label
             >Order reference / retry key<input
@@ -321,6 +328,7 @@ export class OrderForm {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data) => {
+          this.form.markAsPristine();
           this.saving.set(false);
           void this.router.navigate(['/orders', data.order.id]);
         },

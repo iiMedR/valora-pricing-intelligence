@@ -1,3 +1,5 @@
+import { EditorState } from '../../core/editor-state';
+import { EditForm, ControlState } from '../../core/editor-state';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -6,7 +8,7 @@ import { BusinessSettings as Settings } from '../catalog/models/catalog.models';
 import { requiredText } from '../catalog/components/form-validation';
 import { SessionService } from '../../core/session.service';
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [EditForm, ControlState, ReactiveFormsModule],
   template: ` <p class="eyebrow">YOUR BUSINESS</p>
     <h1 class="page-title">Business settings</h1>
     <p class="muted">Set the display name and currency for this installation.</p>
@@ -16,7 +18,7 @@ import { SessionService } from '../../core/session.service';
     </p>
     @if (error()) {
       <div class="error" role="alert">
-        {{ error() }} <button (click)="load()" [disabled]="saving()">Reload settings</button>
+        {{ error() }} <button (click)="reload()" [disabled]="saving()">Reload settings</button>
       </div>
     }
     @if (message()) {
@@ -32,7 +34,13 @@ import { SessionService } from '../../core/session.service';
           <p>No merchant settings can be edited in the demo.</p>
         </section>
       } @else {
-        <form class="editor" [formGroup]="form" (ngSubmit)="save()">
+        <form
+          appEditForm
+          [editorBusy]="saving()"
+          class="editor"
+          [formGroup]="form"
+          (ngSubmit)="save()"
+        >
           <label
             >Business display name<input formControlName="displayName" maxlength="120"
           /></label>
@@ -61,6 +69,10 @@ import { SessionService } from '../../core/session.service';
     }`,
 })
 export class BusinessSettings {
+  private readonly editors = inject(EditorState);
+  async reload() {
+    if (await this.editors.canLeave()) this.load();
+  }
   private readonly session = inject(SessionService);
   readonly readOnly = () => this.session.value()?.readOnly === true;
   private readonly api = inject(CatalogApi);

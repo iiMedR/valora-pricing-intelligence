@@ -70,7 +70,17 @@ export class CatalogApi {
 export function apiError(error: unknown): string {
   if (!(error instanceof HttpErrorResponse)) return 'The request failed. Please retry.';
   if (error.status === 0) return 'Cannot reach the backend. Check the connection and retry.';
-  const body = error.error as { message?: string; fieldErrors?: Record<string, string> };
+  const body = error.error as {
+    code?: string;
+    message?: string;
+    fieldErrors?: Record<string, string>;
+  };
+  if (error.status === 403)
+    return body?.code === 'DEMO_READ_ONLY'
+      ? 'The synthetic demo is read-only. No changes were saved.'
+      : 'This action was not allowed. Check your session and permissions, then try again. Your request was not automatically retried.';
+  if (error.status === 409 && body?.code === 'STALE_VERSION')
+    return 'Your edits are still here. Review the latest record before saving again; reloading will ask before discarding changes.';
   const fields = body?.fieldErrors
     ? Object.entries(body.fieldErrors)
         .map(([key, value]) => key + ': ' + value)

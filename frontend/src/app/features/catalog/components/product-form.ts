@@ -1,15 +1,31 @@
+import { EditForm, ControlState } from '../../../core/editor-state';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Category, CatalogStatus, Product, ProductWrite } from '../models/catalog.models';
 import { requiredText } from './form-validation';
 @Component({
   selector: 'app-product-form',
-  imports: [ReactiveFormsModule],
-  template: ` <form [formGroup]="form" (ngSubmit)="submit()" class="editor">
+  imports: [EditForm, ControlState, ReactiveFormsModule],
+  template: ` <form
+    appEditForm
+    [editorBusy]="saving"
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    class="editor"
+  >
     <h2>{{ product ? 'Edit product' : 'Create product' }}</h2>
-    <label>Product name<input formControlName="name" maxlength="160" autocomplete="off" /></label>
+    <label
+      >Product name<input
+        formControlName="name"
+        required
+        [attr.aria-describedby]="
+          form.controls.name.touched && form.controls.name.invalid ? 'product-name-error' : null
+        "
+        maxlength="160"
+        autocomplete="off"
+    /></label>
     @if (form.controls.name.touched && form.controls.name.invalid) {
-      <p class="field-error">Enter a product name with 2–160 characters.</p>
+      <p class="field-error" id="product-name-error">Enter a product name with 2–160 characters.</p>
     }
     <label
       >Description<textarea formControlName="description" maxlength="2000" rows="3"></textarea>
@@ -37,8 +53,13 @@ import { requiredText } from './form-validation';
     }
     <div class="actions">
       <button class="primary" type="submit" [disabled]="saving">
-        {{ saving ? 'Saving…' : 'Save product' }}</button
-      ><button type="button" (click)="cancelled.emit()" [disabled]="saving">Cancel</button>
+        {{ saving ? 'Saving…' : 'Save product' }}</button><button
+        type="button"
+        (click)="cancelled.emit()"
+        [disabled]="saving"
+      >
+        Cancel
+      </button>
     </div>
   </form>`,
 })

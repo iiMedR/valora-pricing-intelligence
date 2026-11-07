@@ -1,3 +1,4 @@
+import { EditForm, ControlState } from '../../../core/editor-state';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CatalogStatus, Variant, VariantWrite } from '../models/catalog.models';
@@ -10,12 +11,36 @@ import {
 } from './form-validation';
 @Component({
   selector: 'app-variant-form',
-  imports: [ReactiveFormsModule],
-  template: ` <form class="editor" [formGroup]="form" (ngSubmit)="submit()">
+  imports: [EditForm, ControlState, ReactiveFormsModule],
+  template: ` <form
+    appEditForm
+    [editorBusy]="saving"
+    class="editor"
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+  >
     <h2>{{ variant ? 'Edit variant' : 'Add variant' }}</h2>
     <div class="form-grid">
-      <label>SKU<input formControlName="sku" maxlength="80" autocomplete="off" /></label
-      ><label>Variant name<input formControlName="name" maxlength="120" /></label>
+      <label
+        >SKU<input
+          formControlName="sku"
+          required
+          [attr.aria-describedby]="
+            form.controls.sku.touched && form.controls.sku.invalid ? 'variant-identity-error' : null
+          "
+          maxlength="80"
+          autocomplete="off" /></label
+      ><label
+        >Variant name<input
+          formControlName="name"
+          required
+          [attr.aria-describedby]="
+            form.controls.name.touched && form.controls.name.invalid
+              ? 'variant-identity-error'
+              : null
+          "
+          maxlength="120"
+      /></label>
     </div>
     <div class="form-grid">
       @for (field of moneyFields; track field.key) {
@@ -52,7 +77,7 @@ import {
       (form.controls.sku.touched && form.controls.sku.invalid) ||
       (form.controls.name.touched && form.controls.name.invalid)
     ) {
-      <p class="field-error">
+      <p class="field-error" id="variant-identity-error">
         SKU and variant name are required, up to 80 and 120 characters respectively.
       </p>
     }
@@ -64,8 +89,13 @@ import {
     >
     <div class="actions">
       <button class="primary" type="submit" [disabled]="saving">
-        {{ saving ? 'Saving…' : 'Save variant' }}</button
-      ><button type="button" (click)="cancelled.emit()" [disabled]="saving">Cancel</button>
+        {{ saving ? 'Saving…' : 'Save variant' }}</button><button
+        type="button"
+        (click)="cancelled.emit()"
+        [disabled]="saving"
+      >
+        Cancel
+      </button>
     </div>
   </form>`,
 })
