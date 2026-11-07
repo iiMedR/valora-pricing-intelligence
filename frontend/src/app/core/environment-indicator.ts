@@ -18,7 +18,7 @@ export interface ApplicationEnvironment {
       <aside class="demo-banner" role="note" aria-label="Synthetic demo environment">
         <strong>Synthetic Demo Data</strong>
         <span
-          >Read-only browsing · Generated records, not real business sales.
+          >Anonymous · read-only browsing · Generated records, not real business sales.
           {{ environment()?.datasetVersion }} ·
           {{
             environment()?.datasetState === 'READY'
@@ -26,7 +26,16 @@ export interface ApplicationEnvironment {
               : 'Dataset not initialized'
           }}</span
         >
+        <a href="http://localhost:4200">Open normal workspace</a>
       </aside>
+    }
+    @if (environment()?.mode === 'NORMAL' && !error()) {
+      <div class="workspace-notice" role="note">
+        <p>
+          <strong>Normal workspace</strong> · Your business records. Looking for seeded examples?
+          <a href="http://localhost:4201/products">Open the read-only synthetic demo</a>.
+        </p>
+      </div>
     }
     @if (error()) {
       <div class="environment-warning" role="alert">

@@ -13,6 +13,12 @@ import { apiError } from '../catalog/services/catalog-api.service';
       <p>
         Use the account provisioned by your local administrator. Demo browsing requires no account.
       </p>
+      @if (expired) {
+        <p class="notice" role="status">
+          Your session expired. Sign in again to return to your page. No request was automatically
+          retried.
+        </p>
+      }
       @if (error()) {
         <p class="error" role="alert">{{ error() }}</p>
       }
@@ -59,6 +65,8 @@ import { apiError } from '../catalog/services/catalog-api.service';
   ],
 })
 export class Login {
+  readonly expired =
+    inject(ActivatedRoute).snapshot.queryParamMap.get('reason') === 'session-expired';
   private readonly session = inject(SessionService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);

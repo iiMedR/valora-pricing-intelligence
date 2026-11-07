@@ -51,10 +51,23 @@ export class SessionService {
   }
 }
 export function safeReturnUrl(value: string | null): string {
-  return value &&
-    /^\/(?:onboarding(?:\/variants\/[a-zA-Z0-9-]+)?|products(?:\/[a-zA-Z0-9/-]+)?|categories|settings|orders(?:\/[a-zA-Z0-9/-]+)?|analytics|forecasting|optimization|store-connection)$/.test(
-      value,
+  if (!value || /[\\#\u0000-\u0020]/.test(value)) return '/';
+  const [path, query] = value.split('?');
+  if (
+    !/^\/(?:onboarding(?:\/variants\/[a-zA-Z0-9-]+)?|products(?:\/[a-zA-Z0-9/-]+)?|categories|settings|orders(?:\/[a-zA-Z0-9/-]+)?|analytics|forecasting|optimization|store-connection)$/.test(
+      path,
     )
-    ? value
-    : '/';
+  )
+    return '/';
+  if (!query) return path;
+  const parameters = new URLSearchParams(query);
+  for (const [key, val] of parameters) {
+    if (
+      !(['startDate', 'endDate'].includes(key) && /^\d{4}-\d{2}-\d{2}$/.test(val)) &&
+      !(key === 'horizonDays' && ['7', '14', '30'].includes(val))
+    )
+      return '/';
+    if (parameters.getAll(key).length !== 1) return '/';
+  }
+  return path + '?' + parameters.toString();
 }

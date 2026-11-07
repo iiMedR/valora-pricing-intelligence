@@ -1,3 +1,4 @@
+import { editorLeaveGuard } from './core/editor-state';
 import { Routes } from '@angular/router';
 import { Home } from './features/home/home';
 import { authGuard, writeGuard } from './core/auth-integration';
@@ -60,30 +61,35 @@ export const routes: Routes = [
   },
   {
     path: 'orders/new',
+    canDeactivate: [editorLeaveGuard],
     canActivate: [writeGuard],
     loadComponent: () => import('./features/history/order-form').then((m) => m.OrderForm),
     title: 'Enter order | SmartPricing',
   },
   {
     path: 'orders/:id',
+    canDeactivate: [editorLeaveGuard],
     canActivate: [authGuard],
     loadComponent: () => import('./features/history/order-detail').then((m) => m.OrderDetail),
     title: 'Order detail | SmartPricing',
   },
   {
     path: 'products/:productId/variants/:variantId/history',
+    canDeactivate: [editorLeaveGuard],
     canActivate: [authGuard],
     loadComponent: () => import('./features/history/variant-history').then((m) => m.VariantHistory),
     title: 'Variant history | SmartPricing',
   },
   {
     path: 'products',
+    canDeactivate: [editorLeaveGuard],
     canActivate: [authGuard],
     loadComponent: () => import('./features/catalog/pages/product-list').then((m) => m.ProductList),
     title: 'Products | SmartPricing',
   },
   {
     path: 'products/:id',
+    canDeactivate: [editorLeaveGuard],
     canActivate: [authGuard],
     loadComponent: () =>
       import('./features/catalog/pages/product-detail').then((m) => m.ProductDetail),
@@ -91,12 +97,14 @@ export const routes: Routes = [
   },
   {
     path: 'categories',
+    canDeactivate: [editorLeaveGuard],
     canActivate: [authGuard],
     loadComponent: () => import('./features/catalog/pages/categories').then((m) => m.Categories),
     title: 'Categories | SmartPricing',
   },
   {
     path: 'settings',
+    canDeactivate: [editorLeaveGuard],
     canActivate: [authGuard],
     loadComponent: () =>
       import('./features/settings/business-settings').then((m) => m.BusinessSettings),

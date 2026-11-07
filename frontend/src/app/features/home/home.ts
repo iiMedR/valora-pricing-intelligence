@@ -1,7 +1,8 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { HealthService } from '../../core/health.service';
-@Component({ selector: 'app-home', templateUrl: './home.html' })
+@Component({ selector: 'app-home', imports: [RouterLink], templateUrl: './home.html' })
 export class Home {
   private readonly health = inject(HealthService);
   private readonly destroyRef = inject(DestroyRef);

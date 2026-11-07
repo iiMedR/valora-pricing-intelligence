@@ -1,36 +1,49 @@
 <a class="skip-link" href="#main">Skip to content</a>
-<header>
-  <a class="brand" routerLink="/">SmartPricing</a>
-  <nav aria-label="Main navigation">
-    <a routerLink="/onboarding" routerLinkActive="active" ariaCurrentWhenActive="page">Onboarding</a>
-    <a
-      routerLink="/"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      ariaCurrentWhenActive="page"
-      >Overview</a
+<div class="app-frame">
+  <header class="workspace-header">
+    <a class="brand" routerLink="/" aria-label="SmartPricing overview"
+      >SmartPricing<span>Merchant workspace</span></a
     >
-    <a routerLink="/products" routerLinkActive="active" ariaCurrentWhenActive="page">Products</a>
-    <a routerLink="/categories" routerLinkActive="active" ariaCurrentWhenActive="page"
-      >Categories</a
+    <button
+      #menu
+      class="menu-toggle"
+      type="button"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="primary-navigation"
+      (click)="toggleMenu()"
     >
-    <a routerLink="/settings" routerLinkActive="active" ariaCurrentWhenActive="page"
-      >Business settings</a
-    >
-    <a routerLink="/orders" routerLinkActive="active" ariaCurrentWhenActive="page">Sales orders</a>
-    <a routerLink="/analytics" routerLinkActive="active" ariaCurrentWhenActive="page">Analytics</a>
-    <a routerLink="/forecasting" routerLinkActive="active" ariaCurrentWhenActive="page"
-      >Demand Forecasting</a
-    >
-    <a routerLink="/optimization" routerLinkActive="active" ariaCurrentWhenActive="page"
-      >Pricing Recommendations</a
-    >
-    <a routerLink="/store-connection" routerLinkActive="active" ariaCurrentWhenActive="page"
-      >Store Connection</a
-    >
+      {{ menuOpen() ? 'Close navigation' : 'Open navigation' }}
+    </button>
+    <app-session-nav />
+  </header>
+  <nav
+    id="primary-navigation"
+    class="primary-navigation"
+    [class.is-open]="menuOpen()"
+    aria-label="Main navigation"
+  >
+    @for (group of groups; track group.label) {
+      <div class="nav-group">
+        <p>{{ group.label }}</p>
+        @for (link of group.links; track link[0]) {
+          <a
+            [routerLink]="link[0]"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: link[0] === '/' }"
+            ariaCurrentWhenActive="page"
+            >{{ link[1] }}</a
+          >
+        }
+      </div>
+    }
+    <p class="nav-footnote">
+      Review evidence before changing a price. This app never applies prices automatically.
+    </p>
   </nav>
-  <app-session-nav />
-</header>
-<app-environment-indicator />
-<main id="main" tabindex="-1"><router-outlet /></main>
-<footer>SmartPricing · Catalog and history workspace</footer>
+  <div class="workspace-content">
+    <app-environment-indicator />
+    <main #content id="main" tabindex="-1"><router-outlet /></main>
+    <footer>SmartPricing · Observed records, explicit assumptions, considered decisions.</footer>
+  </div>
+</div>
+<app-confirm-dialog />

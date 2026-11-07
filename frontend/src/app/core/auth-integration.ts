@@ -1,3 +1,4 @@
+import { Confirmation } from './confirmation';
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { HttpErrorResponse, HttpInterceptorFn, HttpXsrfTokenExtractor } from '@angular/common/http';
@@ -41,7 +42,8 @@ export const sessionInterceptor: HttpInterceptorFn = (request, next) => {
   if (!request.url.startsWith('/api/')) return next(request);
   const session = inject(SessionService),
     router = inject(Router),
-    tokens = inject(HttpXsrfTokenExtractor);
+    tokens = inject(HttpXsrfTokenExtractor),
+    confirmation = inject(Confirmation);
   const send = () => {
     const token = tokens.getToken();
     return next(
@@ -56,8 +58,11 @@ export const sessionInterceptor: HttpInterceptorFn = (request, next) => {
   return response.pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 && !request.url.startsWith('/api/v1/auth/')) {
+        confirmation.answer(false);
         session.clear();
-        void router.navigate(['/login'], { queryParams: { returnUrl: safeReturnUrl(router.url) } });
+        void router.navigate(['/login'], {
+          queryParams: { returnUrl: safeReturnUrl(router.url), reason: 'session-expired' },
+        });
       }
       return throwError(() => error);
     }),

@@ -1,46 +1,88 @@
 <section aria-labelledby="title">
   <p class="eyebrow">YOUR PRICING WORKSPACE</p>
-  <h1 id="title">A foundation for<br />better pricing decisions.</h1>
+  <h1 id="title">Your next pricing decision starts with evidence.</h1>
   <p class="lead">
-    SmartPricing is a pricing optimization platform. This local workspace establishes the
-    application and database foundation for the work ahead.
+    Connect your store, review its records, and understand whether the evidence supports a price
+    recommendation. Imported data, a useful forecast, and an eligible recommendation are separate
+    decisions.
   </p>
 </section>
-<section class="status-card" aria-labelledby="connection-title">
-  <div>
-    <p class="eyebrow">SYSTEM CONNECTION</p>
-    <h2 id="connection-title">Backend service</h2>
-    <div role="status" aria-live="polite" aria-atomic="true">
-      @switch (status()) {
-        @case ('loading') {
-          <p>Checking connection…</p>
-          <p class="muted">Waiting for the application health response.</p>
+
+<section aria-labelledby="journey-title">
+  <h2 id="journey-title">Choose your next step</h2>
+  <ol class="task-list">
+    <li>
+      <a routerLink="/store-connection">Connect and sync your store</a>
+      <p>
+        Check authorization, import progress and retryable failures. Connection alone does not mean
+        history is complete.
+      </p>
+    </li>
+    <li>
+      <a routerLink="/onboarding">Review data readiness</a>
+      <p>
+        Find missing costs, stale inventory and incomplete evidence, then follow links to complete
+        inputs.
+      </p>
+    </li>
+    <li>
+      <a routerLink="/products">Review your catalog</a>
+      <p>
+        Inspect products, costs, limits and dated observations. Archived records retain their
+        history.
+      </p>
+    </li>
+    <li>
+      <a routerLink="/orders">Inspect orders and refunds</a>
+      <p>Review immutable transaction snapshots. Unknown historical cost stays unknown.</p>
+    </li>
+    <li>
+      <a routerLink="/analytics">Understand observed performance</a>
+      <p>
+        Explore recorded sales, refund-period adjustments and contribution for known-cost records.
+      </p>
+    </li>
+    <li>
+      <a routerLink="/optimization">Review pricing evidence</a>
+      <p>
+        Inspect forecasts, price associations and reasons to withhold recommendations. No prices are
+        applied automatically.
+      </p>
+    </li>
+  </ol>
+  <p class="notice">
+    Looking for the seeded data?
+    <a href="http://localhost:4201/products">Open the synthetic demo</a> on port4201. In Analytics,
+    Forecasting and Pricing Recommendations, select <strong>Full 2025</strong> to inspect its
+    historical sales. The normal workspace uses your own records.
+  </p>
+</section>
+
+<details class="system-health">
+  <summary>Application connection status</summary>
+  <section class="status-card" aria-labelledby="connection-title">
+    <div>
+      <p class="eyebrow">SYSTEM CONNECTION</p>
+      <h2 id="connection-title">Backend service</h2>
+      <div role="status" aria-live="polite" aria-atomic="true">
+        @switch (status()) {
+          @case ('loading') {
+            <p>Checking connection…</p>
+            <p class="muted">Waiting for the application health response.</p>
+          }
+          @case ('connected') {
+            <p class="online">● Connected</p>
+            <p class="muted">The backend reports UP. Application connectivity is confirmed.</p>
+          }
+          @case ('unavailable') {
+            <p class="offline">● Backend unavailable</p>
+            <p class="muted">No healthy response received. Start the backend and check again.</p>
+          }
         }
-        @case ('connected') {
-          <p class="online">● Connected</p>
-          <p class="muted">The backend reports UP. Application connectivity is confirmed.</p>
-        }
-        @case ('unavailable') {
-          <p class="offline">● Backend unavailable</p>
-          <p class="muted">No healthy response received. Start the backend and check again.</p>
-        }
-      }
+      </div>
     </div>
-  </div>
-  <button type="button" (click)="refresh()" [disabled]="status() === 'loading'">
-    Check again ↗
-  </button>
-</section>
-<section>
-  <p class="eyebrow">CATALOG AND HISTORY</p>
-  <h2>Your products and transaction records.</h2>
-  <p class="muted">
-    Inspect read-only Analytics, or manage your catalog, orders, refunds, and variant observations
-    using the navigation above. Ordinary startup never generates records. Synthetic demo records
-    require explicit initialization in the separate demo workspace.
-  </p>
-  <div class="planned">
-    <p class="eyebrow">PLANNED, NOT IMPLEMENTED</p>
-    <p>Recommendation quality improvement · Interface refinement · Store price write-back</p>
-  </div>
-</section>
+    <button type="button" (click)="refresh()" [disabled]="status() === 'loading'">
+      Check again ↗
+    </button>
+  </section>
+</details>
