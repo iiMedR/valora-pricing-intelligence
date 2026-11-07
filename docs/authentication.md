@@ -53,8 +53,12 @@ All other endpoints fail closed, including Actuator info. Normal anonymous busin
 
 ## Demo
 
-The permanent synthetic demo remains anonymous and read-only at port 4201. Only existing business GET families, demo summary and disabled Shopify status are allowed. Login, account provisioning, business writes, connect and disconnect return 403. The new-order route redirects to the order list. Existing inspection forms may still be visible; the server rejects their writes. The banner and account navigation identify anonymous read-only synthetic data. There are no demo credentials usable in normal mode.
+The permanent synthetic demo remains anonymous and read-only at port 4201. Only existing business GET families, demo summary and disabled Shopify status are allowed. Login, account provisioning, business writes, connect and disconnect return 403. The new-order route redirects to the order list. Merchant editors are hidden or disabled with read-only explanations, including nested refund screens; backend authorization still rejects all writes. The banner and account navigation identify anonymous read-only synthetic data. There are no demo credentials usable in normal mode.
 
 Demo startup validates the dedicated database identity before permitting anonymous access, and refuses accounts, OAuth states, a real shop or encrypted provider credentials in that database. V4 adds empty security metadata without changing the seed/reset business dataset or checksum.
 
 See [Shopify setup](shopify-connection.md) and [verification](milestone-08-verification.md).
+
+## Milestone 11 session UX
+
+Revoked/expired business requests returning401 clear protected content and return to sign-in with a session-expired notice. Unsafe requests are never automatically retried. Approved internal return paths may retain only ISO startDate/endDate and 7/14/30-day horizon query parameters; callback codes, external destinations and arbitrary query keys are refused. A403 displays a permission/session notice; it does not silently retry. Editor navigation confirmation never blocks forced sign-in after session expiry. No session token is stored in browser storage.
