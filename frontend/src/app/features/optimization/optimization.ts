@@ -1,3 +1,6 @@
+import { SessionService } from '../../core/session.service';
+import { initialWindow } from '../analytics/analytics-api.service';
+import { statusLabel, explainReason, reasonSummary } from '../../core/presentation';
 import { EvaluationHistory } from './evaluation-history';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
@@ -19,13 +22,19 @@ import {
   styleUrl: './optimization.css',
 })
 export class Optimization {
+  private readonly session = inject(SessionService);
+  readonly isDemo = () => this.session.value()?.mode === 'DEMO';
+  private readonly initial = initialWindow(365, this.isDemo());
+  readonly statusLabel = statusLabel;
+  readonly reasonSummary = reasonSummary;
+  readonly explainReason = explainReason;
   private readonly api = inject(OptimizationApi);
   private readonly destroy = inject(DestroyRef);
   private request?: Subscription;
   private detailRequest?: Subscription;
   readonly filters = new FormGroup({
-    startDate: new FormControl(utcPreset(365).startDate, { nonNullable: true }),
-    endDate: new FormControl(utcPreset(365).endDate, { nonNullable: true }),
+    startDate: new FormControl(this.initial.startDate, { nonNullable: true }),
+    endDate: new FormControl(this.initial.endDate, { nonNullable: true }),
     horizonDays: new FormControl(7, { nonNullable: true }),
     search: new FormControl('', { nonNullable: true }),
   });
@@ -68,7 +77,7 @@ export class Optimization {
     this.load();
   }
   reason(value: string) {
-    return value.replaceAll('_', ' ').toLowerCase();
+    return explainReason(value);
   }
   preset() {
     this.filters.patchValue({ startDate: '2025-01-01', endDate: '2026-01-01' });

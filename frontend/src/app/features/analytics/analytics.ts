@@ -1,3 +1,5 @@
+import { SessionService } from '../../core/session.service';
+import { initialWindow } from '../analytics/analytics-api.service';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -23,13 +25,16 @@ import {
   styleUrl: './analytics.css',
 })
 export class Analytics {
+  private readonly session = inject(SessionService);
+  readonly isDemo = () => this.session.value()?.mode === 'DEMO';
+  private readonly initial = initialWindow(30, this.isDemo());
   private readonly api = inject(AnalyticsApi);
   private readonly destroy = inject(DestroyRef);
   private request?: Subscription;
   private detailRequest?: Subscription;
   readonly filters = new FormGroup({
-    startDate: new FormControl(utcPreset(30).startDate, { nonNullable: true }),
-    endDate: new FormControl(utcPreset(30).endDate, { nonNullable: true }),
+    startDate: new FormControl(this.initial.startDate, { nonNullable: true }),
+    endDate: new FormControl(this.initial.endDate, { nonNullable: true }),
     granularity: new FormControl('MONTH', { nonNullable: true }),
     search: new FormControl('', { nonNullable: true }),
     sort: new FormControl('NET_DESC', { nonNullable: true }),

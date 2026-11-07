@@ -1,3 +1,7 @@
+import { SessionService } from '../../core/session.service';
+import { statusLabel } from '../../core/presentation';
+import { apiError } from '../catalog/services/catalog-api.service';
+import { Evaluation } from './optimization-api.service';
 import { Component, DestroyRef, inject, input, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -21,7 +25,24 @@ interface History {
       Opening diagnostics does not save an evaluation. Saved conclusions are not measured business
       outcomes.
     </p>
-    <button (click)="load(0)" [disabled]="loading()">
+    @if (canSave()) {
+      <p>
+        Re-evaluate the selected dates and horizon, then save that fresh conclusion. This saves
+        metadata only; it never changes a price.
+      </p>
+      <button class="primary" (click)="save()" [disabled]="saving() || loading()">
+        {{ saving() ? 'Saving evaluation…' : 'Save fresh evaluation' }}
+      </button>
+    }
+    @if (saveError()) {
+      <p class="error" role="alert">
+        {{ saveError() }} Retry the save to check again; identical inputs are deduplicated.
+      </p>
+    }
+    @if (message()) {
+      <p class="success" role="status">{{ message() }}</p>
+    }
+    <button (click)="load(0)" [disabled]="loading() || saving()">
       {{ loading() ? 'Loading history…' : 'Load saved evaluations' }}
     </button>
     @if (error()) {
@@ -30,8 +51,9 @@ interface History {
     @if (history(); as h) {
       @for (row of h.content; track row.id) {
         <p>
-          {{ row.evaluatedAt }} · {{ row.modelVersion }} · {{ row.result.status }} ·
-          {{ row.outcomeStatus }}<br />
+          {{ row.evaluatedAt }} · {{ row.modelVersion }} · {{ statusLabel(row.result.status) }} ({{
+            row.result.status
+          }}) · {{ row.outcomeStatus }}<br />
           {{ row.result.window.startDate }}–{{ row.result.window.endDate }} (exclusive UTC)
         </p>
       } @empty {
@@ -47,6 +69,51 @@ interface History {
   `,
 })
 export class EvaluationHistory {
+  readonly evaluation = input<Evaluation | null>(null);
+  private readonly session = inject(SessionService);
+  readonly statusLabel = statusLabel;
+  readonly saving = signal(false);
+  readonly saveError = signal('');
+  readonly message = signal('');
+  canSave() {
+    const s = this.session.value();
+    return s?.mode === 'NORMAL' && s.authenticated && !s.readOnly && this.evaluation() !== null;
+  }
+  save() {
+    const e = this.evaluation();
+    if (!this.canSave() || !e || this.saving() || this.loading()) return;
+    this.saving.set(true);
+    this.saveError.set('');
+    this.message.set('');
+    this.http
+      .post<{ result: Evaluation }>(
+        `/api/v1/optimization/variants/${this.variantId()}/evaluations`,
+        {},
+        {
+          params: {
+            startDate: e.window.startDate,
+            endDate: e.window.endDate,
+            horizonDays: e.horizonDays,
+          },
+        },
+      )
+      .pipe(timeout(30000), takeUntilDestroyed(this.destroy))
+      .subscribe({
+        next: (snapshot) => {
+          this.saving.set(false);
+          this.message.set(
+            'Fresh evaluation saved: ' +
+              statusLabel(snapshot.result.status) +
+              '. Realized outcomes are not measured.',
+          );
+          this.load(0);
+        },
+        error: (error) => {
+          this.saving.set(false);
+          this.saveError.set(apiError(error));
+        },
+      });
+  }
   readonly variantId = input.required<string>();
   private readonly http = inject(HttpClient);
   private readonly destroy = inject(DestroyRef);

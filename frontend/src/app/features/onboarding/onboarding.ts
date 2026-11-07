@@ -50,7 +50,7 @@ import { apiError } from '../catalog/services/catalog-api.service';
         </p>
         <p class="muted">
           Assessed {{ s.window.assessedAt | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC · scope
-          {{ label(s.scope) }}. Live Shopify OAuth/import remains unverified.
+          {{ label(s.scope) }}.
         </p>
         @if (s.synchronization.latest; as job) {
           <p>Job attempts: {{ job.attempts }}. {{ job.errorCode || 'No recorded job error.' }}</p>
@@ -172,9 +172,8 @@ import { apiError } from '../catalog/services/catalog-api.service';
                         <a
                           [routerLink]="['/onboarding/variants', row.variant.variantId]"
                           [queryParams]="{ startDate: from, endDate: to }"
-                          >{{ row.variant.sku }}</a
-                        ><br />{{ row.variant.productName }} · {{ row.inputs.mappingSource
-                        }}<br />{{ row.variant.status }}
+                          >{{ row.variant.sku }}</a><br />{{ row.variant.productName }} ·
+                        {{ row.inputs.mappingSource }}<br />{{ row.variant.status }}
                       </td>
                       <td>
                         {{
@@ -218,7 +217,7 @@ import { apiError } from '../catalog/services/catalog-api.service';
       </section>
       <p class="muted">
         Readiness never certifies causal elasticity, calibrated uncertainty or complete financial
-        reconciliation. Recommendation quality improvements remain a separate future workstream.
+        reconciliation. Review variant reasons and source records before making a pricing decision.
       </p>
     }
   `,

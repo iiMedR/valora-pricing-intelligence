@@ -1,3 +1,6 @@
+import { SessionService } from '../../core/session.service';
+import { initialWindow } from '../analytics/analytics-api.service';
+import { statusLabel, explainReason, reasonSummary } from '../../core/presentation';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -20,13 +23,19 @@ import {
   styleUrl: './forecasting.css',
 })
 export class Forecasting {
+  private readonly session = inject(SessionService);
+  readonly isDemo = () => this.session.value()?.mode === 'DEMO';
+  private readonly initial = initialWindow(365, this.isDemo());
+  readonly statusLabel = statusLabel;
+  readonly reasonSummary = reasonSummary;
+  readonly explainReason = explainReason;
   private readonly api = inject(ForecastApi);
   private readonly destroy = inject(DestroyRef);
   private request?: Subscription;
   private detailRequest?: Subscription;
   readonly filters = new FormGroup({
-    startDate: new FormControl(utcPreset(365).startDate, { nonNullable: true }),
-    endDate: new FormControl(utcPreset(365).endDate, { nonNullable: true }),
+    startDate: new FormControl(this.initial.startDate, { nonNullable: true }),
+    endDate: new FormControl(this.initial.endDate, { nonNullable: true }),
     search: new FormControl('', { nonNullable: true }),
     horizonDays: new FormControl(7, { nonNullable: true }),
   });

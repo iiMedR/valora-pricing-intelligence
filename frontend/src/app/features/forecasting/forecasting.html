@@ -1,3 +1,8 @@
+@if (isDemo()) {
+  <p class="demo-period">
+    Demo dates: <strong>Full 2025</strong>. Adjust the UTC filters to change the window.
+  </p>
+}
 <div class="page-heading">
   <div>
     <p class="eyebrow">OBSERVATIONAL DEMAND · UTC</p>
@@ -66,7 +71,7 @@
               </td>
               <td>{{ row.readiness.eligibleDays }} / {{ row.readiness.days }}</td>
               <td>{{ row.readiness.unknownDays }} / {{ row.readiness.censoredDays }}</td>
-              <td class="reasons">{{ row.readiness.reasons.join(' · ') }}</td>
+              <td class="reasons">{{ reasonSummary(row.readiness.reasons) }}</td>
               <td>
                 <button
                   (click)="select(row.variant)"
@@ -171,14 +176,14 @@
       </p>
       <details open>
         <summary>Quality and exclusion reasons</summary>
-        <p class="reasons">{{ d.elasticity.reasons.join(' · ') }}</p>
+        <p class="reasons">{{ reasonSummary(d.elasticity.reasons) }}</p>
         <p>
-          Elasticity model: {{ d.elasticity.method }} · Uncertainty:
-          {{ d.elasticity.identification?.uncertaintyStatus ?? 'UNCERTAINTY_UNAVAILABLE' }}
+          Elasticity model: {{ d.elasticity.method }} · Uncertainty: No uncertainty interval
+          available
         </p>
         @if (d.elasticity.identification; as identification) {
           <p>
-            Identification: {{ identification.status }} · Calendar price R²:
+            Identification: {{ statusLabel(identification.status) }} · Calendar price R²:
             {{ identification.calendarPriceR2 ?? 'Unavailable' }} · Independent log-price SD:
             {{ identification.residualLogPriceSd ?? 'Unavailable' }}
           </p>

@@ -1,3 +1,8 @@
+@if (isDemo()) {
+  <p class="demo-period">
+    Demo dates: <strong>Full 2025</strong>. Adjust the UTC filters to change the window.
+  </p>
+}
 <div class="page-heading">
   <div>
     <p class="eyebrow">CONSTRAINED CONTRIBUTION · READ ONLY</p>
@@ -7,7 +12,7 @@
 </div>
 <p class="notice">
   No prices are changed here. Forecast readiness alone does not authorize a price recommendation.
-  Results are not saved evaluation history.
+  Viewing results does not save evaluation history.
 </p>
 <form class="optimization-filters" [formGroup]="filters" (ngSubmit)="apply()">
   <label>Training start (UTC)<input type="date" formControlName="startDate" required /></label
@@ -323,12 +328,19 @@
       }
       <h3>Evidence and diagnostics</h3>
       <p>
-        Elasticity model: {{ d.elasticity.method }} · Uncertainty:
-        {{ d.elasticity.identification?.uncertaintyStatus ?? 'UNCERTAINTY_UNAVAILABLE' }}
+        <strong>{{ statusLabel(d.status) }}</strong>.
+        {{
+          d.status === 'ACTIONABLE'
+            ? 'All configured gates passed; this remains an observational scenario, not a causal guarantee.'
+            : 'No suggested price or uplift is available for this evaluation.'
+        }}
+      </p>
+      <p>
+        Elasticity model: {{ d.elasticity.method }} · Uncertainty: No uncertainty interval available
       </p>
       @if (d.elasticity.identification; as identification) {
         <p>
-          Identification: {{ identification.status }} · Calendar price R²:
+          Identification: {{ statusLabel(identification.status) }} · Calendar price R²:
           {{ identification.calendarPriceR2 ?? 'Unavailable' }} · Independent log-price SD:
           {{ identification.residualLogPriceSd ?? 'Unavailable' }}
         </p>
@@ -368,7 +380,7 @@
           }
         </ul>
       </details>
-      <app-evaluation-history [variantId]="d.variant.variantId" />
+      <app-evaluation-history [variantId]="d.variant.variantId" [evaluation]="d" />
       <h3>Backtest evidence</h3>
       <div
         class="scroll-region"

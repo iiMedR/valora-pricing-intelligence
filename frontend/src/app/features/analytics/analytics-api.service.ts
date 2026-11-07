@@ -134,3 +134,8 @@ export function utcPreset(days: number, now = new Date()): { startDate: string; 
   start.setUTCDate(start.getUTCDate() - days);
   return { startDate: start.toISOString().slice(0, 10), endDate: end.toISOString().slice(0, 10) };
 }
+
+// The permanent demo is a historical 2025 workspace; normal mode keeps its real UTC range.
+export function initialWindow(days: number, demo: boolean) {
+  return demo ? { startDate: '2025-01-01', endDate: '2026-01-01' } : utcPreset(days);
+}
