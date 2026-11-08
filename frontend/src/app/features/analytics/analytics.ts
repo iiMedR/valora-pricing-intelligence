@@ -1,4 +1,8 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { SessionService } from '../../core/session.service';
+import { SalesChart } from '../../shared/merchant/sales-chart';
+import { HelpTooltip } from '../../shared/merchant/primitives';
 import { initialWindow } from '../analytics/analytics-api.service';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
@@ -20,7 +24,15 @@ import {
 } from './analytics-api.service';
 
 @Component({
-  imports: [DatePipe, ReactiveFormsModule, RouterLink],
+  imports: [
+    ZardButtonComponent,
+    ZardInputComponent,
+    DatePipe,
+    ReactiveFormsModule,
+    RouterLink,
+    SalesChart,
+    HelpTooltip,
+  ],
   templateUrl: './analytics.html',
   styleUrl: './analytics.css',
 })

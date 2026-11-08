@@ -1,88 +1,163 @@
-<section aria-labelledby="title">
-  <p class="eyebrow">YOUR PRICING WORKSPACE</p>
-  <h1 id="title">Your next pricing decision starts with evidence.</h1>
-  <p class="lead">
-    Connect your store, review its records, and understand whether the evidence supports a price
-    recommendation. Imported data, a useful forecast, and an eligible recommendation are separate
-    decisions.
-  </p>
-</section>
-
-<section aria-labelledby="journey-title">
-  <h2 id="journey-title">Choose your next step</h2>
-  <ol class="task-list">
-    <li>
-      <a routerLink="/store-connection">Connect and sync your store</a>
-      <p>
-        Check authorization, import progress and retryable failures. Connection alone does not mean
-        history is complete.
-      </p>
-    </li>
-    <li>
-      <a routerLink="/onboarding">Review data readiness</a>
-      <p>
-        Find missing costs, stale inventory and incomplete evidence, then follow links to complete
-        inputs.
-      </p>
-    </li>
-    <li>
-      <a routerLink="/products">Review your catalog</a>
-      <p>
-        Inspect products, costs, limits and dated observations. Archived records retain their
-        history.
-      </p>
-    </li>
-    <li>
-      <a routerLink="/orders">Inspect orders and refunds</a>
-      <p>Review immutable transaction snapshots. Unknown historical cost stays unknown.</p>
-    </li>
-    <li>
-      <a routerLink="/analytics">Understand observed performance</a>
-      <p>
-        Explore recorded sales, refund-period adjustments and contribution for known-cost records.
-      </p>
-    </li>
-    <li>
-      <a routerLink="/optimization">Review pricing evidence</a>
-      <p>
-        Inspect forecasts, price associations and reasons to withhold recommendations. No prices are
-        applied automatically.
-      </p>
-    </li>
-  </ol>
-  <p class="notice">
-    Looking for the seeded data?
-    <a href="http://localhost:4201/products">Open the synthetic demo</a> on port4201. In Analytics,
-    Forecasting and Pricing Recommendations, select <strong>Full 2025</strong> to inspect its
-    historical sales. The normal workspace uses your own records.
-  </p>
-</section>
-
+<app-page-header
+  title="Welcome back."
+  [description]="
+    isDemo()
+      ? 'Sample store performance for Full 2025.'
+      : 'Your store performance and what to focus on next.'
+  "
+/>
+@if (!authorized()) {
+  <app-empty-state
+    title="Your store overview starts here"
+    description="Sign in to connect your store, import records, and review pricing evidence."
+  >
+    <a z-button routerLink="/login">Sign in</a>
+    <a z-button zType="outline" href="http://localhost:4201">Explore the synthetic demo</a>
+  </app-empty-state>
+} @else if (loading()) {
+  <app-loading-skeleton />
+} @else if (error()) {
+  <app-error-state (retry)="load()" />
+} @else if (overview(); as report) {
+  @if (summary(); as readiness) {
+    @if (readiness.counts['products'] === 0) {
+      <app-empty-state
+        title="Let's set up your store"
+        description="There are no catalog records yet. Connect Shopify and sync your data, or add your products to get started."
+      >
+        <a z-button routerLink="/store-connection">Connect Shopify</a>
+        <a z-button zType="outline" routerLink="/products">Review catalog</a>
+      </app-empty-state>
+    } @else {
+      <div class="overview-metrics">
+        <app-metric-card
+          label="Net sales"
+          [value]="money(report.metrics.netSales)"
+          [context]="report.range.currencyCode + ' · ' + period()"
+        />
+        <app-metric-card
+          label="Units sold"
+          [value]="report.metrics.unitsSold.toLocaleString('en')"
+          [context]="period()"
+        />
+        <app-metric-card
+          label="Orders"
+          [value]="report.metrics.orders.toLocaleString('en')"
+          context="Recorded orders in this period"
+        />
+        <app-metric-card
+          label="Products"
+          [value]="readiness.counts['products']"
+          [context]="readiness.counts['variants'] + ' variants in your catalog'"
+        />
+      </div>
+    }
+    <div class="overview-main-grid">
+      <app-chart-panel
+        title="Monthly net sales"
+        [description]="
+          period() + ' · ' + report.range.currencyCode + ' · Refunds deducted in the refund period'
+        "
+      >
+        @if (report.metrics.orders > 0 && trends(); as series) {
+          <app-sales-chart [data]="series" />
+          <a class="overview-text-link" routerLink="/analytics"
+            >Explore sales, refunds & contribution →</a
+          >
+        } @else {
+          <app-empty-state
+            title="Sales will appear here"
+            description="Import or record dated orders to see performance for this period. Unknown costs remain unavailable."
+          >
+            <a z-button zType="outline" routerLink="/orders">Review orders</a>
+          </app-empty-state>
+        }
+      </app-chart-panel>
+      <app-chart-panel
+        [title]="isDemo() ? 'Explore the demo' : 'Store setup'"
+        [description]="
+          isDemo()
+            ? 'Four ways to explore SmartPricing.'
+            : 'Connect your store and build reliable evidence.'
+        "
+      >
+        <app-readiness-checklist [items]="checklist()" />
+        @if (!isDemo()) {
+          <app-data-freshness [timestamp]="readiness.synchronization.lastSuccessfulSync" />
+          <p class="muted">
+            {{
+              readiness.synchronization.connected ? 'Shopify connected' : 'Shopify not connected'
+            }}
+          </p>
+        } @else {
+          <p class="muted">Synthetic history · no live store connection.</p>
+        }
+      </app-chart-panel>
+    </div>
+    <div class="overview-bottom-grid">
+      <app-chart-panel
+        title="Recommendations"
+        description="Review pricing evidence and business constraints."
+      >
+        <app-status-notice
+          title="Review before changing a price"
+          description="A recommendation may be withheld when evidence is insufficient. A useful sales forecast alone does not justify a price change."
+        />
+        <a z-button zType="outline" class="mt-4" routerLink="/optimization"
+          >Review recommendations</a
+        >
+        <p class="muted">Prices are never applied automatically.</p>
+      </app-chart-panel>
+      <app-chart-panel
+        title="Data readiness"
+        description="Complete inputs before making pricing decisions."
+      >
+        <p>
+          <strong
+            >{{ readiness.counts['products'] }} products ·
+            {{ readiness.counts['variants'] }} variants</strong
+          >
+        </p>
+        <p>
+          {{ readiness.counts['stale_or_uncertain_stock'] }} stale or uncertain inventory
+          observations
+        </p>
+        <p>{{ readiness.counts['missing_cost'] }} variants missing current cost</p>
+        <a z-button zType="outline" routerLink="/onboarding">Review readiness</a>
+        <p class="muted">Current costs do not imply complete historical cost coverage.</p>
+      </app-chart-panel>
+    </div>
+  }
+}
 <details class="system-health">
   <summary>Application connection status</summary>
   <section class="status-card" aria-labelledby="connection-title">
     <div>
-      <p class="eyebrow">SYSTEM CONNECTION</p>
       <h2 id="connection-title">Backend service</h2>
       <div role="status" aria-live="polite" aria-atomic="true">
         @switch (status()) {
           @case ('loading') {
             <p>Checking connection…</p>
-            <p class="muted">Waiting for the application health response.</p>
           }
           @case ('connected') {
-            <p class="online">● Connected</p>
-            <p class="muted">The backend reports UP. Application connectivity is confirmed.</p>
+            <p>Connected</p>
+            <p class="muted">The backend reports UP.</p>
           }
           @case ('unavailable') {
-            <p class="offline">● Backend unavailable</p>
-            <p class="muted">No healthy response received. Start the backend and check again.</p>
+            <p>Backend unavailable</p>
+            <p class="muted">Check the backend connection and try again.</p>
           }
         }
       </div>
     </div>
-    <button type="button" (click)="refresh()" [disabled]="status() === 'loading'">
-      Check again ↗
+    <button
+      z-button
+      zType="outline"
+      type="button"
+      (click)="refresh()"
+      [disabled]="status() === 'loading'"
+    >
+      Check again
     </button>
   </section>
 </details>

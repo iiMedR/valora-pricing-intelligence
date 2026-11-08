@@ -1,3 +1,5 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { SessionService } from '../../core/session.service';
 import { initialWindow } from '../analytics/analytics-api.service';
 import { statusLabel, explainReason, reasonSummary } from '../../core/presentation';
@@ -17,7 +19,15 @@ import {
   Evaluation,
 } from './optimization-api.service';
 @Component({
-  imports: [EvaluationHistory, DatePipe, DecimalPipe, ReactiveFormsModule, RouterLink],
+  imports: [
+    ZardButtonComponent,
+    ZardInputComponent,
+    EvaluationHistory,
+    DatePipe,
+    DecimalPipe,
+    ReactiveFormsModule,
+    RouterLink,
+  ],
   templateUrl: './optimization.html',
   styleUrl: './optimization.css',
 })
@@ -60,15 +70,34 @@ export class Optimization {
   });
   readonly chart = computed(() => {
     const points = this.detail()?.sensitivity ?? [];
-    const max = Math.max(1, ...points.map((p) => Number(p.estimatedContribution)));
+    const max = Math.max(0, ...points.map((p) => Number(p.estimatedContribution)));
+    const min = Math.min(0, ...points.map((p) => Number(p.estimatedContribution)));
+    const span = max - min || 1;
+    const first = Number(points[0]?.price),
+      last = Number(points.at(-1)?.price);
+    const x = (price: number) =>
+      40 + (last === first ? 360 : ((price - first) / (last - first)) * 720);
+    const y = (value: number) => 190 - ((value - min) / span) * 160;
+    const reference = this.detail()?.inputs.currentPrice;
     return {
       points: points
-        .map(
-          (p, i) =>
-            `${40 + (i / Math.max(1, points.length - 1)) * 720},${190 - (Number(p.estimatedContribution) / max) * 160}`,
-        )
+        .map((p) => `${x(Number(p.price))},${y(Number(p.estimatedContribution))}`)
         .join(' '),
+      dots: points.map((p) => ({
+        ...p,
+        x: x(Number(p.price)),
+        y: y(Number(p.estimatedContribution)),
+      })),
+      zero: y(0),
+      referenceX:
+        reference !== null &&
+        reference !== undefined &&
+        Number(reference) >= first &&
+        Number(reference) <= last
+          ? x(Number(reference))
+          : null,
       max: max.toFixed(2),
+      min: min.toFixed(2),
       first: points[0]?.price,
       last: points.at(-1)?.price,
     };

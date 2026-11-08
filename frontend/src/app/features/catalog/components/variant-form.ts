@@ -1,3 +1,5 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { EditForm, ControlState } from '../../../core/editor-state';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,7 +13,7 @@ import {
 } from './form-validation';
 @Component({
   selector: 'app-variant-form',
-  imports: [EditForm, ControlState, ReactiveFormsModule],
+  imports: [ZardButtonComponent, ZardInputComponent, EditForm, ControlState, ReactiveFormsModule],
   template: ` <form
     appEditForm
     [editorBusy]="saving"
@@ -23,6 +25,7 @@ import {
     <div class="form-grid">
       <label
         >SKU<input
+          z-input
           formControlName="sku"
           required
           [attr.aria-describedby]="
@@ -32,6 +35,7 @@ import {
           autocomplete="off" /></label
       ><label
         >Variant name<input
+          z-input
           formControlName="name"
           required
           [attr.aria-describedby]="
@@ -46,6 +50,7 @@ import {
       @for (field of moneyFields; track field.key) {
         <label
           >{{ field.label }} ({{ currency }})<input
+            z-input
             [formControlName]="field.key"
             type="text"
             inputmode="decimal"
@@ -88,8 +93,10 @@ import {
       </select></label
     >
     <div class="actions">
-      <button class="primary" type="submit" [disabled]="saving">
+      <button z-button class="primary" type="submit" [disabled]="saving">
         {{ saving ? 'Saving…' : 'Save variant' }}</button><button
+        z-button
+        zType="outline"
         type="button"
         (click)="cancelled.emit()"
         [disabled]="saving"

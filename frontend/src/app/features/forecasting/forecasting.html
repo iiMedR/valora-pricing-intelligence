@@ -13,20 +13,26 @@
   </div>
 </div>
 <form class="demand-filters" [formGroup]="filters" (ngSubmit)="apply()">
-  <label>Training start (UTC)<input type="date" formControlName="startDate" required /></label
+  <label
+    >Training start (UTC)<input z-input type="date" formControlName="startDate" required /></label
   ><label
-    >Training end, exclusive (UTC)<input type="date" formControlName="endDate" required /></label
-  ><label>Search variants<input type="search" formControlName="search" maxlength="100" /></label
-  ><button class="primary">Apply window</button>
+    >Training end, exclusive (UTC)<input
+      z-input
+      type="date"
+      formControlName="endDate"
+      required /></label
+  ><label
+    >Search variants<input z-input type="search" formControlName="search" maxlength="100" /></label
+  ><button z-button class="primary">Apply window</button>
 </form>
-<button class="preset" (click)="preset()">Full 2025 · demo period</button>
+<button z-button zType="outline" class="preset" (click)="preset()">Full 2025 · demo period</button>
 <p class="muted">
   A historical end date is a retrospective as-of forecast. Forecasts start at that date; future
   observations are excluded from training.
 </p>
 @if (error()) {
   <div class="error" role="alert">
-    {{ error() }} <button (click)="load()">Retry variants</button>
+    {{ error() }} <button z-button zType="outline" (click)="load()">Retry variants</button>
   </div>
 }
 @if (loading()) {
@@ -74,6 +80,8 @@
               <td class="reasons">{{ reasonSummary(row.readiness.reasons) }}</td>
               <td>
                 <button
+                  z-button
+                  zType="outline"
                   (click)="select(row.variant)"
                   [attr.aria-label]="'Inspect demand for ' + row.variant.sku"
                 >
@@ -92,8 +100,14 @@
       {{ report.results.totalPages || 1 }}</span
     >
     <div class="actions">
-      <button (click)="changePage(-1)" [disabled]="page === 0">Previous variants</button
-      ><button (click)="changePage(1)" [disabled]="page + 1 >= report.results.totalPages">
+      <button z-button zType="outline" (click)="changePage(-1)" [disabled]="page === 0">
+        Previous variants</button
+      ><button
+        z-button
+        zType="outline"
+        (click)="changePage(1)"
+        [disabled]="page + 1 >= report.results.totalPages"
+      >
         Next variants
       </button>
     </div>
@@ -107,7 +121,7 @@
         <h2 id="demand-title">{{ variant.sku }}</h2>
         <p>{{ variant.productName }} · {{ variant.status }}</p>
       </div>
-      <button (click)="close()">Close analysis</button>
+      <button z-button zType="outline" (click)="close()">Close analysis</button>
     </div>
     <label class="horizon" [formGroup]="filters"
       >Forecast horizon<select formControlName="horizonDays" (change)="horizon()">
@@ -121,7 +135,8 @@
     }
     @if (detailError()) {
       <div class="error" role="alert">
-        {{ detailError() }} <button (click)="select(variant)">Retry forecast</button>
+        {{ detailError() }}
+        <button z-button zType="outline" (click)="select(variant)">Retry forecast</button>
       </div>
     }
     @if (detail(); as d) {
@@ -140,72 +155,77 @@
           <p class="value">{{ format(d.forecast.assumedPrice) }} {{ d.window.currencyCode }}</p>
           <p>Latest authoritative price held constant. No price-response adjustment.</p>
         </article>
-        <article>
-          <h3>Price association</h3>
-          <p class="value">
-            {{
-              d.elasticity.estimate === null
-                ? 'Unavailable'
-                : (d.elasticity.estimate | number: '1.3-3')
-            }}
-          </p>
-          <p>{{ d.elasticity.status }} · {{ d.elasticity.samples }} daily samples</p>
-        </article>
-        <article>
-          <h3>Fit diagnostics</h3>
-          <p>
-            Log RMSE:
-            {{
-              d.elasticity.logRmse === null
-                ? 'Unavailable'
-                : (d.elasticity.logRmse | number: '1.3-3')
-            }}
-          </p>
-          <p>
-            {{ d.readiness.distinctPrices }} prices · {{ d.readiness.minPrice ?? 'Unknown' }}–{{
-              d.readiness.maxPrice ?? 'Unknown'
-            }}
-          </p>
-        </article>
       </div>
-      <p class="caveat">
-        Association is not causation. Prices and seasons can move together; unmeasured changes can
-        affect the estimate. Forecasts describe observed sales conditional on availability, not
-        recovered latent demand. No calibrated uncertainty interval is available. Daily aggregates
-        are not independent customers.
-      </p>
-      <details open>
-        <summary>Quality and exclusion reasons</summary>
-        <p class="reasons">{{ reasonSummary(d.elasticity.reasons) }}</p>
-        <p>
-          Elasticity model: {{ d.elasticity.method }} · Uncertainty: No uncertainty interval
-          available
+      <details class="advanced-evidence">
+        <summary>How this estimate works</summary>
+        <div class="metrics">
+          <article>
+            <h3>Price association</h3>
+            <p class="value">
+              {{
+                d.elasticity.estimate === null
+                  ? 'Unavailable'
+                  : (d.elasticity.estimate | number: '1.3-3')
+              }}
+            </p>
+            <p>{{ d.elasticity.status }} · {{ d.elasticity.samples }} daily samples</p>
+          </article>
+          <article>
+            <h3>Fit diagnostics</h3>
+            <p>
+              Log RMSE:
+              {{
+                d.elasticity.logRmse === null
+                  ? 'Unavailable'
+                  : (d.elasticity.logRmse | number: '1.3-3')
+              }}
+            </p>
+            <p>
+              {{ d.readiness.distinctPrices }} prices · {{ d.readiness.minPrice ?? 'Unknown' }}–{{
+                d.readiness.maxPrice ?? 'Unknown'
+              }}
+            </p>
+          </article>
+        </div>
+        <p class="caveat">
+          Association is not causation. Prices and seasons can move together; unmeasured changes can
+          affect the estimate. Forecasts describe observed sales conditional on availability, not
+          recovered latent demand. No calibrated uncertainty interval is available. Daily aggregates
+          are not independent customers.
         </p>
-        @if (d.elasticity.identification; as identification) {
+        <details>
+          <summary>Quality and exclusion reasons</summary>
+          <p class="reasons">{{ reasonSummary(d.elasticity.reasons) }}</p>
           <p>
-            Identification: {{ statusLabel(identification.status) }} · Calendar price R²:
-            {{ identification.calendarPriceR2 ?? 'Unavailable' }} · Independent log-price SD:
-            {{ identification.residualLogPriceSd ?? 'Unavailable' }}
+            Elasticity model: {{ d.elasticity.method }} · Uncertainty: No uncertainty interval
+            available
           </p>
-          <p>
-            Prices that mostly change with the calendar cannot isolate price sensitivity. Calendar
-            controls do not establish causal effects. Promotion labels are unavailable; discrepant
-            prices remain excluded.
-          </p>
-        }
+          @if (d.elasticity.identification; as identification) {
+            <p>
+              Identification: {{ statusLabel(identification.status) }} · Calendar price R²:
+              {{ identification.calendarPriceR2 ?? 'Unavailable' }} · Independent log-price SD:
+              {{ identification.residualLogPriceSd ?? 'Unavailable' }}
+            </p>
+            <p>
+              Prices that mostly change with the calendar cannot isolate price sensitivity. Calendar
+              controls do not establish causal effects. Promotion labels are unavailable; discrepant
+              prices remain excluded.
+            </p>
+          }
 
-        <p class="reasons">Forecast: {{ d.forecast.reasons.join(' · ') }}</p>
-        <p>
-          {{ d.readiness.zeroDays }} zero-sale candidates ·
-          {{ d.readiness.missingPriceDays }} missing/invalid prices ·
-          {{ d.readiness.discrepancyDays }} price discrepancies ·
-          {{ d.readiness.outlierDays }} outliers
-        </p>
+          <p class="reasons">Forecast: {{ d.forecast.reasons.join(' · ') }}</p>
+          <p>
+            {{ d.readiness.zeroDays }} zero-sale candidates ·
+            {{ d.readiness.missingPriceDays }} missing/invalid prices ·
+            {{ d.readiness.discrepancyDays }} price discrepancies ·
+            {{ d.readiness.outlierDays }} outliers
+          </p>
+        </details>
       </details>
       <div class="chart-panel">
         <h3>Observed sales and forecast</h3>
         <p class="legend">
-          <span>Solid green: last 90 observed days</span><span>Dashed amber: forecast</span
+          <span>Solid: last 90 observed sales days</span><span>Dashed amber: forecast</span
           ><span>Red dots: censored observations</span>
         </p>
         <svg
@@ -223,7 +243,7 @@
           <polyline [attr.points]="chart().observed" class="observed" />
           <polyline [attr.points]="chart().predicted" class="predicted" />
           @for (point of chart().censored; track $index) {
-            <circle [attr.cx]="point.x" [attr.cy]="point.y" r="3" fill="#a54030" />
+            <circle [attr.cx]="point.x" [attr.cy]="point.y" r="3" fill="var(--destructive)" />
           }
           <text x="40" y="18">{{ chart().max }} units</text>
           <text x="40" y="208">0</text>
@@ -300,72 +320,75 @@
           </table>
         </div>
       }
-      @if (backtest(); as b) {
-        <h3>Chronological backtest · observed sales</h3>
-        <p class="muted">
-          Each cutoff trains on preceding dates only. Stock-constrained sales are evaluation
-          outcomes, not latent-demand truth. Naive comparison uses a trailing eligible mean.
-        </p>
-        @for (fold of b.folds; track fold.cutoff) {
-          <article class="fold">
-            <h4>{{ fold.cutoff }} ≤ held-out date &lt; {{ fold.endDate }}</h4>
-            <p>
-              {{ fold.status }} · {{ fold.trainingDays }} recent training days ·
-              {{ fold.evaluatedDays }} evaluated dates · {{ fold.actualUnits }} observed units ·
-              {{ fold.censoredDays }} censored / {{ fold.unknownDays }} unknown dates
-            </p>
-            @if (fold.model; as score) {
-              <div
-                class="scroll-region"
-                role="region"
-                aria-label="Backtest metrics table"
-                tabindex="0"
-              >
-                <table>
-                  <caption class="sr-only">
-                    Model versus trailing mean
-                  </caption>
-                  <thead>
-                    <tr>
-                      <th>Method</th>
-                      <th>MAE (units/day)</th>
-                      <th>WAPE (%)</th>
-                      <th>Bias (units/day)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Weekday baseline</th>
-                      <td>{{ score.mae | number: '1.3-3' }}</td>
-                      <td>
-                        {{
-                          score.wapePercent === null
-                            ? 'Unavailable'
-                            : (score.wapePercent | number: '1.3-3')
-                        }}
-                      </td>
-                      <td>{{ score.bias | number: '1.3-3' }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Trailing mean</th>
-                      <td>{{ fold.naive?.mae | number: '1.3-3' }}</td>
-                      <td>
-                        {{
-                          fold.naive?.wapePercent === null
-                            ? 'Unavailable'
-                            : (fold.naive?.wapePercent | number: '1.3-3')
-                        }}
-                      </td>
-                      <td>{{ fold.naive?.bias | number: '1.3-3' }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            }
-            <p class="reasons">{{ fold.reasons.join(' · ') }}</p>
-          </article>
+      <details class="advanced-evidence">
+        <summary>How the forecast performed on past sales</summary>
+        @if (backtest(); as b) {
+          <h3>Chronological backtest · observed sales</h3>
+          <p class="muted">
+            Each cutoff trains on preceding dates only. Stock-constrained sales are evaluation
+            outcomes, not latent-demand truth. Naive comparison uses a trailing eligible mean.
+          </p>
+          @for (fold of b.folds; track fold.cutoff) {
+            <article class="fold">
+              <h4>{{ fold.cutoff }} ≤ held-out date &lt; {{ fold.endDate }}</h4>
+              <p>
+                {{ fold.status }} · {{ fold.trainingDays }} recent training days ·
+                {{ fold.evaluatedDays }} evaluated dates · {{ fold.actualUnits }} observed units ·
+                {{ fold.censoredDays }} censored / {{ fold.unknownDays }} unknown dates
+              </p>
+              @if (fold.model; as score) {
+                <div
+                  class="scroll-region"
+                  role="region"
+                  aria-label="Backtest metrics table"
+                  tabindex="0"
+                >
+                  <table>
+                    <caption class="sr-only">
+                      Model versus trailing mean
+                    </caption>
+                    <thead>
+                      <tr>
+                        <th>Method</th>
+                        <th>MAE (units/day)</th>
+                        <th>WAPE (%)</th>
+                        <th>Bias (units/day)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">Weekday baseline</th>
+                        <td>{{ score.mae | number: '1.3-3' }}</td>
+                        <td>
+                          {{
+                            score.wapePercent === null
+                              ? 'Unavailable'
+                              : (score.wapePercent | number: '1.3-3')
+                          }}
+                        </td>
+                        <td>{{ score.bias | number: '1.3-3' }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Trailing mean</th>
+                        <td>{{ fold.naive?.mae | number: '1.3-3' }}</td>
+                        <td>
+                          {{
+                            fold.naive?.wapePercent === null
+                              ? 'Unavailable'
+                              : (fold.naive?.wapePercent | number: '1.3-3')
+                          }}
+                        </td>
+                        <td>{{ fold.naive?.bias | number: '1.3-3' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              }
+              <p class="reasons">{{ fold.reasons.join(' · ') }}</p>
+            </article>
+          }
         }
-      }
+      </details>
       <a [routerLink]="['/products', variant.productId, 'variants', variant.variantId, 'history']"
         >Inspect price, cost and inventory history</a
       >

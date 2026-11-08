@@ -1,3 +1,5 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { EditorState } from '../../../core/editor-state';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
@@ -9,7 +11,7 @@ import { Category, Page, Product, ProductWrite } from '../models/catalog.models'
 import { ProductForm } from '../components/product-form';
 import { SessionService } from '../../../core/session.service';
 @Component({
-  imports: [RouterLink, ReactiveFormsModule, ProductForm],
+  imports: [ZardButtonComponent, ZardInputComponent, RouterLink, ReactiveFormsModule, ProductForm],
   template: ` <div class="page-heading">
       <div>
         <p class="eyebrow">CATALOG</p>
@@ -17,6 +19,7 @@ import { SessionService } from '../../../core/session.service';
         <p class="muted">Manage products and their sellable variants. Prices belong to variants.</p>
       </div>
       <button
+        z-button
         class="primary"
         (click)="creating.set(true)"
         [disabled]="loading() || readOnly() || creating()"
@@ -30,7 +33,9 @@ import { SessionService } from '../../../core/session.service';
       </p>
     }
     @if (error()) {
-      <div class="error" role="alert">{{ error() }} <button (click)="load()">Retry</button></div>
+      <div class="error" role="alert">
+        {{ error() }} <button z-button zType="outline" (click)="load()">Retry</button>
+      </div>
     }
     @if (creating() && !readOnly()) {
       <app-product-form
@@ -43,6 +48,7 @@ import { SessionService } from '../../../core/session.service';
     <form class="filters" [formGroup]="filters" (ngSubmit)="apply()">
       <label
         >Search products<input
+          z-input
           formControlName="search"
           type="search"
           maxlength="160"
@@ -63,7 +69,7 @@ import { SessionService } from '../../../core/session.service';
           <option value="ARCHIVED">Archived</option>
         </select></label
       >
-      <button type="submit">Apply filters</button>
+      <button z-button zType="outline" type="submit">Apply filters</button>
     </form>
     @if (loading()) {
       <p role="status">Loading products…</p>
@@ -125,8 +131,14 @@ import { SessionService } from '../../../core/session.service';
           {{ page.totalPages || 1 }}</span
         >
         <div class="actions">
-          <button (click)="changePage(-1)" [disabled]="page.page === 0">Previous</button
-          ><button (click)="changePage(1)" [disabled]="page.page + 1 >= page.totalPages">
+          <button z-button zType="outline" (click)="changePage(-1)" [disabled]="page.page === 0">
+            Previous</button
+          ><button
+            z-button
+            zType="outline"
+            (click)="changePage(1)"
+            [disabled]="page.page + 1 >= page.totalPages"
+          >
             Next
           </button>
         </div>

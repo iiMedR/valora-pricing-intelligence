@@ -1,3 +1,5 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { ModalFocus } from '../../core/confirmation';
 import { Component, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
@@ -13,7 +15,15 @@ import {
 import { apiError } from '../catalog/services/catalog-api.service';
 import { SyncPanel } from './sync-panel';
 @Component({
-  imports: [ModalFocus, DatePipe, ReactiveFormsModule, RouterLink, SyncPanel],
+  imports: [
+    ZardButtonComponent,
+    ZardInputComponent,
+    ModalFocus,
+    DatePipe,
+    ReactiveFormsModule,
+    RouterLink,
+    SyncPanel,
+  ],
   template: `
     <div class="page-heading">
       <div>
@@ -25,7 +35,8 @@ import { SyncPanel } from './sync-panel';
     </div>
     @if (error()) {
       <div class="error" role="alert">
-        {{ error() }} <button (click)="load()" [disabled]="busy()">Retry status</button>
+        {{ error() }}
+        <button z-button zType="outline" (click)="load()" [disabled]="busy()">Retry status</button>
       </div>
     }
     @if (loading()) {
@@ -103,6 +114,7 @@ import { SyncPanel } from './sync-panel';
             <form (ngSubmit)="connect()">
               <label
                 >Shopify shop domain<input
+                  z-input
                   [formControl]="shop"
                   placeholder="your-store.myshopify.com"
                   autocomplete="off"
@@ -112,17 +124,29 @@ import { SyncPanel } from './sync-panel';
               <p class="muted">
                 Use the canonical myshopify.com domain, without https://, paths or ports.
               </p>
-              <button class="primary" [disabled]="busy() || shop.invalid || !store.configured">
+              <button
+                z-button
+                class="primary"
+                [disabled]="busy() || shop.invalid || !store.configured"
+              >
                 {{ busy() ? 'Working…' : 'Connect to Shopify' }}
               </button>
             </form>
           }
           @if (store.shop) {
-            <button class="disconnect" (click)="confirming.set(true)" [disabled]="busy()">
+            <button
+              z-button
+              zType="outline"
+              class="disconnect"
+              (click)="confirming.set(true)"
+              [disabled]="busy()"
+            >
               Disconnect Shopify
             </button>
           }
-          <button (click)="load()" [disabled]="busy()">Refresh status</button>
+          <button z-button zType="outline" (click)="load()" [disabled]="busy()">
+            Refresh status
+          </button>
         }
       </section>
     }
@@ -143,8 +167,17 @@ import { SyncPanel } from './sync-panel';
           Shopify admin.
         </p>
         <div class="actions">
-          <button (click)="disconnect()" [disabled]="busy()">Confirm disconnect</button
-          ><button autofocus (click)="confirming.set(false)" [disabled]="busy()">Cancel</button>
+          <button z-button zType="outline" (click)="disconnect()" [disabled]="busy()">
+            Confirm disconnect</button
+          ><button
+            z-button
+            zType="outline"
+            autofocus
+            (click)="confirming.set(false)"
+            [disabled]="busy()"
+          >
+            Cancel
+          </button>
         </div>
       </dialog>
     }

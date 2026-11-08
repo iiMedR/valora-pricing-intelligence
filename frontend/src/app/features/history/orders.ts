@@ -1,3 +1,5 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { SessionService } from '../../core/session.service';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
@@ -10,7 +12,7 @@ import { apiError } from '../catalog/services/catalog-api.service';
 import { HistoryApi, isoTime } from './history-api.service';
 import { Order } from './history.models';
 @Component({
-  imports: [DatePipe, ReactiveFormsModule, RouterLink],
+  imports: [ZardButtonComponent, ZardInputComponent, DatePipe, ReactiveFormsModule, RouterLink],
   template: ` <div class="page-heading">
       <div>
         <p class="eyebrow">TRANSACTION HISTORY</p>
@@ -28,13 +30,20 @@ import { Order } from './history.models';
       <p class="notice">Synthetic demo · orders and refunds are read-only.</p>
     }
     @if (error()) {
-      <div class="error" role="alert">{{ error() }} <button (click)="load()">Retry</button></div>
+      <div class="error" role="alert">
+        {{ error() }} <button z-button zType="outline" (click)="load()">Retry</button>
+      </div>
     }
     <form class="filters history-filters" [formGroup]="filters" (ngSubmit)="apply()">
       <label
-        >From (local time)<input type="datetime-local" step="0.001" formControlName="from" /></label
+        >From (local time)<input
+          z-input
+          type="datetime-local"
+          step="0.001"
+          formControlName="from" /></label
       ><label
         >Until, exclusive (local time)<input
+          z-input
           type="datetime-local"
           step="0.001"
           formControlName="to"
@@ -54,7 +63,7 @@ import { Order } from './history.models';
           <option>SHOPIFY</option>
           <option>DEMO</option>
         </select></label
-      ><button>Apply filters</button>
+      ><button z-button zType="outline">Apply filters</button>
     </form>
     @if (loading()) {
       <p role="status">Loading orders…</p>
@@ -113,8 +122,14 @@ import { Order } from './history.models';
           {{ page.totalPages || 1 }}</span
         >
         <div class="actions">
-          <button (click)="changePage(-1)" [disabled]="page.page === 0">Previous</button
-          ><button (click)="changePage(1)" [disabled]="page.page + 1 >= page.totalPages">
+          <button z-button zType="outline" (click)="changePage(-1)" [disabled]="page.page === 0">
+            Previous</button
+          ><button
+            z-button
+            zType="outline"
+            (click)="changePage(1)"
+            [disabled]="page.page + 1 >= page.totalPages"
+          >
             Next
           </button>
         </div>

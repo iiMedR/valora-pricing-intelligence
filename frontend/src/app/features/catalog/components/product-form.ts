@@ -1,3 +1,5 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { EditForm, ControlState } from '../../../core/editor-state';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -5,7 +7,7 @@ import { Category, CatalogStatus, Product, ProductWrite } from '../models/catalo
 import { requiredText } from './form-validation';
 @Component({
   selector: 'app-product-form',
-  imports: [EditForm, ControlState, ReactiveFormsModule],
+  imports: [ZardButtonComponent, ZardInputComponent, EditForm, ControlState, ReactiveFormsModule],
   template: ` <form
     appEditForm
     [editorBusy]="saving"
@@ -16,6 +18,7 @@ import { requiredText } from './form-validation';
     <h2>{{ product ? 'Edit product' : 'Create product' }}</h2>
     <label
       >Product name<input
+        z-input
         formControlName="name"
         required
         [attr.aria-describedby]="
@@ -52,8 +55,10 @@ import { requiredText } from './form-validation';
       </p>
     }
     <div class="actions">
-      <button class="primary" type="submit" [disabled]="saving">
+      <button z-button class="primary" type="submit" [disabled]="saving">
         {{ saving ? 'Saving…' : 'Save product' }}</button><button
+        z-button
+        zType="outline"
         type="button"
         (click)="cancelled.emit()"
         [disabled]="saving"

@@ -1,3 +1,5 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { Confirmation } from '../../core/confirmation';
 import { EditForm, ControlState } from '../../core/editor-state';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
@@ -12,7 +14,14 @@ import { HistoryApi, isoTime, localTimeNow } from './history-api.service';
 import { HistoryKind, HistoryPage, Inventory, Period, Quality } from './history.models';
 import { SessionService } from '../../core/session.service';
 @Component({
-  imports: [EditForm, ControlState, RouterLink, ReactiveFormsModule],
+  imports: [
+    ZardButtonComponent,
+    ZardInputComponent,
+    EditForm,
+    ControlState,
+    RouterLink,
+    ReactiveFormsModule,
+  ],
   template: ` <a [routerLink]="['/products', productId]">← Product detail</a>
     <p class="eyebrow top-space">VARIANT HISTORY</p>
     <h1 class="page-title">{{ variant()?.sku || 'Variant' }} history</h1>
@@ -23,6 +32,8 @@ import { SessionService } from '../../core/session.service';
     <div class="actions history-tabs">
       @for (kind of kinds; track kind) {
         <button
+          z-button
+          zType="outline"
           [class.primary]="tab() === kind"
           [attr.aria-pressed]="tab() === kind"
           (click)="select(kind)"
@@ -34,7 +45,8 @@ import { SessionService } from '../../core/session.service';
     </div>
     @if (error()) {
       <div class="error" role="alert">
-        {{ error() }} <button (click)="load()" [disabled]="saving()">Reload</button>
+        {{ error() }}
+        <button z-button zType="outline" (click)="load()" [disabled]="saving()">Reload</button>
       </div>
     }
     @if (message()) {
@@ -95,8 +107,16 @@ import { SessionService } from '../../core/session.service';
           {{ page.totalPages || 1 }}</span
         >
         <div class="actions">
-          <button (click)="changePage(-1)" [disabled]="page.page === 0 || saving()">Previous</button
+          <button
+            z-button
+            zType="outline"
+            (click)="changePage(-1)"
+            [disabled]="page.page === 0 || saving()"
+          >
+            Previous</button
           ><button
+            z-button
+            zType="outline"
             (click)="changePage(1)"
             [disabled]="page.page + 1 >= page.totalPages || saving()"
           >
@@ -128,11 +148,12 @@ import { SessionService } from '../../core/session.service';
             /></label>
           } @else {
             <label
-              >Amount ({{ currency() }})<input inputmode="decimal" formControlName="amount"
+              >Amount ({{ currency() }})<input z-input inputmode="decimal" formControlName="amount"
             /></label>
           }
           <label
             >{{ tab() === 'inventory' ? 'Observed at' : 'Valid from' }} (local time)<input
+              z-input
               type="datetime-local"
               step="0.001"
               formControlName="from"
@@ -140,6 +161,7 @@ import { SessionService } from '../../core/session.service';
           @if (tab() !== 'inventory') {
             <label
               >Valid until, exclusive (optional, local time)<input
+                z-input
                 type="datetime-local"
                 step="0.001"
                 formControlName="to"
@@ -153,7 +175,10 @@ import { SessionService } from '../../core/session.service';
             </select></label
           >
           <label
-            >Source reference / retry key<input formControlName="externalReference" maxlength="160"
+            >Source reference / retry key<input
+              z-input
+              formControlName="externalReference"
+              maxlength="160"
           /></label>
           <p class="notice">
             {{
@@ -172,7 +197,7 @@ import { SessionService } from '../../core/session.service';
               }}.
             </p>
           }
-          <button class="primary" [disabled]="saving()">
+          <button z-button class="primary" [disabled]="saving()">
             {{ saving() ? 'Saving…' : 'Save observation' }}
           </button>
         </form>

@@ -24,7 +24,7 @@ label {
 .scroll-region {
   overflow: auto;
   max-width: 100%;
-  border: 1px solid #d4dfd7;
+  border: 1px solid var(--border);
   border-radius: 8px;
   margin: 20px 0;
 }
@@ -58,7 +58,7 @@ small {
 }
 .badge {
   display: inline-block;
-  background: #eaf0ec;
+  background: var(--muted);
   border-radius: 4px;
   padding: 5px 8px;
   font-size: 11px;
@@ -67,11 +67,11 @@ small {
   font-size: 12px;
   line-height: 1.8;
   overflow-wrap: anywhere;
-  color: #52665f;
+  color: var(--muted-foreground);
 }
 .demand-detail {
   background: white;
-  border: 1px solid #d4dfd7;
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 26px;
   margin-top: 30px;
@@ -97,7 +97,7 @@ small {
   gap: 12px;
 }
 .metrics article {
-  border: 1px solid #d4dfd7;
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 16px;
 }
@@ -116,7 +116,7 @@ small {
 }
 .caveat {
   padding: 16px;
-  background: #fff1c7;
+  background: var(--warning-surface);
   font-size: 13px;
   line-height: 1.7;
   border-radius: 6px;
@@ -144,24 +144,24 @@ svg {
 }
 svg text {
   font-size: 11px;
-  fill: #52665f;
+  fill: var(--muted-foreground);
 }
 .baseline {
-  stroke: #b7c8bd;
+  stroke: var(--border);
 }
 .observed {
   fill: none;
-  stroke: #234e42;
+  stroke: var(--primary);
   stroke-width: 2;
 }
 .predicted {
   fill: none;
-  stroke: #b36b08;
+  stroke: var(--warning-foreground);
   stroke-width: 3;
   stroke-dasharray: 5 4;
 }
 .fold {
-  border-top: 1px solid #d4dfd7;
+  border-top: 1px solid var(--border);
   margin: 20px 0;
   padding-top: 12px;
 }
@@ -202,6 +202,6 @@ svg text {
     flex-wrap: wrap;
   }
   .page-title {
-    font-size: 34px;
+    font-size: 28px;
   }
 }

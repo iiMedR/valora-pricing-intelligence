@@ -1,3 +1,5 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { SessionService } from '../../core/session.service';
 import { EditForm, ControlState } from '../../core/editor-state';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
@@ -9,11 +11,19 @@ import { OrderDetail as Detail, RefundKind } from './history.models';
 import { apiError } from '../catalog/services/catalog-api.service';
 import { moneyPattern } from '../catalog/components/form-validation';
 @Component({
-  imports: [EditForm, ControlState, RouterLink, ReactiveFormsModule],
+  imports: [
+    ZardButtonComponent,
+    ZardInputComponent,
+    EditForm,
+    ControlState,
+    RouterLink,
+    ReactiveFormsModule,
+  ],
   template: ` <a routerLink="/orders">← Sales orders</a>
     @if (error()) {
       <div class="error" role="alert">
-        {{ error() }} <button (click)="load()" [disabled]="saving()">Reload</button>
+        {{ error() }}
+        <button z-button zType="outline" (click)="load()" [disabled]="saving()">Reload</button>
       </div>
     }
     @if (message()) {
@@ -102,6 +112,8 @@ import { moneyPattern } from '../catalog/components/form-validation';
       <section class="section-heading">
         <h2>Refunds and returns</h2>
         <button
+          z-button
+          zType="outline"
           (click)="editing.set(true)"
           [disabled]="readOnly() || editing() || saving() || data.order.status !== 'COMPLETED'"
         >
@@ -151,15 +163,18 @@ import { moneyPattern } from '../catalog/components/form-validation';
                 [readonly]="form.controls.kind.value !== 'LINE_RETURN'" /></label
             ><label
               >Refund amount ({{ data.order.currencyCode }})<input
+                z-input
                 inputmode="decimal"
                 formControlName="amount" /></label
             ><label
               >Refunded at (local time)<input
+                z-input
                 type="datetime-local"
                 step="0.001"
                 formControlName="refundedAt" /></label
             ><label
               >Source reference / retry key<input
+                z-input
                 formControlName="externalReference"
                 maxlength="160"
             /></label>
@@ -177,8 +192,10 @@ import { moneyPattern } from '../catalog/components/form-validation';
             </p>
           }
           <div class="actions">
-            <button class="primary" [disabled]="saving()">
+            <button z-button class="primary" [disabled]="saving()">
               {{ saving() ? 'Saving…' : 'Save refund' }}</button><button
+              z-button
+              zType="outline"
               type="button"
               (click)="editing.set(false)"
               [disabled]="saving()"

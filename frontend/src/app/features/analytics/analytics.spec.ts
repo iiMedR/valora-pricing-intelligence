@@ -42,6 +42,18 @@ const range = {
   timezone: 'UTC',
 };
 describe('Analytics', () => {
+  // jsdom has no layout observer; actual chart sizing/tooltips are checked in Chrome.
+  beforeEach(() =>
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      },
+    ),
+  );
+  afterEach(() => vi.unstubAllGlobals());
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [Analytics],
@@ -124,9 +136,8 @@ describe('Analytics', () => {
     expect(text).toContain('Unknown');
     expect(text).toContain('KNOWN_STOCKOUT');
     expect(text).toContain('Stale');
-    expect(f.nativeElement.querySelector('svg[role="img"] title').textContent).toContain(
-      'Net sales',
-    );
+    expect(f.nativeElement.querySelector('z-chart')).toBeTruthy();
+    expect(f.nativeElement.querySelector('[aria-label="Net sales data"]')).toBeTruthy();
     expect(f.nativeElement.querySelector('[aria-label="Trend data table"]')).toBeTruthy();
     expect(f.nativeElement.querySelector('[aria-label="Product performance table"]').tabIndex).toBe(
       0,

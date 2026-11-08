@@ -15,26 +15,32 @@
   Viewing results does not save evaluation history.
 </p>
 <form class="optimization-filters" [formGroup]="filters" (ngSubmit)="apply()">
-  <label>Training start (UTC)<input type="date" formControlName="startDate" required /></label
+  <label
+    >Training start (UTC)<input z-input type="date" formControlName="startDate" required /></label
   ><label
-    >Evaluation end, exclusive (UTC)<input type="date" formControlName="endDate" required /></label
+    >Evaluation end, exclusive (UTC)<input
+      z-input
+      type="date"
+      formControlName="endDate"
+      required /></label
   ><label
     >Horizon<select formControlName="horizonDays">
       <option [ngValue]="7">7 days</option>
       <option [ngValue]="14">14 days</option>
       <option [ngValue]="30">30 days</option>
     </select></label
-  ><label>Search variants<input type="search" formControlName="search" maxlength="100" /></label
-  ><button class="primary">Evaluate window</button>
+  ><label
+    >Search variants<input z-input type="search" formControlName="search" maxlength="100" /></label
+  ><button z-button class="primary">Evaluate window</button>
 </form>
-<button class="preset" (click)="preset()">Full 2025 · demo period</button>
+<button z-button zType="outline" class="preset" (click)="preset()">Full 2025 · demo period</button>
 <p class="muted">
   Historical end dates evaluate past inputs. Catalog bounds/statuses remain current policies. The
   permanent demo's calendar-confounded estimates may correctly produce no actionable prices.
 </p>
 @if (error()) {
   <div class="error" role="alert">
-    {{ error() }} <button (click)="load()">Retry evaluations</button>
+    {{ error() }} <button z-button zType="outline" (click)="load()">Retry evaluations</button>
   </div>
 }
 @if (loading()) {
@@ -129,6 +135,8 @@
               </td>
               <td>
                 <button
+                  z-button
+                  zType="outline"
                   (click)="select(row.variant.variantId)"
                   [attr.aria-label]="'Inspect pricing for ' + row.variant.sku"
                 >
@@ -147,8 +155,14 @@
       {{ report.results.totalPages || 1 }}</span
     >
     <div class="actions">
-      <button (click)="changePage(-1)" [disabled]="page === 0">Previous evaluations</button
-      ><button (click)="changePage(1)" [disabled]="page + 1 >= report.results.totalPages">
+      <button z-button zType="outline" (click)="changePage(-1)" [disabled]="page === 0">
+        Previous evaluations</button
+      ><button
+        z-button
+        zType="outline"
+        (click)="changePage(1)"
+        [disabled]="page + 1 >= report.results.totalPages"
+      >
         Next evaluations
       </button>
     </div>
@@ -158,14 +172,15 @@
   <section class="evaluation" aria-labelledby="evaluation-title">
     <div class="section-heading">
       <h2 id="evaluation-title">Evaluation details</h2>
-      <button (click)="close()">Close evaluation</button>
+      <button z-button zType="outline" (click)="close()">Close evaluation</button>
     </div>
     @if (detailLoading()) {
       <p role="status">Loading evaluation diagnostics…</p>
     }
     @if (detailError()) {
       <div class="error" role="alert">
-        {{ detailError() }} <button (click)="select(selectedId()!)">Retry evaluation</button>
+        {{ detailError() }}
+        <button z-button zType="outline" (click)="select(selectedId()!)">Retry evaluation</button>
       </div>
     }
     @if (detail(); as d) {
@@ -184,6 +199,11 @@
       @if (d.status !== 'ACTIONABLE') {
         <div class="abstention">
           <h3>Recommendation withheld</h3>
+          <p>
+            <a routerLink="/onboarding">Review missing inputs and readiness</a>, then inspect the
+            source history below. Stale stock, incomplete prices or weak identification can prevent
+            a recommendation.
+          </p>
           <p>
             We cannot justify a price change from these inputs. A negative elasticity or successful
             sales forecast alone is not enough.
@@ -286,16 +306,46 @@
             </table>
           </div>
         </div>
+        <p class="muted">
+          Model-only sensitivity · price on the horizontal axis; estimated contribution on the
+          vertical axis ({{ d.window.currencyCode }}). Dashed line: current reference price when
+          inside the feasible range.
+        </p>
         <svg viewBox="0 0 800 230" role="img" aria-labelledby="sensitivity-title sensitivity-desc">
           <title id="sensitivity-title">Conditional contribution sensitivity</title>
           <desc id="sensitivity-desc">
             Estimated contribution across the feasible price grid. Zero baseline. Exact values are
             in the following table. No confidence interval or realized uplift is claimed.
           </desc>
-          <line x1="40" x2="760" y1="190" y2="190" class="baseline" />
+          <line
+            x1="40"
+            x2="760"
+            [attr.y1]="chart().zero"
+            [attr.y2]="chart().zero"
+            class="baseline"
+          />
+          @if (chart().referenceX !== null) {
+            <line
+              [attr.x1]="chart().referenceX"
+              [attr.x2]="chart().referenceX"
+              y1="30"
+              y2="190"
+              class="reference-line"
+            >
+              <title>Current reference price {{ d.inputs.currentPrice }}</title>
+            </line>
+          }
           <polyline [attr.points]="chart().points" class="curve" />
+          @for (point of chart().dots; track point.price) {
+            <circle [attr.cx]="point.x" [attr.cy]="point.y" r="3" class="sensitivity-dot">
+              <title>
+                Price {{ point.price }}: modeled contribution {{ point.estimatedContribution }}
+                {{ d.window.currencyCode }}
+              </title>
+            </circle>
+          }
           <text x="40" y="18">{{ chart().max }} {{ d.window.currencyCode }}</text>
-          <text x="40" y="209">0</text>
+          <text x="40" y="209">{{ chart().min }}</text>
           <text x="40" y="229">{{ chart().first }}</text>
           <text x="760" y="229" text-anchor="end">{{ chart().last }}</text>
         </svg>
@@ -326,107 +376,116 @@
           </div>
         </details>
       }
-      <h3>Evidence and diagnostics</h3>
-      <p>
-        <strong>{{ statusLabel(d.status) }}</strong>.
-        {{
-          d.status === 'ACTIONABLE'
-            ? 'All configured gates passed; this remains an observational scenario, not a causal guarantee.'
-            : 'No suggested price or uplift is available for this evaluation.'
-        }}
-      </p>
-      <p>
-        Elasticity model: {{ d.elasticity.method }} · Uncertainty: No uncertainty interval available
-      </p>
-      @if (d.elasticity.identification; as identification) {
+      <details class="advanced-evidence">
+        <summary>How this estimate works</summary>
+        <h3>Evidence and diagnostics</h3>
         <p>
-          Identification: {{ statusLabel(identification.status) }} · Calendar price R²:
-          {{ identification.calendarPriceR2 ?? 'Unavailable' }} · Independent log-price SD:
-          {{ identification.residualLogPriceSd ?? 'Unavailable' }}
+          <strong>{{ statusLabel(d.status) }}</strong>.
+          {{
+            d.status === 'ACTIONABLE'
+              ? 'All configured gates passed; this remains an observational scenario, not a causal guarantee.'
+              : 'No suggested price or uplift is available for this evaluation.'
+          }}
         </p>
         <p>
-          Prices that mostly change with the calendar cannot isolate price sensitivity. Calendar
-          controls do not establish causal effects. Promotion labels are unavailable; discrepant
-          prices remain excluded.
+          Elasticity model: {{ d.elasticity.method }} · Uncertainty: No uncertainty interval
+          available
         </p>
-      }
-
-      <p>
-        Elasticity association:
-        {{
-          d.elasticity.estimate === null ? 'Unavailable' : (d.elasticity.estimate | number: '1.3-3')
-        }}
-        · {{ d.elasticity.samples }} samples · log RMSE
-        {{
-          d.elasticity.logRmse === null ? 'Unavailable' : (d.elasticity.logRmse | number: '1.3-3')
-        }}
-      </p>
-      <p>
-        Uncapped reference baseline: {{ money(d.inputs.referenceUnits) }} availability-conditional
-        observed units, not latent demand. No causal guarantee or calibrated interval.
-      </p>
-      <ul>
-        @for (reasonCode of d.reasons; track reasonCode) {
-          <li>{{ reason(reasonCode) }}</li>
-        } @empty {
-          <li>Configured evidence gates passed; model assumptions remain.</li>
+        @if (d.elasticity.identification; as identification) {
+          <p>
+            Identification: {{ statusLabel(identification.status) }} · Calendar price R²:
+            {{ identification.calendarPriceR2 ?? 'Unavailable' }} · Independent log-price SD:
+            {{ identification.residualLogPriceSd ?? 'Unavailable' }}
+          </p>
+          <p>
+            Prices that mostly change with the calendar cannot isolate price sensitivity. Calendar
+            controls do not establish causal effects. Promotion labels are unavailable; discrepant
+            prices remain excluded.
+          </p>
         }
-      </ul>
-      <details>
-        <summary>Underlying forecasting warnings</summary>
+
+        <p>
+          Elasticity association:
+          {{
+            d.elasticity.estimate === null
+              ? 'Unavailable'
+              : (d.elasticity.estimate | number: '1.3-3')
+          }}
+          · {{ d.elasticity.samples }} samples · log RMSE
+          {{
+            d.elasticity.logRmse === null ? 'Unavailable' : (d.elasticity.logRmse | number: '1.3-3')
+          }}
+        </p>
+        <p>
+          Uncapped reference baseline: {{ money(d.inputs.referenceUnits) }} availability-conditional
+          observed units, not latent demand. No causal guarantee or calibrated interval.
+        </p>
         <ul>
-          @for (code of d.elasticity.reasons; track code) {
-            <li>{{ reason(code) }}</li>
+          @for (reasonCode of d.reasons; track reasonCode) {
+            <li>{{ reason(reasonCode) }}</li>
+          } @empty {
+            <li>Configured evidence gates passed; model assumptions remain.</li>
           }
         </ul>
+        <details>
+          <summary>Underlying forecasting warnings</summary>
+          <ul>
+            @for (code of d.elasticity.reasons; track code) {
+              <li>{{ reason(code) }}</li>
+            }
+          </ul>
+        </details>
       </details>
       <app-evaluation-history [variantId]="d.variant.variantId" [evaluation]="d" />
-      <h3>Backtest evidence</h3>
-      <div
-        class="scroll-region"
-        role="region"
-        aria-label="Recommendation backtest table"
-        tabindex="0"
-      >
-        <table>
-          <caption class="sr-only">
-            Chronological observed-sales backtests
-          </caption>
-          <thead>
-            <tr>
-              <th>UTC held-out range</th>
-              <th>Status</th>
-              <th>Model MAE</th>
-              <th>Naive MAE</th>
-              <th>WAPE (%)</th>
-              <th>Censored / unknown dates</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (fold of d.backtests; track fold.cutoff) {
+      <details class="advanced-evidence">
+        <summary>Model validation and assumptions</summary>
+        <h3>Backtest evidence</h3>
+        <div
+          class="scroll-region"
+          role="region"
+          aria-label="Recommendation backtest table"
+          tabindex="0"
+        >
+          <table>
+            <caption class="sr-only">
+              Chronological observed-sales backtests
+            </caption>
+            <thead>
               <tr>
-                <th scope="row">{{ fold.cutoff }}–{{ fold.endDate }} (exclusive)</th>
-                <td>{{ fold.status }}</td>
-                <td>{{ fold.model?.mae ?? 'Unavailable' }}</td>
-                <td>{{ fold.naive?.mae ?? 'Unavailable' }}</td>
-                <td>{{ fold.model?.wapePercent ?? 'Unavailable' }}</td>
-                <td>{{ fold.censoredDays }} / {{ fold.unknownDays }}</td>
+                <th>UTC held-out range</th>
+                <th>Status</th>
+                <th>Model MAE</th>
+                <th>Naive MAE</th>
+                <th>WAPE (%)</th>
+                <th>Censored / unknown dates</th>
               </tr>
+            </thead>
+            <tbody>
+              @for (fold of d.backtests; track fold.cutoff) {
+                <tr>
+                  <th scope="row">{{ fold.cutoff }}–{{ fold.endDate }} (exclusive)</th>
+                  <td>{{ fold.status }}</td>
+                  <td>{{ fold.model?.mae ?? 'Unavailable' }}</td>
+                  <td>{{ fold.naive?.mae ?? 'Unavailable' }}</td>
+                  <td>{{ fold.model?.wapePercent ?? 'Unavailable' }}</td>
+                  <td>{{ fold.censoredDays }} / {{ fold.unknownDays }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="notice">
+          Estimated contribution excludes returns, taxes, shipping, fees, marketing and overhead.
+          Future availability and price response are assumptions. No improvement is promised.
+        </p>
+        <details>
+          <summary>All model assumptions</summary>
+          <ul>
+            @for (code of d.assumptions; track code) {
+              <li>{{ reason(code) }}</li>
             }
-          </tbody>
-        </table>
-      </div>
-      <p class="notice">
-        Estimated contribution excludes returns, taxes, shipping, fees, marketing and overhead.
-        Future availability and price response are assumptions. No improvement is promised.
-      </p>
-      <details>
-        <summary>All model assumptions</summary>
-        <ul>
-          @for (code of d.assumptions; track code) {
-            <li>{{ reason(code) }}</li>
-          }
-        </ul>
+          </ul>
+        </details>
       </details>
       <a
         [routerLink]="[

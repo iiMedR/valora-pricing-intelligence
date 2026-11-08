@@ -1,3 +1,4 @@
+import { ZardButtonComponent } from '@/shared/components/button';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { DatePipe, KeyValuePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -6,13 +7,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OnboardingApi, Detail } from './onboarding-api';
 import { apiError } from '../catalog/services/catalog-api.service';
 @Component({
-  imports: [DatePipe, KeyValuePipe, RouterLink],
+  imports: [ZardButtonComponent, DatePipe, KeyValuePipe, RouterLink],
   template: `<a routerLink="/onboarding">← Onboarding</a>
     <p class="eyebrow top-space">VARIANT EVIDENCE</p>
     <h1 class="page-title">Readiness detail</h1>
     @if (error()) {
       <p role="alert" class="error">
-        {{ error() }} <button (click)="load()">Retry variant assessment</button>
+        {{ error() }}
+        <button z-button zType="outline" (click)="load()">Retry variant assessment</button>
       </p>
     }
     @if (busy()) {
@@ -115,8 +117,8 @@ import { apiError } from '../catalog/services/catalog-api.service';
           @for (entry of row.dimensions | keyvalue; track entry.key) {
             <dt>{{ label(entry.key) }} · {{ entry.value.status }}</dt>
             <dd>
-              <strong>{{ entry.value.code }}</strong
-              ><br />{{ entry.value.message }}<br />Provenance:
+              <strong>{{ entry.value.code }}</strong><br />{{ entry.value.message
+              }}<br />Provenance:
               {{ entry.value.provenance || 'Unknown' }}
             </dd>
           }
@@ -148,7 +150,9 @@ import { apiError } from '../catalog/services/catalog-api.service';
           }
         </ul>
       </section>
-      <button (click)="load()" [disabled]="busy()">Refresh variant assessment</button>
+      <button z-button zType="outline" (click)="load()" [disabled]="busy()">
+        Refresh variant assessment
+      </button>
     }`,
   styles: [
     `

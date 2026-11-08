@@ -13,6 +13,20 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EnvironmentIndicator } from './core/environment-indicator';
 import { SessionNav } from './core/session-nav';
 import { ConfirmDialog } from './core/confirmation';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  lucideChartNoAxesColumnIncreasing,
+  lucideHouse,
+  lucidePackage,
+  lucideTags,
+  lucideShoppingCart,
+  lucideChartNoAxesCombined,
+  lucideTrendingUp,
+  lucideLightbulb,
+  lucideClipboardCheck,
+  lucideStore,
+  lucideSettings,
+} from '@ng-icons/lucide';
 @Component({
   selector: 'app-root',
   imports: [
@@ -22,11 +36,28 @@ import { ConfirmDialog } from './core/confirmation';
     EnvironmentIndicator,
     SessionNav,
     ConfirmDialog,
+    NgIcon,
+  ],
+  viewProviders: [
+    provideIcons({
+      lucideChartNoAxesColumnIncreasing,
+      lucideHouse,
+      lucidePackage,
+      lucideTags,
+      lucideShoppingCart,
+      lucideChartNoAxesCombined,
+      lucideTrendingUp,
+      lucideLightbulb,
+      lucideClipboardCheck,
+      lucideStore,
+      lucideSettings,
+    }),
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
+  readonly pageTitle = signal('Overview');
   readonly menuOpen = signal(false);
   private navigationScroll = 0;
   private restoreTimer?: ReturnType<typeof setTimeout>;
@@ -34,30 +65,30 @@ export class App {
   readonly menu = viewChild<ElementRef<HTMLButtonElement>>('menu');
   readonly groups = [
     {
-      label: 'Get started',
+      label: 'Workspace',
       links: [
-        ['/', 'Overview'],
-        ['/store-connection', 'Store connection'],
-        ['/onboarding', 'Onboarding'],
+        ['/', 'Overview', 'lucideHouse'],
+        ['/products', 'Catalog', 'lucidePackage'],
+        ['/orders', 'Orders & refunds', 'lucideShoppingCart'],
       ],
     },
     {
-      label: 'Manage records',
+      label: 'Insights & decisions',
       links: [
-        ['/products', 'Products'],
-        ['/categories', 'Categories'],
-        ['/orders', 'Orders & refunds'],
+        ['/analytics', 'Analytics', 'lucideChartNoAxesCombined'],
+        ['/forecasting', 'Forecasting', 'lucideTrendingUp'],
+        ['/optimization', 'Recommendations', 'lucideLightbulb'],
+        ['/onboarding', 'Data readiness', 'lucideClipboardCheck'],
       ],
     },
     {
-      label: 'Review performance',
+      label: 'Integrations & settings',
       links: [
-        ['/analytics', 'Analytics'],
-        ['/forecasting', 'Demand forecasting'],
-        ['/optimization', 'Pricing recommendations'],
+        ['/store-connection', 'Shopify', 'lucideStore'],
+        ['/settings', 'Business settings', 'lucideSettings'],
+        ['/categories', 'Categories', 'lucideTags'],
       ],
     },
-    { label: 'Your business', links: [['/settings', 'Business settings']] },
   ];
   constructor() {
     inject(Router)
@@ -65,7 +96,15 @@ export class App {
         filter((e) => e instanceof NavigationEnd),
         takeUntilDestroyed(inject(DestroyRef)),
       )
-      .subscribe(() => {
+      .subscribe((event) => {
+        const path = (event as NavigationEnd).urlAfterRedirects.split('?')[0];
+        this.pageTitle.set(
+          this.groups
+            .flatMap((group) => group.links)
+            .find(
+              (link) => path === link[0] || (link[0] !== '/' && path.startsWith(link[0] + '/')),
+            )?.[1] ?? 'SmartPricing',
+        );
         clearTimeout(this.restoreTimer);
         this.menuOpen.set(false);
         // Focus the destination landmark after routed content is inserted, without interrupting form updates.

@@ -1,3 +1,4 @@
+import { ZardButtonComponent } from '@/shared/components/button';
 import { SessionService } from '../../core/session.service';
 import { statusLabel } from '../../core/presentation';
 import { apiError } from '../catalog/services/catalog-api.service';
@@ -18,6 +19,7 @@ interface History {
   totalElements: number;
 }
 @Component({
+  imports: [ZardButtonComponent],
   selector: 'app-evaluation-history',
   template: `
     <h3>Saved evaluation history</h3>
@@ -30,7 +32,7 @@ interface History {
         Re-evaluate the selected dates and horizon, then save that fresh conclusion. This saves
         metadata only; it never changes a price.
       </p>
-      <button class="primary" (click)="save()" [disabled]="saving() || loading()">
+      <button z-button class="primary" (click)="save()" [disabled]="saving() || loading()">
         {{ saving() ? 'Saving evaluation…' : 'Save fresh evaluation' }}
       </button>
     }
@@ -42,7 +44,7 @@ interface History {
     @if (message()) {
       <p class="success" role="status">{{ message() }}</p>
     }
-    <button (click)="load(0)" [disabled]="loading() || saving()">
+    <button z-button zType="outline" (click)="load(0)" [disabled]="loading() || saving()">
       {{ loading() ? 'Loading history…' : 'Load saved evaluations' }}
     </button>
     @if (error()) {
@@ -59,10 +61,20 @@ interface History {
       } @empty {
         <p>No saved evaluations. Realized outcomes have not been measured.</p>
       }
-      <button (click)="load(page - 1)" [disabled]="loading() || page === 0">
+      <button
+        z-button
+        zType="outline"
+        (click)="load(page - 1)"
+        [disabled]="loading() || page === 0"
+      >
         Previous evaluations
       </button>
-      <button (click)="load(page + 1)" [disabled]="loading() || (page + 1) * 5 >= h.totalElements">
+      <button
+        z-button
+        zType="outline"
+        (click)="load(page + 1)"
+        [disabled]="loading() || (page + 1) * 5 >= h.totalElements"
+      >
         Next evaluations
       </button>
     }

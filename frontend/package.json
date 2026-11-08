@@ -19,7 +19,15 @@
     "@angular/platform-browser": "22.2.6",
     "@angular/router": "22.2.6",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@angular/cdk": "22.2.6",
+    "@ng-icons/core": "36.1.0",
+    "@ng-icons/lucide": "36.1.0",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "tailwind-merge": "3.7.0",
+    "echarts": "6.1.0",
+    "ngx-echarts": "22.0.0"
   },
   "devDependencies": {
     "@angular/build": "22.2.6",
@@ -28,6 +36,10 @@
     "jsdom": "^30.0.0",
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.0",
+    "@tailwindcss/postcss": "4.3.5",
+    "tailwindcss": "4.3.5",
+    "tailwindcss-animate": "1.0.7",
+    "postcss": "8.5.32"
   }
 }

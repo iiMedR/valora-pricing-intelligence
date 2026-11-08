@@ -1,3 +1,4 @@
+import { ZardButtonComponent } from '@/shared/components/button';
 import { EditorState } from '../../../core/editor-state';
 import { Confirmation } from '../../../core/confirmation';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
@@ -17,11 +18,12 @@ import { ProductForm } from '../components/product-form';
 import { VariantForm } from '../components/variant-form';
 import { SessionService } from '../../../core/session.service';
 @Component({
-  imports: [RouterLink, ProductForm, VariantForm],
+  imports: [ZardButtonComponent, RouterLink, ProductForm, VariantForm],
   template: ` <a routerLink="/products">← All products</a>
     @if (error()) {
       <div class="error" role="alert">
-        {{ error() }} <button (click)="reload()" [disabled]="saving()">Reload</button>
+        {{ error() }}
+        <button z-button zType="outline" (click)="reload()" [disabled]="saving()">Reload</button>
       </div>
     }
     @if (message()) {
@@ -38,11 +40,15 @@ import { SessionService } from '../../../core/session.service';
         </div>
         <div class="actions">
           <button
+            z-button
+            zType="outline"
             (click)="editingProduct.set(true)"
             [disabled]="saving() || readOnly() || editingProduct() || editingVariant()"
           >
             Edit product</button
           ><button
+            z-button
+            zType="outline"
             (click)="archiveProduct()"
             [disabled]="
               saving() ||
@@ -80,6 +86,7 @@ import { SessionService } from '../../../core/session.service';
           Variants <span class="muted">· {{ settings()?.currencyCode }}</span>
         </h2>
         <button
+          z-button
           class="primary"
           (click)="newVariant()"
           [disabled]="saving() || readOnly() || editingProduct() || editingVariant()"
@@ -116,9 +123,16 @@ import { SessionService } from '../../../core/session.service';
                   </p>
                 </div>
                 <div class="actions">
-                  <button (click)="editVariant(v)" [disabled]="saving() || readOnly()">
+                  <button
+                    z-button
+                    zType="outline"
+                    (click)="editVariant(v)"
+                    [disabled]="saving() || readOnly()"
+                  >
                     Edit<span class="sr-only"> {{ v.sku }}</span></button
                   ><button
+                    z-button
+                    zType="outline"
                     (click)="archiveVariant(v)"
                     [disabled]="
                       saving() ||

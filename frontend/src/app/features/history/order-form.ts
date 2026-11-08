@@ -1,3 +1,5 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { EditForm, ControlState } from '../../core/editor-state';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -41,7 +43,14 @@ function lineForm() {
   });
 }
 @Component({
-  imports: [EditForm, ControlState, ReactiveFormsModule, RouterLink],
+  imports: [
+    ZardButtonComponent,
+    ZardInputComponent,
+    EditForm,
+    ControlState,
+    ReactiveFormsModule,
+    RouterLink,
+  ],
   template: ` <a routerLink="/orders">← Sales orders</a>
     <p class="eyebrow top-space">MANUAL ENTRY</p>
     <h1 class="page-title">Enter an order</h1>
@@ -51,7 +60,10 @@ function lineForm() {
     </p>
     @if (error()) {
       <div class="error" role="alert">
-        {{ error() }} <button type="button" (click)="load()">Retry loading choices</button>
+        {{ error() }}
+        <button z-button zType="outline" type="button" (click)="load()">
+          Retry loading choices
+        </button>
       </div>
     }
     @if (loading()) {
@@ -59,10 +71,23 @@ function lineForm() {
     } @else {
       <div class="filters">
         <label>Find products<input #search type="search" placeholder="Product name" /></label
-        ><button type="button" (click)="findProducts(search.value)">Find products</button
-        ><button type="button" (click)="productPage(-1)" [disabled]="lookupPage === 0">
+        ><button z-button zType="outline" type="button" (click)="findProducts(search.value)">
+          Find products</button
+        ><button
+          z-button
+          zType="outline"
+          type="button"
+          (click)="productPage(-1)"
+          [disabled]="lookupPage === 0"
+        >
           Previous choices</button
-        ><button type="button" (click)="productPage(1)" [disabled]="!moreProducts()">
+        ><button
+          z-button
+          zType="outline"
+          type="button"
+          (click)="productPage(1)"
+          [disabled]="!moreProducts()"
+        >
           Next choices
         </button>
       </div>
@@ -81,10 +106,12 @@ function lineForm() {
         <div class="form-grid">
           <label
             >Order reference / retry key<input
+              z-input
               formControlName="externalReference"
               maxlength="160" /></label
           ><label
             >Placed at (local time)<input
+              z-input
               type="datetime-local"
               step="0.001"
               formControlName="placedAt" /></label
@@ -126,19 +153,25 @@ function lineForm() {
                     step="1"
                     formControlName="quantity" /></label
                 ><label
-                  >Unit transaction price<input inputmode="decimal" formControlName="unitPrice"
+                  >Unit transaction price<input
+                    z-input
+                    inputmode="decimal"
+                    formControlName="unitPrice"
                 /></label>
                 <label
                   >Allocated line discount (total)<input
+                    z-input
                     inputmode="decimal"
                     formControlName="discountAmount" /></label
                 ><label
                   >Listed unit price, if known<input
+                    z-input
                     inputmode="decimal"
                     formControlName="listUnitPrice"
                     placeholder="Unknown" /></label
                 ><label
                   >Historical unit cost, if known<input
+                    z-input
                     inputmode="decimal"
                     formControlName="unitCost"
                     placeholder="Unknown / effective history"
@@ -149,6 +182,8 @@ function lineForm() {
                 verified effective cost history if available, otherwise stays unknown.
               </p>
               <button
+                z-button
+                zType="outline"
                 type="button"
                 (click)="removeLine(i)"
                 [disabled]="saving() || form.controls.lines.length === 1"
@@ -159,6 +194,8 @@ function lineForm() {
           }
         </div>
         <button
+          z-button
+          zType="outline"
           type="button"
           (click)="addLine()"
           [disabled]="saving() || form.controls.lines.length >= 100"
@@ -168,11 +205,13 @@ function lineForm() {
         <div class="form-grid top-space">
           <label
             >Shipping amount, if known<input
+              z-input
               formControlName="shippingAmount"
               inputmode="decimal"
               placeholder="Unknown" /></label
           ><label
             >Tax amount, if known<input
+              z-input
               formControlName="taxAmount"
               inputmode="decimal"
               placeholder="Unknown"
@@ -185,7 +224,7 @@ function lineForm() {
           </p>
         }
         <div class="actions">
-          <button type="submit" class="primary" [disabled]="saving()">
+          <button z-button type="submit" class="primary" [disabled]="saving()">
             {{ saving() ? 'Saving…' : 'Save order' }}</button><a routerLink="/orders">Cancel</a>
         </div>
       </form>

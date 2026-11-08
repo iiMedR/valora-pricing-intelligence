@@ -49,7 +49,7 @@ describe('Merchant application shell', () => {
     const f = await create();
     const nav = f.nativeElement.querySelector('nav');
     expect(nav.textContent).toContain('Overview');
-    expect(nav.textContent).toContain('Get started');
+    expect(nav.textContent).toContain('Data readiness');
     expect(nav.textContent).toContain('Orders & refunds');
     expect(nav.querySelectorAll('a').length).toBe(10);
     expect(f.nativeElement.textContent).toContain('Normal workspace');

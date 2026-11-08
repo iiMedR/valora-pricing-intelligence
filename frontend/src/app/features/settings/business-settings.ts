@@ -1,3 +1,5 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { EditorState } from '../../core/editor-state';
 import { EditForm, ControlState } from '../../core/editor-state';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
@@ -8,7 +10,7 @@ import { BusinessSettings as Settings } from '../catalog/models/catalog.models';
 import { requiredText } from '../catalog/components/form-validation';
 import { SessionService } from '../../core/session.service';
 @Component({
-  imports: [EditForm, ControlState, ReactiveFormsModule],
+  imports: [ZardButtonComponent, ZardInputComponent, EditForm, ControlState, ReactiveFormsModule],
   template: ` <p class="eyebrow">YOUR BUSINESS</p>
     <h1 class="page-title">Business settings</h1>
     <p class="muted">Set the display name and currency for this installation.</p>
@@ -18,7 +20,10 @@ import { SessionService } from '../../core/session.service';
     </p>
     @if (error()) {
       <div class="error" role="alert">
-        {{ error() }} <button (click)="reload()" [disabled]="saving()">Reload settings</button>
+        {{ error() }}
+        <button z-button zType="outline" (click)="reload()" [disabled]="saving()">
+          Reload settings
+        </button>
       </div>
     }
     @if (message()) {
@@ -42,10 +47,11 @@ import { SessionService } from '../../core/session.service';
           (ngSubmit)="save()"
         >
           <label
-            >Business display name<input formControlName="displayName" maxlength="120"
+            >Business display name<input z-input formControlName="displayName" maxlength="120"
           /></label>
           <label
             >Currency code<input
+              z-input
               formControlName="currencyCode"
               maxlength="3"
               pattern="[A-Z]{3}"
@@ -61,7 +67,7 @@ import { SessionService } from '../../core/session.service';
               Use a display name with 2–120 characters and a three-letter uppercase currency code.
             </p>
           }
-          <button type="submit" class="primary" [disabled]="saving()">
+          <button z-button type="submit" class="primary" [disabled]="saving()">
             {{ saving() ? 'Saving…' : 'Save settings' }}
           </button>
         </form>

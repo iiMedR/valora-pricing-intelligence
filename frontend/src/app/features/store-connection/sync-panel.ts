@@ -1,3 +1,5 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe, KeyValuePipe } from '@angular/common';
@@ -29,7 +31,7 @@ export interface SyncStatus {
 }
 @Component({
   selector: 'app-sync-panel',
-  imports: [FormsModule, DatePipe, KeyValuePipe],
+  imports: [ZardButtonComponent, ZardInputComponent, FormsModule, DatePipe, KeyValuePipe],
   template: `
     <section class="sync-panel" aria-labelledby="sync-title">
       <p class="eyebrow">READ-ONLY SHOPIFY IMPORT</p>
@@ -61,9 +63,12 @@ export interface SyncStatus {
             readiness are assessed separately.
           </p>
           <div class="import-controls">
-            <label>Historical start (UTC)<input type="date" [(ngModel)]="from" /></label>
-            <label>Historical end, exclusive (UTC)<input type="date" [(ngModel)]="to" /></label>
+            <label>Historical start (UTC)<input z-input type="date" [(ngModel)]="from" /></label>
+            <label
+              >Historical end, exclusive (UTC)<input z-input type="date" [(ngModel)]="to"
+            /></label>
             <button
+              z-button
               class="primary"
               (click)="start('INITIAL')"
               [disabled]="busy() || active() || !sync.connected || !from || !to"
@@ -71,6 +76,8 @@ export interface SyncStatus {
               Import historical data
             </button>
             <button
+              z-button
+              zType="outline"
               (click)="start('INCREMENTAL')"
               [disabled]="busy() || active() || !sync.connected || !sync.lastSuccessfulSync"
             >
@@ -108,7 +115,12 @@ export interface SyncStatus {
                 </p>
               }
               @if (job.state === 'PARTIAL' || job.state === 'FAILED') {
-                <button (click)="resume(job.id)" [disabled]="busy() || !sync.connected">
+                <button
+                  z-button
+                  zType="outline"
+                  (click)="resume(job.id)"
+                  [disabled]="busy() || !sync.connected"
+                >
                   Resume failed import
                 </button>
               }
@@ -127,7 +139,9 @@ export interface SyncStatus {
             historical series. Older orders require extra Shopify approval. Ambiguous financial
             changes stop for reconciliation; nothing is written to Shopify.
           </p>
-          <button (click)="history()" [disabled]="busy()">View import history</button>
+          <button z-button zType="outline" (click)="history()" [disabled]="busy()">
+            View import history
+          </button>
           @if (jobs(); as records) {
             <ul>
               @for (record of records; track record.id) {
@@ -144,7 +158,9 @@ export interface SyncStatus {
       } @else {
         <p role="status">Loading synchronization status…</p>
       }
-      <button (click)="load()" [disabled]="busy()">Refresh import status</button>
+      <button z-button zType="outline" (click)="load()" [disabled]="busy()">
+        Refresh import status
+      </button>
     </section>
   `,
   styles: [

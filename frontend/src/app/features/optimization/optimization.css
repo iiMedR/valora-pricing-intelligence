@@ -2,6 +2,14 @@
   display: block;
   min-width: 0;
 }
+.reference-line {
+  stroke: var(--muted-foreground);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+.sensitivity-dot {
+  fill: var(--primary);
+}
 .optimization-filters {
   display: flex;
   align-items: end;
@@ -23,7 +31,7 @@ label {
 }
 .notice {
   padding: 16px;
-  background: #fff1c7;
+  background: var(--warning-surface);
   font-size: 13px;
   line-height: 1.7;
   border-radius: 6px;
@@ -40,7 +48,7 @@ label {
 }
 .status-grid article,
 .input-grid article {
-  border: 1px solid #d4dfd7;
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 18px;
   background: white;
@@ -58,7 +66,7 @@ label {
 .scroll-region {
   overflow: auto;
   max-width: 100%;
-  border: 1px solid #d4dfd7;
+  border: 1px solid var(--border);
   border-radius: 8px;
   margin: 20px 0;
 }
@@ -92,7 +100,7 @@ small {
 }
 .evaluation {
   padding: 26px;
-  border: 1px solid #d4dfd7;
+  border: 1px solid var(--border);
   border-radius: 10px;
   margin-top: 30px;
   background: white;
@@ -124,8 +132,8 @@ small {
   font-weight: 600;
 }
 .abstention {
-  background: #edf2ef;
-  border-left: 4px solid #52665f;
+  background: var(--muted);
+  border-left: 4px solid var(--muted-foreground);
   padding: 16px;
 }
 .abstention h3 {
@@ -138,7 +146,7 @@ small {
   margin: 0;
 }
 .candidate {
-  background: #edf5ef;
+  background: var(--success-surface);
   border-radius: 8px;
   padding: 18px;
   margin: 24px 0;
@@ -162,14 +170,14 @@ svg {
 }
 svg text {
   font-size: 11px;
-  fill: #52665f;
+  fill: var(--muted-foreground);
 }
 .baseline {
-  stroke: #b7c8bd;
+  stroke: var(--border);
 }
 .curve {
   fill: none;
-  stroke: #234e42;
+  stroke: var(--primary);
   stroke-width: 2.5;
 }
 @media (max-width: 1000px) {
@@ -211,6 +219,6 @@ svg text {
     flex-wrap: wrap;
   }
   .page-title {
-    font-size: 34px;
+    font-size: 28px;
   }
 }

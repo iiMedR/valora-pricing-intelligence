@@ -12,23 +12,27 @@
   <span class="report-tag">Read-only reporting</span>
 </div>
 <form class="report-filters" [formGroup]="filters" (ngSubmit)="apply()">
-  <label>Start date (UTC)<input type="date" formControlName="startDate" required /></label>
-  <label>End date, exclusive (UTC)<input type="date" formControlName="endDate" required /></label>
+  <label>Start date (UTC)<input z-input type="date" formControlName="startDate" required /></label>
+  <label
+    >End date, exclusive (UTC)<input z-input type="date" formControlName="endDate" required
+  /></label>
   <label
     >Trend interval<select formControlName="granularity">
       <option value="DAY">Daily</option>
       <option value="MONTH">Monthly</option>
     </select></label
   >
-  <button class="primary">Apply report</button>
+  <button z-button class="primary">Apply report</button>
 </form>
 <div class="presets" aria-label="Date presets">
-  <button (click)="preset('30')">Last 30 days</button
-  ><button (click)="preset('90')">Last 90 days</button
-  ><button (click)="preset('2025')">Full 2025 · demo period</button>
+  <button z-button zType="outline" (click)="preset('30')">Last 30 days</button
+  ><button z-button zType="outline" (click)="preset('90')">Last 90 days</button
+  ><button z-button zType="outline" (click)="preset('2025')">Full 2025 · demo period</button>
 </div>
 @if (error()) {
-  <div class="error" role="alert">{{ error() }} <button (click)="load()">Retry report</button></div>
+  <div class="error" role="alert">
+    {{ error() }} <button z-button zType="outline" (click)="load()">Retry report</button>
+  </div>
 }
 @if (loading()) {
   <p role="status">Loading analytics…</p>
@@ -88,7 +92,12 @@
       <p>On positive known-cost net sales only</p>
     </article>
     <article class="kpi">
-      <h2>Historical cost coverage</h2>
+      <h2>
+        Historical cost coverage
+        <app-help-tooltip
+          text="Share of sales lines with a known historical cost. Current catalog costs do not fill missing historical costs. This is not a business readiness score."
+        />
+      </h2>
       <p class="kpi-value">
         {{
           report.metrics.salesCostCoveragePercent === null
@@ -116,32 +125,7 @@
         </div>
         <span>{{ trend.granularity }} · {{ report.range.currencyCode }}</span>
       </div>
-      <svg
-        class="sales-chart"
-        viewBox="0 0 800 230"
-        role="img"
-        aria-labelledby="chart-title chart-description"
-      >
-        <title id="chart-title">
-          Net sales by {{ trend.granularity === 'DAY' ? 'day' : 'month' }}
-        </title>
-        <desc id="chart-description">
-          Merchandise sales minus refunds in each UTC period. Zero baseline shown; refunds may make
-          net sales negative. Exact values are in the trend data table below.
-        </desc>
-        <line
-          x1="45"
-          x2="755"
-          [attr.y1]="chart().zero"
-          [attr.y2]="chart().zero"
-          class="zero-line"
-        />
-        <polyline [attr.points]="chart().points" fill="none" class="trend-line" />
-        <text x="45" y="18">{{ chart().high }}</text>
-        <text x="45" y="211">{{ chart().low }}</text>
-        <text x="45" y="229">{{ chart().first }}</text>
-        <text x="755" y="229" text-anchor="end">{{ chart().last }}</text>
-      </svg>
+      <app-sales-chart [data]="trend" />
       <details>
         <summary>View exact trend data ({{ trend.content.length }} periods)</summary>
         <div class="analytics-scroll" role="region" aria-label="Trend data table" tabindex="0">
@@ -189,6 +173,7 @@
       <form class="performance-filters" [formGroup]="filters" (ngSubmit)="apply()">
         <label
           >Search product name<input
+            z-input
             formControlName="search"
             maxlength="100"
             type="search" /></label
@@ -198,7 +183,7 @@
             <option value="GROSS_DESC">Gross sales ↓</option>
             <option value="NAME_ASC">Name A–Z</option>
           </select></label
-        ><button>Update products</button>
+        ><button z-button zType="outline">Update products</button>
       </form>
       <div
         class="analytics-scroll"
@@ -250,6 +235,8 @@
                 <td>{{ money(row.metrics.knownContributionBeforeReturnRecovery) }}</td>
                 <td>
                   <button
+                    z-button
+                    zType="outline"
                     (click)="showVariants(row)"
                     [attr.aria-label]="'Inspect variants for ' + row.name"
                   >
@@ -271,8 +258,14 @@
           {{ performance.results.page + 1 }} of {{ performance.results.totalPages || 1 }}</span
         >
         <div class="actions">
-          <button (click)="changePage(-1)" [disabled]="page === 0">Previous products</button
-          ><button (click)="changePage(1)" [disabled]="page + 1 >= performance.results.totalPages">
+          <button z-button zType="outline" (click)="changePage(-1)" [disabled]="page === 0">
+            Previous products</button
+          ><button
+            z-button
+            zType="outline"
+            (click)="changePage(1)"
+            [disabled]="page + 1 >= performance.results.totalPages"
+          >
             Next products
           </button>
         </div>
@@ -281,14 +274,17 @@
         <div class="variant-detail">
           <div class="section-heading">
             <h3>Variants · {{ selected.name }}</h3>
-            <button (click)="closeVariants()">Close variants</button>
+            <button z-button zType="outline" (click)="closeVariants()">Close variants</button>
           </div>
           @if (detailLoading()) {
             <p role="status">Loading variants…</p>
           }
           @if (detailError()) {
             <p class="error" role="alert">
-              {{ detailError() }} <button (click)="showVariants(selected)">Retry variants</button>
+              {{ detailError() }}
+              <button z-button zType="outline" (click)="showVariants(selected)">
+                Retry variants
+              </button>
             </p>
           }
           @if (variants(); as detail) {
@@ -352,9 +348,16 @@
                 >Page {{ detail.results.page + 1 }} of {{ detail.results.totalPages || 1 }}</span
               >
               <div class="actions">
-                <button (click)="showVariants(selected, -1)" [disabled]="variantPage === 0">
+                <button
+                  z-button
+                  zType="outline"
+                  (click)="showVariants(selected, -1)"
+                  [disabled]="variantPage === 0"
+                >
                   Previous variants</button
                 ><button
+                  z-button
+                  zType="outline"
                   (click)="showVariants(selected, 1)"
                   [disabled]="variantPage + 1 >= detail.results.totalPages"
                 >
@@ -443,9 +446,16 @@
           {{ stock.results.totalPages || 1 }}</span
         >
         <div class="actions">
-          <button (click)="changePage(-1, true)" [disabled]="inventoryPage === 0">
+          <button
+            z-button
+            zType="outline"
+            (click)="changePage(-1, true)"
+            [disabled]="inventoryPage === 0"
+          >
             Previous inventory</button
           ><button
+            z-button
+            zType="outline"
             (click)="changePage(1, true)"
             [disabled]="inventoryPage + 1 >= stock.results.totalPages"
           >

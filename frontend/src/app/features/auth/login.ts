@@ -1,3 +1,5 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -5,7 +7,7 @@ import { finalize } from 'rxjs';
 import { SessionService, safeReturnUrl } from '../../core/session.service';
 import { apiError } from '../catalog/services/catalog-api.service';
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [ZardButtonComponent, ZardInputComponent, ReactiveFormsModule],
   template: `
     <section class="editor">
       <p class="eyebrow">LOCAL ADMINISTRATOR</p>
@@ -25,18 +27,20 @@ import { apiError } from '../catalog/services/catalog-api.service';
       <form [formGroup]="form" (ngSubmit)="login()">
         <label
           >Account name<input
+            z-input
             formControlName="username"
             autocomplete="username"
             maxlength="64"
             required /></label
         ><label
           >Password<input
+            z-input
             type="password"
             formControlName="password"
             autocomplete="current-password"
             maxlength="72"
             required /></label
-        ><button class="primary" [disabled]="busy() || form.invalid">
+        ><button z-button class="primary" [disabled]="busy() || form.invalid">
           {{ busy() ? 'Signing in…' : 'Sign in' }}
         </button>
       </form>

@@ -2,8 +2,11 @@
 <div class="app-frame">
   <header class="workspace-header">
     <a class="brand" routerLink="/" aria-label="SmartPricing overview"
-      >SmartPricing<span>Merchant workspace</span></a
+      ><ng-icon name="lucideChartNoAxesColumnIncreasing" aria-hidden="true" /> SmartPricing</a
     >
+    <div class="workspace-title">
+      <strong>{{ pageTitle() }}</strong><span>Your store performance and pricing insights.</span>
+    </div>
     <button
       #menu
       class="menu-toggle"
@@ -31,7 +34,7 @@
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: link[0] === '/' }"
             ariaCurrentWhenActive="page"
-            >{{ link[1] }}</a
+            ><ng-icon [name]="link[2]" aria-hidden="true" />{{ link[1] }}</a
           >
         }
       </div>

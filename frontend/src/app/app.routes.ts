@@ -1,9 +1,12 @@
 import { editorLeaveGuard } from './core/editor-state';
 import { Routes } from '@angular/router';
-import { Home } from './features/home/home';
 import { authGuard, writeGuard } from './core/auth-integration';
 export const routes: Routes = [
-  { path: '', component: Home, title: 'Overview | SmartPricing' },
+  {
+    path: '',
+    loadComponent: () => import('./features/home/home').then((m) => m.Home),
+    title: 'Overview | SmartPricing',
+  },
   {
     path: 'onboarding',
     canActivate: [authGuard],

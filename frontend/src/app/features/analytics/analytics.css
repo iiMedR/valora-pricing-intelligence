@@ -4,7 +4,7 @@
 }
 .report-tag {
   padding: 8px 12px;
-  border: 1px solid #becfc5;
+  border: 1px solid var(--border);
   border-radius: 20px;
   font-size: 12px;
   white-space: nowrap;
@@ -38,7 +38,7 @@ label {
 }
 .range-note {
   font-size: 13px;
-  color: #52665f;
+  color: var(--muted-foreground);
 }
 .kpi-grid {
   display: grid;
@@ -48,7 +48,7 @@ label {
 }
 .kpi {
   padding: 22px 18px;
-  border: 1px solid #d4dfd7;
+  border: 1px solid var(--border);
   border-radius: 10px;
   background: white;
   min-width: 0;
@@ -59,7 +59,7 @@ label {
   margin: 0 0 16px;
 }
 .kpi-value {
-  font-size: clamp(18px, 2.1vw, 29px);
+  font-size: clamp(18px, 1.8vw, 24px);
   font-weight: 600;
   letter-spacing: -0.6px;
   margin: 0 0 12px;
@@ -75,19 +75,19 @@ label {
   letter-spacing: 0;
 }
 .featured {
-  background: #234e42;
+  background: var(--primary);
   color: #fff;
 }
 .accounting-note {
   font-size: 13px;
-  color: #52665f;
+  color: var(--muted-foreground);
   line-height: 1.7;
   max-width: 100%;
 }
 .analytics-panel {
   background: #fff;
   padding: 26px;
-  border: 1px solid #d4dfd7;
+  border: 1px solid var(--border);
   border-radius: 10px;
   margin: 26px 0;
   min-width: 0;
@@ -111,7 +111,7 @@ label {
 }
 .section-heading span {
   font-size: 12px;
-  color: #52665f;
+  color: var(--muted-foreground);
 }
 .sales-chart {
   width: 100%;
@@ -121,14 +121,14 @@ label {
 }
 .sales-chart text {
   font-size: 11px;
-  fill: #52665f;
+  fill: var(--muted-foreground);
 }
 .zero-line {
-  stroke: #8da399;
+  stroke: var(--muted-foreground);
   stroke-dasharray: 4 4;
 }
 .trend-line {
-  stroke: #234e42;
+  stroke: var(--primary);
   stroke-width: 2.5;
   stroke-linejoin: round;
 }
@@ -140,7 +140,7 @@ summary {
 .analytics-scroll {
   max-width: 100%;
   overflow: auto;
-  border: 1px solid #d4dfd7;
+  border: 1px solid var(--border);
   border-radius: 6px;
 }
 .analytics-scroll table {
@@ -174,7 +174,7 @@ small {
   min-width: 180px;
 }
 .variant-detail {
-  border-top: 1px solid #d4dfd7;
+  border-top: 1px solid var(--border);
   padding-top: 24px;
   margin-top: 24px;
 }
@@ -188,7 +188,7 @@ small {
     align-items: start;
   }
   .page-title {
-    font-size: 34px;
+    font-size: 28px;
   }
   .kpi-grid {
     gap: 10px;

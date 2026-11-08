@@ -1,3 +1,5 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { SessionService } from '../../core/session.service';
 import { initialWindow } from '../analytics/analytics-api.service';
 import { statusLabel, explainReason, reasonSummary } from '../../core/presentation';
@@ -18,7 +20,7 @@ import {
   Variant,
 } from './forecast-api.service';
 @Component({
-  imports: [DecimalPipe, ReactiveFormsModule, RouterLink],
+  imports: [ZardButtonComponent, ZardInputComponent, DecimalPipe, ReactiveFormsModule, RouterLink],
   templateUrl: './forecasting.html',
   styleUrl: './forecasting.css',
 })

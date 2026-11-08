@@ -1,3 +1,5 @@
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { Confirmation } from '../../../core/confirmation';
 import { EditForm, ControlState } from '../../../core/editor-state';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
@@ -8,13 +10,14 @@ import { Category } from '../models/catalog.models';
 import { requiredText } from '../components/form-validation';
 import { SessionService } from '../../../core/session.service';
 @Component({
-  imports: [EditForm, ControlState, ReactiveFormsModule],
+  imports: [ZardButtonComponent, ZardInputComponent, EditForm, ControlState, ReactiveFormsModule],
   template: ` <p class="eyebrow">CATALOG ORGANIZATION</p>
     <h1 class="page-title">Categories</h1>
     <p class="muted">Group products into flat categories. Categories in use cannot be deleted.</p>
     @if (error()) {
       <div class="error" role="alert">
-        {{ error() }} <button (click)="load()" [disabled]="saving()">Reload</button>
+        {{ error() }}
+        <button z-button zType="outline" (click)="load()" [disabled]="saving()">Reload</button>
       </div>
     }
     @if (message()) {
@@ -29,7 +32,7 @@ import { SessionService } from '../../../core/session.service';
         (ngSubmit)="save()"
       >
         <h2>{{ selected() ? 'Edit category' : 'Create category' }}</h2>
-        <label>Category name<input formControlName="name" maxlength="100" /></label
+        <label>Category name<input z-input formControlName="name" maxlength="100" /></label
         ><label
           >Description<textarea formControlName="description" maxlength="500" rows="2"></textarea>
         </label>
@@ -39,11 +42,13 @@ import { SessionService } from '../../../core/session.service';
           </p>
         }
         <div class="actions">
-          <button type="submit" class="primary" [disabled]="saving()">
+          <button z-button type="submit" class="primary" [disabled]="saving()">
             {{ saving() ? 'Saving…' : 'Save category' }}
           </button>
           @if (selected()) {
-            <button type="button" (click)="clear()" [disabled]="saving()">Cancel edit</button>
+            <button z-button zType="outline" type="button" (click)="clear()" [disabled]="saving()">
+              Cancel edit
+            </button>
           }
         </div>
       </form>
@@ -63,9 +68,19 @@ import { SessionService } from '../../../core/session.service';
               <p class="muted">{{ c.description || 'No description.' }}</p>
             </div>
             <div class="actions">
-              <button (click)="edit(c)" [disabled]="saving() || readOnly()">
+              <button
+                z-button
+                zType="outline"
+                (click)="edit(c)"
+                [disabled]="saving() || readOnly()"
+              >
                 Edit<span class="sr-only"> {{ c.name }}</span></button
-              ><button (click)="remove(c)" [disabled]="saving() || readOnly()">
+              ><button
+                z-button
+                zType="outline"
+                (click)="remove(c)"
+                [disabled]="saving() || readOnly()"
+              >
                 Delete<span class="sr-only"> {{ c.name }}</span>
               </button>
             </div>

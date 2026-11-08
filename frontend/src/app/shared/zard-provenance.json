@@ -1,0 +1,392 @@
+{
+  "source": "https://zardui.com/r/",
+  "repository": "https://github.com/zard-ui/zardui",
+  "cliVersion": "1.6.0",
+  "retrieved": "2026-11-13",
+  "upstreamFiles": [
+    {
+      "path": "components/alert/alert.component.ts",
+      "sha256": "9a0a57656f441b170140f9f41b55d4ebc6f22b140c6d901f6b3c1e0dcfe33c2a"
+    },
+    {
+      "path": "components/alert/alert.variants.ts",
+      "sha256": "b867ff353ffa0b50ac890751a12f8fe7410ac8620c71328643bd049696f46af5"
+    },
+    {
+      "path": "components/alert/index.ts",
+      "sha256": "3a6c9b2d6a8c18148432c92153726a4d85515f838f16fdea3eb2459eb033d418"
+    },
+    {
+      "path": "components/badge/badge.component.ts",
+      "sha256": "48e65969fbb35bc2a5d441fbb30ebb66a01250626c165c8a4db42a0b48c1d4bc"
+    },
+    {
+      "path": "components/badge/badge.variants.ts",
+      "sha256": "944b2624e23611a732c2dd0cbce7defdf205725098067e310119fae40e316cba"
+    },
+    {
+      "path": "components/badge/index.ts",
+      "sha256": "988efb62e26c41cba0670b5b16d8f2fccf3cb870dfce3a3a54a44c75fc139caf"
+    },
+    {
+      "path": "components/button/button.component.ts",
+      "sha256": "ae579f8481af37d702e8d6acab533e011e7b17151a9bc3421e5da7d9f991ec77"
+    },
+    {
+      "path": "components/button/button.variants.ts",
+      "sha256": "1311dbfd468ec40a5a1f5121b83d4ae551e8b0c754c286a091e76cc92bbd6b53"
+    },
+    {
+      "path": "components/button/index.ts",
+      "sha256": "2345fda45af1ce38820a6fca34320e611d17b8a003e454c940d59fd7ca16a18a"
+    },
+    {
+      "path": "components/card/card.component.ts",
+      "sha256": "d35392a3c58dfb415b80e595a7d2e48d17b134c35e6a53b719db2944fb78e541"
+    },
+    {
+      "path": "components/card/card.imports.ts",
+      "sha256": "f1c8d283768bcdc749d75be57c718b7173c403406fb40bebebaa274ea6bdf49c"
+    },
+    {
+      "path": "components/card/card.variants.ts",
+      "sha256": "55245ecadb3775f48414da4d2bb08ddbcc45a55bbc1f2162c2ad2e91fda5aaa5"
+    },
+    {
+      "path": "components/card/index.ts",
+      "sha256": "a50e45233ce0eff768c984ba167cebf769d01fd8c88323eba94b8a9c374a9ba7"
+    },
+    {
+      "path": "components/chart/chart-arc-label.util.ts",
+      "sha256": "c73bd17fa9d541009e74781440e0c263f68ce6ae97c4786b0b6bed9770500487"
+    },
+    {
+      "path": "components/chart/chart-colors.util.ts",
+      "sha256": "a7195ea83bdb4ba5ebfc3a74c04e55cc2671d8ef4b20783636b3e1cf77fd9db8"
+    },
+    {
+      "path": "components/chart/chart-context.ts",
+      "sha256": "5abf9d20c0b0f74c9d64a6dd6e4c45886695d0f85dc19c12cc11f07f3f1b491e"
+    },
+    {
+      "path": "components/chart/chart-echarts.provider.ts",
+      "sha256": "fc29b6936b0e41756ac282586f79b5ba89a0e7e8a9343fe6bd118fa09e100267"
+    },
+    {
+      "path": "components/chart/chart-echarts.registry.ts",
+      "sha256": "af3009b6455fc8496f4230428a3498329f3fe0524e1da93642541765d5d00dc0"
+    },
+    {
+      "path": "components/chart/chart-legend.component.ts",
+      "sha256": "6996197f84666d7d2dcd49da030f4c554cc8a69a889c893eff10b961e5a410bf"
+    },
+    {
+      "path": "components/chart/chart-option.builder.ts",
+      "sha256": "57a74df59fd9cf27c02c73773cc5781d4127e8fdc5a732fc4b41978f16b3d341"
+    },
+    {
+      "path": "components/chart/chart-ssr.util.ts",
+      "sha256": "1f694c58fc74e369f43a533584041b7db9a0c2821742dcff399e7415e783728d"
+    },
+    {
+      "path": "components/chart/chart-tooltip.component.ts",
+      "sha256": "25b2d35e55edcb44f040e03c4509eb9eb7c02e595574f70e20a155acfff3f9a6"
+    },
+    {
+      "path": "components/chart/chart-tooltip.formatter.ts",
+      "sha256": "3f2cf7cb27399f4d9b67b0144cf6579d49c8132f5e1c3b371b069c023e46df31"
+    },
+    {
+      "path": "components/chart/chart.component.ts",
+      "sha256": "a3daa229ecb236d2f4d435bc982fbb58686e4ad33045e9c1320be1c41ccf5ee0"
+    },
+    {
+      "path": "components/chart/chart.imports.ts",
+      "sha256": "59654811830bbd0749297c8c3a985927700f2b63500f2a38fa31d69211cae21e"
+    },
+    {
+      "path": "components/chart/chart.types.ts",
+      "sha256": "c01ded62b706a3e004c5ca8ec561e96932c9af72b801d111c0420c9cb0e9b39a"
+    },
+    {
+      "path": "components/chart/chart.variants.ts",
+      "sha256": "290b63ecb955f9d16d75bf36db946a45061ff14352caef9e8de1a519fb32e0ce"
+    },
+    {
+      "path": "components/chart/index.ts",
+      "sha256": "cc8a46a4db6a930eb4f0f2c2aa6f7ff65cefdaf0c17e89df9d30faf6afa4a27b"
+    },
+    {
+      "path": "components/empty/empty.component.ts",
+      "sha256": "2b018a95fe34e5540fe10bbd20b7cfce3a3ca4c5ed005df0180493dc00b88d8e"
+    },
+    {
+      "path": "components/empty/empty.variants.ts",
+      "sha256": "41a534ab812618d2b44c76d23f113d06b5091aa99d83b362334978333f01585f"
+    },
+    {
+      "path": "components/empty/index.ts",
+      "sha256": "080709370e5285f36fb0a6d48cb5760691de3a4715957b4ad572bb7dbb4e15c6"
+    },
+    {
+      "path": "components/field/field.component.ts",
+      "sha256": "ca178f11f89621c9a3117d2a3a25ac4165d664ab68252e91cace1caff6b485e3"
+    },
+    {
+      "path": "components/field/field.imports.ts",
+      "sha256": "f87684ad68787213b62ffe09b37c17643ba3aeca3d12151fb41453ef4969e1cb"
+    },
+    {
+      "path": "components/field/field.variants.ts",
+      "sha256": "13765fb16266ad17a1e8196f50d70ca53c118a41f8df1b69b16b3d834189c3ed"
+    },
+    {
+      "path": "components/field/index.ts",
+      "sha256": "e5e730cfac7c3113038811de0f8cf01a1fa554583e07384d5b2c8e33c213e4f2"
+    },
+    {
+      "path": "components/input/index.ts",
+      "sha256": "8768d7d5775be39c0b187eefe12332d70ba771a6b4513be38c711b8e3e38b747"
+    },
+    {
+      "path": "components/input/input.component.ts",
+      "sha256": "c70405d3ee97a493825e099edfedcefc0233890ba69aad219dbe8b2b38eaed0f"
+    },
+    {
+      "path": "components/input/input.variants.ts",
+      "sha256": "eda35d54c2bf0a02b1186ed7d7039b7ed7ae0e5bfaea22655bfdf8aeecc06a7d"
+    },
+    {
+      "path": "components/input-group/index.ts",
+      "sha256": "197fe9733a793d9dd0aa99f5e0c647eb79d0b48ac43c8517ff3d6f0b50b7788c"
+    },
+    {
+      "path": "components/input-group/input-group.component.ts",
+      "sha256": "ae142569dabfd162dddf5550c589a072a9617f237080adf6de9177ae9ef131c3"
+    },
+    {
+      "path": "components/input-group/input-group.imports.ts",
+      "sha256": "b7230c3d9052faffb7266c4e093fc029d553fe803f28184e36a7417b118e8d9c"
+    },
+    {
+      "path": "components/input-group/input-group.variants.ts",
+      "sha256": "8128b0dc5d25a1558a925dfb69c21722a971af80bb533a1de247de4ff775a2c8"
+    },
+    {
+      "path": "components/native-select/index.ts",
+      "sha256": "8c68977e480594782aa2af2749e4c5de8f6ce18e3e4aced17fb67497324a283a"
+    },
+    {
+      "path": "components/native-select/native-select.directive.ts",
+      "sha256": "19d25f57930c3d9dcb0c2bd641c341c0ed652374eea74e1ddb70cc1d8b38ec81"
+    },
+    {
+      "path": "components/native-select/native-select.variants.ts",
+      "sha256": "acd67c9e338b05ed4763badd7542f93c823ed7b79bb2830a8b3f122f5984de12"
+    },
+    {
+      "path": "components/pagination/index.ts",
+      "sha256": "208d2598a74e9661da0823084d1d370ff6653f0b17414a8f1f7d4c230664ab5f"
+    },
+    {
+      "path": "components/pagination/pagination.component.ts",
+      "sha256": "e6df955d9e7043bfacd76e4848586ceca0cc3f6be5e402e6ab04779b5dbbe7af"
+    },
+    {
+      "path": "components/pagination/pagination.imports.ts",
+      "sha256": "dcb5ac0825eb0c181e1164f2ea31b0fcecfee4ef6a6eaa0d1179afdc03939140"
+    },
+    {
+      "path": "components/pagination/pagination.variants.ts",
+      "sha256": "a2387781c6f2ad90d28b3e9060aa88e3469e498fcaea925418c9d23314db8676"
+    },
+    {
+      "path": "components/skeleton/index.ts",
+      "sha256": "fd1f3a4ea69b5368b47991f20aefe1238cff9115a97b1a5f05891a281a68cb73"
+    },
+    {
+      "path": "components/skeleton/skeleton.component.ts",
+      "sha256": "a01f37cbd9587b011a14c2c26ffe26cd79836555be498619599e12af49b3c08c"
+    },
+    {
+      "path": "components/skeleton/skeleton.variants.ts",
+      "sha256": "15ed55dcfc67deb6ff8e1ba024bfe6e0e31936b61480be1aa26a583031fcd771"
+    },
+    {
+      "path": "components/table/index.ts",
+      "sha256": "eaa32dcac582c806fe01c79fc219178c2051fd53fef45b8753e1bfd4f56b7bf6"
+    },
+    {
+      "path": "components/table/table.component.ts",
+      "sha256": "27cc00faa837443fef2046153781dcf15a4f94cece2275063cdb91ba82315dde"
+    },
+    {
+      "path": "components/table/table.imports.ts",
+      "sha256": "f899eb5a3f5c6f60aed37918b05cda56360c7ded8b1710688ac2744d2069a45d"
+    },
+    {
+      "path": "components/table/table.variants.ts",
+      "sha256": "061fd1ac767d1062ff70e9faeafb32c3ed1d000f0ab9fb2d6f7913d68bb30e69"
+    },
+    {
+      "path": "components/tabs/index.ts",
+      "sha256": "a9d6030c6012d96383ea28d6ec65336ad869e8b2e945b770b9c2d3f59c985889"
+    },
+    {
+      "path": "components/tabs/tabs.component.ts",
+      "sha256": "723e924caad71cf8d2bde9831fe555f0614db3b2bf6f03a85c03f6da571f4fc6"
+    },
+    {
+      "path": "components/tabs/tabs.imports.ts",
+      "sha256": "288feebae8f8086b061f589493d7c84185c744a99a42336859d683a54b567e5c"
+    },
+    {
+      "path": "components/tabs/tabs.variants.ts",
+      "sha256": "4473e051b3a18a8754f267a76f9df8c3ca6fcf330d721c37590a438d2e9d980f"
+    },
+    {
+      "path": "components/tooltip/index.ts",
+      "sha256": "1755d1a25001147a99612adce8e5d00f9edb04d551395d317e8c4a47f0a044ab"
+    },
+    {
+      "path": "components/tooltip/tooltip-positions.ts",
+      "sha256": "ac932e3e9552b91f3d7e317dcd025b788962105337a9c4456ecc2929deadeff9"
+    },
+    {
+      "path": "components/tooltip/tooltip.imports.ts",
+      "sha256": "eb5d2ad280b51e1b2596a983c4bda40fec8d485b182b18c140bc080d38d87f9f"
+    },
+    {
+      "path": "components/tooltip/tooltip.ts",
+      "sha256": "e66e472ef6f54bbddee03deb567a59dfd9c6c23513cc9831b205f74f04d9de4d"
+    },
+    {
+      "path": "components/tooltip/tooltip.variants.ts",
+      "sha256": "3defcc1694b92f04dc3e2a62efffad76a1606e0dd310880c6fff71757fd02646"
+    },
+    {
+      "path": "core/index.ts",
+      "sha256": "bc9a4d1f66084f3c1847f944353d55614610b296c88934596565e07f4047ab3e"
+    },
+    {
+      "path": "core/css/zard.css",
+      "sha256": "3d6cf44b93cda92b8a794ecda0593416d0f1366122e748ccf9b448c987280881"
+    },
+    {
+      "path": "core/directives/id.directive.ts",
+      "sha256": "a5bd122a4f498c02a2db46a32f2326027752344468d69c23bd174edbec91b5be"
+    },
+    {
+      "path": "core/directives/string-template-outlet.directive.ts",
+      "sha256": "a0dde4b430642477d23b48b667fc91acc23b015896859964cf3aa45c17419aee"
+    },
+    {
+      "path": "core/i18n/i18n.constants.ts",
+      "sha256": "87b330d15309a3ca607da77df89aa54b51f7804fffa21e506ddee23c8cf13328"
+    },
+    {
+      "path": "core/i18n/i18n.provider.ts",
+      "sha256": "ae903317472cb6f334360e66fcda26f448ce010fdbf714b0cdafe6a6484ce53a"
+    },
+    {
+      "path": "core/i18n/i18n.service.ts",
+      "sha256": "eee9de3275006e7c540c5e2cd3e8e518d0d2aabbca6a3a6c2c64a7b6942e173f"
+    },
+    {
+      "path": "core/i18n/i18n.tokens.ts",
+      "sha256": "29514b00544e529656f785683398ac3a067858636ebe370ebc8eaa99e29369a1"
+    },
+    {
+      "path": "core/i18n/i18n.types.ts",
+      "sha256": "b89ea4aecd3b7630ce5ce48c3ccdbd059f41ebd7167125f5ac077374ef4494c0"
+    },
+    {
+      "path": "core/i18n/index.ts",
+      "sha256": "57159d803f4f672d05d80fc9ff47b95cced580e5d1e1d4ae4bd19d7828918f82"
+    },
+    {
+      "path": "core/i18n/locales/de-de.ts",
+      "sha256": "61649c46b7540dae33ade8bae024a22b3b016abdbef0e7ed7e9777cf4579877a"
+    },
+    {
+      "path": "core/i18n/locales/en-us.ts",
+      "sha256": "99b33ab22c7c4c43f1ed7b643270c14da1dcc0e3209710d8f65f0d1b6d2a02eb"
+    },
+    {
+      "path": "core/i18n/locales/es-es.ts",
+      "sha256": "ddbe17d568d6c84692cc0ac1a9e7915104616f5855fc8614d1ee02e55d82236b"
+    },
+    {
+      "path": "core/i18n/locales/fr-fr.ts",
+      "sha256": "9b204181527f552a87c91eddf179125a20f48fb94e6016ab1da78825a961b53a"
+    },
+    {
+      "path": "core/i18n/locales/it-it.ts",
+      "sha256": "76007285a677b32f0c3f1adf3e7c5e796229d76c6169a5f4072683a57c4ccce4"
+    },
+    {
+      "path": "core/i18n/locales/pt-br.ts",
+      "sha256": "e229d31bf30961e4fa4a2b99ed4e95a258123e2930621308e74f9bb4834aab70"
+    },
+    {
+      "path": "core/i18n/locales/pt-pt.ts",
+      "sha256": "e571aa8a5c6c134ad944dcc7492803d7b8233c70493efa12a788afc97a3010ad"
+    },
+    {
+      "path": "core/i18n/locales/registry.ts",
+      "sha256": "314de4f41056b1e5424bd7f120e17922e0aa35a0582b0d5d70acc24fc04652f9"
+    },
+    {
+      "path": "core/overlay/overlay-ref.ts",
+      "sha256": "ee061c80c6fc749334085243b5525047d09959c85fb24807f0262c478c836f17"
+    },
+    {
+      "path": "core/overlay/overlay-stack.ts",
+      "sha256": "0c4202df77f7178ad3e22a30eefa22713be1c87d613a161bd9c88b4d6f89636f"
+    },
+    {
+      "path": "core/provider/providezard.ts",
+      "sha256": "75163833a58f31dc9a6fe4c51a4a8a2cbdc9b383f3ece66ca89857b47c367f9d"
+    },
+    {
+      "path": "core/provider/event-manager-plugins/zard-debounce-event-manager-plugin.ts",
+      "sha256": "9788207043435cfade115323f00dbbbcb2aaace1d714a4f96b72553660489b21"
+    },
+    {
+      "path": "core/provider/event-manager-plugins/zard-event-manager-plugin.ts",
+      "sha256": "4fa624e5db5f4446df0bfa28b264a10acc2dbb15ed92868b3f49c91f040e371e"
+    },
+    {
+      "path": "services/dark-mode.ts",
+      "sha256": "b9a8d365ccd993267180b6a9acbbca837683f9cbc5f4ce88c883d18476de2ba3"
+    },
+    {
+      "path": "services/index.ts",
+      "sha256": "6731d618c6dbe1ba4abdb53a789811d4ce094d627958f6aefa3754ac4b332f10"
+    },
+    {
+      "path": "utils/index.ts",
+      "sha256": "9b5fe0c1e2106fef749e5f8cee93ca85aff92b283260cabffa834b6f9a7b7e81"
+    },
+    {
+      "path": "utils/merge-classes.ts",
+      "sha256": "ab87ea1438bfabab950cd7875afdb5a6b773bbf676b47418e8a798f898f8edda"
+    },
+    {
+      "path": "utils/noop.ts",
+      "sha256": "38f5bc076e8d73c126e1f92b3e8d6db7a8832eb4640c530cf6feeced2892e9f6"
+    },
+    {
+      "path": "utils/number.ts",
+      "sha256": "378e4febf60ebe32f3f152272f1ec742da9a3cc81b578a2da89f341235b30abf"
+    }
+  ],
+  "localAdaptations": [
+    "button native-host disabled/role/tabindex compatibility",
+    "tooltip Escape dismissal",
+    "chart first options remain stable until lazy engine initialization completes",
+    "chart engine registry limited to line/area, axes, tooltip, legend, accessibility and SVG renderer",
+    "light-only chart theme adapter avoids changing document/theme storage",
+    "prettier formatting; merchant semantic status tokens"
+  ]
+}

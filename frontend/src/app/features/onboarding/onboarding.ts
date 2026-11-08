@@ -1,3 +1,6 @@
+import { ReadinessChecklist } from '../../shared/merchant/primitives';
+import { ZardInputComponent } from '@/shared/components/input';
+import { ZardButtonComponent } from '@/shared/components/button';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { DatePipe, KeyValuePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +11,16 @@ import { OnboardingApi, Summary, Variants } from './onboarding-api';
 import { SyncPanel } from '../store-connection/sync-panel';
 import { apiError } from '../catalog/services/catalog-api.service';
 @Component({
-  imports: [DatePipe, KeyValuePipe, FormsModule, RouterLink, SyncPanel],
+  imports: [
+    ReadinessChecklist,
+    ZardButtonComponent,
+    ZardInputComponent,
+    DatePipe,
+    KeyValuePipe,
+    FormsModule,
+    RouterLink,
+    SyncPanel,
+  ],
   template: `
     <p class="eyebrow">STORE SETUP · READ-ONLY DIAGNOSTICS</p>
     <h1 class="page-title">Onboarding &amp; data readiness</h1>
@@ -20,7 +32,9 @@ import { apiError } from '../catalog/services/catalog-api.service';
     @if (error()) {
       <p class="error" role="alert">
         {{ error() }} The last displayed assessment may be stale.
-        <button (click)="load()" [disabled]="busy()">Retry assessment</button>
+        <button z-button zType="outline" (click)="load()" [disabled]="busy()">
+          Retry assessment
+        </button>
       </p>
     }
     @if (busy()) {
@@ -32,6 +46,12 @@ import { apiError } from '../catalog/services/catalog-api.service';
           <strong>Synthetic demo · read-only.</strong> No real connection, import or merchant edit
           controls are available.
         </p>
+      }
+      @if (!s.synthetic) {
+        <section class="readiness-card">
+          <h2>Your setup path</h2>
+          <app-readiness-checklist [items]="setupSteps(s)" />
+        </section>
       }
       <section class="readiness-card">
         <h2>{{ label(s.workflowState) }}</h2>
@@ -67,6 +87,7 @@ import { apiError } from '../catalog/services/catalog-api.service';
           </div>
         }
       </section>
+
       <section class="readiness-card">
         <h2>Prioritized checklist</h2>
         <ol>
@@ -118,7 +139,12 @@ import { apiError } from '../catalog/services/catalog-api.service';
         </p>
         <form class="filters" (ngSubmit)="apply()">
           <label
-            >Search variants<input name="search" [(ngModel)]="search" maxlength="100" type="search"
+            >Search variants<input
+              z-input
+              name="search"
+              [(ngModel)]="search"
+              maxlength="100"
+              type="search"
           /></label>
           <label
             >Review filter<select name="status" [(ngModel)]="status">
@@ -127,16 +153,20 @@ import { apiError } from '../catalog/services/catalog-api.service';
               }
             </select></label
           >
-          <label>Start date (UTC)<input name="from" type="date" [(ngModel)]="from" /></label
-          ><label>End date, exclusive (UTC)<input name="to" type="date" [(ngModel)]="to" /></label>
+          <label>Start date (UTC)<input z-input name="from" type="date" [(ngModel)]="from" /></label
+          ><label
+            >End date, exclusive (UTC)<input z-input name="to" type="date" [(ngModel)]="to"
+          /></label>
           <label
             >Rows per page<select name="size" [(ngModel)]="size">
               <option [ngValue]="5">5</option>
               <option [ngValue]="10">10</option>
             </select></label
           >
-          <button class="primary" [disabled]="busy()">Apply filters</button
-          ><button type="button" (click)="load()" [disabled]="busy()">Refresh assessment</button>
+          <button z-button class="primary" [disabled]="busy()">Apply filters</button
+          ><button z-button zType="outline" type="button" (click)="load()" [disabled]="busy()">
+            Refresh assessment
+          </button>
         </form>
         @if (variants(); as rows) {
           @if (rows.results.totalElements === 0) {
@@ -207,9 +237,15 @@ import { apiError } from '../catalog/services/catalog-api.service';
             </div>
           }
           <div class="actions pagination">
-            <button (click)="move(-1)" [disabled]="busy() || page === 0">Previous</button
+            <button z-button zType="outline" (click)="move(-1)" [disabled]="busy() || page === 0">
+              Previous</button
             ><span>Page {{ page + 1 }} · {{ rows.results.totalElements }} matching variants</span
-            ><button (click)="move(1)" [disabled]="busy() || page + 1 >= rows.results.totalPages">
+            ><button
+              z-button
+              zType="outline"
+              (click)="move(1)"
+              [disabled]="busy() || page + 1 >= rows.results.totalPages"
+            >
               Next
             </button>
           </div>
@@ -312,6 +348,26 @@ import { apiError } from '../catalog/services/catalog-api.service';
   ],
 })
 export class Onboarding {
+  setupSteps(s: Summary) {
+    return [
+      { label: 'Sign in', href: '/login', complete: true },
+      {
+        label: 'Connect Shopify',
+        href: '/store-connection',
+        complete: s.synchronization.connected,
+      },
+      {
+        label: 'Sync data',
+        href: '/store-connection',
+        description: s.synchronization.lastSuccessfulSync
+          ? 'Import available; review its coverage'
+          : 'No completed import',
+      },
+      { label: 'Review products and costs', href: '/products' },
+      { label: 'Inspect data readiness', href: '/onboarding' },
+      { label: 'Explore insights', href: '/analytics' },
+    ];
+  }
   private readonly api = inject(OnboardingApi);
   private readonly destroy = inject(DestroyRef);
   readonly summary = signal<Summary | null>(null);
