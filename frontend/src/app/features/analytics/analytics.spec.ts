@@ -271,4 +271,18 @@ describe('Analytics', () => {
       endDate: '2025-02-03',
     });
   });
+  it('keeps product details open when search refreshes the report', async () => {
+    const f = TestBed.createComponent(Analytics);
+    f.detectChanges();
+    flush();
+    await f.whenStable();
+    f.componentInstance.productsDetailsOpen.set(true);
+    await f.whenStable();
+    f.componentInstance.filters.controls.search.setValue('Coffee');
+    f.componentInstance.apply();
+    flush();
+    await f.whenStable();
+    const region = f.nativeElement.querySelector('[aria-label="Product performance table"]');
+    expect(region.closest('details').open).toBe(true);
+  });
 });

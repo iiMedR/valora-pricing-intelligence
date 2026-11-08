@@ -142,7 +142,7 @@ describe('Onboarding workflow and readiness', () => {
     expect(f.nativeElement.textContent).toContain('not connected');
     expect(f.nativeElement.textContent).toContain('No variants in this view');
     expect(f.nativeElement.textContent).toContain(
-      'Data imported, ready for analytics, forecast evaluable and eligible for optimization are different',
+      'Imported records, usable analytics, supported forecasts and eligible price suggestions are different',
     );
     TestBed.inject(HttpTestingController).expectNone((r) => r.method !== 'GET');
     f.destroy();

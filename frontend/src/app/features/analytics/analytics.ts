@@ -3,6 +3,7 @@ import { ZardButtonComponent } from '@/shared/components/button';
 import { SessionService } from '../../core/session.service';
 import { SalesChart } from '../../shared/merchant/sales-chart';
 import { HelpTooltip } from '../../shared/merchant/primitives';
+import { decisionNumber } from '../../shared/merchant/decision-summary';
 import { initialWindow } from '../analytics/analytics-api.service';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
@@ -52,6 +53,10 @@ export class Analytics {
     sort: new FormControl('NET_DESC', { nonNullable: true }),
   });
   readonly loading = signal(true);
+  readonly number = decisionNumber;
+  readonly metricsDetailsOpen = signal(false);
+  readonly productsDetailsOpen = signal(false);
+  readonly inventoryDetailsOpen = signal(false);
   readonly error = signal('');
   readonly overview = signal<Overview | null>(null);
   readonly trends = signal<Trends | null>(null);

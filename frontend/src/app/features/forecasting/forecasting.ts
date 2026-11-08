@@ -3,10 +3,20 @@ import { ZardButtonComponent } from '@/shared/components/button';
 import { SessionService } from '../../core/session.service';
 import { initialWindow } from '../analytics/analytics-api.service';
 import { statusLabel, explainReason, reasonSummary } from '../../core/presentation';
-import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  computed,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { SensitivitySummary, comparisonDates } from '../../shared/merchant/decision-summary';
+import { insightWindow } from '../../shared/merchant/insight-window';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { forkJoin, Subscription } from 'rxjs';
 import { apiError } from '../catalog/services/catalog-api.service';
@@ -20,14 +30,25 @@ import {
   Variant,
 } from './forecast-api.service';
 @Component({
-  imports: [ZardButtonComponent, ZardInputComponent, DecimalPipe, ReactiveFormsModule, RouterLink],
+  imports: [
+    ZardButtonComponent,
+    ZardInputComponent,
+    DecimalPipe,
+    ReactiveFormsModule,
+    RouterLink,
+    SensitivitySummary,
+  ],
   templateUrl: './forecasting.html',
   styleUrl: './forecasting.css',
 })
 export class Forecasting {
   private readonly session = inject(SessionService);
   readonly isDemo = () => this.session.value()?.mode === 'DEMO';
-  private readonly initial = initialWindow(365, this.isDemo());
+  private readonly initial = insightWindow(
+    initialWindow(365, this.isDemo()),
+    inject(ActivatedRoute).snapshot.queryParamMap,
+  );
+  readonly dates = comparisonDates;
   readonly statusLabel = statusLabel;
   readonly reasonSummary = reasonSummary;
   readonly explainReason = explainReason;
@@ -35,11 +56,14 @@ export class Forecasting {
   private readonly destroy = inject(DestroyRef);
   private request?: Subscription;
   private detailRequest?: Subscription;
+  readonly forecastPanel = viewChild<ElementRef<HTMLElement>>('forecastPanel');
+  private forecastTrigger?: HTMLElement;
+  private focusTimer?: ReturnType<typeof setTimeout>;
   readonly filters = new FormGroup({
     startDate: new FormControl(this.initial.startDate, { nonNullable: true }),
     endDate: new FormControl(this.initial.endDate, { nonNullable: true }),
     search: new FormControl('', { nonNullable: true }),
-    horizonDays: new FormControl(7, { nonNullable: true }),
+    horizonDays: new FormControl(this.initial.horizonDays, { nonNullable: true }),
   });
   readonly result = signal<Overview | null>(null);
   readonly detail = signal<DemandDetail | null>(null);
@@ -52,6 +76,7 @@ export class Forecasting {
   readonly format = decimalText;
   page = 0;
   private applied: ForecastQuery = this.filters.getRawValue();
+  readonly historyWindow = () => this.applied;
   readonly chart = computed(() => {
     const d = this.detail();
     const history = d?.history.slice(-90) ?? [],
@@ -76,6 +101,7 @@ export class Forecasting {
     };
   });
   constructor() {
+    this.destroy.onDestroy(() => clearTimeout(this.focusTimer));
     this.load();
   }
   preset() {
@@ -119,12 +145,20 @@ export class Forecasting {
     this.load();
   }
   select(variant: Variant) {
+    if (this.selected()?.variantId !== variant.variantId || !this.forecastTrigger?.isConnected)
+      this.forecastTrigger =
+        document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
+    clearTimeout(this.focusTimer);
     this.detailRequest?.unsubscribe();
     this.selected.set(variant);
     this.detail.set(null);
     this.backtest.set(null);
     this.detailError.set('');
     this.detailLoading.set(true);
+    this.focusTimer = setTimeout(() => {
+      if (this.selected()?.variantId === variant.variantId)
+        this.forecastPanel()?.nativeElement.focus();
+    });
     const q = { ...this.applied, horizonDays: Number(this.filters.controls.horizonDays.value) };
     this.detailRequest = forkJoin({
       detail: this.api.demand(variant.variantId, q),
@@ -147,7 +181,9 @@ export class Forecasting {
     const selected = this.selected();
     if (selected) this.select(selected);
   }
-  close() {
+  close(restoreFocus = false) {
+    clearTimeout(this.focusTimer);
+    if (restoreFocus && this.forecastTrigger?.isConnected) this.forecastTrigger.focus();
     this.detailRequest?.unsubscribe();
     this.selected.set(null);
     this.detail.set(null);

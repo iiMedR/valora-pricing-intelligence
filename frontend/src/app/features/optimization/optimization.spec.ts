@@ -4,6 +4,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { Optimization } from './optimization';
 import { Evaluation, RecommendationStatus } from './optimization-api.service';
+import { SessionService } from '../../core/session.service';
 const evaluation: Evaluation = {
   variant: {
     variantId: 'v1',
@@ -117,7 +118,7 @@ describe('Pricing Recommendations', () => {
   it('loads page-scoped counts and renders actionable comparison with accessible exact sensitivity', async () => {
     const f = TestBed.createComponent(Optimization);
     f.detectChanges();
-    expect(f.nativeElement.textContent).toContain('Evaluating pricing evidence');
+    expect(f.nativeElement.textContent).toContain('Checking this page of products');
     overview();
     await f.whenStable();
     expect(f.nativeElement.textContent).toContain('this page only');
@@ -145,7 +146,7 @@ describe('Pricing Recommendations', () => {
     overview([unsafe]);
     await f.whenStable();
     const list = f.nativeElement.textContent;
-    expect(list).toContain('Withheld');
+    expect(list).toContain('No reliable suggestion yet');
     expect(list).not.toContain('90.0000');
     f.componentInstance.select('v1');
     detail(unsafe);
@@ -236,5 +237,58 @@ describe('Pricing Recommendations', () => {
     f.componentInstance.apply();
     await f.whenStable();
     expect(f.nativeElement.textContent).toContain('28–731');
+  });
+  it('cancels an active catalog check and removes old suggestions when a filter changes', async () => {
+    const f = TestBed.createComponent(Optimization);
+    f.detectChanges();
+    overview();
+    await f.whenStable();
+    f.componentInstance.checkCatalog();
+    const first = TestBed.inject(HttpTestingController).expectOne((r) =>
+      r.url.endsWith('/overview'),
+    );
+    expect(first.request.params.get('horizonDays')).toBe('30');
+    first.flush({
+      results: {
+        content: Array.from({ length: 10 }, (_, i) => ({
+          ...evaluation,
+          variant: { ...evaluation.variant, variantId: 'scan-' + i },
+        })),
+        page: 0,
+        size: 10,
+        totalElements: 20,
+        totalPages: 2,
+      },
+    });
+    const pending = TestBed.inject(HttpTestingController).expectOne(
+      (r) => r.params.get('page') === '1',
+    );
+    expect(f.componentInstance.suggestions().length).toBe(10);
+    f.componentInstance.filters.controls.horizonDays.setValue(14);
+    await f.whenStable();
+    expect(pending.cancelled).toBe(true);
+    expect(f.componentInstance.suggestions()).toEqual([]);
+    expect(f.componentInstance.catalogCheck.state()).toBe('idle');
+    expect(f.componentInstance.needsApply()).toBe(true);
+    expect(f.nativeElement.textContent).not.toContain(
+      'No reliable price suggestions from this catalog check',
+    );
+  });
+  it('clears protected catalog results and cancels pending checks on session loss', async () => {
+    const session = TestBed.inject(SessionService);
+    session.value.set({ mode: 'NORMAL', authenticated: true, readOnly: false, username: 'owner' });
+    const f = TestBed.createComponent(Optimization);
+    f.detectChanges();
+    overview();
+    await f.whenStable();
+    f.componentInstance.checkCatalog();
+    const pending = TestBed.inject(HttpTestingController).expectOne((r) =>
+      r.url.endsWith('/overview'),
+    );
+    session.clear();
+    await f.whenStable();
+    expect(pending.cancelled).toBe(true);
+    expect(f.componentInstance.rows()).toEqual([]);
+    expect(f.componentInstance.detail()).toBeNull();
   });
 });

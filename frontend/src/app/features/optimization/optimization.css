@@ -222,3 +222,7 @@ svg text {
     font-size: 28px;
   }
 }
+
+.history-window {
+  flex-basis: 100%;
+}

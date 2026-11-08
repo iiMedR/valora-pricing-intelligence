@@ -1,4 +1,5 @@
 @import './zard-theme.css';
+@import './app/shared/merchant/decisions.css';
 @layer components {
   :root {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;

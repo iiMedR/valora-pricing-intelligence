@@ -205,3 +205,17 @@ svg text {
     font-size: 28px;
   }
 }
+
+.metrics {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 600px) {
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+.history-window {
+  flex-basis: 100%;
+  margin: 8px 0;
+}

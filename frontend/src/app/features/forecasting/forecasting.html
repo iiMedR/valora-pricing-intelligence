@@ -5,30 +5,40 @@
 }
 <div class="page-heading">
   <div>
-    <p class="eyebrow">OBSERVATIONAL DEMAND · UTC</p>
-    <h1 class="page-title">Demand Forecasting</h1>
+    <h1 class="page-title">How much might this product sell?</h1>
     <p class="muted">
-      Explainable sales baselines and guarded price associations. No price recommendations.
+      Choose a product to see expected sales, forecast dates and price-response evidence.
     </p>
   </div>
 </div>
 <form class="demand-filters" [formGroup]="filters" (ngSubmit)="apply()">
   <label
-    >Training start (UTC)<input z-input type="date" formControlName="startDate" required /></label
-  ><label
-    >Training end, exclusive (UTC)<input
-      z-input
-      type="date"
-      formControlName="endDate"
-      required /></label
-  ><label
-    >Search variants<input z-input type="search" formControlName="search" maxlength="100" /></label
-  ><button z-button class="primary">Apply window</button>
+    >Search products<input z-input type="search" formControlName="search" maxlength="100"
+  /></label>
+  <button z-button type="submit">Find products</button>
+  <details class="merchant-details history-window">
+    <summary>Change sales history</summary>
+    <label
+      >Sales history start (UTC)<input z-input type="date" formControlName="startDate" required
+    /></label>
+    <label
+      >Sales history end, not included (UTC)<input
+        z-input
+        type="date"
+        formControlName="endDate"
+        required
+    /></label>
+    <button z-button zType="outline" type="button" (click)="preset()">
+      Full 2025 · demo period
+    </button>
+  </details>
 </form>
-<button z-button zType="outline" class="preset" (click)="preset()">Full 2025 · demo period</button>
 <p class="muted">
-  A historical end date is a retrospective as-of forecast. Forecasts start at that date; future
-  observations are excluded from training.
+  Using sales from {{ historyWindow().startDate }} up to {{ historyWindow().endDate }} (end date not
+  included). The forecast starts at that end date.
+  @if (isDemo()) {
+    This is a historical demo, not a prediction for today.
+  }
 </p>
 @if (error()) {
   <div class="error" role="alert">
@@ -47,52 +57,60 @@
       </p>
     </div>
   } @else {
-    <div class="scroll-region" role="region" aria-label="Variant readiness table" tabindex="0">
-      <table>
-        <caption class="sr-only">
-          Variant demand readiness
-        </caption>
-        <thead>
-          <tr>
-            <th>Variant</th>
-            <th>Readiness</th>
-            <th>Eligible days</th>
-            <th>Unknown / censored days</th>
-            <th>Diagnostics</th>
-            <th>Inspect</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (row of report.results.content; track row.variant.variantId) {
-            <tr>
-              <th scope="row">
-                {{ row.variant.productName
-                }}<small
-                  >{{ row.variant.sku }} · {{ row.variant.status }} /
-                  {{ row.variant.productStatus }}</small
-                >
-              </th>
-              <td>
-                <span class="badge">{{ row.readiness.status }}</span>
-              </td>
-              <td>{{ row.readiness.eligibleDays }} / {{ row.readiness.days }}</td>
-              <td>{{ row.readiness.unknownDays }} / {{ row.readiness.censoredDays }}</td>
-              <td class="reasons">{{ reasonSummary(row.readiness.reasons) }}</td>
-              <td>
-                <button
-                  z-button
-                  zType="outline"
-                  (click)="select(row.variant)"
-                  [attr.aria-label]="'Inspect demand for ' + row.variant.sku"
-                >
-                  Inspect
-                </button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+    <div class="forecast-product-grid">
+      @for (row of report.results.content; track row.variant.variantId) {
+        <article class="decision-card">
+          <h2>{{ row.variant.productName }}</h2>
+          <p class="muted">{{ row.variant.name }} · {{ row.variant.sku }}</p>
+          <p>
+            {{
+              row.readiness.status === 'READY' || row.readiness.status === 'BASELINE_ONLY'
+                ? 'Sales history available to review'
+                : 'Sales evidence needs review'
+            }}
+          </p>
+          <p class="muted">
+            {{ row.readiness.eligibleDays }} usable sales days out of {{ row.readiness.days }}.
+          </p>
+          <button
+            z-button
+            zType="outline"
+            (click)="select(row.variant)"
+            [attr.aria-label]="'Inspect demand for ' + row.variant.sku"
+          >
+            View sales forecast
+          </button>
+        </article>
+      }
     </div>
+    <details class="merchant-details">
+      <summary>Show detailed readiness checks</summary>
+      <div class="scroll-region" role="region" aria-label="Variant readiness table" tabindex="0">
+        <table>
+          <caption>
+            Evidence behind these product summaries
+          </caption>
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Status</th>
+              <th>Unknown / censored days</th>
+              <th>Explanation</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of report.results.content; track row.variant.variantId) {
+              <tr>
+                <th scope="row">{{ row.variant.productName }}</th>
+                <td>{{ row.readiness.status }}</td>
+                <td>{{ row.readiness.unknownDays }} / {{ row.readiness.censoredDays }}</td>
+                <td>{{ reasonSummary(row.readiness.reasons) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </details>
   }
   <div class="pagination">
     <span
@@ -114,14 +132,14 @@
   </div>
 }
 @if (selected(); as variant) {
-  <section class="demand-detail" aria-labelledby="demand-title">
+  <section #forecastPanel class="demand-detail" aria-labelledby="demand-title" tabindex="-1">
     <div class="section-heading">
       <div>
         <p class="eyebrow">VARIANT ANALYSIS</p>
         <h2 id="demand-title">{{ variant.sku }}</h2>
         <p>{{ variant.productName }} · {{ variant.status }}</p>
       </div>
-      <button z-button zType="outline" (click)="close()">Close analysis</button>
+      <button z-button zType="outline" (click)="close(true)">Close analysis</button>
     </div>
     <label class="horizon" [formGroup]="filters"
       >Forecast horizon<select formControlName="horizonDays" (change)="horizon()">
@@ -141,19 +159,35 @@
     }
     @if (detail(); as d) {
       <p class="muted">
-        Training: {{ d.window.startDate }} ≤ date &lt; {{ d.window.endDate }} UTC. Forecast starts
-        {{ d.window.endDate }} UTC.
+        Sales history: {{ d.window.startDate }} to {{ d.window.endDate }} (end date not included).
+        Forecast starts {{ d.window.endDate }} UTC.
       </p>
+      <p class="notice">
+        This estimates sales assuming the listed price and availability assumptions hold. It does
+        not estimate customers lost during stockouts.
+      </p>
+      <p>
+        <strong
+          >Forecast dates: {{ dates(d.window.endDate, filters.controls.horizonDays.value) }}</strong
+        >
+      </p>
+      <app-sensitivity-summary [elasticity]="d.elasticity" />
       <div class="metrics">
         <article>
-          <h3>Expected observed units</h3>
+          <h3>Expected units sold</h3>
           <p class="value">{{ format(d.forecast.totalUnits) }}</p>
-          <p>{{ d.forecast.status }} · {{ d.forecast.daily.length }} forecast days</p>
+          <p>
+            {{
+              d.forecast.daily.length
+                ? d.forecast.daily.length + ' forecast days'
+                : 'No supported sales forecast'
+            }}
+          </p>
         </article>
         <article>
-          <h3>Assumed listed price</h3>
+          <h3>Price used for forecast</h3>
           <p class="value">{{ format(d.forecast.assumedPrice) }} {{ d.window.currencyCode }}</p>
-          <p>Latest authoritative price held constant. No price-response adjustment.</p>
+          <p>This price is held constant for the forecast.</p>
         </article>
       </div>
       <details class="advanced-evidence">

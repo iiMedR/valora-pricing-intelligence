@@ -1,178 +1,187 @@
-@if (isDemo()) {
-  <p class="demo-period">
-    Demo dates: <strong>Full 2025</strong>. Adjust the UTC filters to change the window.
-  </p>
-}
-<div class="page-heading">
-  <div>
-    <p class="eyebrow">CONSTRAINED CONTRIBUTION · READ ONLY</p>
-    <h1 class="page-title">Pricing Recommendations</h1>
-    <p class="muted">Evidence first. Conditional estimates, with explicit reasons to abstain.</p>
-  </div>
-</div>
-<p class="notice">
-  No prices are changed here. Forecast readiness alone does not authorize a price recommendation.
-  Viewing results does not save evaluation history.
+<h1 class="page-title">Which prices should I review?</h1>
+<p class="decision-intro">
+  Check your products for a supported price suggestion, then compare the estimated sales and
+  contribution before making a decision.
 </p>
 <form class="optimization-filters" [formGroup]="filters" (ngSubmit)="apply()">
   <label
-    >Training start (UTC)<input z-input type="date" formControlName="startDate" required /></label
-  ><label
-    >Evaluation end, exclusive (UTC)<input
-      z-input
-      type="date"
-      formControlName="endDate"
-      required /></label
-  ><label
-    >Horizon<select formControlName="horizonDays">
+    >Search products<input z-input type="search" formControlName="search" maxlength="100"
+  /></label>
+  <label
+    >Compare over<select formControlName="horizonDays" aria-label="Compare over">
       <option [ngValue]="7">7 days</option>
       <option [ngValue]="14">14 days</option>
       <option [ngValue]="30">30 days</option>
     </select></label
-  ><label
-    >Search variants<input z-input type="search" formControlName="search" maxlength="100" /></label
-  ><button z-button class="primary">Evaluate window</button>
+  >
+  <button z-button zType="outline" type="submit">Update results</button>
+  <button
+    z-button
+    type="button"
+    (click)="checkCatalog()"
+    [disabled]="catalogCheck.state() === 'running'"
+  >
+    Check catalog
+  </button>
+  <details class="merchant-details history-window">
+    <summary>Sales history used for this check</summary>
+    <label
+      >Sales history start (UTC)<input z-input type="date" formControlName="startDate" required
+    /></label>
+    <label
+      >Sales history end, not included (UTC)<input
+        z-input
+        type="date"
+        formControlName="endDate"
+        required
+    /></label>
+    <button z-button zType="outline" type="button" (click)="preset()">
+      Full 2025 · demo period
+    </button>
+  </details>
 </form>
-<button z-button zType="outline" class="preset" (click)="preset()">Full 2025 · demo period</button>
 <p class="muted">
-  Historical end dates evaluate past inputs. Catalog bounds/statuses remain current policies. The
-  permanent demo's calendar-confounded estimates may correctly produce no actionable prices.
+  {{ filters.controls.startDate.value }} to {{ filters.controls.endDate.value }} (exclusive) is the
+  history used. The comparison starts at its end date. Historical demo dates are not a prediction
+  for today.
 </p>
+<app-pricing-example />
+@if (needsApply()) {
+  <p role="status">
+    Your filters changed. Update results or check the catalog to use this selection.
+  </p>
+}
 @if (error()) {
   <div class="error" role="alert">
     {{ error() }} <button z-button zType="outline" (click)="load()">Retry evaluations</button>
   </div>
 }
 @if (loading()) {
-  <p role="status">Evaluating pricing evidence…</p>
-} @else if (!error() && result(); as report) {
-  <p class="muted">
-    {{ report.window.startDate }} ≤ training date &lt; {{ report.window.endDate }} UTC ·
-    {{ report.horizonDays }} days · {{ report.window.currencyCode }}
-  </p>
-  <h2 class="summary-title">Status counts · this page only</h2>
-  <div class="status-grid">
-    <article>
-      <h3>Actionable</h3>
-      <p>{{ report.statusCounts.ACTIONABLE }}</p>
-    </article>
-    <article>
-      <h3>Diagnostic only</h3>
-      <p>{{ report.statusCounts.DIAGNOSTIC_ONLY }}</p>
-    </article>
-    <article>
-      <h3>Insufficient data</h3>
-      <p>{{ report.statusCounts.INSUFFICIENT_DATA }}</p>
-    </article>
-    <article>
-      <h3>Missing cost</h3>
-      <p>{{ report.statusCounts.MISSING_COST }}</p>
-    </article>
-    <article>
-      <h3>Other abstentions</h3>
-      <p>{{ otherCount() }}</p>
-    </article>
-  </div>
-  @if (!report.results.content.length) {
+  <p role="status">Checking this page of products…</p>
+}
+@if (catalogCheck.state() !== 'idle') {
+  <section class="catalog-progress" aria-label="Catalog check progress">
+    <p role="status" aria-live="polite">
+      @if (catalogCheck.total() === null) {
+        {{
+          catalogCheck.state() === 'running'
+            ? 'Checking the first batch…'
+            : 'No variants checked yet.'
+        }}
+      } @else {
+        Checked {{ catalogCheck.checked() }} of {{ catalogCheck.total() }} variants.
+      }
+      {{ suggestions().length }} suggestions found.
+    </p>
+    @if (catalogCheck.state() === 'running') {
+      <button z-button zType="outline" (click)="catalogCheck.cancel()">Cancel catalog check</button>
+    }
+    @if (catalogCheck.state() === 'cancelled') {
+      <p>The check was cancelled. These are partial results.</p>
+      <button z-button zType="outline" (click)="catalogCheck.retry()">
+        Continue catalog check
+      </button>
+    }
+    @if (catalogCheck.state() === 'error') {
+      <div role="alert" class="error">
+        {{ catalogCheck.error() }} Completed results are retained.
+        <button z-button zType="outline" (click)="catalogCheck.retry()">Retry catalog check</button>
+      </div>
+    }
+    @if (catalogCheck.state() === 'complete') {
+      <p>
+        Catalog check complete. Results reflect the inputs at evaluation time; they can change when
+        your records change.
+      </p>
+    }
+  </section>
+}
+@if (
+  !loading() &&
+  !needsApply() &&
+  (result() || catalogCheck.checked() || catalogCheck.state() === 'complete')
+) {
+  @if (suggestions().length) {
+    <h2>Price suggestions to review</h2>
+    <p class="muted">
+      Prices are never applied automatically. Sales minus known variable costs; other business
+      expenses are excluded.
+    </p>
+    <div class="decision-list">
+      @for (row of suggestions(); track row.variant.variantId) {
+        <app-price-comparison [evaluation]="row" (inspect)="select($event)" />
+      }
+    </div>
+  } @else if (catalogCheck.state() === 'complete' && catalogCheck.total() !== 0) {
+    <div class="notice">
+      <h2>No reliable price suggestions from this catalog check</h2>
+      <p>
+        We cannot justify a price change from the current evidence. Review the next steps below, or
+        open the separate worked example to understand a supported comparison.
+      </p>
+      <a routerLink="/onboarding">Review what to fix next</a>
+    </div>
+  } @else if (withheld().length) {
+    <p class="notice">
+      No reliable suggestions on this page. Use Check catalog to review all matching variants, or
+      review the missing evidence below.
+    </p>
+  }
+  @if (withheld().length) {
+    <h2>Products that need more evidence</h2>
+    <p class="muted">
+      A missing suggestion is a reason to review the data, not a request to change the price.
+    </p>
+    <div class="decision-list">
+      @for (row of withheld().slice(0, 3); track row.variant.variantId) {
+        <app-price-comparison [evaluation]="row" (inspect)="select($event)" />
+      }
+    </div>
+    @if (withheld().length > 3) {
+      <details class="merchant-details">
+        <summary>Show {{ withheld().length - 3 }} more products needing evidence</summary>
+        <div class="decision-list">
+          @for (row of withheld().slice(3); track row.variant.variantId) {
+            <app-price-comparison [evaluation]="row" (inspect)="select($event)" />
+          }
+        </div>
+      </details>
+    }
+  }
+  @if (!rows().length) {
     <div class="empty">
       <h2>No variants to evaluate</h2>
-      <p>
-        Existing catalog records and reliable dated sales, price, cost and inventory evidence are
-        required. No sample recommendation is generated.
-      </p>
-    </div>
-  } @else {
-    <div
-      class="scroll-region"
-      role="region"
-      aria-label="Recommendation evaluations table"
-      tabindex="0"
-    >
-      <table>
-        <caption class="sr-only">
-          Read-only pricing evaluations in
-          {{
-            report.window.currencyCode
-          }}
-        </caption>
-        <thead>
-          <tr>
-            <th>Variant / status</th>
-            <th>Effective reference price</th>
-            <th>Suggested price</th>
-            <th>Estimated contribution uplift</th>
-            <th>Eligibility</th>
-            <th>Reason</th>
-            <th>Inspect</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (row of report.results.content; track row.variant.variantId) {
-            <tr>
-              <th scope="row">
-                {{ row.variant.productName
-                }}<small
-                  >{{ row.variant.sku }} · {{ row.variant.status }} /
-                  {{ row.variant.productStatus }}</small
-                >
-              </th>
-              <td>{{ money(row.inputs.currentPrice) }}</td>
-              <td>{{ row.status === 'ACTIONABLE' ? money(row.recommendedPrice) : 'Withheld' }}</td>
-              <td>
-                {{
-                  row.status === 'ACTIONABLE' && row.comparison
-                    ? money(row.comparison.estimatedUplift)
-                    : 'Unavailable'
-                }}
-              </td>
-              <td>{{ row.status }}</td>
-              <td class="reason">
-                {{
-                  row.reasons.length
-                    ? reason(row.reasons[0])
-                    : 'All configured evidence gates passed; assumptions still apply.'
-                }}
-              </td>
-              <td>
-                <button
-                  z-button
-                  zType="outline"
-                  (click)="select(row.variant.variantId)"
-                  [attr.aria-label]="'Inspect pricing for ' + row.variant.sku"
-                >
-                  Inspect
-                </button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+      <p>Add products or change your search, then check again.</p>
+      <a routerLink="/products">Review catalog</a>
     </div>
   }
-  <div class="pagination">
-    <span
-      >{{ report.results.totalElements }} variants · Page {{ report.results.page + 1 }} of
-      {{ report.results.totalPages || 1 }}</span
-    >
-    <div class="actions">
-      <button z-button zType="outline" (click)="changePage(-1)" [disabled]="page === 0">
-        Previous evaluations</button
-      ><button
-        z-button
-        zType="outline"
-        (click)="changePage(1)"
-        [disabled]="page + 1 >= report.results.totalPages"
+  @if (catalogCheck.state() === 'idle' && result(); as report) {
+    <div class="pagination">
+      <span
+        >Page {{ report.results.page + 1 }} of {{ report.results.totalPages || 1 }} ·
+        {{ report.results.totalElements }} matching variants. Counts here cover this page
+        only.</span
       >
-        Next evaluations
-      </button>
+      <div class="actions">
+        <button z-button zType="outline" (click)="changePage(-1)" [disabled]="page === 0">
+          Previous evaluations</button
+        ><button
+          z-button
+          zType="outline"
+          (click)="changePage(1)"
+          [disabled]="page + 1 >= report.results.totalPages"
+        >
+          Next evaluations
+        </button>
+      </div>
     </div>
-  </div>
+  }
 }
 @if (selectedId()) {
-  <section class="evaluation" aria-labelledby="evaluation-title">
+  <section #evaluationPanel class="evaluation" aria-labelledby="evaluation-title" tabindex="-1">
     <div class="section-heading">
       <h2 id="evaluation-title">Evaluation details</h2>
-      <button z-button zType="outline" (click)="close()">Close evaluation</button>
+      <button z-button zType="outline" (click)="close(true)">Close evaluation</button>
     </div>
     @if (detailLoading()) {
       <p role="status">Loading evaluation diagnostics…</p>
