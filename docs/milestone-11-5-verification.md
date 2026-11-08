@@ -1,5 +1,7 @@
 # Milestone 11.5 — merchant redesign verification
 
+The subsequent merchant-requested simplification of Analytics, Forecasting, Recommendations and Data readiness is documented in [insights simplification verification](insights-simplification-verification.md). That follow-up replaces these four pages' presentation, adds a cancellable catalog check and a clearly separated teaching example, and retains the model/security/data boundaries below. Earlier test totals in this document describe the original milestone run; the follow-up report records current results.
+
 ## Scope and baseline
 
 Date: 2026-11-13. Starting branch `codex/milestone-01`, clean baseline `b9f74c5`. Checkpoint `b002118` records the plan before dependency integration. Work is local only; no push, deployment or Milestone 12 implementation.

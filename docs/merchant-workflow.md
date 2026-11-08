@@ -2,7 +2,23 @@
 
 Open the **normal workspace** at http://localhost:4200 for your business records. It requires the existing administrator account for business screens. The **synthetic demo** at http://localhost:4201/products contains30 products and9,466 orders from2025; it is anonymous and read-only. They use separate backends/databases. Links in the workspace notice help switch deliberately; opening the demo never imports its records into your business.
 
-## Find your way around
+## Read the four insight pages
+
+**Recommendations — “Which prices should I review?”** Start here for price decisions. Choose a comparison period (30 days by default, or 7/14), optionally search products, then select **Check catalog**. The app checks matching variants in batches of 10 and shows progress. Suggestions appear as they are found; Cancel retains partial results. Retry resumes a failed batch. Changing dates, horizon or search clears the previous selection. Only a completed check can say there are no suggestions across all matching variants.
+
+A supported card shows **current price → suggested price**, expected units at both prices, estimated contribution at both prices, and the amount/percentage difference. **Estimated contribution means sales minus known variable costs; other business expenses are excluded.** It is not guaranteed profit. **Why this suggestion?** opens the supporting costs, constraints, evidence and evaluation history. Closing the analysis returns focus to its product card. No price is applied automatically.
+
+For supported price sensitivity, the explanation translates the estimate into a local 1% relationship. For example, −2 means a 1% higher price was associated with approximately 2% fewer units sold in the analyzed history. Association does not establish a guaranteed causal effect. Where that relationship is unreliable, the app explains why instead of presenting the coefficient as advice. Products without suggestions show their current price, a short reason and **Review what to fix**.
+
+All 30 permanent-demo variants still have no reliable price suggestion. Open **See a worked pricing example** to learn the comparison separately: hypothetical price 100 → 80, unit cost 40, expected units 100 → 156.25, and 30-day estimated contribution 6,000 → 6,250. It is clearly illustrative, is not your store's recommendation, is excluded from result counts and cannot be saved as an evaluation.
+
+**Analytics — “How is my store doing?”** Read Net sales, Orders and Contribution from sales with known costs first. Cost coverage tells you which share of sales lines has a known historical cost. Read the black sales chart for the selected date window. **More sales metrics and accounting details** contains refunds, gross sales, average order value and the accounting caveats. Expand **Product performance: search, sort and drill down** or **Inventory observations and data quality** when needed. Those sections stay open when their report refreshes.
+
+**Forecasting — “How much might this product sell?”** Search the product cards and choose **View sales forecast**. Read expected units, the price used, and the actual forecast dates; select 7/14/30 days. The result assumes the listed price and availability assumptions hold. It does not estimate customers lost during stockouts. Price sensitivity appears alongside it only when sufficiently supported. Statistical evidence, exact tables and backtests remain expandable. Historical demo forecasts show their historical dates, not a prediction for today.
+
+**Data readiness — “What should I fix next?”** Follow **Your next steps**, ordered by the API's priorities. Each item explains what to review and links to the relevant screen or filtered product list. Connection and last-import status remain visible. **Detailed data checks** contains raw counts, technical status codes, per-variant tables and import controls. Completing missing fields helps evaluation but does not guarantee a suggestion.
+
+## Workspace navigation
 
 The redesigned **Overview** opens with your actual reporting figures and next actions. Normal mode shows setup guidance when the catalog is empty. Demo mode opens its historical Full 2025 records: it does not show a fictitious connected Shopify store, completed merchant review, growth percentage or readiness score. Net sales deduct merchandise refunds in their refund period. The currency label applies to the displayed exact decimal amount.
 
