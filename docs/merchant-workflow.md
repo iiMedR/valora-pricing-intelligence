@@ -4,13 +4,19 @@ Open the **normal workspace** at http://localhost:4200 for your business records
 
 ## Find your way around
 
+The redesigned **Overview** opens with your actual reporting figures and next actions. Normal mode shows setup guidance when the catalog is empty. Demo mode opens its historical Full 2025 records: it does not show a fictitious connected Shopify store, completed merchant review, growth percentage or readiness score. Net sales deduct merchandise refunds in their refund period. The currency label applies to the displayed exact decimal amount.
+
+Desktop navigation now groups **Workspace**, **Insights & decisions**, and **Integrations & settings**. **Catalog** opens the existing Products route; **Data readiness** opens Onboarding; **Shopify** opens Store connection; **Recommendations** opens the existing pricing evaluation workflow. Detail URLs remain unchanged. Saved evaluations remain within each variant's recommendation view.
+
+Overview and Analytics use gradient area charts based on actual API buckets. Hover or tap a chart to inspect a period. **Inspect exact sales values** opens a keyboard-accessible period selector and exact-value table; it remains the authoritative alternative to approximate plotted coordinates. Analytics date presets and date/granularity filters request real periods. Help buttons open with click/Enter and close with Escape. The smaller system typography preserves readable mobile inputs and large interaction targets.
+
 Desktop has a workflow rail. Tablet/mobile has an **Open navigation** button, with expanded state announced. Use Tab/Enter to navigate; Escape closes the disclosure and returns focus to its button. Following a link focuses the new page content. A skip link bypasses navigation. The mode label and account state remain visible on nested screens.
 
 1. **Store connection**: inspect authorization and explicitly start/resume/retry existing sync operations when allowed. Authorization is separate from successful import. Demo connection controls are disabled.
 2. **Onboarding**: review coverage and the prioritized checklist. Follow links for missing costs, stale stock or incomplete dated observations. Imported, analytically observable, forecast-evaluable and optimization-eligible are separate decisions.
 3. **Products / Categories / Orders & refunds**: inspect catalog and immutable history. Normal merchant edits use existing validated forms and optimistic versions. Archived records retain their history. Only unused categories can be deleted.
 4. **Analytics**: examine observed transactions, refund-period adjustments and known-cost contribution. Unknown historical costs are not zero.
-5. **Demand forecasting**: review availability-conditional observed-sales forecasts, association estimates and chronological backtests. These are not recovered latent demand or proof of a causal price effect.
+5. **Demand forecasting**: review availability-conditional observed-sales forecasts and choose 7, 14 or 30 days. Open **How this estimate works** for association estimates, fit diagnostics and exclusions, and the validation disclosure for chronological backtests. These are not recovered latent demand or proof of a causal price effect.
 6. **Pricing recommendations**: inspect eligibility and all withholding reasons. A conditional suggestion is displayed only when the existing backend gates pass. No price is applied automatically.
 
 ## Historical dates and the demo

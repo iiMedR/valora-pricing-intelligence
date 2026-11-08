@@ -9,6 +9,7 @@ The existing `SmartPricing` directory is the repository root (no redundant `smar
 - Java 21 (verified: Oracle JDK 21.0.11).
 - Spring Boot 3.5.16; Maven wrapper downloads Maven 3.9.11. System Maven is not required.
 - Node 24.22.1 and npm 11.19.1 verified; Angular framework and CLI 22.2.6, TypeScript 6.0.x. Use `npm ci` to reproduce the lockfile.
+- Milestone 11.5 uses source-owned Zard UI components (CLI 1.6.0 provenance), Angular CDK 22.2.6, ng-icons 36.1.0 and Tailwind/PostCSS 4.3.5. Gradient sales charts use ngx-echarts 22.0.0 / ECharts 6.1.0, loaded with the chart feature. No global Zard installation or initializer is needed to run the app. See [redesign plan](docs/ux-redesign-plan.md) and [verification](docs/milestone-11-5-verification.md).
 - Docker Desktop with Linux containers and Compose (verified: Desktop 4.92.0, client/engine 29.8.0).
 - PostgreSQL image `postgres:17.7-alpine` is pinned in Compose and Testcontainers.
 

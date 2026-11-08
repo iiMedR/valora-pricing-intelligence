@@ -40,7 +40,11 @@ File plan: add `components.json`, `.postcssrc.json`, new `src/app/shared` regist
 
 ## Chart strategy
 
-Enhance the existing SVG approach rather than add a second chart runtime. Financial calculations remain on the server; only chart coordinates use Number. Exact transmitted decimals remain accessible in an HTML table. Use actual monthly net sales, bounded API windows, labeled axes and zero baseline, readable tooltips and responsive dimensions. Show empty charts as empty states. Forecast historical observations and future estimates are visually and verbally distinct. Sensitivity charts remain model scenarios and appear only where permitted by returned eligibility.
+The initial plan retained SVG. The merchant subsequently supplied the official Zard gradient-area example and explicitly requested it, together with smaller Apple-style typography. Overview and Analytics therefore use the source-owned Zard chart component with ngx-echarts 22.0.0 / ECharts 6.1.0. The engine is dynamically imported and limited to the rendered line/area, axes, legend, tooltip, accessibility and SVG modules. Forecast and sensitivity plots retain their distinct scientific semantics.
+
+Financial calculations remain on the server; only chart coordinates use Number. Exact transmitted decimals remain accessible in an HTML table and the chart tooltip resolves the original decimal by data index. Use actual monthly net sales, bounded API windows, labeled axes including zero and negative refunds, readable tooltips and responsive dimensions. Show empty charts as empty states. Forecast historical observations and future estimates are visually and verbally distinct. Sensitivity charts remain model scenarios and appear only where permitted by returned eligibility; they now mark the current reference price when inside the feasible range.
+
+The compact typography revision uses a local Apple/system sans stack, 14px body, 13px navigation, 24px metrics and 25–30px main headings. Preserve 44px controls and 16px mobile inputs. No proprietary font download or remote font dependency is introduced.
 
 ## Risks and verification
 
