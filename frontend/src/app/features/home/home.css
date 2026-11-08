@@ -22,14 +22,14 @@
 }
 .overview-text-link {
   display: inline-block;
-  font-size: 13px;
+  font-size: 15px;
   margin-top: 16px;
 }
 .system-health {
   margin-top: 28px;
 }
 .muted {
-  font-size: 13px;
+  font-size: 15px;
 }
 @media (max-width: 1200px) {
   .overview-metrics {
@@ -50,5 +50,36 @@
 @media (max-width: 440px) {
   .overview-metrics {
     grid-template-columns: 1fr;
+  }
+}
+
+.overview-next-step {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+  margin: 20px 0;
+  border-block: 1px solid var(--border);
+}
+.overview-next-step p {
+  margin: 4px 0 0;
+}
+
+@media (max-width: 1200px) {
+  .overview-main-grid app-chart-panel:last-child {
+    order: -1;
+  }
+}
+@media (max-width: 440px) {
+  .overview-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .overview-metrics app-metric-card:first-child {
+    grid-column: 1/-1;
+  }
+  .overview-metrics {
+    margin: 20px 0;
   }
 }

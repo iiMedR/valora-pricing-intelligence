@@ -4,9 +4,6 @@
     <a class="brand" routerLink="/" aria-label="SmartPricing overview"
       ><ng-icon name="lucideChartNoAxesColumnIncreasing" aria-hidden="true" /> SmartPricing</a
     >
-    <div class="workspace-title">
-      <strong>{{ pageTitle() }}</strong><span>Your store performance and pricing insights.</span>
-    </div>
     <button
       #menu
       class="menu-toggle"
@@ -17,17 +14,34 @@
     >
       {{ menuOpen() ? 'Close navigation' : 'Open navigation' }}
     </button>
+    <app-environment-indicator />
     <app-session-nav />
   </header>
+  @if (menuOpen()) {
+    <button
+      class="navigation-backdrop"
+      type="button"
+      tabindex="-1"
+      aria-label="Close navigation"
+      (click)="closeMenu()"
+    ></button>
+  }
   <nav
     id="primary-navigation"
     class="primary-navigation"
     [class.is-open]="menuOpen()"
+    [attr.role]="menuOpen() ? 'dialog' : null"
+    [attr.aria-modal]="menuOpen() ? 'true' : null"
     aria-label="Main navigation"
   >
+    @if (menuOpen()) {
+      <button class="drawer-close" type="button" (click)="closeMenu()">Close navigation</button>
+    }
     @for (group of groups; track group.label) {
       <div class="nav-group">
-        <p>{{ group.label }}</p>
+        @if (group.label) {
+          <p>{{ group.label }}</p>
+        }
         @for (link of group.links; track link[0]) {
           <a
             [routerLink]="link[0]"
@@ -39,14 +53,9 @@
         }
       </div>
     }
-    <p class="nav-footnote">
-      Review evidence before changing a price. This app never applies prices automatically.
-    </p>
   </nav>
   <div class="workspace-content">
-    <app-environment-indicator />
     <main #content id="main" tabindex="-1"><router-outlet /></main>
-    <footer>SmartPricing · Observed records, explicit assumptions, considered decisions.</footer>
   </div>
 </div>
 <app-confirm-dialog />

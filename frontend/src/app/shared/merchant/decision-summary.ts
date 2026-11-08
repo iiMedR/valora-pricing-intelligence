@@ -1,3 +1,4 @@
+import { StatusPill } from './foundation';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ZardButtonComponent } from '../components/button';
@@ -59,7 +60,7 @@ export class SensitivitySummary {
 
 @Component({
   selector: 'app-price-comparison',
-  imports: [RouterLink, ZardButtonComponent, SensitivitySummary],
+  imports: [StatusPill, RouterLink, ZardButtonComponent, SensitivitySummary],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `@let d = evaluation();
     <article class="decision-card" [attr.aria-label]="d.variant.productName + ' pricing review'">
@@ -68,11 +69,13 @@ export class SensitivitySummary {
           <h3>{{ d.variant.productName }}</h3>
           <p class="muted">{{ d.variant.name }} · {{ d.variant.sku }}</p>
         </div>
-        <span class="decision-state">{{
-          d.status === 'ACTIONABLE' && d.comparison && d.recommendedPrice !== null
-            ? 'Suggestion available'
-            : 'No reliable suggestion yet'
-        }}</span>
+        <app-status-pill
+          [label]="
+            d.status === 'ACTIONABLE' && d.comparison && d.recommendedPrice !== null
+              ? 'Suggestion available'
+              : 'No reliable suggestion yet'
+          "
+        />
       </div>
       @if (d.status === 'ACTIONABLE' && d.comparison && d.recommendedPrice !== null) {
         <div class="price-change">

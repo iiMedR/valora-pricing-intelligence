@@ -967,3 +967,195 @@
     }
   }
 }
+
+/* Milestone 11.6 readable product foundation. */
+@layer components {
+  :root {
+    font-size: 16px;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-6: 24px;
+    --space-8: 32px;
+  }
+  body {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  h1,
+  .page-title {
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.6px;
+  }
+  h2 {
+    font-size: 20px;
+    line-height: 1.3;
+  }
+  h3 {
+    font-size: 16px;
+  }
+  .merchant-page-header p:empty {
+    display: none;
+  }
+  .merchant-page-header .muted,
+  .page-heading .muted,
+  .metric-context {
+    font-size: 14px;
+  }
+  .merchant-metric {
+    font-size: clamp(21px, 2vw, 29px);
+    letter-spacing: -0.7px;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+  }
+  label,
+  th,
+  td {
+    font-size: 14px;
+  }
+  th {
+    font-weight: 600;
+  }
+  td {
+    padding: 14px 16px;
+  }
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+    min-height: 44px;
+  }
+  .filters {
+    gap: 12px;
+    margin-block: 20px;
+  }
+  .filters label,
+  .search-field {
+    display: grid;
+    gap: 6px;
+  }
+  .filters app-search-field {
+    flex: 1 1 220px;
+  }
+  .search-field input {
+    width: 100%;
+  }
+  .product-identity {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 180px;
+  }
+  .product-identity a {
+    font-weight: 600;
+  }
+  .product-identity p {
+    margin: 2px 0;
+    font-size: 14px;
+  }
+  .product-image-fallback {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted-foreground);
+    font-size: 13px;
+  }
+  .status-pill {
+    display: inline-flex;
+    padding: 3px 9px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--muted);
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .insight-summary h2 {
+    font-size: 20px;
+    margin: 0 0 12px;
+  }
+  .insight-summary .actions {
+    margin-top: 20px;
+  }
+  .explanation-dialog {
+    width: min(620px, calc(100vw - 32px));
+    max-height: 85dvh;
+    overflow: auto;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    background: var(--background);
+    color: var(--foreground);
+  }
+  .explanation-dialog::backdrop {
+    background: rgb(0 0 0 / 0.35);
+  }
+  .explanation-dialog h2 {
+    margin: 0;
+  }
+  .explanation-content {
+    margin-top: 16px;
+    overflow-wrap: anywhere;
+  }
+  :focus-visible {
+    outline: 2px solid var(--foreground);
+    outline-offset: 3px;
+  }
+  .variant-card.section-heading {
+    padding: 16px;
+    margin-block: 8px;
+  }
+  .variant-card.section-heading h2 {
+    font-size: 16px;
+  }
+  @media (max-width: 600px) {
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+    .filters label {
+      min-width: 0;
+    }
+    .explanation-dialog {
+      padding: 20px;
+    }
+  }
+}
+
+@layer components {
+  .muted {
+    font-size: 14px;
+  }
+  app-chart-panel [data-slot='card-title'] {
+    font-size: 18px;
+  }
+  app-chart-panel [data-slot='card-description'] {
+    font-size: 14px;
+  }
+  .merchant-page-header .muted {
+    font-size: 16px;
+  }
+}
+
+@layer components {
+  app-responsive-data-list table {
+    min-width: 660px;
+  }
+  @media (max-width: 440px) {
+    .overview-metrics app-metric-card z-card {
+      --card-spacing: 12px;
+    }
+    .overview-metrics app-metric-card .merchant-metric {
+      font-size: 20px;
+    }
+    .overview-metrics app-metric-card .metric-context {
+      font-size: 13px;
+    }
+  }
+}

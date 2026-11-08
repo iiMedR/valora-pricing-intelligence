@@ -50,9 +50,11 @@ describe('Merchant application shell', () => {
     const nav = f.nativeElement.querySelector('nav');
     expect(nav.textContent).toContain('Overview');
     expect(nav.textContent).toContain('Data readiness');
-    expect(nav.textContent).toContain('Orders & refunds');
+    expect(nav.textContent).toContain('Orders');
     expect(nav.querySelectorAll('a').length).toBe(10);
     expect(f.nativeElement.textContent).toContain('Normal workspace');
+    f.nativeElement.querySelector('app-environment-indicator button').click();
+    await f.whenStable();
     expect(f.nativeElement.querySelector('a[href="http://localhost:4201/products"]')).toBeTruthy();
   });
   it('opens mobile disclosure with a button and restores toggle focus on Escape', async () => {
@@ -67,8 +69,8 @@ describe('Merchant application shell', () => {
     await f.whenStable();
     expect(toggle.getAttribute('aria-expanded')).toBe('false');
     expect(focus).toHaveBeenCalled();
-    expect(f.nativeElement.textContent).toContain('Anonymous · synthetic read-only demo');
-    expect(f.nativeElement.querySelector('.demo-banner')).toBeTruthy();
+    expect(f.nativeElement.textContent).toContain('Demo · Read-only');
+    expect(f.nativeElement.querySelector('.demo-banner')).toBeNull();
   });
   it('retains nested active navigation and focuses the destination landmark', async () => {
     const f = await create(true);

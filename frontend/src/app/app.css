@@ -3,7 +3,7 @@
 }
 .app-frame {
   display: grid;
-  grid-template-columns: 252px minmax(0, 1fr);
+  grid-template-columns: 232px minmax(0, 1fr);
   grid-template-rows: auto 1fr;
   min-height: 100dvh;
 }
@@ -15,9 +15,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 82px;
+  min-height: 64px;
   gap: 24px;
-  padding: 20px 32px;
+  padding: 12px 24px;
   background: var(--background);
   border-bottom: 1px solid var(--border);
 }
@@ -47,14 +47,14 @@
   font-weight: 650;
 }
 .workspace-title span {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--muted-foreground);
 }
 .primary-navigation {
   position: sticky;
-  top: 82px;
+  top: 64px;
   align-self: start;
-  height: calc(100dvh - 82px);
+  height: calc(100dvh - 64px);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -71,7 +71,7 @@
 }
 .nav-group p {
   color: var(--muted-foreground);
-  font-size: 11px;
+  font-size: 13px;
   margin: 0 12px 8px;
   font-weight: 500;
 }
@@ -83,7 +83,7 @@
   padding: 11px 12px;
   border: 0;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.4;
 }
 .primary-navigation ng-icon {
@@ -103,7 +103,7 @@
   color: var(--foreground);
 }
 .nav-footnote {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted-foreground);
   line-height: 1.6;
   margin: auto 12px 0;
@@ -116,7 +116,7 @@
 main {
   width: 100%;
   max-width: 1600px;
-  padding: 36px clamp(24px, 3vw, 48px);
+  padding: 28px clamp(20px, 2.5vw, 36px);
   min-height: calc(100dvh - 180px);
   margin: 0 auto;
 }
@@ -129,7 +129,7 @@ main:focus {
 footer {
   padding: 20px 32px;
   color: var(--muted-foreground);
-  font-size: 11px;
+  font-size: 13px;
 }
 @media (max-width: 1050px) {
   .workspace-title {
@@ -198,5 +198,56 @@ footer {
   }
   footer {
     padding: 18px 16px;
+  }
+}
+
+.workspace-header app-environment-indicator {
+  margin-left: auto;
+}
+@media (max-width: 500px) {
+  .brand {
+    width: auto;
+    font-size: 18px;
+  }
+  .workspace-header {
+    gap: 8px;
+  }
+  .workspace-header app-session-nav:empty {
+    display: none;
+  }
+  .workspace-header app-environment-indicator {
+    margin: 0;
+  }
+}
+
+.navigation-backdrop {
+  display: none;
+}
+@media (max-width: 1050px) {
+  .navigation-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    z-index: 30;
+    background: rgb(0 0 0 / 0.35);
+    border: 0;
+    border-radius: 0;
+  }
+  .primary-navigation.is-open {
+    display: flex;
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(320px, 90vw);
+    max-height: none;
+    height: 100dvh;
+    z-index: 40;
+    padding: 20px;
+    box-shadow: 8px 0 24px rgb(0 0 0 / 0.08);
+  }
+  .drawer-close {
+    align-self: flex-start;
+    min-height: 44px;
   }
 }

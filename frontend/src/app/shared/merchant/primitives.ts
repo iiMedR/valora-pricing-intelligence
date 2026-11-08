@@ -183,7 +183,10 @@ export class ChartPanel {
 }
 
 @Component({
-  selector: 'app-responsive-data-table',
+  selector: 'app-responsive-data-table, app-responsive-data-list',
+  styles: [
+    ':host { display:block; min-width:0; max-width:100%; } .scroll-region { overflow-x:auto; }',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div class="scroll-region" role="region" [attr.aria-label]="label()" tabindex="0">
     <ng-content />
@@ -192,3 +195,10 @@ export class ChartPanel {
 export class ResponsiveDataTable {
   readonly label = input.required<string>();
 }
+
+// Foundation names reuse the established Zard-backed primitives.
+export {
+  MetricCard as StatCard,
+  StatusNotice as InlineNotice,
+  ResponsiveDataTable as ResponsiveDataList,
+};

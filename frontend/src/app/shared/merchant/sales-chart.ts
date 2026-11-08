@@ -29,7 +29,7 @@ import { provideZardCharts } from '../components/chart/chart-echarts.provider';
   template: `
     @if (data().content.length) {
       <z-chart
-        zType="area"
+        zType="line"
         [zConfig]="chartConfig()"
         [zData]="chartData()"
         [zSeries]="series"
@@ -37,7 +37,6 @@ import { provideZardCharts } from '../components/chart/chart-echarts.provider';
         [zXAxisFormatter]="shortPeriod"
         [zYAxis]="true"
         [zYAxisFormatter]="axisValue"
-        zGradient
         zRenderer="svg"
         [zAnimation]="false"
         [zLazyRender]="false"
@@ -113,7 +112,10 @@ export class SalesChart {
     this.data().content.map((row) => ({ date: row.date, netSales: Number(row.metrics.netSales) })),
   );
   readonly chartConfig = computed<ZardChartConfig>(() => ({
-    netSales: { label: 'Net sales · ' + this.data().range.currencyCode, color: 'var(--foreground)' },
+    netSales: {
+      label: 'Net sales · ' + this.data().range.currencyCode,
+      color: 'var(--foreground)',
+    },
   }));
   readonly series: ZardChartSeries[] = [
     { dataKey: 'netSales', smooth: true, strokeWidth: 2, showSymbol: false },

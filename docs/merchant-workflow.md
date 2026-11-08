@@ -1,6 +1,16 @@
 # Merchant workflow
 
-Open the **normal workspace** at http://localhost:4200 for your business records. It requires the existing administrator account for business screens. The **synthetic demo** at http://localhost:4201/products contains30 products and9,466 orders from2025; it is anonymous and read-only. They use separate backends/databases. Links in the workspace notice help switch deliberately; opening the demo never imports its records into your business.
+Open the **normal workspace** at http://localhost:4200 for your business records. It requires the existing administrator account for business screens. The **synthetic demo** at http://localhost:4201/products contains30 products and9,466 orders from2025; it is anonymous and read-only. They use separate backends/databases. The compact workspace button opens an explanation and links to switch deliberately; opening the demo never imports its records into your business.
+
+## Overview and navigation (11.6)
+
+Start on **Overview**: the reporting period, actual net sales, units, orders and product count come first. Demo starts at Full 2025; the black chart shows monthly net sales with refunds deducted in their refund period. **How calculated?** retains the exact API amount behind the rounded currency display. Expand **Inspect exact sales values** to select a month or read the keyboard-accessible table.
+
+**Pricing insights** appears beside the chart. In the permanent demo, **No reliable price changes suggested** follows a complete check of all 30 variants. **Why?** explains the evidence and period; **Review products** opens the existing pricing page. A failed/partial check shows progress and Retry rather than a catalog-wide claim. The next stock-information action leads to Data readiness. Normal empty stores retain setup links and do not invent opportunities.
+
+The header's **Demo · Read-only** / **Normal workspace** button explains mode and provides deliberate workspace-switch links. Demo disclosure identifies synthetic historical 2025 records. At small widths, **Open navigation**, then **Products**, takes two interactions. Escape or Close dismisses the drawer and restores focus; explanation dialogs behave the same way. Navigation now names **Products**, **Orders**, **Forecasts** and **Pricing insights** while retaining the same URLs. Existing detailed calculations, diagnostics and evaluations remain available in their prior workflows.
+
+Products show a named link, neutral image fallback and textual status. Images and product-level prices are absent from the current DTO; open **View variants** for actual prices. Order lists show shorter references and currency-formatted amounts; full IDs and original amounts remain in order details. Filters are local time and displayed dates UTC. Data readiness initially shows up to three API-prioritized actions; **Show all next steps** reveals the rest. Fixing an input does not promise a recommendation.
 
 ## Read the four insight pages
 
@@ -30,14 +40,14 @@ Desktop has a workflow rail. Tablet/mobile has an **Open navigation** button, wi
 
 1. **Store connection**: inspect authorization and explicitly start/resume/retry existing sync operations when allowed. Authorization is separate from successful import. Demo connection controls are disabled.
 2. **Onboarding**: review coverage and the prioritized checklist. Follow links for missing costs, stale stock or incomplete dated observations. Imported, analytically observable, forecast-evaluable and optimization-eligible are separate decisions.
-3. **Products / Categories / Orders & refunds**: inspect catalog and immutable history. Normal merchant edits use existing validated forms and optimistic versions. Archived records retain their history. Only unused categories can be deleted.
+3. **Products / Categories / Orders**: inspect catalog and immutable history. Normal merchant edits use existing validated forms and optimistic versions. Archived records retain their history. Only unused categories can be deleted.
 4. **Analytics**: examine observed transactions, refund-period adjustments and known-cost contribution. Unknown historical costs are not zero.
 5. **Demand forecasting**: review availability-conditional observed-sales forecasts and choose 7, 14 or 30 days. Open **How this estimate works** for association estimates, fit diagnostics and exclusions, and the validation disclosure for chronological backtests. These are not recovered latent demand or proof of a causal price effect.
 6. **Pricing recommendations**: inspect eligibility and all withholding reasons. A conditional suggestion is displayed only when the existing backend gates pass. No price is applied automatically.
 
 ## Historical dates and the demo
 
-Demo insights initially select **Full2025** (2025-01-01 through2026-01-01 exclusive UTC), matching the existing seed. Normal mode retains current UTC defaults. All date inputs remain editable; date presets issue real API queries rather than inserting or fabricating data. Orders/history retain explicitly labeled local-time entry and UTC display conventions. If a window has no records, change the filters; do not reseed/reset to make a chart appear.
+Demo insights initially select **Full 2025** (2025-01-01 through2026-01-01 exclusive UTC), matching the existing seed. Normal mode retains current UTC defaults. All date inputs remain editable; date presets issue real API queries rather than inserting or fabricating data. Orders/history retain explicitly labeled local-time entry and UTC display conventions. If a window has no records, change the filters; do not reseed/reset to make a chart appear.
 
 ## Safe editing and confirmation
 
@@ -49,4 +59,4 @@ Archive/delete confirmation dialogs explain consequences, start on Cancel, wrap 
 
 In normal authenticated mode, **Save fresh evaluation** re-evaluates the selected dates/horizon and saves that fresh conclusion through the existing CSRF-protected endpoint. It saves metadata only. The saved status can differ from a previously displayed result if inputs changed. Identical inputs are deduplicated by the backend. Load saved evaluations to inspect bounded pages; no record is created merely by viewing diagnostics/history.
 
-Saved conclusions are append-only evidence of what the model concluded, not measured sales/profit outcomes. Realized uplift is not measured. Demo has no save affordance and the backend denies writes. Uncertainty intervals remain unavailable/uncalibrated. The permanent seasonal example remains weakly identified and all30 permanent-demo variants withhold recommendations; this is a limitation to understand, not a reason to relax the gates.
+Saved conclusions are append-only evidence of what the model concluded, not measured sales/profit outcomes. Realized uplift is not measured. Demo has no save affordance and the backend denies writes. Uncertainty intervals remain unavailable/uncalibrated. The permanent seasonal example remains weakly identified and all 30 permanent-demo variants withhold recommendations; this is a limitation to understand, not a reason to relax the gates.

@@ -65,26 +65,26 @@ export class App {
   readonly menu = viewChild<ElementRef<HTMLButtonElement>>('menu');
   readonly groups = [
     {
-      label: 'Workspace',
+      label: '',
       links: [
         ['/', 'Overview', 'lucideHouse'],
-        ['/products', 'Catalog', 'lucidePackage'],
-        ['/orders', 'Orders & refunds', 'lucideShoppingCart'],
+        ['/products', 'Products', 'lucidePackage'],
+        ['/orders', 'Orders', 'lucideShoppingCart'],
       ],
     },
     {
-      label: 'Insights & decisions',
+      label: 'Insights',
       links: [
         ['/analytics', 'Analytics', 'lucideChartNoAxesCombined'],
-        ['/forecasting', 'Forecasting', 'lucideTrendingUp'],
-        ['/optimization', 'Recommendations', 'lucideLightbulb'],
-        ['/onboarding', 'Data readiness', 'lucideClipboardCheck'],
+        ['/forecasting', 'Forecasts', 'lucideTrendingUp'],
+        ['/optimization', 'Pricing insights', 'lucideLightbulb'],
       ],
     },
     {
-      label: 'Integrations & settings',
+      label: 'Settings',
       links: [
         ['/store-connection', 'Shopify', 'lucideStore'],
+        ['/onboarding', 'Data readiness', 'lucideClipboardCheck'],
         ['/settings', 'Business settings', 'lucideSettings'],
         ['/categories', 'Categories', 'lucideTags'],
       ],
@@ -120,6 +120,32 @@ export class App {
     this.navigationScroll = window.scrollY;
     this.menuOpen.set(true);
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    setTimeout(() => document.querySelector<HTMLElement>('#primary-navigation button')?.focus());
+  }
+  @HostListener('document:keydown', ['$event']) containNavigation(event: KeyboardEvent) {
+    if (!this.menuOpen() || event.key !== 'Tab' || document.querySelector('dialog[open]')) return;
+    const controls = [
+      ...document.querySelectorAll<HTMLElement>(
+        '#primary-navigation button, #primary-navigation a[href]',
+      ),
+    ];
+    const first = controls[0],
+      last = controls[controls.length - 1];
+    if (
+      event.shiftKey &&
+      (document.activeElement === first ||
+        !document.getElementById('primary-navigation')?.contains(document.activeElement))
+    ) {
+      event.preventDefault();
+      last?.focus();
+    } else if (
+      !event.shiftKey &&
+      (document.activeElement === last ||
+        !document.getElementById('primary-navigation')?.contains(document.activeElement))
+    ) {
+      event.preventDefault();
+      first?.focus();
+    }
   }
   @HostListener('document:keydown.escape') closeMenu() {
     if (document.querySelector('dialog[open]')) return;

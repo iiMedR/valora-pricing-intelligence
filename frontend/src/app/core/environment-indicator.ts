@@ -1,3 +1,4 @@
+import { ExplainMore } from '../shared/merchant/foundation';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -13,29 +14,29 @@ export interface ApplicationEnvironment {
 
 @Component({
   selector: 'app-environment-indicator',
+  imports: [ExplainMore],
   template: `
-    @if (environment()?.synthetic) {
-      <aside class="demo-banner" role="note" aria-label="Synthetic demo environment">
-        <strong>Synthetic Demo Data</strong>
-        <span
-          >Anonymous · read-only browsing · Generated records, not real business sales.
-          {{ environment()?.datasetVersion }} ·
-          {{
-            environment()?.datasetState === 'READY'
-              ? 'Dataset initialized'
-              : 'Dataset not initialized'
-          }}</span
-        >
-        <a href="http://localhost:4200">Open normal workspace</a>
-      </aside>
-    }
-    @if (environment()?.mode === 'NORMAL' && !error()) {
-      <div class="workspace-notice" role="note">
-        <p>
-          <strong>Normal workspace</strong> · Your business records. Looking for seeded examples?
-          <a href="http://localhost:4201/products">Open the read-only synthetic demo</a>.
-        </p>
-      </div>
+    @if (environment(); as mode) {
+      <app-explain-more
+        [label]="mode.synthetic ? 'Demo · Read-only' : 'Normal workspace'"
+        title="Your workspace"
+      >
+        @if (mode.synthetic) {
+          <p>
+            <strong>Synthetic Demo Data</strong> · Anonymous, read-only browsing. Generated records,
+            not real business sales.
+          </p>
+          <p>Historical sample sales: 1 January–31 December 2025.</p>
+          <p>
+            {{ mode.datasetVersion }} ·
+            {{ mode.datasetState === 'READY' ? 'Dataset initialized' : 'Dataset not initialized' }}
+          </p>
+          <a href="http://localhost:4200">Open normal workspace</a>
+        } @else {
+          <p>Your business records. Looking for seeded examples?</p>
+          <a href="http://localhost:4201/products">Open the read-only synthetic demo</a>
+        }
+      </app-explain-more>
     }
     @if (error()) {
       <div class="environment-warning" role="alert">

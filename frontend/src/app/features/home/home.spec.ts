@@ -95,10 +95,43 @@ describe('Home health connection', () => {
         synchronization: { connected: false, lastSuccessfulSync: null },
       });
     await fixture.whenStable();
-    expect(fixture.nativeElement.textContent).toContain('1,234.5678');
-    expect(fixture.nativeElement.textContent).toContain('3 products · 4 variants');
+    const row = (id: string) => ({
+      variant: { variantId: id },
+      status: 'DIAGNOSTIC_ONLY',
+      reasons: ['PRICE_CALENDAR_CONFOUNDING_RISK'],
+    });
+    http
+      .expectOne((r) => r.url.endsWith('/optimization/overview'))
+      .flush({
+        results: { content: [row('a'), row('b')], totalElements: 4, totalPages: 2, page: 0 },
+      });
+    await fixture.whenStable();
+    expect(fixture.nativeElement.textContent).not.toContain('No reliable price changes suggested');
+    http
+      .expectOne((r) => r.url.endsWith('/optimization/overview'))
+      .flush({}, { status: 503, statusText: 'Unavailable' });
+    await fixture.whenStable();
+    expect(fixture.nativeElement.textContent).toContain('Checked 2 variants');
+    expect(fixture.nativeElement.textContent).not.toContain('No reliable price changes suggested');
+    [...fixture.nativeElement.querySelectorAll('button')]
+      .find((button: any) => button.textContent.includes('Retry pricing check'))
+      .click();
+    http
+      .expectOne((r) => r.url.endsWith('/optimization/overview') && r.params.get('page') === '1')
+      .flush({
+        results: { content: [row('c'), row('d')], totalElements: 4, totalPages: 2, page: 1 },
+      });
+    await fixture.whenStable();
+    expect(fixture.nativeElement.textContent).toContain('1,234.57 MAD');
+    expect(fixture.nativeElement.textContent).toContain('4 variants in your catalog');
     expect(fixture.nativeElement.textContent).toContain('2 stale or uncertain');
     expect(fixture.nativeElement.textContent).not.toContain('85%');
     expect(fixture.nativeElement.textContent).not.toContain('owner');
+    expect(fixture.nativeElement.textContent).toContain('No reliable price changes suggested');
+    [...fixture.nativeElement.querySelectorAll('button')]
+      .find((button: any) => button.textContent.includes('How calculated?'))
+      .click();
+    await fixture.whenStable();
+    expect(fixture.nativeElement.querySelector('dialog').textContent).toContain('1234.5678 MAD');
   });
 });

@@ -14,45 +14,42 @@ describe('EnvironmentIndicator', () => {
 
   it('clearly labels seeded and uninitialized demo environments', async () => {
     const fixture = TestBed.createComponent(EnvironmentIndicator);
-    TestBed.inject(HttpTestingController)
-      .expectOne('/api/v1/environment')
-      .flush({
-        mode: 'DEMO',
-        synthetic: true,
-        label: 'Synthetic Demo Data',
-        datasetVersion: 'demo-v1',
-        datasetState: 'READY',
-      });
+    TestBed.inject(HttpTestingController).expectOne('/api/v1/environment').flush({
+      mode: 'DEMO',
+      synthetic: true,
+      label: 'Synthetic Demo Data',
+      datasetVersion: 'demo-v1',
+      datasetState: 'READY',
+    });
     await fixture.whenStable();
-    expect(fixture.nativeElement.querySelector('aside').textContent).toContain(
+    expect(fixture.nativeElement.textContent).toContain('Demo · Read-only');
+    fixture.nativeElement.querySelector('button').click();
+    await fixture.whenStable();
+    expect(fixture.nativeElement.querySelector('dialog').textContent).toContain(
       'Synthetic Demo Data',
     );
     expect(fixture.nativeElement.textContent).toContain('not real business sales');
     fixture.componentInstance.load();
-    TestBed.inject(HttpTestingController)
-      .expectOne('/api/v1/environment')
-      .flush({
-        mode: 'DEMO',
-        synthetic: true,
-        label: 'Synthetic Demo Data',
-        datasetVersion: 'demo-v1',
-        datasetState: 'NOT_INITIALIZED',
-      });
+    TestBed.inject(HttpTestingController).expectOne('/api/v1/environment').flush({
+      mode: 'DEMO',
+      synthetic: true,
+      label: 'Synthetic Demo Data',
+      datasetVersion: 'demo-v1',
+      datasetState: 'NOT_INITIALIZED',
+    });
     await fixture.whenStable();
     expect(fixture.nativeElement.textContent).toContain('Dataset not initialized');
   });
 
   it('does not label normal records as demo data', async () => {
     const fixture = TestBed.createComponent(EnvironmentIndicator);
-    TestBed.inject(HttpTestingController)
-      .expectOne('/api/v1/environment')
-      .flush({
-        mode: 'NORMAL',
-        synthetic: false,
-        label: 'Local workspace',
-        datasetVersion: null,
-        datasetState: 'NOT_APPLICABLE',
-      });
+    TestBed.inject(HttpTestingController).expectOne('/api/v1/environment').flush({
+      mode: 'NORMAL',
+      synthetic: false,
+      label: 'Local workspace',
+      datasetVersion: null,
+      datasetState: 'NOT_APPLICABLE',
+    });
     await fixture.whenStable();
     expect(fixture.nativeElement.querySelector('aside')).toBeNull();
   });
@@ -65,16 +62,14 @@ describe('EnvironmentIndicator', () => {
     await fixture.whenStable();
     expect(fixture.nativeElement.textContent).toContain('Environment unverified');
     fixture.nativeElement.querySelector('button').click();
-    TestBed.inject(HttpTestingController)
-      .expectOne('/api/v1/environment')
-      .flush({
-        mode: 'DEMO',
-        synthetic: true,
-        label: 'Synthetic Demo Data',
-        datasetVersion: 'demo-v1',
-        datasetState: 'READY',
-      });
+    TestBed.inject(HttpTestingController).expectOne('/api/v1/environment').flush({
+      mode: 'DEMO',
+      synthetic: true,
+      label: 'Synthetic Demo Data',
+      datasetVersion: 'demo-v1',
+      datasetState: 'READY',
+    });
     await fixture.whenStable();
-    expect(fixture.nativeElement.textContent).toContain('Synthetic Demo Data');
+    expect(fixture.nativeElement.textContent).toContain('Demo · Read-only');
   });
 });

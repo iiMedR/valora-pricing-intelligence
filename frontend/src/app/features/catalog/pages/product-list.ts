@@ -1,3 +1,5 @@
+import { ResponsiveDataList } from '../../../shared/merchant/primitives';
+import { ProductIdentity, StatusPill, SearchField } from '../../../shared/merchant/foundation';
 import { ZardInputComponent } from '@/shared/components/input';
 import { ZardButtonComponent } from '@/shared/components/button';
 import { EditorState } from '../../../core/editor-state';
@@ -11,12 +13,21 @@ import { Category, Page, Product, ProductWrite } from '../models/catalog.models'
 import { ProductForm } from '../components/product-form';
 import { SessionService } from '../../../core/session.service';
 @Component({
-  imports: [ZardButtonComponent, ZardInputComponent, RouterLink, ReactiveFormsModule, ProductForm],
+  imports: [
+    ResponsiveDataList,
+    ProductIdentity,
+    StatusPill,
+    SearchField,
+    ZardButtonComponent,
+    ZardInputComponent,
+    RouterLink,
+    ReactiveFormsModule,
+    ProductForm,
+  ],
   template: ` <div class="page-heading">
       <div>
-        <p class="eyebrow">CATALOG</p>
         <h1 class="page-title">Products</h1>
-        <p class="muted">Manage products and their sellable variants. Prices belong to variants.</p>
+        <p class="muted">Find products and review variant prices.</p>
       </div>
       <button
         z-button
@@ -46,14 +57,15 @@ import { SessionService } from '../../../core/session.service';
       />
     }
     <form class="filters" [formGroup]="filters" (ngSubmit)="apply()">
-      <label
-        >Search products<input
+      <app-search-field
+        ><input
           z-input
           formControlName="search"
           type="search"
           maxlength="160"
           placeholder="Search by name"
-      /></label>
+          aria-label="Search products"
+      /></app-search-field>
       <label
         >Category<select formControlName="categoryId">
           <option value="">All categories</option>
@@ -86,12 +98,7 @@ import { SessionService } from '../../../core/session.service';
           </p>
         </div>
       } @else {
-        <div
-          class="table-wrap"
-          role="region"
-          tabindex="0"
-          aria-label="Products table, scroll horizontally"
-        >
+        <app-responsive-data-list label="Products table, scroll horizontally">
           <table>
             <caption class="sr-only">
               Products
@@ -108,22 +115,22 @@ import { SessionService } from '../../../core/session.service';
               @for (p of page.content; track p.id) {
                 <tr>
                   <td>
-                    <a [routerLink]="['/products', p.id]">{{ p.name }}</a>
+                    <app-product-identity [name]="p.name" [productId]="p.id" />
                   </td>
                   <td>{{ categoryName(p.categoryId) }}</td>
                   <td>
-                    <span class="badge">{{ p.status }}</span>
+                    <app-status-pill [label]="p.status === 'ACTIVE' ? 'Active' : 'Archived'" />
                   </td>
                   <td>
                     <a [routerLink]="['/products', p.id]"
-                      >View / edit<span class="sr-only"> {{ p.name }}</span></a
+                      >View variants<span class="sr-only"> {{ p.name }}</span></a
                     >
                   </td>
                 </tr>
               }
             </tbody>
           </table>
-        </div>
+        </app-responsive-data-list>
       }
       <div class="pagination">
         <span

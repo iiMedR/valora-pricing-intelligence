@@ -1,7 +1,6 @@
 <h1 class="page-title">Which prices should I review?</h1>
 <p class="decision-intro">
-  Check your products for a supported price suggestion, then compare the estimated sales and
-  contribution before making a decision.
+  Check products, then compare supported price suggestions and estimated contribution.
 </p>
 <form class="optimization-filters" [formGroup]="filters" (ngSubmit)="apply()">
   <label
@@ -129,9 +128,6 @@
   }
   @if (withheld().length) {
     <h2>Products that need more evidence</h2>
-    <p class="muted">
-      A missing suggestion is a reason to review the data, not a request to change the price.
-    </p>
     <div class="decision-list">
       @for (row of withheld().slice(0, 3); track row.variant.variantId) {
         <app-price-comparison [evaluation]="row" (inspect)="select($event)" />

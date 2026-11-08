@@ -242,6 +242,6 @@ describe('Demand Forecasting', () => {
     expect(request.request.params.get('endDate')).toBe('2026-01-01');
     request.flush({ results: { content: [], page: 0, size: 10, totalElements: 0, totalPages: 0 } });
     await f.whenStable();
-    expect(f.nativeElement.textContent).toContain('Demo dates: Full 2025');
+    expect(f.nativeElement.textContent).toContain('Using sales from 2025-01-01 up to 2026-01-01');
   });
 });

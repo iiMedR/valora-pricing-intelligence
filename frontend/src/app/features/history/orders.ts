@@ -1,3 +1,4 @@
+import { formatMoney } from '../../shared/merchant/foundation';
 import { ZardInputComponent } from '@/shared/components/input';
 import { ZardButtonComponent } from '@/shared/components/button';
 import { SessionService } from '../../core/session.service';
@@ -15,11 +16,10 @@ import { Order } from './history.models';
   imports: [ZardButtonComponent, ZardInputComponent, DatePipe, ReactiveFormsModule, RouterLink],
   template: ` <div class="page-heading">
       <div>
-        <p class="eyebrow">TRANSACTION HISTORY</p>
         <h1 class="page-title">Sales orders</h1>
         <p class="muted">
-          Immutable transaction snapshots. Completed merchandise sales exclude unpaid/cancelled
-          orders.
+          Completed sales exclude unpaid and cancelled orders. Filter in local time; dates below are
+          UTC.
         </p>
       </div>
       @if (!readOnly()) {
@@ -102,14 +102,15 @@ import { Order } from './history.models';
                 <tr>
                   <td>
                     <a [routerLink]="['/orders', order.id]">{{
-                      order.externalReference || order.id
+                      order.externalReference ||
+                        'Order ' + order.id.slice(0, 8) + '…' + order.id.slice(-4)
                     }}</a>
                   </td>
                   <td>{{ order.placedAt | date: 'medium' : 'UTC' }}</td>
                   <td>{{ order.status }}<br />{{ order.source }}</td>
                   <td>{{ order.itemCount }} / {{ order.totalQuantity }}</td>
-                  <td>{{ order.netMerchandise }} {{ order.currencyCode }}</td>
-                  <td>{{ order.recognizedNetMerchandise }} {{ order.currencyCode }}</td>
+                  <td>{{ money(order.netMerchandise, order.currencyCode) }}</td>
+                  <td>{{ money(order.recognizedNetMerchandise, order.currencyCode) }}</td>
                 </tr>
               }
             </tbody>
@@ -137,6 +138,7 @@ import { Order } from './history.models';
     }`,
 })
 export class Orders {
+  readonly money = formatMoney;
   private readonly session = inject(SessionService);
   readonly readOnly = () => this.session.value()?.readOnly === true;
   private readonly api = inject(HistoryApi);

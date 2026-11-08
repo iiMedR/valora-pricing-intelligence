@@ -1,11 +1,4 @@
-<app-page-header
-  title="Welcome back."
-  [description]="
-    isDemo()
-      ? 'Sample store performance for Full 2025.'
-      : 'Your store performance and what to focus on next.'
-  "
-/>
+<app-page-header title="Overview" [description]="period()" />
 @if (!authorized()) {
   <app-empty-state
     title="Your store overview starts here"
@@ -32,8 +25,8 @@
       <div class="overview-metrics">
         <app-metric-card
           label="Net sales"
-          [value]="money(report.metrics.netSales)"
-          [context]="report.range.currencyCode + ' · ' + period()"
+          [value]="displayMoney(report.metrics.netSales, report.range.currencyCode)"
+          context="Refunds deducted in the refund period"
         />
         <app-metric-card
           label="Units sold"
@@ -73,60 +66,82 @@
           </app-empty-state>
         }
       </app-chart-panel>
-      <app-chart-panel
-        [title]="isDemo() ? 'Explore the demo' : 'Store setup'"
-        [description]="
-          isDemo()
-            ? 'Four ways to explore SmartPricing.'
-            : 'Connect your store and build reliable evidence.'
-        "
-      >
-        <app-readiness-checklist [items]="checklist()" />
-        @if (!isDemo()) {
-          <app-data-freshness [timestamp]="readiness.synchronization.lastSuccessfulSync" />
-          <p class="muted">
-            {{
-              readiness.synchronization.connected ? 'Shopify connected' : 'Shopify not connected'
-            }}
-          </p>
+      <app-chart-panel title="Pricing insights" description="">
+        @if (isDemo()) {
+          @if (pricing.state() === 'complete') {
+            <app-insight-summary
+              [title]="
+                actionable().length
+                  ? 'Price suggestions available to review'
+                  : 'No reliable price changes suggested'
+              "
+              [description]="
+                actionable().length
+                  ? 'Compare the returned estimates before deciding.'
+                  : pricingReason()
+              "
+            >
+              <a z-button routerLink="/optimization">Review products</a
+              ><app-explain-more label="Why?" title="Why this pricing status?">
+                <p>{{ pricingReason() }}</p>
+                <p>
+                  Checked {{ pricing.checked() }} of {{ pricing.total() }} variants using Full 2025
+                  history and a 30-day comparison.
+                </p>
+                <p>
+                  A sales forecast alone does not justify a price change. Prices are never applied
+                  automatically.
+                </p>
+                <a routerLink="/optimization">Review each product's evidence</a>
+              </app-explain-more></app-insight-summary
+            >
+          } @else if (pricing.state() === 'error') {
+            <p role="alert">
+              Pricing status unavailable. Checked {{ pricing.checked() }} variants.
+            </p>
+            <button z-button zType="outline" (click)="pricing.retry()">Retry pricing check</button>
+          } @else {
+            <p role="status">Checking pricing evidence… {{ pricing.checked() }} variants checked</p>
+          }
         } @else {
-          <p class="muted">Synthetic history · no live store connection.</p>
+          <app-insight-summary
+            title="Review pricing evidence"
+            description="Check products for supported suggestions and compare estimated contribution."
+            ><a z-button routerLink="/optimization">Review products</a></app-insight-summary
+          >
+          @if (!readiness.synchronization.connected || readiness.counts['products'] === 0) {
+            <details>
+              <summary>Store setup</summary>
+              <app-readiness-checklist [items]="checklist()" />
+            </details>
+          }
         }
       </app-chart-panel>
     </div>
-    <div class="overview-bottom-grid">
-      <app-chart-panel
-        title="Recommendations"
-        description="Review pricing evidence and business constraints."
-      >
-        <app-status-notice
-          title="Review before changing a price"
-          description="A recommendation may be withheld when evidence is insufficient. A useful sales forecast alone does not justify a price change."
-        />
-        <a z-button zType="outline" class="mt-4" routerLink="/optimization"
-          >Review recommendations</a
-        >
-        <p class="muted">Prices are never applied automatically.</p>
-      </app-chart-panel>
-      <app-chart-panel
-        title="Data readiness"
-        description="Complete inputs before making pricing decisions."
-      >
-        <p>
-          <strong
-            >{{ readiness.counts['products'] }} products ·
-            {{ readiness.counts['variants'] }} variants</strong
-          >
-        </p>
-        <p>
+    <div class="overview-next-step">
+      <div>
+        <strong>Review stock information</strong>
+        <p class="muted">
           {{ readiness.counts['stale_or_uncertain_stock'] }} stale or uncertain inventory
           observations
         </p>
-        <p>{{ readiness.counts['missing_cost'] }} variants missing current cost</p>
-        <a z-button zType="outline" routerLink="/onboarding">Review readiness</a>
-        <p class="muted">Current costs do not imply complete historical cost coverage.</p>
-      </app-chart-panel>
+      </div>
+      <a z-button zType="outline" routerLink="/onboarding">Data readiness</a>
     </div>
+    <app-explain-more label="How calculated?" title="Overview amounts and dates"
+      ><p>
+        Net sales deduct refunds in the refund period. KPIs and chart use the same reporting window:
+        {{ report.range.startDate }} to {{ report.range.endDate }} (end excluded), UTC.
+      </p>
+      <p>
+        Displayed amounts use standard currency decimals. Exact net sales returned by the API:
+        {{ report.metrics.netSales }} {{ report.range.currencyCode }}.
+      </p>
+      <p>
+        Chart coordinates are approximate. Inspect exact sales values below the chart for original
+        period amounts.
+      </p></app-explain-more
+    >
   }
 }
 <details class="system-health">

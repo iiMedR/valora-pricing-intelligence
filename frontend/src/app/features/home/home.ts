@@ -1,3 +1,6 @@
+import { CatalogCheck } from '../optimization/catalog-check';
+import { ExplainMore, InsightSummary, formatMoney } from '../../shared/merchant/foundation';
+import { reasonSummary } from '../../core/presentation';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,6 +8,7 @@ import {
   effect,
   inject,
   signal,
+  untracked,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
@@ -21,33 +25,32 @@ import { OnboardingApi, Summary } from '../onboarding/onboarding-api';
 import { forkJoin, Subscription } from 'rxjs';
 import {
   ChartPanel,
-  DataFreshness,
   EmptyState,
   ErrorState,
   LoadingSkeleton,
   MetricCard,
   PageHeader,
   ReadinessChecklist,
-  StatusNotice,
 } from '../../shared/merchant/primitives';
 import { SalesChart } from '../../shared/merchant/sales-chart';
 import { ZardButtonComponent } from '../../shared/components/button';
 @Component({
   selector: 'app-home',
   imports: [
+    ExplainMore,
+    InsightSummary,
     RouterLink,
     ChartPanel,
-    DataFreshness,
     EmptyState,
     ErrorState,
     LoadingSkeleton,
     MetricCard,
     PageHeader,
     ReadinessChecklist,
-    StatusNotice,
     SalesChart,
     ZardButtonComponent,
   ],
+  providers: [CatalogCheck],
   templateUrl: './home.html',
   styleUrl: './home.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -63,6 +66,18 @@ export class Home {
   readonly loading = signal(false);
   readonly error = signal(false);
   readonly money = decimalText;
+  readonly displayMoney = formatMoney;
+  readonly pricing = inject(CatalogCheck);
+  readonly actionable = () =>
+    this.pricing.evaluations().filter((row) => row.status === 'ACTIONABLE');
+  readonly pricingReason = () =>
+    reasonSummary(
+      this.pricing.evaluations().find((row) => row.status === 'DIAGNOSTIC_ONLY')?.reasons ??
+        this.pricing.evaluations()[0]?.reasons ??
+        [],
+    )
+      .split('. ')[0]
+      .replace(/\.$/, '') + '.';
   readonly isDemo = () => this.session.value()?.mode === 'DEMO';
   readonly authorized = () => this.isDemo() || this.session.value()?.authenticated === true;
   readonly period = signal('');
@@ -97,8 +112,9 @@ export class Home {
     this.refresh();
     effect((onCleanup) => {
       onCleanup(() => this.request?.unsubscribe());
-      if (this.authorized()) this.load();
+      if (this.authorized()) untracked(() => this.load());
       else {
+        untracked(() => this.pricing.reset());
         this.overview.set(null);
         this.trends.set(null);
         this.summary.set(null);
@@ -108,6 +124,7 @@ export class Home {
   load() {
     if (!this.authorized()) return;
     this.request?.unsubscribe();
+    this.pricing.reset();
     const window = initialWindow(30, this.isDemo());
     this.period.set(this.isDemo() ? 'Full 2025' : 'Last 30 days · UTC');
     this.loading.set(true);
@@ -126,6 +143,7 @@ export class Home {
           this.trends.set(data.trends);
           this.summary.set(data.summary);
           this.loading.set(false);
+          if (this.isDemo()) this.pricing.start({ ...window, horizonDays: 30, search: '' });
         },
         error: () => {
           this.error.set(true);

@@ -7,7 +7,6 @@ import { SessionService } from './session.service';
   imports: [RouterLink],
   template: `
     @if (session.value()?.mode === 'DEMO') {
-      <span>Anonymous · synthetic read-only demo</span>
     } @else if (session.value()?.authenticated) {
       <span>{{ session.value()?.username }}</span>
       <button (click)="logout()" [disabled]="busy()">Sign out</button>
@@ -27,7 +26,7 @@ import { SessionService } from './session.service';
         align-items: center;
         gap: 8px;
         flex-wrap: wrap;
-        font-size: 12px;
+        font-size: 14px;
       }
       button {
         padding: 8px 12px;

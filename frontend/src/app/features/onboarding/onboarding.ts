@@ -43,7 +43,7 @@ import { apiError } from '../catalog/services/catalog-api.service';
       <section class="readiness-card">
         <h2>Your next steps</h2>
         <ol>
-          @for (check of s.checklist; track check.code) {
+          @for (check of allSteps() ? s.checklist : s.checklist.slice(0, 3); track check.code) {
             <li>
               <h3>{{ checkTitle(check.code) }}</h3>
               <p>{{ checkDescription(check.code, check.message, s) }}</p>
@@ -62,6 +62,11 @@ import { apiError } from '../catalog/services/catalog-api.service';
             </li>
           }
         </ol>
+        @if (s.checklist.length > 3) {
+          <button z-button zType="outline" (click)="allSteps.set(!allSteps())">
+            {{ allSteps() ? 'Show priority steps' : 'Show all next steps' }}
+          </button>
+        }
       </section>
       <p class="muted">
         <strong>{{
@@ -385,6 +390,7 @@ import { apiError } from '../catalog/services/catalog-api.service';
   ],
 })
 export class Onboarding {
+  readonly allSteps = signal(false);
   readonly checksOpen = signal(!!inject(ActivatedRoute).snapshot.queryParamMap.get('status'));
   checkTitle(code: string) {
     return (
