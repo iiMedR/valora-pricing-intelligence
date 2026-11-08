@@ -113,7 +113,7 @@ export class SalesChart {
     this.data().content.map((row) => ({ date: row.date, netSales: Number(row.metrics.netSales) })),
   );
   readonly chartConfig = computed<ZardChartConfig>(() => ({
-    netSales: { label: 'Net sales · ' + this.data().range.currencyCode, color: 'var(--chart-1)' },
+    netSales: { label: 'Net sales · ' + this.data().range.currencyCode, color: 'var(--foreground)' },
   }));
   readonly series: ZardChartSeries[] = [
     { dataKey: 'netSales', smooth: true, strokeWidth: 2, showSymbol: false },
@@ -138,7 +138,7 @@ export class SalesChart {
       class: '',
       labelClass: '',
       config: this.chartConfig(),
-      colors: { ['Net sales · ' + this.data().range.currencyCode]: 'var(--chart-1)' },
+      colors: { ['Net sales · ' + this.data().range.currencyCode]: 'var(--foreground)' },
       valueFormatter: () =>
         decimalText(row?.metrics.netSales ?? null) + ' ' + this.data().range.currencyCode,
     });
