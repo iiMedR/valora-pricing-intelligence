@@ -53,9 +53,11 @@ describe('Merchant application shell', () => {
     expect(nav.textContent).toContain('Orders');
     expect(nav.querySelectorAll('a').length).toBe(10);
     expect(f.nativeElement.textContent).toContain('Normal workspace');
-    f.nativeElement.querySelector('app-environment-indicator button').click();
-    await f.whenStable();
-    expect(f.nativeElement.querySelector('a[href="http://localhost:4201/products"]')).toBeTruthy();
+    expect(
+      f.nativeElement
+        .querySelector('app-environment-indicator button')
+        .getAttribute('aria-haspopup'),
+    ).toBe('dialog');
   });
   it('opens mobile disclosure with a button and restores toggle focus on Escape', async () => {
     const f = await create(true);

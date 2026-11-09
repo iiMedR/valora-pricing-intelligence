@@ -68,6 +68,12 @@ describe('Session and CSRF integration', () => {
     ])
       expect(safeReturnUrl(value)).toBe('/');
     expect(safeReturnUrl('/products/abc-123')).toBe('/products/abc-123');
+    expect(safeReturnUrl('/products?search=coffee&page=1&view=list')).toBe(
+      '/products?search=coffee&page=1&view=list',
+    );
+    expect(safeReturnUrl('/products?search=a&search=b')).toBe('/');
+    expect(safeReturnUrl('/products?page=99999999')).toBe('/');
+    expect(safeReturnUrl('/optimization?variantId=secret')).toBe('/');
   });
   it('allows anonymous demo reading while refusing the manual-order write route', async () => {
     const router = TestBed.inject(Router);

@@ -1,3 +1,4 @@
+import { ProductContext, validCatalogId } from '../../shared/merchant/product-context';
 import { ZardInputComponent } from '@/shared/components/input';
 import { ZardButtonComponent } from '@/shared/components/button';
 import { SessionService } from '../../core/session.service';
@@ -32,6 +33,7 @@ import {
 } from './optimization-api.service';
 @Component({
   imports: [
+    ProductContext,
     ZardButtonComponent,
     ZardInputComponent,
     EvaluationHistory,
@@ -49,6 +51,8 @@ import {
 export class Optimization {
   private readonly session = inject(SessionService);
   readonly isDemo = () => this.session.value()?.mode === 'DEMO';
+  private contextSelection: string | null =
+    inject(ActivatedRoute).snapshot.queryParamMap.get('variantId');
   private readonly initial = insightWindow(
     initialWindow(365, this.isDemo()),
     inject(ActivatedRoute).snapshot.queryParamMap,
@@ -68,7 +72,10 @@ export class Optimization {
     startDate: new FormControl(this.initial.startDate, { nonNullable: true }),
     endDate: new FormControl(this.initial.endDate, { nonNullable: true }),
     horizonDays: new FormControl(this.initial.horizonDays, { nonNullable: true }),
-    search: new FormControl('', { nonNullable: true }),
+    search: new FormControl(
+      (inject(ActivatedRoute).snapshot.queryParamMap.get('search') ?? '').slice(0, 100),
+      { nonNullable: true },
+    ),
   });
   private applied: OptimizationQuery = this.filters.getRawValue();
   page = 0;
@@ -163,6 +170,10 @@ export class Optimization {
       }
     });
     this.load();
+    if (validCatalogId(this.contextSelection)) {
+      this.select(this.contextSelection);
+      this.contextSelection = null;
+    }
   }
   reason(value: string) {
     return explainReason(value);

@@ -1,3 +1,4 @@
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
@@ -290,5 +291,37 @@ describe('Pricing Recommendations', () => {
     expect(pending.cancelled).toBe(true);
     expect(f.componentInstance.rows()).toEqual([]);
     expect(f.componentInstance.detail()).toBeNull();
+  });
+  it('opens the exact supported variant deep link without saving an evaluation', async () => {
+    const id = '11111111-1111-4111-8111-111111111111';
+    TestBed.overrideProvider(ActivatedRoute, {
+      useValue: {
+        snapshot: {
+          queryParamMap: convertToParamMap({
+            variantId: id,
+            search: 'TEST-1',
+            startDate: '2025-01-01',
+            endDate: '2026-01-01',
+            horizonDays: '14',
+          }),
+        },
+      },
+    });
+    const f = TestBed.createComponent(Optimization),
+      http = TestBed.inject(HttpTestingController);
+    f.detectChanges();
+    http
+      .expectOne((r) => r.url.endsWith('/overview'))
+      .flush({
+        results: { content: [], page: 0, size: 10, totalElements: 0, totalPages: 0 },
+        statusCounts: {},
+      });
+    const request = http.expectOne((r) => r.url.endsWith('/' + id + '/recommendation'));
+    expect(request.request.method).toBe('GET');
+    expect(request.request.params.get('horizonDays')).toBe('14');
+    request.flush({ ...evaluation, variant: { ...evaluation.variant, variantId: id } });
+    await f.whenStable();
+    expect(f.componentInstance.selectedId()).toBe(id);
+    http.expectNone((r) => r.method !== 'GET');
   });
 });

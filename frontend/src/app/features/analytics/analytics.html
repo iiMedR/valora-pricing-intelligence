@@ -12,6 +12,7 @@
   </div>
   <span class="report-tag">Read-only reporting</span>
 </div>
+<app-product-context [showSales]="true" />
 <form class="report-filters" [formGroup]="filters" (ngSubmit)="apply()">
   <label>Start date (UTC)<input z-input type="date" formControlName="startDate" required /></label>
   <label

@@ -34,7 +34,7 @@ import { requiredText } from './form-validation';
       >Description<textarea formControlName="description" maxlength="2000" rows="3"></textarea>
     </label>
     <label
-      >Category<select formControlName="categoryId">
+      >Category<select formControlName="categoryId" aria-label="Category">
         <option value="">Uncategorized</option>
         @for (category of categories; track category.id) {
           <option [value]="category.id">{{ category.name }}</option>
@@ -43,7 +43,7 @@ import { requiredText } from './form-validation';
     >
     @if (product) {
       <label
-        >Status<select formControlName="status">
+        >Status<select formControlName="status" aria-label="Status">
           <option value="ARCHIVED">Archived</option>
           <option value="ACTIVE">Active</option>
         </select></label

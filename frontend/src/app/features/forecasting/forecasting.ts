@@ -1,3 +1,4 @@
+import { ProductContext, validCatalogId } from '../../shared/merchant/product-context';
 import { ZardInputComponent } from '@/shared/components/input';
 import { ZardButtonComponent } from '@/shared/components/button';
 import { SessionService } from '../../core/session.service';
@@ -31,6 +32,7 @@ import {
 } from './forecast-api.service';
 @Component({
   imports: [
+    ProductContext,
     ZardButtonComponent,
     ZardInputComponent,
     DecimalPipe,
@@ -44,6 +46,8 @@ import {
 export class Forecasting {
   private readonly session = inject(SessionService);
   readonly isDemo = () => this.session.value()?.mode === 'DEMO';
+  private contextSelection: string | null =
+    inject(ActivatedRoute).snapshot.queryParamMap.get('variantId');
   private readonly initial = insightWindow(
     initialWindow(365, this.isDemo()),
     inject(ActivatedRoute).snapshot.queryParamMap,
@@ -62,7 +66,10 @@ export class Forecasting {
   readonly filters = new FormGroup({
     startDate: new FormControl(this.initial.startDate, { nonNullable: true }),
     endDate: new FormControl(this.initial.endDate, { nonNullable: true }),
-    search: new FormControl('', { nonNullable: true }),
+    search: new FormControl(
+      (inject(ActivatedRoute).snapshot.queryParamMap.get('search') ?? '').slice(0, 100),
+      { nonNullable: true },
+    ),
     horizonDays: new FormControl(this.initial.horizonDays, { nonNullable: true }),
   });
   readonly result = signal<Overview | null>(null);
@@ -132,6 +139,13 @@ export class Forecasting {
         next: (r) => {
           this.result.set(r);
           this.loading.set(false);
+          if (this.contextSelection) {
+            const row = r.results.content.find(
+              (row) => row.variant.variantId === this.contextSelection,
+            );
+            this.contextSelection = null;
+            if (row) this.select(row.variant);
+          }
         },
         error: (e) => {
           this.error.set(apiError(e));

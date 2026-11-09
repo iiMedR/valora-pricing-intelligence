@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Trends, decimalText } from '../../features/analytics/analytics-api.service';
 import { ResponsiveDataTable } from './primitives';
@@ -28,23 +37,29 @@ import { provideZardCharts } from '../components/chart/chart-echarts.provider';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (data().content.length) {
-      <z-chart
-        zType="line"
-        [zConfig]="chartConfig()"
-        [zData]="chartData()"
-        [zSeries]="series"
-        zXAxisKey="date"
-        [zXAxisFormatter]="shortPeriod"
-        [zYAxis]="true"
-        [zYAxisFormatter]="axisValue"
-        zRenderer="svg"
-        [zAnimation]="false"
-        [zLazyRender]="false"
-        [zOption]="chartOptions()"
-        class="h-64 w-full aspect-auto"
-      >
-        <z-chart-tooltip zIndicator="dot" />
-      </z-chart>
+      @if (engineReady()) {
+        <z-chart
+          zType="line"
+          [zConfig]="chartConfig()"
+          [zData]="chartData()"
+          [zSeries]="series"
+          zXAxisKey="date"
+          [zXAxisFormatter]="shortPeriod"
+          [zYAxis]="true"
+          [zYAxisFormatter]="axisValue"
+          zRenderer="svg"
+          [zAnimation]="false"
+          [zLazyRender]="false"
+          [zOption]="chartOptions()"
+          class="h-64 w-full aspect-auto"
+        >
+          <z-chart-tooltip zIndicator="dot" />
+        </z-chart>
+      } @else if (engineError()) {
+        <p role="alert">Chart could not load. Inspect exact sales values below.</p>
+      } @else {
+        <p role="status">Loading sales chart…</p>
+      }
       <details>
         <summary>Inspect exact sales values</summary>
         <label class="chart-selector"
@@ -97,6 +112,25 @@ import { provideZardCharts } from '../components/chart/chart-echarts.provider';
   styleUrl: './sales-chart.css',
 })
 export class SalesChart {
+  readonly engineReady = signal(false);
+  readonly engineError = signal(false);
+  private engineRequested = false;
+  constructor() {
+    const destroy = inject(DestroyRef);
+    // ngx-echarts cannot cancel an in-flight loader. Load before mounting its
+    // directive so a fast route change cannot initialize a detached element.
+    effect(() => {
+      if (!this.data().content.length || this.engineRequested) return;
+      this.engineRequested = true;
+      void import('../components/chart/chart-echarts.registry')
+        .then(() => {
+          if (!destroy.destroyed) this.engineReady.set(true);
+        })
+        .catch(() => {
+          if (!destroy.destroyed) this.engineError.set(true);
+        });
+    });
+  }
   readonly data = input.required<Trends>();
   readonly selected = signal('');
   readonly money = decimalText;

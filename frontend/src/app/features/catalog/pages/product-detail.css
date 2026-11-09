@@ -1,0 +1,107 @@
+.product-heading {
+  margin-top: 24px;
+}
+.product-heading > div:first-child {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  column-gap: 24px;
+  align-items: start;
+  flex: 1;
+}
+.detail-thumbnail {
+  width: 112px;
+  aspect-ratio: 1;
+  grid-row: 1/4;
+}
+.product-heading h1 {
+  overflow-wrap: anywhere;
+  margin-top: 0;
+}
+.product-heading p {
+  margin: 4px 0 8px;
+}
+.variant-selector {
+  display: grid;
+  gap: 8px;
+  max-width: 600px;
+  margin: 12px 0 24px;
+}
+.variant-card {
+  padding: 24px;
+}
+.money-grid dd {
+  font-size: 20px;
+  overflow-wrap: anywhere;
+}
+.money-grid div:first-child dd {
+  font-size: 28px;
+  font-weight: 600;
+}
+@media (max-width: 600px) {
+  .product-heading > div:first-child {
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 12px;
+  }
+  .detail-thumbnail {
+    width: 72px;
+  }
+  .product-heading h1 {
+    font-size: 24px;
+  }
+  .variant-card {
+    padding: 16px;
+  }
+  .money-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+.product-heading h1 {
+  margin: 0;
+}
+.product-heading > div:first-child {
+  row-gap: 6px;
+  align-content: center;
+}
+.product-heading p {
+  margin: 0;
+}
+.product-information {
+  margin: 12px 0;
+}
+.money-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.variant-card > .section-heading {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+.variant-card > .section-heading h3 {
+  margin: 0 0 4px;
+}
+
+@media (max-width: 900px) {
+  .product-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 16px;
+  }
+  .product-heading > .actions {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 600px) {
+  .variant-card > .section-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .variant-card > .section-heading > .actions {
+    justify-content: flex-start;
+  }
+  .variant-card > .money-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -136,7 +136,11 @@ describe('Analytics', () => {
     expect(text).toContain('Unknown');
     expect(text).toContain('KNOWN_STOCKOUT');
     expect(text).toContain('Stale');
-    expect(f.nativeElement.querySelector('z-chart')).toBeTruthy();
+    // DOM-only tests have no graphics engine. First paint may be loading or
+    // unavailable; the exact-value table must remain accessible in every state.
+    const chart = f.nativeElement.querySelector('app-sales-chart');
+    expect(chart).toBeTruthy();
+    expect(chart.querySelector('z-chart, [role="status"], [role="alert"]')).toBeTruthy();
     expect(f.nativeElement.querySelector('[aria-label="Net sales data"]')).toBeTruthy();
     expect(f.nativeElement.querySelector('[aria-label="Trend data table"]')).toBeTruthy();
     expect(f.nativeElement.querySelector('[aria-label="Product performance table"]').tabIndex).toBe(

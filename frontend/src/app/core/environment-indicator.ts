@@ -1,4 +1,4 @@
-import { ExplainMore } from '../shared/merchant/foundation';
+import { EnvironmentDetails } from './environment-details';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -14,29 +14,26 @@ export interface ApplicationEnvironment {
 
 @Component({
   selector: 'app-environment-indicator',
-  imports: [ExplainMore],
+  imports: [EnvironmentDetails],
   template: `
     @if (environment(); as mode) {
-      <app-explain-more
-        [label]="mode.synthetic ? 'Demo · Read-only' : 'Normal workspace'"
-        title="Your workspace"
+      <button
+        type="button"
+        class="workspace-mode-toggle"
+        aria-haspopup="dialog"
+        (click)="detailsOpen.set(true)"
       >
-        @if (mode.synthetic) {
-          <p>
-            <strong>Synthetic Demo Data</strong> · Anonymous, read-only browsing. Generated records,
-            not real business sales.
-          </p>
-          <p>Historical sample sales: 1 January–31 December 2025.</p>
-          <p>
-            {{ mode.datasetVersion }} ·
-            {{ mode.datasetState === 'READY' ? 'Dataset initialized' : 'Dataset not initialized' }}
-          </p>
-          <a href="http://localhost:4200">Open normal workspace</a>
-        } @else {
-          <p>Your business records. Looking for seeded examples?</p>
-          <a href="http://localhost:4201/products">Open the read-only synthetic demo</a>
+        {{ mode.synthetic ? 'Demo · Read-only' : 'Normal workspace' }}
+      </button>
+      @if (detailsOpen()) {
+        @defer {
+          <app-environment-details [environment]="mode" (closed)="detailsOpen.set(false)" />
+        } @placeholder {
+          <span role="status">Opening workspace details…</span>
+        } @error {
+          <span role="alert">Workspace details could not load. Reload this page to try again.</span>
         }
-      </app-explain-more>
+      }
     }
     @if (error()) {
       <div class="environment-warning" role="alert">
@@ -49,6 +46,7 @@ export interface ApplicationEnvironment {
   `,
 })
 export class EnvironmentIndicator {
+  readonly detailsOpen = signal(false);
   private readonly http = inject(HttpClient);
   private readonly destroyRef = inject(DestroyRef);
   readonly environment = signal<ApplicationEnvironment | null>(null);

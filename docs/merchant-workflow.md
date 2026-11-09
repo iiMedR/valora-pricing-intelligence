@@ -12,6 +12,18 @@ The header's **Demo · Read-only** / **Normal workspace** button explains mode a
 
 Products show a named link, neutral image fallback and textual status. Images and product-level prices are absent from the current DTO; open **View variants** for actual prices. Order lists show shorter references and currency-formatted amounts; full IDs and original amounts remain in order details. Filters are local time and displayed dates UTC. Data readiness initially shows up to three API-prioritized actions; **Show all next steps** reveals the rest. Fixing an input does not promise a recommendation.
 
+## Find a product and review its variant — 11.7
+
+Open **Products**. Type a name to search, or choose a category/status and select **Apply filters**. **Clear filters** resets the search and returns to the first page. **Grid** and **List** show the same products and preserve your selection in the URL. Use Next/Previous for larger catalogs; each page contains at most20products, newest added first.
+
+A tile or row opens the product. Neutral initials mean no image is available; they are not product photos. **View variants** is intentional: the list API has no reliable product-level price or variant count. The product page gives the actual variant count. Choose **Selected variant** to see that SKU's current catalog price, cost and status. Its URL remembers the selection. **Price limits and exact amounts** preserves the original decimals behind the rounded display. Unknown costs stay unavailable.
+
+**Sales performance** shows only the chosen variant's returned units and net sales for the displayed UTC window. Refunds are deducted in their refund period. A variant sales trend and live stock are not provided by these endpoints; inspect the sales view or dated inventory history rather than infer them from a store chart.
+
+**Pricing insight** states whether the API supports a suggestion. Permanent-demo variants still have no reliable price change. **Why this result?** opens the actual reasons, window, assumptions and optional model/audit detail. A supported price remains an estimate to review, never an automatic price write. **View sales**, **View forecast** and **View pricing evidence** preserve the variant and date context; **Back to product** returns to that selection, and **Back to results** restores catalog filters/view/page.
+
+Normal-mode create/edit/archive forms keep their existing validation, version and confirmation protections. Selection is disabled while editing or saving. Demo controls are disabled with a short read-only explanation. A missing product/variant, failed API or unavailable metric is shown explicitly; Retry re-reads the relevant request without inventing zeros.
+
 ## Read the four insight pages
 
 **Recommendations — “Which prices should I review?”** Start here for price decisions. Choose a comparison period (30 days by default, or 7/14), optionally search products, then select **Check catalog**. The app checks matching variants in batches of 10 and shows progress. Suggestions appear as they are found; Cancel retains partial results. Retry resumes a failed batch. Changing dates, horizon or search clears the previous selection. Only a completed check can say there are no suggestions across all matching variants.

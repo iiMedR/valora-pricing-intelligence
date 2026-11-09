@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { DeferBlockState, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { EnvironmentIndicator } from './environment-indicator';
@@ -24,6 +24,9 @@ describe('EnvironmentIndicator', () => {
     await fixture.whenStable();
     expect(fixture.nativeElement.textContent).toContain('Demo · Read-only');
     fixture.nativeElement.querySelector('button').click();
+    await fixture.whenStable();
+    const blocks = await fixture.getDeferBlocks();
+    await blocks[0].render(DeferBlockState.Complete);
     await fixture.whenStable();
     expect(fixture.nativeElement.querySelector('dialog').textContent).toContain(
       'Synthetic Demo Data',

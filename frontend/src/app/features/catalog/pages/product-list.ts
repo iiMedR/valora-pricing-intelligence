@@ -1,29 +1,36 @@
-import { ResponsiveDataList } from '../../../shared/merchant/primitives';
-import { ProductIdentity, StatusPill, SearchField } from '../../../shared/merchant/foundation';
+import { ProductEntry } from '../components/product-entry';
+import { SearchField } from '../../../shared/merchant/foundation';
 import { ZardInputComponent } from '@/shared/components/input';
 import { ZardButtonComponent } from '@/shared/components/button';
 import { EditorState } from '../../../core/editor-state';
-import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { forkJoin, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, forkJoin, Subscription } from 'rxjs';
 import { CatalogApi, apiError } from '../services/catalog-api.service';
 import { Category, Page, Product, ProductWrite } from '../models/catalog.models';
 import { ProductForm } from '../components/product-form';
 import { SessionService } from '../../../core/session.service';
 @Component({
   imports: [
-    ResponsiveDataList,
-    ProductIdentity,
-    StatusPill,
+    ProductEntry,
     SearchField,
     ZardButtonComponent,
     ZardInputComponent,
-    RouterLink,
     ReactiveFormsModule,
     ProductForm,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './product-list.css',
   template: ` <div class="page-heading">
       <div>
         <h1 class="page-title">Products</h1>
@@ -34,14 +41,13 @@ import { SessionService } from '../../../core/session.service';
         class="primary"
         (click)="creating.set(true)"
         [disabled]="loading() || readOnly() || creating()"
+        [attr.aria-describedby]="readOnly() ? 'catalog-read-only' : null"
       >
         Create product
       </button>
     </div>
     @if (readOnly()) {
-      <p class="notice">
-        Synthetic demo · product creation is disabled. Browse the existing seeded catalog.
-      </p>
+      <p class="muted" id="catalog-read-only">Demo is read-only.</p>
     }
     @if (error()) {
       <div class="error" role="alert">
@@ -67,7 +73,7 @@ import { SessionService } from '../../../core/session.service';
           aria-label="Search products"
       /></app-search-field>
       <label
-        >Category<select formControlName="categoryId">
+        >Category<select formControlName="categoryId" aria-label="Category">
           <option value="">All categories</option>
           @for (c of categories(); track c.id) {
             <option [value]="c.id">{{ c.name }}</option>
@@ -75,17 +81,42 @@ import { SessionService } from '../../../core/session.service';
         </select></label
       >
       <label
-        >Status<select formControlName="status">
+        >Status<select formControlName="status" aria-label="Status">
           <option value="">All statuses</option>
           <option value="ACTIVE">Active</option>
           <option value="ARCHIVED">Archived</option>
         </select></label
       >
-      <button z-button zType="outline" type="submit">Apply filters</button>
+      <div class="filter-actions">
+        <button z-button zType="outline" type="submit">Apply filters</button
+        ><button z-button zType="ghost" type="button" (click)="reset()">Clear filters</button>
+      </div>
     </form>
+    <div class="catalog-controls">
+      <p class="muted">Newest added first</p>
+      <div role="group" aria-label="Product view">
+        <button
+          z-button
+          zType="outline"
+          type="button"
+          [attr.aria-pressed]="view() === 'grid'"
+          (click)="setView('grid')"
+        >
+          Grid</button
+        ><button
+          z-button
+          zType="outline"
+          type="button"
+          [attr.aria-pressed]="view() === 'list'"
+          (click)="setView('list')"
+        >
+          List
+        </button>
+      </div>
+    </div>
     @if (loading()) {
-      <p role="status">Loading products…</p>
-    } @else if (result(); as page) {
+      <p role="status" aria-live="polite">Loading products…</p>
+    } @else if (!error() && result(); as page) {
       @if (page.content.length === 0) {
         <div class="empty">
           <h2>No products found</h2>
@@ -98,41 +129,18 @@ import { SessionService } from '../../../core/session.service';
           </p>
         </div>
       } @else {
-        <app-responsive-data-list label="Products table, scroll horizontally">
-          <table>
-            <caption class="sr-only">
-              Products
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Product</th>
-                <th scope="col">Category</th>
-                <th scope="col">Status</th>
-                <th scope="col">Manage</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (p of page.content; track p.id) {
-                <tr>
-                  <td>
-                    <app-product-identity [name]="p.name" [productId]="p.id" />
-                  </td>
-                  <td>{{ categoryName(p.categoryId) }}</td>
-                  <td>
-                    <app-status-pill [label]="p.status === 'ACTIVE' ? 'Active' : 'Archived'" />
-                  </td>
-                  <td>
-                    <a [routerLink]="['/products', p.id]"
-                      >View variants<span class="sr-only"> {{ p.name }}</span></a
-                    >
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </app-responsive-data-list>
+        <div class="catalog-results" [class.catalog-list]="view() === 'list'" aria-label="Products">
+          @for (p of page.content; track p.id) {
+            <app-product-entry
+              [product]="p"
+              [category]="categoryName(p.categoryId)"
+              [view]="view()"
+              [context]="context()"
+            />
+          }
+        </div>
       }
-      <div class="pagination">
+      <div class="pagination" aria-live="polite">
         <span
           >{{ page.totalElements }} products · Page {{ page.page + 1 }} of
           {{ page.totalPages || 1 }}</span
@@ -154,6 +162,7 @@ import { SessionService } from '../../../core/session.service';
 })
 export class ProductList {
   private readonly editors = inject(EditorState);
+  private readonly changeDetector = inject(ChangeDetectorRef);
   private readonly session = inject(SessionService);
   readonly readOnly = () => this.session.value()?.readOnly === true;
   private readonly api = inject(CatalogApi);
@@ -172,8 +181,56 @@ export class ProductList {
     status: new FormControl('', { nonNullable: true }),
   });
   private page = 0;
+  readonly view = signal<'grid' | 'list'>('grid');
+  private readonly route = inject(ActivatedRoute);
+  private queryKey = '';
+  readonly context = () => ({ ...this.filters.getRawValue(), page: this.page, view: this.view() });
   constructor() {
-    this.load();
+    this.route.queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      const status = params.get('status') ?? '';
+      this.filters.setValue(
+        {
+          search: (params.get('search') ?? '').slice(0, 160),
+          categoryId: params.get('categoryId') ?? '',
+          status: ['ACTIVE', 'ARCHIVED'].includes(status) ? status : '',
+        },
+        { emitEvent: false },
+      );
+      const page = Number(params.get('page'));
+      this.page = Number.isSafeInteger(page) && page >= 0 && page <= 100000 ? page : 0;
+      this.view.set(params.get('view') === 'list' ? 'list' : 'grid');
+      const key = JSON.stringify({ ...this.filters.getRawValue(), page: this.page });
+      if (key !== this.queryKey) {
+        this.queryKey = key;
+        this.load();
+      }
+    });
+    this.filters.controls.search.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.apply(true));
+    effect(() => {
+      const session = this.session.value();
+      if (session?.mode === 'NORMAL' && !session.authenticated) {
+        this.pending?.unsubscribe();
+        this.result.set(null);
+        this.creating.set(false);
+      }
+    });
+  }
+  private sync(replaceUrl = false) {
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: this.context(),
+      replaceUrl,
+    });
+  }
+  setView(view: 'grid' | 'list') {
+    this.view.set(view);
+    this.sync(true);
+  }
+  reset() {
+    this.filters.reset({ search: '', categoryId: '', status: '' }, { emitEvent: false });
+    this.apply();
   }
   load() {
     this.pending?.unsubscribe();
@@ -197,13 +254,21 @@ export class ProductList {
         },
       });
   }
-  apply() {
+  apply(replaceUrl = false) {
     this.page = 0;
+    const key = JSON.stringify({ ...this.filters.getRawValue(), page: this.page });
+    if (replaceUrl && key === this.queryKey) return;
+    this.queryKey = key;
     this.load();
+    this.sync(replaceUrl);
   }
   changePage(delta: number) {
-    this.page += delta;
+    const target = this.page + delta;
+    if (target < 0 || target >= (this.result()?.totalPages ?? 0)) return;
+    this.page = target;
+    this.queryKey = JSON.stringify({ ...this.filters.getRawValue(), page: this.page });
     this.load();
+    this.sync();
   }
   categoryName(id: string | null) {
     return this.categories().find((c) => c.id === id)?.name ?? 'Uncategorized';
@@ -219,6 +284,9 @@ export class ProductList {
         next: (product) => {
           this.editors.saved();
           this.saving.set(false);
+          this.creating.set(false);
+          // Remove the completed editor before the leave guard reads its previous busy input.
+          this.changeDetector.detectChanges();
           void this.router.navigate(['/products', product.id]);
         },
         error: (error) => {

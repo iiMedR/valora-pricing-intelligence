@@ -62,6 +62,23 @@ export function safeReturnUrl(value: string | null): string {
   if (!query) return path;
   const parameters = new URLSearchParams(query);
   for (const [key, val] of parameters) {
+    if (parameters.getAll(key).length !== 1) return '/';
+    const catalog = path.startsWith('/products');
+    const evidence = ['/analytics', '/forecasting', '/optimization'].includes(path);
+    const uuid = (text: string) =>
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(text);
+    if (
+      (catalog || evidence) &&
+      ((['search', 'catalogSearch'].includes(key) &&
+        val.length <= (catalog || key === 'catalogSearch' ? 160 : 100) &&
+        !/[\u0000-\u001f]/.test(val)) ||
+        (['variant', 'variantId', 'productId'].includes(key) && uuid(val)) ||
+        (['categoryId', 'catalogCategory'].includes(key) && (val === '' || uuid(val))) ||
+        (['status', 'catalogStatus'].includes(key) && ['', 'ACTIVE', 'ARCHIVED'].includes(val)) ||
+        (['view', 'catalogView'].includes(key) && ['grid', 'list'].includes(val)) ||
+        (['page', 'catalogPage'].includes(key) && /^\d{1,6}$/.test(val) && Number(val) <= 100000))
+    )
+      continue;
     if (
       !(['startDate', 'endDate'].includes(key) && /^\d{4}-\d{2}-\d{2}$/.test(val)) &&
       !(key === 'horizonDays' && ['7', '14', '30'].includes(val))

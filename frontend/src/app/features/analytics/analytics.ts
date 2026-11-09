@@ -1,3 +1,6 @@
+import { ProductContext } from '../../shared/merchant/product-context';
+import { insightWindow } from '../../shared/merchant/insight-window';
+import { ActivatedRoute } from '@angular/router';
 import { ZardInputComponent } from '@/shared/components/input';
 import { ZardButtonComponent } from '@/shared/components/button';
 import { SessionService } from '../../core/session.service';
@@ -26,6 +29,7 @@ import {
 
 @Component({
   imports: [
+    ProductContext,
     ZardButtonComponent,
     ZardInputComponent,
     DatePipe,
@@ -40,7 +44,10 @@ import {
 export class Analytics {
   private readonly session = inject(SessionService);
   readonly isDemo = () => this.session.value()?.mode === 'DEMO';
-  private readonly initial = initialWindow(30, this.isDemo());
+  private readonly initial = insightWindow(
+    initialWindow(30, this.isDemo()),
+    inject(ActivatedRoute).snapshot.queryParamMap,
+  );
   private readonly api = inject(AnalyticsApi);
   private readonly destroy = inject(DestroyRef);
   private request?: Subscription;

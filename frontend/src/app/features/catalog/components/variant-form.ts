@@ -87,7 +87,7 @@ import {
       </p>
     }
     <label
-      >Status<select formControlName="status">
+      >Status<select formControlName="status" aria-label="Status">
         <option value="ACTIVE">Active</option>
         <option value="ARCHIVED">Archived</option>
       </select></label
