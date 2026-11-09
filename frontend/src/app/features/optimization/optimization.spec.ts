@@ -1,3 +1,4 @@
+import { of } from 'rxjs';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
@@ -126,8 +127,12 @@ describe('Pricing Recommendations', () => {
     f.componentInstance.select('v1');
     detail();
     await f.whenStable();
-    expect(f.nativeElement.textContent).toContain('Conditional suggested price: 90.0000 MAD');
-    expect(f.nativeElement.textContent).toContain('No uncertainty interval available');
+    expect(f.nativeElement.querySelector('.price-change').textContent).toContain('90');
+    expect(f.nativeElement.textContent).toContain('Estimated contribution');
+    expect(f.nativeElement.querySelector('dialog')).toBeNull();
+    f.componentInstance.openWhy();
+    await f.whenStable();
+    expect(f.nativeElement.textContent).toContain('No calibrated uncertainty interval available');
     expect(f.nativeElement.textContent).toContain('Observational association only');
     expect(f.nativeElement.textContent).toContain('1,209.8765');
     expect(f.nativeElement.querySelector('svg[role="img"] title').textContent).toContain(
@@ -147,13 +152,16 @@ describe('Pricing Recommendations', () => {
     overview([unsafe]);
     await f.whenStable();
     const list = f.nativeElement.textContent;
-    expect(list).toContain('No reliable suggestion yet');
+    expect(list).toContain('Confounded or uncertain');
     expect(list).not.toContain('90.0000');
     f.componentInstance.select('v1');
     detail(unsafe);
     await f.whenStable();
-    expect(f.nativeElement.textContent).toContain('Seasonal/calendar confounding');
-    expect(f.nativeElement.textContent).toContain('Recommendation withheld');
+    expect(f.nativeElement.textContent).toContain('No reliable price suggestion yet');
+    f.componentInstance.openWhy();
+    await f.whenStable();
+    expect(f.nativeElement.textContent).toContain('Prices mostly changed with the calendar');
+    expect(f.nativeElement.textContent).toContain('Confounded or uncertain');
     expect(f.nativeElement.textContent).not.toContain('Conditional suggested price');
     expect(
       f.nativeElement.querySelector('[aria-label="Contribution comparison table"]'),
@@ -191,7 +199,9 @@ describe('Pricing Recommendations', () => {
     f.componentInstance.select('v1');
     detail(missing);
     await f.whenStable();
-    expect(f.nativeElement.textContent).toContain('MISSING_COST');
+    expect(f.nativeElement.textContent).toContain('Needs evidence');
+    f.componentInstance.openWhy();
+    await f.whenStable();
     expect(f.nativeElement.textContent).toContain('Unavailable');
     expect(f.nativeElement.querySelector('.candidate')).toBeNull();
   });
@@ -211,7 +221,7 @@ describe('Pricing Recommendations', () => {
       window: evaluation.window,
       horizonDays: 30,
       statusCounts: {},
-      results: { content: [], page: 0, totalElements: 0, totalPages: 0 },
+      results: { content: [], page: 0, totalElements: 21, totalPages: 3 },
     });
     await f.whenStable();
     f.componentInstance.changePage(1);
@@ -222,7 +232,7 @@ describe('Pricing Recommendations', () => {
       window: evaluation.window,
       horizonDays: 30,
       statusCounts: {},
-      results: { content: [], page: 1, totalElements: 0, totalPages: 0 },
+      results: { content: [], page: 1, totalElements: 21, totalPages: 3 },
     });
     await f.whenStable();
   });
@@ -296,6 +306,15 @@ describe('Pricing Recommendations', () => {
     const id = '11111111-1111-4111-8111-111111111111';
     TestBed.overrideProvider(ActivatedRoute, {
       useValue: {
+        queryParamMap: of(
+          convertToParamMap({
+            variantId: id,
+            search: 'TEST-1',
+            startDate: '2025-01-01',
+            endDate: '2026-01-01',
+            horizonDays: '14',
+          }),
+        ),
         snapshot: {
           queryParamMap: convertToParamMap({
             variantId: id,
@@ -323,5 +342,82 @@ describe('Pricing Recommendations', () => {
     await f.whenStable();
     expect(f.componentInstance.selectedId()).toBe(id);
     http.expectNone((r) => r.method !== 'GET');
+  });
+  it('filters loaded results locally and keeps page counts separate from the global matching total', async () => {
+    const f = TestBed.createComponent(Optimization),
+      http = TestBed.inject(HttpTestingController);
+    f.detectChanges();
+    overview([
+      evaluation,
+      {
+        ...evaluation,
+        variant: { ...evaluation.variant, variantId: 'v2' },
+        status: 'MISSING_COST',
+        recommendedPrice: null,
+        comparison: null,
+      },
+    ]);
+    await f.whenStable();
+    f.componentInstance.setView('actionable');
+    await f.whenStable();
+    expect(f.nativeElement.querySelectorAll('app-pricing-result').length).toBe(1);
+    expect(f.nativeElement.textContent).toContain('this page only');
+    f.componentInstance.setView('evidence');
+    await f.whenStable();
+    expect(f.nativeElement.querySelectorAll('app-pricing-result').length).toBe(1);
+    http.expectNone(() => true);
+  });
+  it('reuses the loaded matching evaluation and keeps diagnostics hidden until Why', async () => {
+    const session = TestBed.inject(SessionService);
+    session.value.set({ mode: 'DEMO', authenticated: false, readOnly: true, username: null });
+    const f = TestBed.createComponent(Optimization),
+      http = TestBed.inject(HttpTestingController);
+    f.detectChanges();
+    const row = { ...evaluation, horizonDays: 30 };
+    overview([row]);
+    await f.whenStable();
+    f.componentInstance.select('v1');
+    await f.whenStable();
+    http.expectNone((r) => r.url.endsWith('/recommendation'));
+    expect(f.nativeElement.querySelector('dialog')).toBeNull();
+    expect(f.nativeElement.querySelector('svg')).toBeNull();
+    const why = [...f.nativeElement.querySelectorAll('button')].find((b: any) =>
+      b.textContent.includes('Why this result?'),
+    ) as HTMLButtonElement;
+    why.focus();
+    why.click();
+    await f.whenStable();
+    const dialog = f.nativeElement.querySelector('dialog');
+    expect(dialog.getAttribute('aria-labelledby')).toBe('pricing-evidence-title');
+    expect(dialog.textContent).toContain('UNCERTAINTY_UNAVAILABLE');
+    http.expectNone((r) => r.method !== 'GET');
+    dialog.dispatchEvent(new Event('cancel', { cancelable: true }));
+    await f.whenStable();
+    expect(f.nativeElement.querySelector('dialog')).toBeNull();
+    expect(document.activeElement).toBe(why);
+  });
+  it('keeps an actionable-empty view helpful without claiming a catalog-wide result', async () => {
+    const f = TestBed.createComponent(Optimization);
+    f.detectChanges();
+    overview([
+      { ...evaluation, status: 'DIAGNOSTIC_ONLY', recommendedPrice: null, comparison: null },
+    ]);
+    await f.whenStable();
+    f.componentInstance.setView('actionable');
+    await f.whenStable();
+    expect(f.nativeElement.textContent).toContain('No matching insights in this page only');
+    expect(f.nativeElement.textContent).not.toContain('Catalog check complete');
+    expect(f.nativeElement.querySelector('a[href="/onboarding"]')).toBeTruthy();
+  });
+  it('shows a selection mismatch as unavailable rather than another variant price', async () => {
+    const f = TestBed.createComponent(Optimization);
+    f.detectChanges();
+    overview();
+    await f.whenStable();
+    f.componentInstance.select('other', true);
+    detail();
+    await f.whenStable();
+    expect(f.componentInstance.detail()).toBeNull();
+    expect(f.nativeElement.textContent).toContain('did not match');
   });
 });

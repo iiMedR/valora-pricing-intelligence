@@ -57,8 +57,8 @@ describe('Explicit evaluation history', () => {
         totalElements: 1,
       });
     await f.whenStable();
-    expect(f.nativeElement.textContent).toContain('DIAGNOSTIC_ONLY');
-    expect(f.nativeElement.textContent).toContain('NOT_MEASURED');
+    expect(f.nativeElement.textContent).toContain('Historical saved snapshot');
+    expect(f.nativeElement.textContent).toContain('Realized outcomes not measured');
     expect(f.nativeElement.querySelector('[role="alert"]')).toBeNull();
   });
   it('saves a fresh normal evaluation explicitly once, then loads real returned history', async () => {

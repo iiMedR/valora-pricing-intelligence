@@ -119,4 +119,16 @@ describe('Cancellable catalog check', () => {
     expect(service().state()).toBe('error');
     expect(service().checked()).toBe(10);
   });
+  it('pauses after ten batches and requires an explicit continuation beyond100variants', () => {
+    service().start(query);
+    for (let page = 0; page < 10; page++) request(page).flush(response(page, 123));
+    expect(service().checked()).toBe(100);
+    expect(service().state()).toBe('cancelled');
+    expect(service().limitReached()).toBe(true);
+    http().expectNone((r) => r.params.get('page') === '10');
+    service().retry();
+    for (let page = 10; page < 13; page++) request(page).flush(response(page, 123));
+    expect(service().state()).toBe('complete');
+    expect(service().checked()).toBe(123);
+  });
 });

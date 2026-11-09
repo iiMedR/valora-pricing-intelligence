@@ -4,7 +4,7 @@ import { provideRouter, Router } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { App } from './app';
-@Component({ template: '<h1>Product record</h1>' })
+@Component({ template: '<h1>Product record</h1><button type="button">Keep focus</button>' })
 class RecordPage {}
 describe('Merchant application shell', () => {
   // JSDOM has no layout/scroll implementation; Chrome QA checks actual viewport behavior.
@@ -95,5 +95,18 @@ describe('Merchant application shell', () => {
     f.componentInstance.closeMenu();
     expect(f.componentInstance.menuOpen()).toBe(false);
     await new Promise((resolve) => setTimeout(resolve, 0));
+  });
+  it('preserves control focus for same-page query updates', async () => {
+    const f = await create(true),
+      router = TestBed.inject(Router);
+    await router.navigateByUrl('/products/example');
+    await f.whenStable();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const button = f.nativeElement.querySelector('main button') as HTMLButtonElement;
+    button.focus();
+    await router.navigateByUrl('/products/example?pricingView=evidence');
+    await f.whenStable();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(document.activeElement).toBe(button);
   });
 });
