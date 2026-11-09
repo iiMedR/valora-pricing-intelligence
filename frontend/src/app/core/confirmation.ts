@@ -29,7 +29,7 @@ export class ModalFocus implements AfterViewInit, OnDestroy {
     const dialog = this.element.nativeElement;
     const controls = [
       ...dialog.querySelectorAll<HTMLElement>(
-        'button:not([disabled]),a[href],input:not([disabled]):not([type="hidden"]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])',
+        'button:not([disabled]),a[href],summary,input:not([disabled]):not([type="hidden"]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])',
       ),
     ].filter((control) => control.getClientRects().length > 0);
     const first = controls[0],

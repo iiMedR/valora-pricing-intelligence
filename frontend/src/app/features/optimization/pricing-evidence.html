@@ -1,0 +1,296 @@
+@let d = evaluation();
+<p>
+  <strong>{{ d.variant.productName }}</strong> · {{ d.variant.name }} · {{ d.variant.sku }}
+</p>
+<h3>{{ label(d) }}</h3>
+<p>{{ reason(d) }}</p>
+<p>
+  {{ d.window.startDate }} to {{ d.window.endDate }} (end excluded, {{ d.window.timezone }}) ·
+  {{ d.horizonDays }}-day comparison
+</p>
+<p class="notice">
+  Estimates are not realized uplift. Historical price associations may be confounded and do not
+  establish causal effects.
+</p>
+<app-sensitivity-summary [elasticity]="d.elasticity" />
+<details>
+  <summary>Reasons, observations and identification</summary>
+  <p>Elasticity method: {{ d.elasticity.method }}</p>
+  <ul>
+    @for (code of d.reasons; track $index) {
+      <li>{{ explain(code) }}</li>
+    } @empty {
+      <li>Configured eligibility gates passed; observational assumptions remain.</li>
+    }
+  </ul>
+  <dl>
+    <div>
+      <dt>Estimation samples</dt>
+      <dd>{{ d.elasticity.samples }}</dd>
+    </div>
+    <div>
+      <dt>Price-response estimate</dt>
+      <dd>{{ d.elasticity.estimate ?? 'Unavailable' }}</dd>
+    </div>
+    <div>
+      <dt>Model fit (log RMSE, not confidence)</dt>
+      <dd>{{ d.elasticity.logRmse ?? 'Unavailable' }}</dd>
+    </div>
+  </dl>
+  @if (d.elasticity.identification; as id) {
+    <p>Identification: {{ status(id.status) }}</p>
+    <p>
+      Calendar-price R² {{ id.calendarPriceR2 ?? 'Unavailable' }} · residual log-price SD
+      {{ id.residualLogPriceSd ?? 'Unavailable' }}
+    </p>
+    <p>Uncertainty: {{ id.uncertaintyStatus }}. No calibrated uncertainty interval available.</p>
+    <p>
+      Promotion control: {{ id.promotionControl }}. Discrepant prices are excluded; calendar
+      controls do not establish causality.
+    </p>
+  } @else {
+    <p>
+      Identification diagnostics unavailable. UNCERTAINTY_UNAVAILABLE: no calibrated interval
+      established.
+    </p>
+  }
+  <a
+    [routerLink]="['/onboarding/variants', d.variant.variantId]"
+    [queryParams]="{ startDate: d.window.startDate, endDate: d.window.endDate }"
+    >Review missingness, stock coverage and dated inputs</a
+  >
+</details>
+<details>
+  <summary>Costs, price limits and calculation</summary>
+  <p>
+    Objective: (price − variable unit cost) × demand(price). Estimated contribution excludes other
+    business expenses and is not full net profit.
+  </p>
+  <dl>
+    <div>
+      <dt>Effective reference price</dt>
+      <dd>
+        {{ number(d.inputs.currentPrice) }} {{ d.window.currencyCode }} · since
+        {{ d.inputs.priceEffectiveFrom ?? 'Unavailable' }}
+      </dd>
+    </div>
+    <div>
+      <dt>Applicable unit variable cost</dt>
+      <dd>
+        {{ number(d.inputs.unitCost) }} {{ d.window.currencyCode }} · since
+        {{ d.inputs.costEffectiveFrom ?? 'Unavailable' }}
+      </dd>
+    </div>
+    <div>
+      <dt>Catalog limits</dt>
+      <dd>{{ number(d.inputs.catalogMin) }} to {{ number(d.inputs.catalogMax) }}</dd>
+    </div>
+    <div>
+      <dt>Feasible bounds</dt>
+      <dd>
+        {{ number(d.inputs.lowerBound) }} to {{ number(d.inputs.upperBound) }}
+        {{ d.window.currencyCode }}
+      </dd>
+    </div>
+    <div>
+      <dt>Horizon stock cap</dt>
+      <dd>
+        {{ d.inputs.stockCap ?? 'Unavailable' }} · observed
+        {{ d.inputs.stockObservedAt ?? 'Unavailable' }} ·
+        {{ d.inputs.stockQuality ?? 'Unavailable' }}
+      </dd>
+    </div>
+    <div>
+      <dt>Uncapped reference units</dt>
+      <dd>
+        {{ number(d.inputs.referenceUnits) }} availability-conditional observed units, not latent
+        demand
+      </dd>
+    </div>
+  </dl>
+  <p>
+    No future restocking is assumed. Fixing an input does not guarantee an eligible recommendation.
+  </p>
+  @if (eligible(d) && d.comparison; as c) {
+    <div
+      class="scroll-region"
+      role="region"
+      aria-label="Contribution comparison table"
+      tabindex="0"
+    >
+      <table>
+        <caption>
+          Exact API comparison ·
+          {{
+            d.window.currencyCode
+          }}
+          · estimated, not realized
+        </caption>
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Price</th>
+            <th>Expected units</th>
+            <th>Estimated contribution</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Current price</th>
+            <td>{{ c.current.price }}</td>
+            <td>{{ c.current.expectedUnits }}</td>
+            <td>{{ c.current.estimatedContribution }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Suggested price</th>
+            <td>{{ c.candidate.price }}</td>
+            <td>{{ c.candidate.expectedUnits }}</td>
+            <td>{{ c.candidate.estimatedContribution }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Returned estimated difference: {{ c.estimatedUplift ?? 'Unavailable' }}
+      {{ d.window.currencyCode }} ·
+      {{
+        c.estimatedUpliftPercent == null ? 'Percentage unavailable' : c.estimatedUpliftPercent + '%'
+      }}
+    </p>
+  }
+</details>
+<details>
+  <summary>Forecast and historical validation</summary>
+  <p>Forecast: {{ status(d.forecast.status) }} · {{ d.forecast.method }}</p>
+  <p>
+    Assumed price {{ number(d.forecast.assumedPrice) }} {{ d.window.currencyCode }} · expected
+    observed units {{ number(d.forecast.totalUnits) }}
+  </p>
+  <p>
+    Conditional on listed price and availability. Lost customers during stockouts are not recovered.
+    A usable forecast alone does not justify a price change.
+  </p>
+  <ul>
+    @for (code of d.forecast.reasons; track $index) {
+      <li>{{ explain(code) }}</li>
+    }
+  </ul>
+  @if (d.backtests.length) {
+    <div
+      class="scroll-region"
+      role="region"
+      aria-label="Recommendation backtest table"
+      tabindex="0"
+    >
+      <table>
+        <caption>
+          Chronological held-out observed-sales tests
+        </caption>
+        <thead>
+          <tr>
+            <th>UTC range</th>
+            <th>Result</th>
+            <th>Model MAE</th>
+            <th>Naive MAE</th>
+            <th>WAPE (%)</th>
+            <th>Censored / unknown</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (fold of d.backtests; track fold.cutoff) {
+            <tr>
+              <td>{{ fold.cutoff }} to {{ fold.endDate }} (exclusive)</td>
+              <td>{{ status(fold.status) }}</td>
+              <td>{{ fold.model?.mae ?? 'Unavailable' }}</td>
+              <td>{{ fold.naive?.mae ?? 'Unavailable' }}</td>
+              <td>{{ fold.model?.wapePercent ?? 'Unavailable' }}</td>
+              <td>{{ fold.censoredDays }} / {{ fold.unknownDays }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <p>No historical backtest folds returned.</p>
+  }
+</details>
+@if (eligible(d) && chart(); as plot) {
+  <details>
+    <summary>Modeled price sensitivity</summary>
+    <p>
+      Hypothetical model estimates only. Price ({{ d.window.currencyCode }}) versus estimated
+      contribution ({{ d.window.currencyCode }}); not historical observations, confidence intervals
+      or realized uplift.
+    </p>
+    <div
+      class="chart-scroll"
+      role="region"
+      aria-label="Modeled sensitivity chart, scroll horizontally"
+      tabindex="0"
+    >
+      <svg viewBox="0 0 800 235" role="img" aria-labelledby="sensitivity-title sensitivity-desc">
+        <title id="sensitivity-title">Conditional contribution sensitivity</title>
+        <desc id="sensitivity-desc">
+          API-returned price scenarios. Exact values in the following table.
+        </desc>
+        <line x1="45" x2="755" [attr.y1]="plot.zero" [attr.y2]="plot.zero" class="baseline" />
+        <polyline [attr.points]="plot.points" class="curve" />
+        @for (p of plot.dots; track p.price) {
+          <circle [attr.cx]="p.x" [attr.cy]="p.y" r="3">
+            <title>Price {{ p.price }}: estimated contribution {{ p.estimatedContribution }}</title>
+          </circle>
+        }
+        <text x="45" y="18">{{ plot.max.toLocaleString('en') }} {{ d.window.currencyCode }}</text>
+        <text x="45" y="210">{{ plot.min.toLocaleString('en') }}</text>
+        <text x="45" y="232">{{ plot.low.toLocaleString('en') }} {{ d.window.currencyCode }}</text>
+        <text x="755" y="232" text-anchor="end">
+          {{ plot.high.toLocaleString('en') }} {{ d.window.currencyCode }}
+        </text>
+      </svg>
+    </div>
+    <p class="muted">
+      Chart coordinates are approximate. Exact API decimals are in the table below.
+    </p>
+    <div class="scroll-region" role="region" aria-label="Sensitivity data table" tabindex="0">
+      <table>
+        <caption>
+          Exact sensitivity values
+        </caption>
+        <thead>
+          <tr>
+            <th>Price</th>
+            <th>Expected units</th>
+            <th>Estimated contribution</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of d.sensitivity; track p.price) {
+            <tr>
+              <td>{{ p.price }}</td>
+              <td>{{ p.expectedUnits }}</td>
+              <td>{{ p.estimatedContribution }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </details>
+}
+<details>
+  <summary>Model, assumptions and saved evaluations</summary>
+  <p>
+    Calculated result for these inputs · as of
+    {{ d.evaluationInstant | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC ·
+    {{ d.modelVersion }}
+  </p>
+  <ul>
+    @for (assumption of d.assumptions; track $index) {
+      <li>{{ explain(assumption) }}</li>
+    }
+  </ul>
+  <p>
+    Saved records are historical snapshots, not proof of realized gains. Save re-evaluates the
+    selected window on the server; it does not save a frontend price or apply a price.
+  </p>
+  <app-evaluation-history [variantId]="d.variant.variantId" [evaluation]="d" />
+</details>

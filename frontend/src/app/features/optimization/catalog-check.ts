@@ -10,6 +10,8 @@ export class CatalogCheck {
   private generation = 0;
   private query?: OptimizationQuery;
   private nextPage = 0;
+  private remainingBatches = 10;
+  readonly limitReached = signal(false);
   private restartRequired = false;
   readonly state = signal<'idle' | 'running' | 'cancelled' | 'error' | 'complete'>('idle');
   readonly evaluations = signal<Evaluation[]>([]);
@@ -22,6 +24,8 @@ export class CatalogCheck {
   reset() {
     this.cancel();
     this.state.set('idle');
+    this.limitReached.set(false);
+    this.remainingBatches = 10;
     this.evaluations.set([]);
     this.total.set(null);
     this.error.set('');
@@ -47,11 +51,19 @@ export class CatalogCheck {
       return;
     }
     this.error.set('');
+    this.limitReached.set(false);
+    this.remainingBatches = 10;
     this.state.set('running');
     this.fetch();
   }
   private fetch() {
     if (!this.query || this.state() !== 'running') return;
+    if (this.remainingBatches === 0) {
+      this.limitReached.set(true);
+      this.state.set('cancelled');
+      return;
+    }
+    this.remainingBatches--;
     const generation = this.generation;
     this.request = this.api.overview(this.query, this.nextPage).subscribe({
       next: (response) => {

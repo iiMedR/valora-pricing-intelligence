@@ -60,6 +60,7 @@ export class App {
   readonly pageTitle = signal('Overview');
   readonly menuOpen = signal(false);
   private navigationScroll = 0;
+  private lastPath: string | null = null;
   private restoreTimer?: ReturnType<typeof setTimeout>;
   readonly main = viewChild<ElementRef<HTMLElement>>('content');
   readonly menu = viewChild<ElementRef<HTMLButtonElement>>('menu');
@@ -98,6 +99,8 @@ export class App {
       )
       .subscribe((event) => {
         const path = (event as NavigationEnd).urlAfterRedirects.split('?')[0];
+        const changedPage = this.lastPath !== path;
+        this.lastPath = path;
         this.pageTitle.set(
           this.groups
             .flatMap((group) => group.links)
@@ -108,7 +111,8 @@ export class App {
         clearTimeout(this.restoreTimer);
         this.menuOpen.set(false);
         // Focus the destination landmark after routed content is inserted, without interrupting form updates.
-        setTimeout(() => this.main()?.nativeElement.focus({ preventScroll: true }));
+        if (changedPage)
+          setTimeout(() => this.main()?.nativeElement.focus({ preventScroll: true }));
       });
   }
   toggleMenu() {

@@ -53,9 +53,13 @@ interface History {
     @if (history(); as h) {
       @for (row of h.content; track row.id) {
         <p>
-          {{ row.evaluatedAt }} · {{ row.modelVersion }} · {{ statusLabel(row.result.status) }} ({{
-            row.result.status
-          }}) · {{ row.outcomeStatus }}<br />
+          <strong>Historical saved snapshot</strong><br />{{ row.evaluatedAt }} ·
+          {{ row.modelVersion }} · {{ statusLabel(row.result.status) }} ·
+          {{
+            row.outcomeStatus === 'NOT_MEASURED'
+              ? 'Realized outcomes not measured'
+              : statusLabel(row.outcomeStatus)
+          }}<br />
           {{ row.result.window.startDate }}–{{ row.result.window.endDate }} (exclusive UTC)
         </p>
       } @empty {

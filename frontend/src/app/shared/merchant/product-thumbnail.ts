@@ -66,7 +66,7 @@ export function productImageSource(
       .thumbnail-placeholder {
         display: grid;
         place-items: center;
-        font-size: clamp(24px, 3vw, 40px);
+        font-size: var(--product-thumbnail-size, clamp(24px, 3vw, 40px));
         font-weight: 500;
         letter-spacing: -1px;
       }

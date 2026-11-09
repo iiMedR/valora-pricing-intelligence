@@ -1,3 +1,4 @@
+import { actionable } from './pricing-presentation';
 import { StatusPill } from './foundation';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -64,20 +65,18 @@ export class SensitivitySummary {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `@let d = evaluation();
     <article class="decision-card" [attr.aria-label]="d.variant.productName + ' pricing review'">
-      <div class="decision-card-heading">
-        <div>
-          <h3>{{ d.variant.productName }}</h3>
-          <p class="muted">{{ d.variant.name }} · {{ d.variant.sku }}</p>
+      @if (showHeader()) {
+        <div class="decision-card-heading">
+          <div>
+            <h3>{{ d.variant.productName }}</h3>
+            <p class="muted">{{ d.variant.name }} · {{ d.variant.sku }}</p>
+          </div>
+          <app-status-pill
+            [label]="eligible(d) ? 'Suggestion available' : 'No reliable suggestion yet'"
+          />
         </div>
-        <app-status-pill
-          [label]="
-            d.status === 'ACTIONABLE' && d.comparison && d.recommendedPrice !== null
-              ? 'Suggestion available'
-              : 'No reliable suggestion yet'
-          "
-        />
-      </div>
-      @if (d.status === 'ACTIONABLE' && d.comparison && d.recommendedPrice !== null) {
+      }
+      @if (eligible(d)) {
         <div class="price-change">
           <span><small>Current price</small>{{ number(d.inputs.currentPrice) }}</span
           ><span aria-hidden="true">→</span
@@ -108,10 +107,10 @@ export class SensitivitySummary {
             </dd>
           </div>
           <div>
-            <dt>Estimated difference · {{ d.window.currencyCode }}</dt>
+            <dt>Estimated contribution difference · {{ d.window.currencyCode }}</dt>
             <dd>
               <strong>{{ number(d.comparison.estimatedUplift) }}</strong><span>{{
-                d.comparison.estimatedUpliftPercent === null
+                d.comparison.estimatedUpliftPercent == null
                   ? 'Percentage unavailable'
                   : number(d.comparison.estimatedUpliftPercent) + '%'
               }}</span>
@@ -124,7 +123,7 @@ export class SensitivitySummary {
         </p>
         <app-sensitivity-summary [elasticity]="d.elasticity" />
         <button z-button zType="outline" type="button" (click)="inspect.emit(d.variant.variantId)">
-          Why this suggestion?
+          {{ inspectLabel() ?? 'Why this suggestion?' }}
         </button>
       } @else {
         <p>
@@ -141,13 +140,16 @@ export class SensitivitySummary {
             >Review what to fix</a
           >
           <button z-button zType="ghost" type="button" (click)="inspect.emit(d.variant.variantId)">
-            Show details
+            {{ inspectLabel() ?? 'Show details' }}
           </button>
         </div>
       }
     </article>`,
 })
 export class PriceComparison {
+  readonly eligible = actionable;
+  readonly showHeader = input(true);
+  readonly inspectLabel = input<string | null>(null);
   readonly evaluation = input.required<Evaluation>();
   readonly inspect = output<string>();
   readonly number = decisionNumber;

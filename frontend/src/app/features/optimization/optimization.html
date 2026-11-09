@@ -1,508 +1,318 @@
 <app-product-context />
-<h1 class="page-title">Which prices should I review?</h1>
-<p class="decision-intro">
-  Check products, then compare supported price suggestions and estimated contribution.
-</p>
-<form class="optimization-filters" [formGroup]="filters" (ngSubmit)="apply()">
-  <label
-    >Search products<input z-input type="search" formControlName="search" maxlength="100"
-  /></label>
-  <label
-    >Compare over<select formControlName="horizonDays" aria-label="Compare over">
-      <option [ngValue]="7">7 days</option>
-      <option [ngValue]="14">14 days</option>
-      <option [ngValue]="30">30 days</option>
-    </select></label
-  >
-  <button z-button zType="outline" type="submit">Update results</button>
-  <button
-    z-button
-    type="button"
-    (click)="checkCatalog()"
-    [disabled]="catalogCheck.state() === 'running'"
-  >
-    Check catalog
-  </button>
-  <details class="merchant-details history-window">
-    <summary>Sales history used for this check</summary>
-    <label
-      >Sales history start (UTC)<input z-input type="date" formControlName="startDate" required
-    /></label>
-    <label
-      >Sales history end, not included (UTC)<input
-        z-input
-        type="date"
-        formControlName="endDate"
-        required
-    /></label>
-    <button z-button zType="outline" type="button" (click)="preset()">
-      Full 2025 · demo period
-    </button>
-  </details>
-</form>
-<p class="muted">
-  {{ filters.controls.startDate.value }} to {{ filters.controls.endDate.value }} (exclusive) is the
-  history used. The comparison starts at its end date. Historical demo dates are not a prediction
-  for today.
-</p>
-<app-pricing-example />
-@if (needsApply()) {
-  <p role="status">
-    Your filters changed. Update results or check the catalog to use this selection.
-  </p>
-}
-@if (error()) {
-  <div class="error" role="alert">
-    {{ error() }} <button z-button zType="outline" (click)="load()">Retry evaluations</button>
-  </div>
-}
-@if (loading()) {
-  <p role="status">Checking this page of products…</p>
-}
-@if (catalogCheck.state() !== 'idle') {
-  <section class="catalog-progress" aria-label="Catalog check progress">
-    <p role="status" aria-live="polite">
-      @if (catalogCheck.total() === null) {
-        {{
-          catalogCheck.state() === 'running'
-            ? 'Checking the first batch…'
-            : 'No variants checked yet.'
-        }}
-      } @else {
-        Checked {{ catalogCheck.checked() }} of {{ catalogCheck.total() }} variants.
-      }
-      {{ suggestions().length }} suggestions found.
-    </p>
-    @if (catalogCheck.state() === 'running') {
-      <button z-button zType="outline" (click)="catalogCheck.cancel()">Cancel catalog check</button>
-    }
-    @if (catalogCheck.state() === 'cancelled') {
-      <p>The check was cancelled. These are partial results.</p>
-      <button z-button zType="outline" (click)="catalogCheck.retry()">
-        Continue catalog check
-      </button>
-    }
-    @if (catalogCheck.state() === 'error') {
-      <div role="alert" class="error">
-        {{ catalogCheck.error() }} Completed results are retained.
-        <button z-button zType="outline" (click)="catalogCheck.retry()">Retry catalog check</button>
-      </div>
-    }
-    @if (catalogCheck.state() === 'complete') {
-      <p>
-        Catalog check complete. Results reflect the inputs at evaluation time; they can change when
-        your records change.
-      </p>
-    }
-  </section>
-}
-@if (
-  !loading() &&
-  !needsApply() &&
-  (result() || catalogCheck.checked() || catalogCheck.state() === 'complete')
-) {
-  @if (suggestions().length) {
-    <h2>Price suggestions to review</h2>
-    <p class="muted">
-      Prices are never applied automatically. Sales minus known variable costs; other business
-      expenses are excluded.
-    </p>
-    <div class="decision-list">
-      @for (row of suggestions(); track row.variant.variantId) {
-        <app-price-comparison [evaluation]="row" (inspect)="select($event)" />
-      }
+@if (!selectedId()) {
+  <header class="pricing-header">
+    <div>
+      <h1 class="page-title">Pricing insights</h1>
+      <p class="muted">Review variant prices and supporting evidence.</p>
     </div>
-  } @else if (catalogCheck.state() === 'complete' && catalogCheck.total() !== 0) {
-    <div class="notice">
-      <h2>No reliable price suggestions from this catalog check</h2>
-      <p>
-        We cannot justify a price change from the current evidence. Review the next steps below, or
-        open the separate worked example to understand a supported comparison.
-      </p>
-      <a routerLink="/onboarding">Review what to fix next</a>
-    </div>
-  } @else if (withheld().length) {
-    <p class="notice">
-      No reliable suggestions on this page. Use Check catalog to review all matching variants, or
-      review the missing evidence below.
-    </p>
-  }
-  @if (withheld().length) {
-    <h2>Products that need more evidence</h2>
-    <div class="decision-list">
-      @for (row of withheld().slice(0, 3); track row.variant.variantId) {
-        <app-price-comparison [evaluation]="row" (inspect)="select($event)" />
-      }
-    </div>
-    @if (withheld().length > 3) {
-      <details class="merchant-details">
-        <summary>Show {{ withheld().length - 3 }} more products needing evidence</summary>
-        <div class="decision-list">
-          @for (row of withheld().slice(3); track row.variant.variantId) {
-            <app-price-comparison [evaluation]="row" (inspect)="select($event)" />
-          }
-        </div>
-      </details>
-    }
-  }
-  @if (!rows().length) {
-    <div class="empty">
-      <h2>No variants to evaluate</h2>
-      <p>Add products or change your search, then check again.</p>
-      <a routerLink="/products">Review catalog</a>
-    </div>
-  }
-  @if (catalogCheck.state() === 'idle' && result(); as report) {
-    <div class="pagination">
-      <span
-        >Page {{ report.results.page + 1 }} of {{ report.results.totalPages || 1 }} ·
-        {{ report.results.totalElements }} matching variants. Counts here cover this page
-        only.</span
-      >
-      <div class="actions">
-        <button z-button zType="outline" (click)="changePage(-1)" [disabled]="page === 0">
-          Previous evaluations</button
-        ><button
+  </header>
+  <form class="optimization-filters" [formGroup]="filters" (ngSubmit)="apply()">
+    <div class="search-control">
+      <label for="pricing-search">Search products or variants</label>
+      <div class="search-input">
+        <input
+          id="pricing-search"
+          z-input
+          type="search"
+          formControlName="search"
+          maxlength="100"
+          placeholder="Name or SKU"
+          aria-label="Search products or variants"
+        /><button
           z-button
-          zType="outline"
-          (click)="changePage(1)"
-          [disabled]="page + 1 >= report.results.totalPages"
+          zType="ghost"
+          class="clear-search"
+          type="button"
+          aria-label="Clear filters"
+          title="Clear filters"
+          (click)="reset()"
         >
-          Next evaluations
+          ×
         </button>
       </div>
     </div>
-  }
-}
-@if (selectedId()) {
-  <section #evaluationPanel class="evaluation" aria-labelledby="evaluation-title" tabindex="-1">
-    <div class="section-heading">
-      <h2 id="evaluation-title">Evaluation details</h2>
-      <button z-button zType="outline" (click)="close(true)">Close evaluation</button>
+    <label
+      >Compare over<select formControlName="horizonDays" aria-label="Compare over">
+        <option [ngValue]="7">7 days</option>
+        <option [ngValue]="14">14 days</option>
+        <option [ngValue]="30">30 days</option>
+      </select></label
+    ><button z-button zType="outline" type="submit">Update results</button>
+    <details class="history-window">
+      <summary>Sales history</summary>
+      <p>
+        The comparison starts at the selected end date. Historical demo dates are not predictions
+        for today.
+      </p>
+      <label>Start (UTC)<input z-input type="date" formControlName="startDate" required /></label
+      ><label
+        >End, excluded (UTC)<input z-input type="date" formControlName="endDate" required
+      /></label>
+      @if (isDemo()) {
+        <button z-button zType="outline" type="button" (click)="preset()">
+          Full 2025 · demo period
+        </button>
+      }
+    </details>
+  </form>
+  <p class="history-caption">
+    {{ filters.controls.startDate.value | date: 'd MMM y' : 'UTC' }} to
+    {{ filters.controls.endDate.value | date: 'd MMM y' : 'UTC' }} (end excluded, UTC)
+    @if (isDemo()) {
+      · Historical demo
+    }
+  </p>
+  <div class="result-controls">
+    <div role="group" aria-label="Pricing result view">
+      <button
+        z-button
+        zType="outline"
+        [attr.aria-pressed]="view() === 'all'"
+        (click)="setView('all')"
+      >
+        All</button
+      ><button
+        z-button
+        zType="outline"
+        [attr.aria-pressed]="view() === 'actionable'"
+        (click)="setView('actionable')"
+      >
+        Actionable</button
+      ><button
+        z-button
+        zType="outline"
+        [attr.aria-pressed]="view() === 'evidence'"
+        (click)="setView('evidence')"
+      >
+        Needs evidence
+      </button>
     </div>
+    <details class="status-disclosure">
+      <summary>Filter status{{ group() !== 'all' ? ' (active)' : '' }}</summary>
+      <div class="status-controls">
+        <label
+          >Status<select
+            [value]="group()"
+            (change)="setGroup($any($event.target).value)"
+            aria-label="Pricing status"
+          >
+            <option value="all">All statuses</option>
+            <option value="actionable">Actionable</option>
+            <option value="uncertain">Confounded or uncertain</option>
+            <option value="history">Insufficient history</option>
+            <option value="evidence">Needs evidence</option>
+            <option value="unavailable">Unavailable</option>
+            <option value="inactive">Inactive</option>
+          </select></label
+        >
+      </div>
+    </details>
+  </div>
+  @if (needsApply()) {
+    <p role="status">Your selection changed. Update results to use it.</p>
+  }
+  @if (error()) {
+    <div role="alert" class="error">
+      {{ error() }} <button z-button zType="outline" (click)="load()">Retry evaluations</button>
+    </div>
+  }
+  @if (loading()) {
+    <p role="status">Checking this page of products…</p>
+  }
+  @if (catalogCheck.state() !== 'idle') {
+    <section class="catalog-progress" aria-label="Catalog check progress">
+      <p role="status" aria-live="polite">
+        Checked {{ catalogCheck.checked() }} of {{ catalogCheck.total() ?? 'unknown' }} variants.
+        {{ suggestions().length }} actionable in the loaded results.
+      </p>
+      @if (catalogCheck.state() === 'running') {
+        <button z-button zType="outline" (click)="catalogCheck.cancel()">
+          Cancel catalog check
+        </button>
+      }
+      @if (catalogCheck.state() === 'cancelled') {
+        <p>
+          {{
+            catalogCheck.limitReached()
+              ? 'Paused at the per-action limit. Continue to check the next batch of up to 100.'
+              : 'Cancelled. These are partial results.'
+          }}
+        </p>
+        <button z-button zType="outline" (click)="catalogCheck.retry()">
+          Continue catalog check
+        </button>
+      }
+      @if (catalogCheck.state() === 'error') {
+        <p role="alert">{{ catalogCheck.error() }} Completed results are retained.</p>
+        <button z-button zType="outline" (click)="catalogCheck.retry()">Retry catalog check</button>
+      }
+      @if (catalogCheck.state() === 'complete') {
+        <p>
+          Catalog check complete.
+          @if (!suggestions().length) {
+            No reliable price suggestions from this catalog check.
+          }
+        </p>
+      }
+    </section>
+  }
+  @if (
+    !loading() &&
+    !needsApply() &&
+    !error() &&
+    (result() || catalogCheck.checked() || catalogCheck.state() === 'complete')
+  ) {
+    <section id="pricing-results" tabindex="-1" aria-labelledby="pricing-results-title">
+      <h2 id="pricing-results-title">Variant results</h2>
+      <p role="status" aria-live="polite" class="result-counts">
+        {{ rows().length }} checked · {{ suggestions().length }} actionable ·
+        {{ withheld().length }} need evidence · {{ scope() }}. Showing {{ visibleRows().length }}.
+      </p>
+
+      @for (row of visibleRows(); track row.variant.variantId) {
+        <app-pricing-result
+          [evaluation]="row"
+          [catalogQuery]="catalogQuery(row)"
+          (inspect)="select($event)"
+        />
+      } @empty {
+        <div class="empty">
+          @if (!rows().length) {
+            <h3>No variants to evaluate</h3>
+            <p>Change your search or review your catalog.</p>
+            <a routerLink="/products">Review catalog</a>
+          } @else {
+            <h3>No matching insights in {{ scope() }}</h3>
+            <p>
+              No reliable price suggestion is available in this selection. Try another page or
+              review what evidence is missing.
+            </p>
+            <a routerLink="/onboarding">Review data readiness</a>
+          }
+        </div>
+      }
+      @if (catalogCheck.state() === 'idle' && result(); as report) {
+        <div class="pagination">
+          <span
+            >Page {{ report.results.page + 1 }} of {{ report.results.totalPages || 1 }} ·
+            {{ report.results.totalElements }} matching variants across all pages</span
+          >
+          <div class="actions">
+            <button z-button zType="outline" (click)="changePage(-1)" [disabled]="page === 0">
+              Previous evaluations</button
+            ><button
+              z-button
+              zType="outline"
+              (click)="changePage(1)"
+              [disabled]="page + 1 >= report.results.totalPages"
+            >
+              Next evaluations
+            </button>
+          </div>
+        </div>
+      }
+    </section>
+  }
+  <details class="optional-tools">
+    <summary>Check more variants or see an example</summary>
+    <p>
+      Check matching variants sequentially, up to 100 per action. Partial checks do not establish a
+      catalog-wide result.
+    </p>
+    <button
+      z-button
+      zType="outline"
+      (click)="checkCatalog()"
+      [disabled]="catalogCheck.state() === 'running'"
+    >
+      Check catalog</button
+    ><app-pricing-example />
+  </details>
+} @else {
+  <section #evaluationPanel class="focused-insight" aria-labelledby="focused-title" tabindex="-1">
+    <button z-button zType="ghost" (click)="close(true)">← Back to pricing results</button>
+    <h1 id="focused-title" class="page-title">Variant pricing insight</h1>
     @if (detailLoading()) {
-      <p role="status">Loading evaluation diagnostics…</p>
+      <p role="status">Loading variant insight…</p>
     }
     @if (detailError()) {
-      <div class="error" role="alert">
+      <div role="alert" class="error">
         {{ detailError() }}
-        <button z-button zType="outline" (click)="select(selectedId()!)">Retry evaluation</button>
+        <button z-button zType="outline" (click)="select(selectedId()!, true)">
+          Retry evaluation
+        </button>
       </div>
     }
     @if (detail(); as d) {
-      <h3>{{ d.variant.productName }} · {{ d.variant.sku }}</h3>
-      <p>
-        {{ d.status }} · {{ d.horizonDays }} days · evaluated at
-        {{ d.evaluationInstant | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC
-      </p>
-      @if (d.reasons.includes('SEASONAL_OR_CALENDAR_CONFOUNDING')) {
-        <p class="notice" role="note">
-          Seasonal/calendar confounding: price changes move with calendar patterns. This evidence
-          cannot reliably separate seasonality from price response. No actionable recommendation is
-          available.
-        </p>
-      }
-      @if (d.status !== 'ACTIONABLE') {
-        <div class="abstention">
-          <h3>Recommendation withheld</h3>
-          <p>
-            <a routerLink="/onboarding">Review missing inputs and readiness</a>, then inspect the
-            source history below. Stale stock, incomplete prices or weak identification can prevent
-            a recommendation.
-          </p>
-          <p>
-            We cannot justify a price change from these inputs. A negative elasticity or successful
-            sales forecast alone is not enough.
-          </p>
+      <header class="focus-identity">
+        <app-product-thumbnail [name]="d.variant.productName" />
+        <div>
+          <h2>{{ d.variant.productName }}</h2>
+          <p>{{ d.variant.name }} · {{ d.variant.sku }}</p>
+          <app-status-pill [label]="label(d)" />
         </div>
-      }
-      <div class="input-grid">
-        <article>
-          <h3>Effective reference price</h3>
-          <p class="value">{{ money(d.inputs.currentPrice) }} {{ d.window.currencyCode }}</p>
-          <p>
-            Authoritative since
-            {{
-              d.inputs.priceEffectiveFrom
-                ? (d.inputs.priceEffectiveFrom | date: 'yyyy-MM-dd' : 'UTC')
-                : 'Unknown'
-            }}
-          </p>
-        </article>
-        <article>
-          <h3>Applicable unit variable cost</h3>
-          <p class="value">{{ money(d.inputs.unitCost) }}</p>
-          <p>
-            Authoritative since
-            {{
-              d.inputs.costEffectiveFrom
-                ? (d.inputs.costEffectiveFrom | date: 'yyyy-MM-dd' : 'UTC')
-                : 'Unknown'
-            }}
-          </p>
-        </article>
-        <article>
-          <h3>Feasible price grid</h3>
-          <p>{{ money(d.inputs.lowerBound) }}–{{ money(d.inputs.upperBound) }}</p>
-          <p>
-            Catalog: {{ money(d.inputs.catalogMin) }}–{{ money(d.inputs.catalogMax) }} · 0.0001
-            precision
-          </p>
-        </article>
-        <article>
-          <h3>Availability assumption</h3>
-          <p>Horizon stock cap: {{ d.inputs.stockCap === null ? 'Unknown' : d.inputs.stockCap }}</p>
-          <p>
-            Observed
-            {{
-              d.inputs.stockObservedAt
-                ? (d.inputs.stockObservedAt | date: 'yyyy-MM-dd HH:mm' : 'UTC')
-                : 'Unknown'
-            }}
-            UTC · {{ d.inputs.stockQuality ?? 'Unknown' }}
-          </p>
-          <p>No future restocking assumed.</p>
-        </article>
-      </div>
-      @if (d.status === 'ACTIONABLE' && d.comparison; as comparison) {
-        <div class="candidate">
-          <h3>
-            Conditional suggested price: {{ money(d.recommendedPrice) }} {{ d.window.currencyCode }}
-          </h3>
-          <p>
-            Estimated contribution uplift: {{ money(comparison.estimatedUplift) }} ·
-            {{
-              comparison.estimatedUpliftPercent === null
-                ? 'Percentage unavailable: reference contribution is not positive'
-                : comparison.estimatedUpliftPercent + '%'
-            }}
-          </p>
-          <div
-            class="scroll-region"
-            role="region"
-            aria-label="Contribution comparison table"
-            tabindex="0"
-          >
-            <table>
-              <caption>
-                Modeled contribution · not net profit or realized uplift
-              </caption>
-              <thead>
-                <tr>
-                  <th>Scenario</th>
-                  <th>Price</th>
-                  <th>Expected observed units</th>
-                  <th>Estimated contribution</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">Reference</th>
-                  <td>{{ comparison.current.price }}</td>
-                  <td>{{ comparison.current.expectedUnits }}</td>
-                  <td>{{ comparison.current.estimatedContribution }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Candidate</th>
-                  <td>{{ comparison.candidate.price }}</td>
-                  <td>{{ comparison.candidate.expectedUnits }}</td>
-                  <td>{{ comparison.candidate.estimatedContribution }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <p class="muted">
-          Model-only sensitivity · price on the horizontal axis; estimated contribution on the
-          vertical axis ({{ d.window.currencyCode }}). Dashed line: current reference price when
-          inside the feasible range.
-        </p>
-        <svg viewBox="0 0 800 230" role="img" aria-labelledby="sensitivity-title sensitivity-desc">
-          <title id="sensitivity-title">Conditional contribution sensitivity</title>
-          <desc id="sensitivity-desc">
-            Estimated contribution across the feasible price grid. Zero baseline. Exact values are
-            in the following table. No confidence interval or realized uplift is claimed.
-          </desc>
-          <line
-            x1="40"
-            x2="760"
-            [attr.y1]="chart().zero"
-            [attr.y2]="chart().zero"
-            class="baseline"
-          />
-          @if (chart().referenceX !== null) {
-            <line
-              [attr.x1]="chart().referenceX"
-              [attr.x2]="chart().referenceX"
-              y1="30"
-              y2="190"
-              class="reference-line"
-            >
-              <title>Current reference price {{ d.inputs.currentPrice }}</title>
-            </line>
-          }
-          <polyline [attr.points]="chart().points" class="curve" />
-          @for (point of chart().dots; track point.price) {
-            <circle [attr.cx]="point.x" [attr.cy]="point.y" r="3" class="sensitivity-dot">
-              <title>
-                Price {{ point.price }}: modeled contribution {{ point.estimatedContribution }}
-                {{ d.window.currencyCode }}
-              </title>
-            </circle>
-          }
-          <text x="40" y="18">{{ chart().max }} {{ d.window.currencyCode }}</text>
-          <text x="40" y="209">{{ chart().min }}</text>
-          <text x="40" y="229">{{ chart().first }}</text>
-          <text x="760" y="229" text-anchor="end">{{ chart().last }}</text>
-        </svg>
-        <details>
-          <summary>Exact sensitivity values ({{ d.sensitivity.length }} points)</summary>
-          <div class="scroll-region" role="region" aria-label="Sensitivity data table" tabindex="0">
-            <table>
-              <caption class="sr-only">
-                Conditional price, demand and contribution
-              </caption>
-              <thead>
-                <tr>
-                  <th>Price</th>
-                  <th>Expected observed units</th>
-                  <th>Contribution</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (p of d.sensitivity; track p.price) {
-                  <tr>
-                    <th scope="row">{{ p.price }}</th>
-                    <td>{{ p.expectedUnits }}</td>
-                    <td>{{ p.estimatedContribution }}</td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        </details>
-      }
-      <details class="advanced-evidence">
-        <summary>How this estimate works</summary>
-        <h3>Evidence and diagnostics</h3>
-        <p>
-          <strong>{{ statusLabel(d.status) }}</strong>.
-          {{
-            d.status === 'ACTIONABLE'
-              ? 'All configured gates passed; this remains an observational scenario, not a causal guarantee.'
-              : 'No suggested price or uplift is available for this evaluation.'
-          }}
-        </p>
-        <p>
-          Elasticity model: {{ d.elasticity.method }} · Uncertainty: No uncertainty interval
-          available
-        </p>
-        @if (d.elasticity.identification; as identification) {
-          <p>
-            Identification: {{ statusLabel(identification.status) }} · Calendar price R²:
-            {{ identification.calendarPriceR2 ?? 'Unavailable' }} · Independent log-price SD:
-            {{ identification.residualLogPriceSd ?? 'Unavailable' }}
-          </p>
-          <p>
-            Prices that mostly change with the calendar cannot isolate price sensitivity. Calendar
-            controls do not establish causal effects. Promotion labels are unavailable; discrepant
-            prices remain excluded.
-          </p>
+      </header>
+      <p class="insight-meta">
+        {{ d.horizonDays }}-day comparison · history {{ d.window.startDate }} to
+        {{ d.window.endDate }} (end excluded), {{ d.window.timezone }}<br />Calculated result · as
+        of {{ d.evaluationInstant | date: 'yyyy-MM-dd HH:mm' : 'UTC' }} UTC · {{ d.modelVersion }}
+        @if (isDemo()) {
+          <br />Historical demo window; not a prediction for today.
         }
-
-        <p>
-          Elasticity association:
-          {{
-            d.elasticity.estimate === null
-              ? 'Unavailable'
-              : (d.elasticity.estimate | number: '1.3-3')
-          }}
-          · {{ d.elasticity.samples }} samples · log RMSE
-          {{
-            d.elasticity.logRmse === null ? 'Unavailable' : (d.elasticity.logRmse | number: '1.3-3')
-          }}
-        </p>
-        <p>
-          Uncapped reference baseline: {{ money(d.inputs.referenceUnits) }} availability-conditional
-          observed units, not latent demand. No causal guarantee or calibrated interval.
-        </p>
-        <ul>
-          @for (reasonCode of d.reasons; track reasonCode) {
-            <li>{{ reason(reasonCode) }}</li>
-          } @empty {
-            <li>Configured evidence gates passed; model assumptions remain.</li>
-          }
-        </ul>
-        <details>
-          <summary>Underlying forecasting warnings</summary>
-          <ul>
-            @for (code of d.elasticity.reasons; track code) {
-              <li>{{ reason(code) }}</li>
-            }
-          </ul>
-        </details>
-      </details>
-      <app-evaluation-history [variantId]="d.variant.variantId" [evaluation]="d" />
-      <details class="advanced-evidence">
-        <summary>Model validation and assumptions</summary>
-        <h3>Backtest evidence</h3>
-        <div
-          class="scroll-region"
-          role="region"
-          aria-label="Recommendation backtest table"
-          tabindex="0"
+      </p>
+      @if (!eligible(d)) {
+        <h2>No reliable price suggestion yet</h2>
+      }
+      <app-price-comparison
+        [evaluation]="d"
+        [showHeader]="false"
+        inspectLabel="Why this result?"
+        (inspect)="openWhy()"
+      />
+      <nav class="insight-links" aria-label="Variant evidence">
+        <a
+          z-button
+          zType="outline"
+          [routerLink]="['/products', d.variant.productId]"
+          [queryParams]="catalogQuery(d)"
+          >View catalog variant</a
+        ><a z-button zType="outline" routerLink="/analytics" [queryParams]="evidenceLinks(d)"
+          >View sales</a
+        ><a z-button zType="outline" routerLink="/forecasting" [queryParams]="evidenceLinks(d)"
+          >View forecast</a
+        ><a
+          z-button
+          zType="outline"
+          [routerLink]="['/onboarding/variants', d.variant.variantId]"
+          [queryParams]="{ startDate: d.window.startDate, endDate: d.window.endDate }"
+          >Review data readiness</a
         >
-          <table>
-            <caption class="sr-only">
-              Chronological observed-sales backtests
-            </caption>
-            <thead>
-              <tr>
-                <th>UTC held-out range</th>
-                <th>Status</th>
-                <th>Model MAE</th>
-                <th>Naive MAE</th>
-                <th>WAPE (%)</th>
-                <th>Censored / unknown dates</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (fold of d.backtests; track fold.cutoff) {
-                <tr>
-                  <th scope="row">{{ fold.cutoff }}–{{ fold.endDate }} (exclusive)</th>
-                  <td>{{ fold.status }}</td>
-                  <td>{{ fold.model?.mae ?? 'Unavailable' }}</td>
-                  <td>{{ fold.naive?.mae ?? 'Unavailable' }}</td>
-                  <td>{{ fold.model?.wapePercent ?? 'Unavailable' }}</td>
-                  <td>{{ fold.censoredDays }} / {{ fold.unknownDays }}</td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-        <p class="notice">
-          Estimated contribution excludes returns, taxes, shipping, fees, marketing and overhead.
-          Future availability and price response are assumptions. No improvement is promised.
-        </p>
-        <details>
-          <summary>All model assumptions</summary>
-          <ul>
-            @for (code of d.assumptions; track code) {
-              <li>{{ reason(code) }}</li>
-            }
-          </ul>
-        </details>
-      </details>
-      <a
-        [routerLink]="[
-          '/products',
-          d.variant.productId,
-          'variants',
-          d.variant.variantId,
-          'history',
-        ]"
-        >Inspect source price, cost and inventory history</a
-      >
+      </nav>
     }
   </section>
+}
+@if (whyOpen() && detail(); as d) {
+  <dialog
+    appModal
+    class="pricing-evidence-dialog"
+    aria-labelledby="pricing-evidence-title"
+    (modalCancelled)="closeWhy()"
+  >
+    <div class="evidence-heading">
+      <h2 id="pricing-evidence-title">Why this result?</h2>
+      <button
+        z-button
+        zType="outline"
+        autofocus
+        (click)="closeWhy()"
+        [disabled]="evidence()?.saving()"
+      >
+        Close explanation
+      </button>
+    </div>
+    @if (closeWarning()) {
+      <p role="status">Saving is in progress. Wait for the result before closing.</p>
+    }
+    <app-pricing-evidence [evaluation]="d" />
+  </dialog>
 }

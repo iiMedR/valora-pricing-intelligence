@@ -68,6 +68,21 @@ export function safeReturnUrl(value: string | null): string {
     const uuid = (text: string) =>
       /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(text);
     if (
+      evidence &&
+      ((key === 'pricingView' && ['all', 'actionable', 'evidence'].includes(val)) ||
+        (key === 'pricingStatus' &&
+          [
+            'all',
+            'actionable',
+            'uncertain',
+            'history',
+            'evidence',
+            'unavailable',
+            'inactive',
+          ].includes(val)))
+    )
+      continue;
+    if (
       (catalog || evidence) &&
       ((['search', 'catalogSearch'].includes(key) &&
         val.length <= (catalog || key === 'catalogSearch' ? 160 : 100) &&
