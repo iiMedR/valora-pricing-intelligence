@@ -11,6 +11,20 @@ describe('EnvironmentIndicator', () => {
     }),
   );
   afterEach(() => TestBed.inject(HttpTestingController).verify());
+  it('identifies the separate SaaS installation before a user starts a task', async () => {
+    const fixture = TestBed.createComponent(EnvironmentIndicator);
+    TestBed.inject(HttpTestingController).expectOne('/api/v1/environment').flush({
+      mode: 'NORMAL',
+      synthetic: false,
+      label: 'Local workspace',
+      datasetVersion: null,
+      datasetState: 'NOT_APPLICABLE',
+      businessMode: 'SAAS_SUBSCRIPTION',
+    });
+    await fixture.whenStable();
+    expect(fixture.nativeElement.textContent).toContain('SaaS workspace');
+    expect(fixture.nativeElement.textContent).not.toContain('Normal workspace');
+  });
 
   it('clearly labels seeded and uninitialized demo environments', async () => {
     const fixture = TestBed.createComponent(EnvironmentIndicator);

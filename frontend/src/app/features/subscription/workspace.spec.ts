@@ -4,6 +4,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { SubscriptionWorkspace } from './workspace';
 import { SessionService } from '../../core/session.service';
+import { Confirmation } from '../../core/confirmation';
 
 describe('Subscription workspace', () => {
   beforeEach(() =>
@@ -15,7 +16,8 @@ describe('Subscription workspace', () => {
   afterEach(() => TestBed.inject(HttpTestingController).verify());
   async function create(path = '/saas/settings') {
     const router = TestBed.inject(Router);
-    Object.defineProperty(router, 'url', { get: () => path });
+    let currentUrl = path;
+    Object.defineProperty(router, 'url', { get: () => currentUrl });
     TestBed.inject(SessionService).value.set({
       mode: 'NORMAL',
       authenticated: true,
@@ -24,11 +26,16 @@ describe('Subscription workspace', () => {
     });
     const f = TestBed.createComponent(SubscriptionWorkspace),
       http = TestBed.inject(HttpTestingController);
+    vi.spyOn(router, 'navigateByUrl').mockImplementation(async (target) => {
+      currentUrl = typeof target === 'string' ? target : router.serializeUrl(target);
+      f.componentInstance.navigate(currentUrl);
+      return true;
+    });
     const req = http.expectOne(
       (r) => r.url === '/api/v1/saas/metrics' || r.url === '/api/v1/saas/plans',
     );
     req.flush(
-      path.endsWith('insights')
+      path.split('?')[0].endsWith('insights') || path.split('?')[0].endsWith('plans')
         ? {
             content: [
               {
@@ -59,13 +66,19 @@ describe('Subscription workspace', () => {
   }
   it('previews an immutable snapshot and only commits after the explicit action', async () => {
     const { f, http } = await create();
-    Object.assign(f.componentInstance.entry, {
-      sourceId: 'plan-source',
-      planId: 'basic',
+    for (const [name, value] of Object.entries({
+      source: 'plan-source',
+      plan: 'basic',
       name: 'Basic',
-      priceId: 'p100',
+      price: 'p100',
       amount: '100',
-    });
+    })) {
+      const input = f.nativeElement.querySelector(`input[name="${name}"]`) as HTMLInputElement;
+      input.value = value;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+    f.detectChanges();
+    await f.whenStable();
     f.componentInstance.submit();
     const preview = http.expectOne('/api/v1/saas/entry/preview');
     expect(preview.request.body.amount).toBe('100');
@@ -85,7 +98,19 @@ describe('Subscription workspace', () => {
   });
   it('retains editable input after validation failure and never records automatically', async () => {
     const { f, http } = await create();
-    f.componentInstance.entry.sourceId = 'bad';
+    for (const [name, value] of Object.entries({
+      source: 'bad',
+      plan: 'basic',
+      name: 'Basic',
+      price: 'missing',
+      amount: '100',
+    })) {
+      const input = f.nativeElement.querySelector(`input[name="${name}"]`) as HTMLInputElement;
+      input.value = value;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+    f.detectChanges();
+    await f.whenStable();
     f.componentInstance.submit();
     http
       .expectOne('/api/v1/saas/entry/preview')
@@ -98,7 +123,13 @@ describe('Subscription workspace', () => {
   it('shows needs evidence without manufacturing price recommendations', async () => {
     const { f } = await create('/saas/insights');
     expect(f.nativeElement.textContent).toContain('Needs evidence');
-    (f.nativeElement.querySelector('article button') as HTMLButtonElement).click();
+    f.componentInstance.review(f.componentInstance.plans()!.content[0]);
+    await f.whenStable();
+    (
+      f.nativeElement.querySelector(
+        '#plan-detail button[z-button][zType="outline"]',
+      ) as HTMLButtonElement
+    ).click();
     await f.whenStable();
     const dialog = f.nativeElement.querySelector('dialog');
     expect(dialog.textContent).toContain('No validated SaaS');
@@ -114,6 +145,9 @@ describe('Subscription workspace', () => {
   it('requests a bounded historical plan trend relative to its chosen as-of date', async () => {
     const { f, http } = await create('/saas/insights');
     f.componentInstance.asOf = '2025-01-31';
+    const rows = f.componentInstance.plans()!;
+    f.componentInstance.update();
+    http.expectOne((request) => request.url.endsWith('/saas/plans')).flush(rows);
     f.componentInstance.history(f.componentInstance.plans()!.content[0]);
     const r = http.expectOne((request) => request.url.endsWith('/plans/basic/history'));
     expect(r.request.params.get('start')).toBe('2025-01-02');
@@ -121,5 +155,109 @@ describe('Subscription workspace', () => {
     r.flush({ planId: 'basic', currency: 'MAD', trend: [] });
     await f.whenStable();
     expect(f.componentInstance.trendBusy()).toBe(false);
+  });
+  it('preserves search and selected-plan URL context without refetching the same page', async () => {
+    const { f, http } = await create('/saas/plans');
+    const rows = f.componentInstance.plans()!;
+    f.componentInstance.search = 'Basic';
+    f.componentInstance.update();
+    http
+      .expectOne((r) => r.url.endsWith('/saas/plans') && r.params.get('search') === 'Basic')
+      .flush(rows);
+    await f.whenStable();
+    f.componentInstance.review(rows.content[0]);
+    await f.whenStable();
+    expect(TestBed.inject(Router).url).toContain('planId=basic');
+    expect(f.nativeElement.querySelector('#plan-detail').textContent).toContain('Basic');
+    http.expectNone((r) => r.url.endsWith('/saas/plans'));
+    f.componentInstance.backToPlans();
+    await f.whenStable();
+    expect(TestBed.inject(Router).url).toContain('search=Basic');
+    expect(f.componentInstance.search).toBe('Basic');
+    http.expectNone((r) => r.url.endsWith('/saas/plans'));
+  });
+  it('lets a plan-only as-of control choose historical dates without an inaccessible start field', async () => {
+    const { f, http } = await create('/saas/plans');
+    const rows = f.componentInstance.plans()!;
+    f.componentInstance.asOf = '2025-01-31';
+    f.componentInstance.update();
+    http
+      .expectOne((r) => r.url.endsWith('/saas/plans') && r.params.get('asOf') === '2025-01-31')
+      .flush(rows);
+    await f.whenStable();
+    expect(f.componentInstance.error()).toBe('');
+    expect(f.componentInstance.start).toBe('2025-01-02');
+  });
+  it('keeps displayed prices and context on the applied selection while filters are drafts', async () => {
+    const { f, http } = await create('/saas/plans');
+    const rows = f.componentInstance.plans()!;
+    f.componentInstance.asOf = '2024-01-01';
+    f.componentInstance.search = 'private@example.com';
+    expect(f.componentInstance.selectionChanged()).toBe(true);
+    expect(f.componentInstance.current(rows.content[0])?.id).toBe('p100');
+    expect(f.componentInstance.contextQuery().search).toBeNull();
+    f.componentInstance.review(rows.content[0]);
+    await f.whenStable();
+    expect(TestBed.inject(Router).url).not.toContain('example');
+    http.expectNone((request) => request.url.endsWith('/saas/plans'));
+  });
+  it('lets expired-session navigation remove pending protected content', async () => {
+    const { f } = await create();
+    f.componentInstance.entry.sourceId = 'private-source';
+    f.componentInstance.busy.set(true);
+    TestBed.inject(SessionService).clear();
+    expect(f.componentInstance.canLeave()).toBe(true);
+    await f.whenStable();
+    expect(f.componentInstance.entry.sourceId).toBe('');
+    expect(f.componentInstance.metrics()).toBeNull();
+  });
+  it('keeps a cancelled dirty draft and clears it only after explicit confirmation', async () => {
+    const { f } = await create();
+    const input = f.nativeElement.querySelector('input[name=source]') as HTMLInputElement;
+    input.value = 'keep-draft';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await f.whenStable();
+    let clearing = f.componentInstance.clearEntry();
+    TestBed.inject(Confirmation).answer(false);
+    await clearing;
+    expect(f.componentInstance.entry.sourceId).toBe('keep-draft');
+    clearing = f.componentInstance.clearEntry();
+    TestBed.inject(Confirmation).answer(true);
+    await clearing;
+    await f.whenStable();
+    expect(f.componentInstance.entry.sourceId).toBe('');
+    expect(input.value).toBe('');
+  });
+  it('keeps the full returned decimal string in daily inspection', async () => {
+    const { f } = await create();
+    f.componentInstance.section.set('');
+    f.componentInstance.metrics.set({
+      start: '2025-01-01',
+      asOf: '2025-01-01',
+      currency: 'MAD',
+      coverage: 'PARTIAL_MANUAL_HISTORY',
+      activePaidSubscriptions: 1,
+      mrr: '100.123456789012',
+      arr: '1201.481481468144',
+      revenuePerPaidSubscription: '100.123456',
+      collectedNetCash: '100',
+      beginningPaidSubscriptions: 0,
+      endedBeginningSubscriptions: 0,
+      subscriptionChurnPercent: null,
+      grossRevenueChurnPercent: null,
+      netRevenueChurnPercent: null,
+      movement: {
+        beginning: '0',
+        newMrr: '100.123456789012',
+        expansion: '0',
+        contraction: '0',
+        churned: '0',
+        reactivation: '0',
+        ending: '100.123456789012',
+      },
+      trend: [{ date: '2025-01-01', mrr: '100.123456789012' }],
+    });
+    await f.whenStable();
+    expect(f.nativeElement.querySelector('table').textContent).toContain('100.123456789012');
   });
 });

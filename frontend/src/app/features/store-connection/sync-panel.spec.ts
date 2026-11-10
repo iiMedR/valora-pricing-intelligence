@@ -29,6 +29,9 @@ describe('Shopify synchronization panel', () => {
   }
   it('starts a bounded explicit historical job without provider credentials', () => {
     const f = create();
+    expect(f.nativeElement.textContent).toContain(
+      'Live store sync has not been verified with a real Shopify store.',
+    );
     f.componentInstance.from = '2026-11-01';
     f.componentInstance.to = '2026-11-08';
     f.componentInstance.start('INITIAL');
