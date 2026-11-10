@@ -1,5 +1,5 @@
 import { EnvironmentDetails } from './environment-details';
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal, output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { timeout } from 'rxjs';
@@ -10,6 +10,7 @@ export interface ApplicationEnvironment {
   label: string;
   datasetVersion: string | null;
   datasetState: string;
+  businessMode?: 'ECOMMERCE' | 'SAAS_SUBSCRIPTION';
 }
 
 @Component({
@@ -46,6 +47,7 @@ export interface ApplicationEnvironment {
   `,
 })
 export class EnvironmentIndicator {
+  readonly businessMode = output<string>();
   readonly detailsOpen = signal(false);
   private readonly http = inject(HttpClient);
   private readonly destroyRef = inject(DestroyRef);
@@ -72,6 +74,7 @@ export class EnvironmentIndicator {
             this.error.set(true);
           } else {
             this.environment.set(value);
+            this.businessMode.emit(value.businessMode ?? 'ECOMMERCE');
           }
           this.loading.set(false);
         },

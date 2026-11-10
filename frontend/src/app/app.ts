@@ -64,7 +64,33 @@ export class App {
   private restoreTimer?: ReturnType<typeof setTimeout>;
   readonly main = viewChild<ElementRef<HTMLElement>>('content');
   readonly menu = viewChild<ElementRef<HTMLButtonElement>>('menu');
-  readonly groups = [
+  readonly saas = signal(false);
+  readonly modeLoaded = signal(false);
+  private readonly router = inject(Router);
+  setBusinessMode(mode: string) {
+    this.saas.set(mode === 'SAAS_SUBSCRIPTION');
+    if (this.saas() && this.router.url === '/' && window.location.pathname === '/')
+      void this.router.navigateByUrl('/saas').then(() => this.modeLoaded.set(true));
+    else this.modeLoaded.set(true);
+  }
+  get groups() {
+    return this.saas()
+      ? [
+          {
+            label: 'Subscriptions',
+            links: [
+              ['/saas', 'Overview', 'lucideHouse'],
+              ['/saas/plans', 'Plans', 'lucidePackage'],
+              ['/saas/subscriptions', 'Subscriptions', 'lucideTags'],
+              ['/saas/revenue', 'Revenue & retention', 'lucideChartNoAxesCombined'],
+              ['/saas/insights', 'Pricing insights', 'lucideLightbulb'],
+              ['/saas/settings', 'Settings & data', 'lucideSettings'],
+            ],
+          },
+        ]
+      : this.ecommerceGroups;
+  }
+  readonly ecommerceGroups = [
     {
       label: '',
       links: [
@@ -99,6 +125,10 @@ export class App {
       )
       .subscribe((event) => {
         const path = (event as NavigationEnd).urlAfterRedirects.split('?')[0];
+        if (this.saas() && path === '/') {
+          void this.router.navigateByUrl('/saas');
+          return;
+        }
         const changedPage = this.lastPath !== path;
         this.lastPath = path;
         this.pageTitle.set(

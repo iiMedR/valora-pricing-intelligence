@@ -14,7 +14,7 @@
     >
       {{ menuOpen() ? 'Close navigation' : 'Open navigation' }}
     </button>
-    <app-environment-indicator />
+    <app-environment-indicator (businessMode)="setBusinessMode($event)" />
     <app-session-nav />
   </header>
   @if (menuOpen()) {
@@ -46,7 +46,7 @@
           <a
             [routerLink]="link[0]"
             routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: link[0] === '/' }"
+            [routerLinkActiveOptions]="{ exact: link[0] === '/' || link[0] === '/saas' }"
             ariaCurrentWhenActive="page"
             ><ng-icon [name]="link[2]" aria-hidden="true" />{{ link[1] }}</a
           >
@@ -55,7 +55,11 @@
     }
   </nav>
   <div class="workspace-content">
-    <main #content id="main" tabindex="-1"><router-outlet /></main>
+    <main #content id="main" tabindex="-1">
+      @if (modeLoaded()) {
+        <router-outlet />
+      }
+    </main>
   </div>
 </div>
 <app-confirm-dialog />

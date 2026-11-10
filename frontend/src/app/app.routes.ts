@@ -2,6 +2,21 @@ import { editorLeaveGuard } from './core/editor-state';
 import { Routes } from '@angular/router';
 import { authGuard, writeGuard } from './core/auth-integration';
 export const routes: Routes = [
+  ...[
+    'saas',
+    'saas/plans',
+    'saas/subscriptions',
+    'saas/revenue',
+    'saas/insights',
+    'saas/settings',
+  ].map((path) => ({
+    path,
+    canActivate: [authGuard],
+    canDeactivate: [(component: { busy: () => boolean }) => !component.busy()],
+    loadComponent: () =>
+      import('./features/subscription/workspace').then((m) => m.SubscriptionWorkspace),
+    title: 'Subscriptions | SmartPricing',
+  })),
   {
     path: '',
     loadComponent: () => import('./features/home/home').then((m) => m.Home),

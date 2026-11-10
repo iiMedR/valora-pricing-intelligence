@@ -54,7 +54,7 @@ export function safeReturnUrl(value: string | null): string {
   if (!value || /[\\#\u0000-\u0020]/.test(value)) return '/';
   const [path, query] = value.split('?');
   if (
-    !/^\/(?:onboarding(?:\/variants\/[a-zA-Z0-9-]+)?|products(?:\/[a-zA-Z0-9/-]+)?|categories|settings|orders(?:\/[a-zA-Z0-9/-]+)?|analytics|forecasting|optimization|store-connection)$/.test(
+    !/^\/(?:saas(?:\/(?:plans|subscriptions|revenue|insights|settings))?|onboarding(?:\/variants\/[a-zA-Z0-9-]+)?|products(?:\/[a-zA-Z0-9/-]+)?|categories|settings|orders(?:\/[a-zA-Z0-9/-]+)?|analytics|forecasting|optimization|store-connection)$/.test(
       path,
     )
   )

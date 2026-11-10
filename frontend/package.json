@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
+    "start:saas": "ng serve --host localhost --port 4202 --proxy-config proxy.saas.conf.json",
     "start:demo": "ng serve --host localhost --port 4201 --proxy-config proxy.demo.conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",

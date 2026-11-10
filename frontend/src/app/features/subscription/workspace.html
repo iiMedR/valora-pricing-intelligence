@@ -1,0 +1,632 @@
+<header class="page-heading">
+  <div>
+    <h1>
+      {{
+        section() === 'plans'
+          ? 'Plans'
+          : section() === 'subscriptions'
+            ? 'Subscriptions'
+            : section() === 'revenue'
+              ? 'Revenue & retention'
+              : section() === 'insights'
+                ? 'Pricing insights'
+                : section() === 'settings'
+                  ? 'Settings & data'
+                  : 'Subscription overview'
+      }}
+    </h1>
+    <p class="muted">
+      {{
+        section() === 'insights'
+          ? 'Understand the evidence before reviewing a plan price.'
+          : 'Your subscription business, based on recorded history.'
+      }}
+    </p>
+  </div>
+  @if (section() !== 'settings') {
+    <a z-button routerLink="/saas/settings">Add subscription data</a>
+  }
+</header>
+<p class="source-note">
+  Manual source · Partial history. No live billing provider is connected. Values exclude records you
+  have not entered.
+</p>
+@if (error()) {
+  <div role="alert" class="error">
+    {{ error() }}
+    <button z-button zType="outline" (click)="load()" [disabled]="busy()">Retry loading</button>
+  </div>
+}
+@if (message()) {
+  <p role="status" class="notice">{{ message() }}</p>
+}
+@if (section() !== 'settings') {
+  <form class="controls" (ngSubmit)="load(true)">
+    @if (section() === '' || section() === 'revenue') {
+      <label
+        >From<input z-input type="date" name="start" [(ngModel)]="start" required [max]="asOf"
+      /></label>
+    }
+    <label
+      >As of (UTC)<input z-input type="date" name="asof" [(ngModel)]="asOf" required [max]="today"
+    /></label>
+    @if (['plans', 'insights', 'subscriptions'].includes(section())) {
+      <label
+        >Search {{ section() === 'subscriptions' ? 'opaque ID' : 'plan name or ID'
+        }}<input z-input name="search" [(ngModel)]="search" maxlength="80"
+      /></label>
+    }
+    @if (section() === 'plans') {
+      <label
+        >Sort<select name="sort" [(ngModel)]="sort">
+          <option value="name">Name</option>
+          <option value="price">Listed price (intervals differ)</option>
+        </select></label
+      >
+    }
+    <button z-button zType="outline" type="submit">Update</button>
+  </form>
+}
+@if (loading()) {
+  <p role="status">Loading subscription records…</p>
+}
+@if (metrics(); as m) {
+  @if (section() !== 'settings') {
+    <section class="metrics" aria-label="Recurring revenue summary">
+      <article>
+        <p>Active paid subscriptions</p>
+        <strong>{{ m.activePaidSubscriptions }}</strong>
+      </article>
+      <article>
+        <p>Monthly recurring revenue</p>
+        <strong
+          >{{ m.mrr | number: '1.2-2' }} <small>{{ m.currency }}</small></strong
+        >
+      </article>
+      <article>
+        <p>Annual recurring run rate</p>
+        <strong
+          >{{ m.arr | number: '1.2-2' }} <small>{{ m.currency }}</small></strong
+        >
+      </article>
+      <article>
+        <p>Net collected cash in window</p>
+        <strong
+          >{{ m.collectedNetCash | number: '1.2-2' }} <small>{{ m.currency }}</small></strong
+        >
+      </article>
+    </section>
+    @if (m.activePaidSubscriptions === 0) {
+      <div class="notice">
+        <h2>No active paid subscriptions in this history</h2>
+        <p>
+          Add plans, lifecycle events and real paid charges to begin. An active lifecycle alone is
+          not paid evidence.
+        </p>
+        <a routerLink="/saas/settings">Review setup and add data</a>
+      </div>
+    }
+    <section class="panel">
+      <h2>Monthly recurring revenue</h2>
+      <p class="muted">
+        {{ m.start }} – {{ m.asOf }} · {{ m.currency }} · Run rate, not accounting revenue
+      </p>
+      @if (m.trend.length && hasTrend(m)) {
+        <svg viewBox="0 0 760 210" role="img" aria-labelledby="mrr-title">
+          <title id="mrr-title">
+            Recorded MRR trend in {{ m.currency }}, {{ m.start }} to {{ m.asOf }}. Exact values
+            below.
+          </title>
+          <path d="M40 175 H720" stroke="var(--border)" />
+          <polyline [attr.points]="points(m)" fill="none" stroke="currentColor" stroke-width="2" />
+          <text x="40" y="200">{{ m.start }}</text>
+          <text x="610" y="200">{{ m.asOf }}</text>
+        </svg>
+      } @else {
+        <p>Not enough billing history to show a meaningful trend.</p>
+      }
+      <details>
+        <summary>Inspect exact daily MRR</summary>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Daily MRR table">
+          <table>
+            <caption>
+              Recorded daily run rate in
+              {{
+                m.currency
+              }}
+            </caption>
+            <thead>
+              <tr>
+                <th>Date (UTC)</th>
+                <th>MRR</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (p of m.trend; track p.date) {
+                <tr>
+                  <td>{{ p.date }}</td>
+                  <td>{{ p.mrr | number: '1.4-4' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+    <section class="panel">
+      <h2>What changed in this window?</h2>
+      <dl class="movement">
+        <div>
+          <dt>Beginning MRR</dt>
+          <dd>{{ m.movement['beginning'] | number: '1.2-2' }}</dd>
+        </div>
+        <div>
+          <dt>New</dt>
+          <dd>+{{ m.movement['newMrr'] | number: '1.2-2' }}</dd>
+        </div>
+        <div>
+          <dt>Expansion</dt>
+          <dd>+{{ m.movement['expansion'] | number: '1.2-2' }}</dd>
+        </div>
+        <div>
+          <dt>Contraction</dt>
+          <dd>−{{ m.movement['contraction'] | number: '1.2-2' }}</dd>
+        </div>
+        <div>
+          <dt>Ended</dt>
+          <dd>−{{ m.movement['churned'] | number: '1.2-2' }}</dd>
+        </div>
+        <div>
+          <dt>Reactivation</dt>
+          <dd>+{{ m.movement['reactivation'] | number: '1.2-2' }}</dd>
+        </div>
+        <div>
+          <dt>Ending MRR</dt>
+          <dd>{{ m.movement['ending'] | number: '1.2-2' }} {{ m.currency }}</dd>
+        </div>
+      </dl>
+    </section>
+    @if (section() === 'revenue') {
+      <section class="panel">
+        <h2>Retention of the beginning population</h2>
+        <p>
+          {{ m.beginningPaidSubscriptions }} paid subscriptions at the end of the day before
+          {{ m.start }}; {{ m.endedBeginningSubscriptions }} absent from the paid population at
+          {{ m.asOf }}.
+        </p>
+        <dl class="movement">
+          <div>
+            <dt>Paid-subscription churn</dt>
+            <dd>
+              {{
+                m.subscriptionChurnPercent === null
+                  ? 'Unavailable: no beginning subscriptions'
+                  : (m.subscriptionChurnPercent | number: '1.2-2') + '%'
+              }}
+            </dd>
+          </div>
+          <div>
+            <dt>Gross revenue churn</dt>
+            <dd>
+              {{
+                m.grossRevenueChurnPercent === null
+                  ? 'Unavailable: no beginning MRR'
+                  : (m.grossRevenueChurnPercent | number: '1.2-2') + '%'
+              }}
+            </dd>
+          </div>
+          <div>
+            <dt>Net revenue churn</dt>
+            <dd>
+              {{
+                m.netRevenueChurnPercent === null
+                  ? 'Unavailable: no beginning MRR'
+                  : (m.netRevenueChurnPercent | number: '1.2-2') + '%'
+              }}
+            </dd>
+          </div>
+          <div>
+            <dt>MRR per active paid subscription</dt>
+            <dd>
+              {{
+                m.revenuePerPaidSubscription === null
+                  ? 'Unavailable'
+                  : (m.revenuePerPaidSubscription | number: '1.2-2') + ' ' + m.currency
+              }}
+            </dd>
+          </div>
+        </dl>
+        <p class="muted">
+          Customer/logo churn and cohort retention are unavailable: opaque subscription IDs do not
+          identify distinct customers or establish complete cohort coverage.
+        </p>
+      </section>
+    }
+    <details class="panel">
+      <summary>How to read these numbers</summary>
+      <p>
+        MRR uses the explicit effective subscription price: monthly amount, or yearly amount divided
+        by 12. ARR is MRR × 12. Neither is collected cash or recognized accounting revenue.
+      </p>
+      <p>
+        Paid means a lifecycle active at the as-of date with at least one recorded paid charge on or
+        before that date. Renewal, payment failure, taxes and discounts are not modeled. Refunds
+        reduce cash but do not automatically end a subscription.
+      </p>
+      <p>
+        New, expansion, contraction, ended and reactivation MRR reconcile beginning to ending MRR.
+        Gross revenue churn is beginning-cohort lost/reduced MRR divided by beginning MRR. Net
+        revenue churn subtracts expansion of that same cohort. Rates can be unavailable or negative;
+        neither is customer churn.
+      </p>
+      <p>
+        All metrics are partial recorded-history estimates, including periods before your earliest
+        entry. Missing records are not proof of no activity.
+      </p>
+    </details>
+  }
+}
+@if (plans(); as result) {
+  <p class="muted">
+    {{ result.totalElements }} matching plans · Page {{ page + 1 }} · Values as of {{ asOf }}
+  </p>
+  @for (plan of result.content; track plan.id) {
+    <article class="plan-row">
+      <div>
+        <h2>{{ plan.name }}</h2>
+        <p class="muted">{{ plan.id }} · {{ plan.archived ? 'Archived' : 'Active plan' }}</p>
+        @if (current(plan); as price) {
+          <p>
+            {{ price.amount | number: '1.2-2' }} {{ price.currency }} /
+            {{ price.interval === 'YEARLY' ? 'year' : 'month' }}
+            <span class="muted">· {{ price.id }}</span>
+          </p>
+        } @else {
+          <p>No price version effective on this date.</p>
+        }
+        @if (section() === 'insights') {
+          <p class="status">Needs evidence</p>
+          <p>Plan pricing has not been evaluated by a validated SaaS model.</p>
+        } @else {
+          <p>
+            {{ plan.activeSubscriptions }} active paid subscriptions ·
+            {{ plan.mrr | number: '1.2-2' }}
+            {{ current(plan)?.currency ?? plan.prices[0]?.currency }} MRR
+          </p>
+          <details>
+            <summary>Price history</summary>
+            <ul>
+              @for (p of plan.prices; track p.id) {
+                <li>
+                  {{ p.effectiveDate }} · {{ p.id }} · {{ p.amount | number: '1.4-4' }}
+                  {{ p.currency }} / {{ p.interval === 'YEARLY' ? 'year' : 'month' }}
+                </li>
+              }
+            </ul>
+            <p class="muted">
+              New versions do not automatically move existing subscribers. Subscriber counts and run
+              rate use partial recorded paid history.
+            </p>
+            <button z-button zType="outline" (click)="history(plan)" [disabled]="trendBusy()">
+              Inspect subscriber trend
+            </button>
+            @if (planTrend(); as h) {
+              @if (h.planId === plan.id) {
+                <div
+                  class="table-scroll"
+                  tabindex="0"
+                  role="region"
+                  aria-label="Plan subscriber history"
+                >
+                  <table>
+                    <caption>
+                      Recorded subscriber trend ·
+                      {{
+                        h.currency
+                      }}
+                    </caption>
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Paid subscriptions</th>
+                        <th>MRR</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (point of h.trend; track point.date) {
+                        <tr>
+                          <td>{{ point.date }}</td>
+                          <td>{{ point.activePaidSubscriptions }}</td>
+                          <td>{{ point.mrr | number: '1.2-2' }}</td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+            }
+          </details>
+        }
+      </div>
+      @if (section() === 'insights') {
+        <button z-button zType="outline" (click)="why.set(plan)">Why this result?</button>
+      }
+    </article>
+  } @empty {
+    <section class="notice">
+      <h2>No matching plans</h2>
+      <p>Add your first plan or change the search.</p>
+      <a routerLink="/saas/settings">Add a plan</a>
+    </section>
+  }
+  <div class="pagination">
+    <button z-button zType="outline" [disabled]="page === 0" (click)="next(-1)">Previous</button
+    ><button
+      z-button
+      zType="outline"
+      [disabled]="(page + 1) * 10 >= result.totalElements"
+      (click)="next(1)"
+    >
+      Next
+    </button>
+  </div>
+}
+@if (subscribers(); as result) {
+  <p class="muted">{{ result.totalElements }} matching subscriptions · As of {{ asOf }}</p>
+  @for (s of result.content; track s.id) {
+    <article class="plan-row">
+      <div>
+        <h2>{{ s.id }}</h2>
+        <p>{{ s.plan }} · {{ s.interval === 'YEARLY' ? 'Yearly' : 'Monthly' }}</p>
+        <p>{{ state(s.status) }} · Effective {{ s.since }}</p>
+        @if (s.scheduledEnd) {
+          <p>Scheduled end: {{ s.scheduledEnd }}. Remains active until this date.</p>
+        }
+      </div>
+      <p>
+        {{
+          s.mrr === null
+            ? 'No paid run rate'
+            : (s.mrr | number: '1.2-2') + ' ' + s.currency + ' MRR'
+        }}
+      </p>
+    </article>
+  } @empty {
+    <p class="notice">No subscriptions match. Add a lifecycle event in Settings & data.</p>
+  }
+  <div class="pagination">
+    <button z-button zType="outline" [disabled]="page === 0" (click)="next(-1)">Previous</button
+    ><button
+      z-button
+      zType="outline"
+      [disabled]="(page + 1) * 10 >= result.totalElements"
+      (click)="next(1)"
+    >
+      Next
+    </button>
+  </div>
+}
+@if (section() === 'settings') {
+  <section class="panel">
+    <h2>Set up your subscription history</h2>
+    <ol>
+      <li>Installation type: SaaS subscriptions. This installation cannot switch to e-commerce.</li>
+      <li>
+        Reporting currency: {{ metrics()?.currency ?? 'Loading…' }}. No currency conversion.
+        Currency changes are not supported after installation setup.
+      </li>
+      <li>Add a plan price, then a START lifecycle event, then a real PAID charge.</li>
+      <li>Record changes, effective ends and refunds as separate source events.</li>
+    </ol>
+    <p>
+      Manual template version 1 · Maximum 2,000 operations. No CSV or live billing sync. Source
+      coverage remains partial.
+    </p>
+  </section>
+  <section class="panel">
+    <h2>Add one record</h2>
+    <p>
+      Use opaque IDs from your source, never emails, customer names, card details or API secrets.
+      Existing source IDs replay only if the whole record is identical.
+    </p>
+    <form class="entry-form" (ngSubmit)="submit()">
+      <label
+        >Record type<select
+          name="type"
+          [(ngModel)]="entry.type"
+          (ngModelChange)="changeType()"
+          [disabled]="busy()"
+        >
+          @for (t of types; track t) {
+            <option [value]="t">
+              {{
+                t === 'PLAN'
+                  ? 'Plan / new price version'
+                  : t === 'PAID'
+                    ? 'Paid charge'
+                    : t === 'CANCEL'
+                      ? 'Schedule effective cancellation'
+                      : t.toLowerCase()
+              }}
+            </option>
+          }
+        </select></label
+      >
+      <label
+        >Unique source record ID<input
+          z-input
+          name="source"
+          [(ngModel)]="entry.sourceId"
+          required
+          maxlength="64"
+          pattern="[A-Za-z0-9_-]+"
+          [disabled]="busy()"
+      /></label>
+      <label
+        >Effective date (UTC)<input
+          z-input
+          type="date"
+          name="effective"
+          [(ngModel)]="entry.effectiveDate"
+          required
+          [disabled]="busy()"
+      /></label>
+      @if (['PLAN', 'ARCHIVE'].includes(entry.type)) {
+        <label
+          >Plan ID<input
+            z-input
+            name="plan"
+            [(ngModel)]="entry.planId"
+            required
+            maxlength="64"
+            pattern="[A-Za-z0-9_-]+"
+            [disabled]="busy()"
+        /></label>
+      }
+      @if (entry.type === 'PLAN') {
+        <label
+          >Plan name<input
+            z-input
+            name="name"
+            [(ngModel)]="entry.name"
+            required
+            minlength="2"
+            maxlength="120"
+            [disabled]="busy()" /></label
+        ><label
+          >Billing interval<select name="interval" [(ngModel)]="entry.interval" [disabled]="busy()">
+            <option value="MONTHLY">Monthly</option>
+            <option value="YEARLY">Yearly</option>
+          </select></label
+        >
+      }
+      @if (['PLAN', 'START', 'CHANGE', 'CANCEL', 'END', 'REACTIVATE'].includes(entry.type)) {
+        <label
+          >Immutable price version ID<input
+            z-input
+            name="price"
+            [(ngModel)]="entry.priceId"
+            required
+            maxlength="64"
+            pattern="[A-Za-z0-9_-]+"
+            [disabled]="busy()"
+        /></label>
+      }
+      @if (!['PLAN', 'ARCHIVE'].includes(entry.type)) {
+        <label
+          >Opaque subscription ID<input
+            z-input
+            name="sub"
+            [(ngModel)]="entry.subscriptionId"
+            required
+            maxlength="64"
+            pattern="[A-Za-z0-9_-]+"
+            [disabled]="busy()"
+        /></label>
+      }
+      @if (['PLAN', 'PAID', 'REFUND'].includes(entry.type)) {
+        <label
+          >Amount ({{ metrics()?.currency }})<input
+            z-input
+            name="amount"
+            [(ngModel)]="entry.amount"
+            inputmode="decimal"
+            required
+            pattern="[0-9]+(\.[0-9]{1,4})?"
+            maxlength="20"
+            [disabled]="busy()"
+        /></label>
+      }
+      @if (entry.type === 'REFUND') {
+        <label
+          >Original paid charge source ID<input
+            z-input
+            name="charge"
+            [(ngModel)]="entry.chargeId"
+            required
+            maxlength="64"
+            [disabled]="busy()"
+        /></label>
+      }
+      <p class="form-help">
+        One lifecycle transition per subscription per day, appended in date order. CANCEL uses the
+        effective end date and the previous price version. Scheduled ends cannot be silently
+        revised; preview explains invalid entries.
+      </p>
+      <button z-button type="submit" [disabled]="busy() || loading()">
+        {{ busy() ? 'Checking…' : 'Validate & preview' }}
+      </button>
+    </form>
+  </section>
+}
+@if (preview(); as p) {
+  <dialog appModal (modalCancelled)="closePreview()" aria-labelledby="preview-title">
+    <h2 id="preview-title">Review before recording</h2>
+    <p>{{ p.receipt.message }}</p>
+    <dl>
+      <dt>Record</dt>
+      <dd>{{ p.entry.type }} · {{ p.entry.sourceId }}</dd>
+      <dt>Effective date</dt>
+      <dd>{{ p.entry.effectiveDate }}</dd>
+      <dt>Identity</dt>
+      <dd>{{ p.entry.planId ?? p.entry.subscriptionId }}</dd>
+      @if (p.entry.priceId) {
+        <dt>Price version</dt>
+        <dd>{{ p.entry.priceId }}</dd>
+      }
+      @if (p.entry.amount) {
+        <dt>Amount</dt>
+        <dd>{{ p.entry.amount }} {{ p.entry.currency }} {{ p.entry.interval ?? '' }}</dd>
+      }
+      @if (p.entry.name) {
+        <dt>Plan name</dt>
+        <dd>{{ p.entry.name }}</dd>
+      }
+      @if (p.entry.chargeId) {
+        <dt>Original charge</dt>
+        <dd>{{ p.entry.chargeId }}</dd>
+      }
+    </dl>
+    <p>
+      Commit records this history once; it does not change a billing provider or apply prices. Check
+      source IDs and effective dates carefully. Recorded history cannot be edited here.
+    </p>
+    <div class="controls">
+      <button z-button (click)="commit()" [disabled]="busy()">
+        {{
+          busy()
+            ? 'Recording…'
+            : p.receipt.status === 'UNCHANGED'
+              ? 'Confirm replay'
+              : 'Record entry'
+        }}</button><button z-button zType="outline" (click)="closePreview()" [disabled]="busy()">
+        Back to editing
+      </button>
+    </div>
+  </dialog>
+}
+@if (why(); as plan) {
+  <dialog appModal (modalCancelled)="why.set(null)" aria-labelledby="why-title">
+    <button z-button zType="outline" (click)="why.set(null)">Close</button>
+    <h2 id="why-title">{{ plan.name }}: needs evidence</h2>
+    <p>
+      No validated SaaS price-response or optimization model has been established. No suggested
+      price, uplift or elasticity is available.
+    </p>
+    <p>
+      Subscription retention, acquisition, plan selection, discounts and changes in customer mix can
+      confound observed price relationships. Adding arbitrary records does not resolve
+      identification.
+    </p>
+    <details>
+      <summary>What would be needed?</summary>
+      <p>
+        Reliable exposure and cohort history, explicit effective prices and discounts, retention and
+        acquisition outcomes, and a separately reviewed identification and validation strategy. Any
+        causal claim requires suitable evidence, potentially a well-designed controlled experiment.
+        This milestone does not evaluate that evidence.
+      </p>
+    </details>
+    <a routerLink="/saas/settings" (click)="why.set(null)">Review source coverage</a>
+  </dialog>
+}
