@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class HealthControllerTest {
     @org.springframework.test.context.bean.override.mockito.MockitoBean com.smartpricing.auth.AccountService accounts;
     @org.springframework.test.context.bean.override.mockito.MockitoBean com.smartpricing.demo.config.DemoSafetyGuard guard;
+    @org.springframework.test.context.bean.override.mockito.MockitoBean com.smartpricing.subscription.BusinessMode businessMode;
     @Autowired MockMvc mvc;
 
     @Test void returnsStableStatus() throws Exception {

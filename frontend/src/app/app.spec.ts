@@ -59,6 +59,23 @@ describe('Merchant application shell', () => {
         .getAttribute('aria-haspopup'),
     ).toBe('dialog');
   });
+  it('keeps SaaS deep links and presents distinct navigation', async () => {
+    const f = await create();
+    const router = TestBed.inject(Router),
+      navigate = vi.spyOn(router, 'navigateByUrl');
+    const previous = window.location.href;
+    try {
+      window.history.replaceState(null, '', '/saas/settings');
+      f.componentInstance.setBusinessMode('SAAS_SUBSCRIPTION');
+      await f.whenStable();
+      expect(navigate).not.toHaveBeenCalled();
+      expect(f.nativeElement.querySelector('nav').textContent).toContain('Revenue & retention');
+      expect(f.nativeElement.querySelector('nav').textContent).not.toContain('Shopify');
+      expect(f.componentInstance.modeLoaded()).toBe(true);
+    } finally {
+      window.history.replaceState(null, '', previous);
+    }
+  });
   it('opens mobile disclosure with a button and restores toggle focus on Escape', async () => {
     const f = await create(true);
     const toggle = f.nativeElement.querySelector('.menu-toggle');

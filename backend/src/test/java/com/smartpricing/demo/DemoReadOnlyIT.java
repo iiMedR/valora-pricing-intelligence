@@ -28,6 +28,8 @@ class DemoReadOnlyIT {
     @DynamicPropertySource static void properties(DynamicPropertyRegistry r){r.add("spring.datasource.url",()->database.getJdbcUrl().replace("/postgres","/smartpricing_demo"));r.add("spring.datasource.username",()->"smartpricing_demo");r.add("spring.datasource.password",()->password);}
     @Autowired MockMvc mvc;@Autowired JdbcTemplate jdbc;
     @Test void demoBrowsesAnonymouslyButCannotWriteOrConnectOrProvisionSecrets()throws Exception{
+        mvc.perform(get("/api/v1/saas/plans?asOf=2025-01-31")).andExpect(status().isForbidden());
+        mvc.perform(post("/api/v1/saas/entry/commit").with(csrf()).contentType("application/json").content("{}")).andExpect(status().isForbidden());
         mvc.perform(get("/api/v1/products")).andExpect(status().isOk());mvc.perform(get("/api/v1/auth/me")).andExpect(jsonPath("$.mode").value("DEMO")).andExpect(jsonPath("$.readOnly").value(true)).andExpect(jsonPath("$.authenticated").value(false));
         mvc.perform(get("/api/v1/integrations/shopify/status")).andExpect(jsonPath("$.status").value("DEMO_DISABLED"));
         mvc.perform(get("/api/v1/shopify/sync/status")).andExpect(status().isOk()).andExpect(jsonPath("$.demo").value(true)).andExpect(jsonPath("$.connected").value(false)).andExpect(jsonPath("$.shop").isEmpty());

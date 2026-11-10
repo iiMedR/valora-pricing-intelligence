@@ -12,7 +12,7 @@ class ModelAuditMigrationIT {
             configuration.target("5").load().migrate();
             try(var connection=java.sql.DriverManager.getConnection(db.getJdbcUrl(),db.getUsername(),db.getPassword());var sql=connection.createStatement()) {
                 sql.executeUpdate("UPDATE business_settings SET display_name='Retained business'");
-                String before=checksums(sql);assertThat(configuration.target("latest").load().migrate().migrationsExecuted).isEqualTo(1);
+                String before=checksums(sql);assertThat(configuration.target("6").load().migrate().migrationsExecuted).isEqualTo(1);
                 assertThat(checksums(sql)).isEqualTo(before);
                 try(var rows=sql.executeQuery("SELECT display_name FROM business_settings")){rows.next();assertThat(rows.getString(1)).isEqualTo("Retained business");}
                 try(var rows=sql.executeQuery("SELECT count(*) FROM model_evaluation_audit")){rows.next();assertThat(rows.getInt(1)).isZero();}
