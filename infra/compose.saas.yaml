@@ -1,0 +1,19 @@
+name: smartpricing-saas
+services:
+  postgres-saas:
+    image: postgres:17.7-alpine
+    environment:
+      POSTGRES_DB: smartpricing_saas
+      POSTGRES_USER: smartpricing_saas
+      POSTGRES_PASSWORD: ${SAAS_DB_PASSWORD:?Set a local SaaS database password}
+    ports:
+      - "127.0.0.1:${SAAS_POSTGRES_PORT:-5435}:5432"
+    volumes:
+      - saas_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U smartpricing_saas -d smartpricing_saas"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  saas_postgres_data:

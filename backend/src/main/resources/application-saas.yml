@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:${SAAS_POSTGRES_PORT:5435}/smartpricing_saas
+    username: smartpricing_saas
+    password: ${SAAS_DB_PASSWORD}
+server:
+  port: 8082
+  servlet:
+    session:
+      cookie:
+        name: SP_SAAS_SESSION
+app:
+  business-mode: SAAS_SUBSCRIPTION
+  saas-currency: ${SAAS_CURRENCY:MAD}
+  frontend-origin: http://localhost:4202
+  cors:
+    allowed-origins: http://localhost:4202

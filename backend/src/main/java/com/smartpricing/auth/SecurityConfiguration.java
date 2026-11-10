@@ -32,7 +32,7 @@ public class SecurityConfiguration {
         var repository=CookieCsrfTokenRepository.withHttpOnlyFalse();repository.setCookieCustomizer(c->c.secure(secure).sameSite("Lax").path("/"));return repository;
     }
     @Bean SessionAuthenticationStrategy sessionStrategy(CookieCsrfTokenRepository csrf){return new CompositeSessionAuthenticationStrategy(List.of(new ChangeSessionIdAuthenticationStrategy(),new CsrfAuthenticationStrategy(csrf)));}
-    @Bean SecurityFilterChain security(HttpSecurity http,DemoSafetyGuard guard,HttpSessionSecurityContextRepository contexts,CookieCsrfTokenRepository csrf,ObjectMapper mapper) throws Exception {
+    @Bean SecurityFilterChain security(HttpSecurity http,DemoSafetyGuard guard,HttpSessionSecurityContextRepository contexts,CookieCsrfTokenRepository csrf,ObjectMapper mapper,@Value("${server.servlet.session.cookie.name:SP_SESSION}") String sessionCookie) throws Exception {
         boolean demo=guard.demoRequested();
         if(demo)guard.requireDemo(); // Validate live identity before the web server can serve anonymous demo data.
         http.cors(c->{}).csrf(c->c.csrfTokenRepository(csrf).csrfTokenRequestHandler(new SpaCsrfHandler()))
@@ -50,12 +50,13 @@ public class SecurityConfiguration {
                 }else{
                     c.requestMatchers(HttpMethod.GET,"/api/v1/onboarding/summary","/api/v1/onboarding/readiness/variants","/api/v1/onboarding/readiness/variants/*").hasRole("ADMIN");
                     c.requestMatchers("/api/v1/shopify/sync","/api/v1/shopify/sync/**").hasRole("ADMIN");
+                    c.requestMatchers("/api/v1/saas/**").hasRole("ADMIN");
                     c.requestMatchers(HttpMethod.POST,"/api/v1/auth/login").permitAll();
                     c.requestMatchers("/api/v1/products/**","/api/v1/categories/**","/api/v1/business-settings","/api/v1/sales/**","/api/v1/analytics/**","/api/v1/forecasting/**","/api/v1/optimization/**","/api/v1/integrations/shopify/status","/api/v1/integrations/shopify/connect","/api/v1/integrations/shopify/disconnect").hasRole("ADMIN");
                 }
                 c.anyRequest().denyAll();
             });
-        if(!demo)http.logout(c->c.logoutUrl("/api/v1/auth/logout").invalidateHttpSession(true).clearAuthentication(true).deleteCookies("SP_SESSION","XSRF-TOKEN").logoutSuccessHandler((req,res,a)->res.setStatus(204)));
+        if(!demo)http.logout(c->c.logoutUrl("/api/v1/auth/logout").invalidateHttpSession(true).clearAuthentication(true).deleteCookies(sessionCookie,"XSRF-TOKEN").logoutSuccessHandler((req,res,a)->res.setStatus(204)));
         return http.build();
     }
     private void error(HttpServletResponse response,ObjectMapper mapper,int status,String code,String message)throws java.io.IOException{
