@@ -574,9 +574,7 @@ export class SubscriptionWorkspace {
     return plan.prices.filter((p) => p.effectiveDate <= this.appliedAsOf()).at(-1);
   }
   hasTrend(m: Metrics) {
-    return (
-      Number(m.mrr) > 0 || Number(m.movement['beginning']) > 0 || Number(m.movement['newMrr']) > 0
-    );
+    return m.trend.some((point) => Number(point.mrr) > 0);
   }
   points(m: Metrics) {
     const max = Math.max(1, ...m.trend.map((p) => Number(p.mrr)));

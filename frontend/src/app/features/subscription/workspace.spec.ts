@@ -259,5 +259,24 @@ describe('Subscription workspace', () => {
     });
     await f.whenStable();
     expect(f.nativeElement.querySelector('table').textContent).toContain('100.123456789012');
+    // A reactivation followed by an end can have zero beginning/ending MRR but real history.
+    const result = f.componentInstance.metrics()!;
+    f.componentInstance.metrics.set({
+      ...result,
+      mrr: '0',
+      movement: {
+        ...result.movement,
+        beginning: '0',
+        newMrr: '0',
+        reactivation: '100.123456789012',
+        churned: '100.123456789012',
+      },
+      trend: [...result.trend, { date: '2025-01-02', mrr: '0' }],
+    });
+    await f.whenStable();
+    expect(f.nativeElement.querySelector('svg')).not.toBeNull();
+    expect(f.nativeElement.textContent).not.toContain(
+      'Not enough billing history to show a meaningful trend.',
+    );
   });
 });
