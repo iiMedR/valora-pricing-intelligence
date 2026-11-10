@@ -12,6 +12,7 @@
   --success-surface: oklch(0.97 0.02 155);
   --success-foreground: oklch(0.42 0.07 155);
   --error-surface: oklch(0.97 0.02 25);
+  --error-foreground: oklch(0.43 0.16 25);
   --error-border: oklch(0.8 0.08 25);
   --radius: 0.625rem;
   --background: oklch(1 0 0);

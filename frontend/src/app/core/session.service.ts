@@ -63,6 +63,23 @@ export function safeReturnUrl(value: string | null): string {
   const parameters = new URLSearchParams(query);
   for (const [key, val] of parameters) {
     if (parameters.getAll(key).length !== 1) return '/';
+    if (path === '/saas' || path.startsWith('/saas/')) {
+      const date =
+        /^\d{4}-\d{2}-\d{2}$/.test(val) &&
+        val >= '2000-01-01' &&
+        val <= new Date().toISOString().slice(0, 10) &&
+        Number.isFinite(Date.parse(val)) &&
+        new Date(val).toISOString().slice(0, 10) === val;
+      if (
+        (['start', 'asOf'].includes(key) && date) ||
+        (key === 'search' && val.length <= 80 && !/[\u0000-\u001f@]/.test(val)) ||
+        (key === 'sort' && ['name', 'price'].includes(val)) ||
+        (key === 'page' && /^\d{1,5}$/.test(val) && Number(val) <= 10000) ||
+        (key === 'planId' && /^[A-Za-z0-9_-]{1,64}$/.test(val))
+      )
+        continue;
+      return '/';
+    }
     const catalog = path.startsWith('/products');
     const evidence = ['/analytics', '/forecasting', '/optimization'].includes(path);
     const uuid = (text: string) =>

@@ -1,4 +1,4 @@
-import { EditorState } from './editor-state';
+import { EditorState } from './editor-session';
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { SessionService } from './session.service';

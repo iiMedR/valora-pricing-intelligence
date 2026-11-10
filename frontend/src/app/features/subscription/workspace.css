@@ -38,6 +38,32 @@ p {
   padding-left: 12px;
   margin-bottom: 24px;
 }
+.source-note a {
+  margin-left: 8px;
+}
+.plan-detail {
+  margin-block: 20px;
+  max-width: 850px;
+}
+.plan-detail:focus {
+  outline: none;
+}
+.plan-detail h2 {
+  font-size: 22px;
+  margin-top: 18px;
+}
+.plan-price {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+.entry-form input.ng-invalid.ng-touched,
+.entry-form select.ng-invalid.ng-touched {
+  border-color: var(--destructive);
+}
+.table-scroll td {
+  font-variant-numeric: tabular-nums;
+}
 .controls {
   justify-content: flex-start;
   align-items: end;

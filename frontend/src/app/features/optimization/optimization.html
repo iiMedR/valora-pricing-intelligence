@@ -62,6 +62,18 @@
       · Historical demo
     }
   </p>
+  @if (isDemo()) {
+    <details class="demo-explanation">
+      <summary>How to read this demo</summary>
+      <p>
+        The sample shows why price suggestions may be withheld: some price patterns cannot be
+        separated from calendar effects; other variants are inactive, lack a reference price, or
+        have unreliable price sensitivity. Review an item for its actual reason. Adding records
+        alone does not guarantee a recommendation.
+      </p>
+      <a routerLink="/onboarding">Review data readiness</a>
+    </details>
+  }
   <div class="result-controls">
     <div role="group" aria-label="Pricing result view">
       <button

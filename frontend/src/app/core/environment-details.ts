@@ -29,6 +29,15 @@ import type { ApplicationEnvironment } from './environment-indicator';
         }}
       </p>
       <a href="http://localhost:4200">Open normal workspace</a>
+    } @else if (environment().businessMode === 'SAAS_SUBSCRIPTION') {
+      <p>
+        <strong>SaaS subscriptions</strong> · A separate business installation with manual
+        subscription history.
+      </p>
+      <p>
+        No live billing provider is connected. Metrics reflect the records entered here;
+        subscription price optimization has not been validated.
+      </p>
     } @else {
       <p>Your business records. Looking for seeded examples?</p>
       <a href="http://localhost:4201/products">Open the read-only synthetic demo</a>

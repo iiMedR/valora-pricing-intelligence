@@ -24,7 +24,13 @@ export interface ApplicationEnvironment {
         aria-haspopup="dialog"
         (click)="detailsOpen.set(true)"
       >
-        {{ mode.synthetic ? 'Demo · Read-only' : 'Normal workspace' }}
+        {{
+          mode.synthetic
+            ? 'Demo · Read-only'
+            : mode.businessMode === 'SAAS_SUBSCRIPTION'
+              ? 'SaaS workspace'
+              : 'Normal workspace'
+        }}
       </button>
       @if (detailsOpen()) {
         @defer {

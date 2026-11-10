@@ -15,33 +15,37 @@
                   : 'Subscription overview'
       }}
     </h1>
-    <p class="muted">
-      {{
-        section() === 'insights'
-          ? 'Understand the evidence before reviewing a plan price.'
-          : 'Your subscription business, based on recorded history.'
-      }}
-    </p>
+    @if (section() === '' || section() === 'insights') {
+      <p class="muted">
+        {{
+          section() === 'insights'
+            ? 'What we know about plan pricing, and what evidence is still missing.'
+            : 'Recurring revenue and paid subscriptions from your recorded history.'
+        }}
+      </p>
+    }
   </div>
   @if (section() !== 'settings') {
     <a z-button routerLink="/saas/settings">Add subscription data</a>
   }
 </header>
 <p class="source-note">
-  Manual source · Partial history. No live billing provider is connected. Values exclude records you
-  have not entered.
+  Manual history · Partial coverage
+  <a routerLink="/saas/settings" [queryParams]="contextQuery()">Source details</a>
 </p>
 @if (error()) {
-  <div role="alert" class="error">
+  <div id="subscription-feedback" role="alert" class="error" tabindex="-1">
     {{ error() }}
-    <button z-button zType="outline" (click)="load()" [disabled]="busy()">Retry loading</button>
+    @if (!entryFailure()) {
+      <button z-button zType="outline" (click)="load()" [disabled]="busy()">Retry loading</button>
+    }
   </div>
 }
 @if (message()) {
   <p role="status" class="notice">{{ message() }}</p>
 }
 @if (section() !== 'settings') {
-  <form class="controls" (ngSubmit)="load(true)">
+  <form class="controls" (ngSubmit)="update()">
     @if (section() === '' || section() === 'revenue') {
       <label
         >From<input z-input type="date" name="start" [(ngModel)]="start" required [max]="asOf"
@@ -66,6 +70,12 @@
     }
     <button z-button zType="outline" type="submit">Update</button>
   </form>
+}
+@if (section() !== 'settings' && selectionChanged()) {
+  <p role="status">
+    Selection changed. Choose Update to refresh the report; the values below still use the previous
+    selection.
+  </p>
 }
 @if (loading()) {
   <p role="status">Loading subscription records…</p>
@@ -112,6 +122,9 @@
         {{ m.start }} – {{ m.asOf }} · {{ m.currency }} · Run rate, not accounting revenue
       </p>
       @if (m.trend.length && hasTrend(m)) {
+        <p class="muted">
+          Scale: 0–{{ peak(m) | number: '1.2-2' }} {{ m.currency }} MRR. Exact daily values below.
+        </p>
         <svg viewBox="0 0 760 210" role="img" aria-labelledby="mrr-title">
           <title id="mrr-title">
             Recorded MRR trend in {{ m.currency }}, {{ m.start }} to {{ m.asOf }}. Exact values
@@ -138,14 +151,14 @@
             <thead>
               <tr>
                 <th>Date (UTC)</th>
-                <th>MRR</th>
+                <th>MRR (unrounded)</th>
               </tr>
             </thead>
             <tbody>
               @for (p of m.trend; track p.date) {
                 <tr>
                   <td>{{ p.date }}</td>
-                  <td>{{ p.mrr | number: '1.4-4' }}</td>
+                  <td>{{ p.mrr }}</td>
                 </tr>
               }
             </tbody>
@@ -267,120 +280,199 @@
   }
 }
 @if (plans(); as result) {
-  <p class="muted">
-    {{ result.totalElements }} matching plans · Page {{ page + 1 }} · Values as of {{ asOf }}
-  </p>
-  @for (plan of result.content; track plan.id) {
-    <article class="plan-row">
-      <div>
+  @if (planId()) {
+    <section id="plan-detail" class="plan-detail" tabindex="-1" aria-label="Plan detail">
+      <button z-button zType="ghost" (click)="backToPlans()">← Back to plans</button>
+      @if (selectedPlan(); as plan) {
         <h2>{{ plan.name }}</h2>
-        <p class="muted">{{ plan.id }} · {{ plan.archived ? 'Archived' : 'Active plan' }}</p>
+        <p class="muted">
+          {{ plan.archived ? 'Archived plan' : 'Active plan' }} · As of
+          {{ appliedAsOf() | date: 'd MMM y' : 'UTC' }}
+        </p>
         @if (current(plan); as price) {
-          <p>
+          <p class="plan-price">
             {{ price.amount | number: '1.2-2' }} {{ price.currency }} /
             {{ price.interval === 'YEARLY' ? 'year' : 'month' }}
-            <span class="muted">· {{ price.id }}</span>
+          </p>
+          <p class="muted">
+            Current plan price · Effective {{ price.effectiveDate | date: 'd MMM y' : 'UTC' }}
           </p>
         } @else {
-          <p>No price version effective on this date.</p>
+          <p>No plan price is effective on this date.</p>
         }
+        <p>
+          {{ plan.activeSubscriptions }} active paid subscriptions ·
+          {{ plan.mrr | number: '1.2-2' }} {{ plan.prices[0]?.currency }} MRR
+        </p>
+        <p class="muted">
+          Subscribers keep their assigned price version until a plan change is recorded.
+        </p>
         @if (section() === 'insights') {
           <p class="status">Needs evidence</p>
-          <p>Plan pricing has not been evaluated by a validated SaaS model.</p>
-        } @else {
-          <p>
-            {{ plan.activeSubscriptions }} active paid subscriptions ·
-            {{ plan.mrr | number: '1.2-2' }}
-            {{ current(plan)?.currency ?? plan.prices[0]?.currency }} MRR
-          </p>
-          <details>
-            <summary>Price history</summary>
-            <ul>
-              @for (p of plan.prices; track p.id) {
-                <li>
-                  {{ p.effectiveDate }} · {{ p.id }} · {{ p.amount | number: '1.4-4' }}
-                  {{ p.currency }} / {{ p.interval === 'YEARLY' ? 'year' : 'month' }}
-                </li>
-              }
-            </ul>
-            <p class="muted">
-              New versions do not automatically move existing subscribers. Subscriber counts and run
-              rate use partial recorded paid history.
-            </p>
-            <button z-button zType="outline" (click)="history(plan)" [disabled]="trendBusy()">
-              Inspect subscriber trend
-            </button>
-            @if (planTrend(); as h) {
-              @if (h.planId === plan.id) {
-                <div
-                  class="table-scroll"
-                  tabindex="0"
-                  role="region"
-                  aria-label="Plan subscriber history"
-                >
-                  <table>
-                    <caption>
-                      Recorded subscriber trend ·
-                      {{
-                        h.currency
-                      }}
-                    </caption>
-                    <thead>
-                      <tr>
-                        <th>Date</th>
-                        <th>Paid subscriptions</th>
-                        <th>MRR</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @for (point of h.trend; track point.date) {
-                        <tr>
-                          <td>{{ point.date }}</td>
-                          <td>{{ point.activePaidSubscriptions }}</td>
-                          <td>{{ point.mrr | number: '1.2-2' }}</td>
-                        </tr>
-                      }
-                    </tbody>
-                  </table>
-                </div>
-              }
-            }
-          </details>
+          <p>No validated SaaS pricing model is available.</p>
+          <button z-button zType="outline" (click)="why.set(plan)">Why this result?</button>
         }
-      </div>
-      @if (section() === 'insights') {
-        <button z-button zType="outline" (click)="why.set(plan)">Why this result?</button>
+        <details class="panel">
+          <summary>Price history</summary>
+          <ul>
+            @for (p of plan.prices; track p.id) {
+              <li>
+                {{ p.amount | number: '1.2-2' }} {{ p.currency }} /
+                {{ p.interval === 'YEARLY' ? 'year' : 'month' }} ·
+                {{ p.effectiveDate | date: 'd MMM y' : 'UTC' }} ·
+                {{
+                  p.id === current(plan)?.id
+                    ? 'Current plan price'
+                    : p.effectiveDate > appliedAsOf()
+                      ? 'Scheduled price'
+                      : 'Historical price'
+                }}
+              </li>
+            }
+          </ul>
+        </details>
+        <details>
+          <summary>Source references and exact prices</summary>
+          <p>Plan ID: {{ plan.id }}</p>
+          <ul>
+            @for (p of plan.prices; track p.id) {
+              <li>
+                Price version {{ p.id }} · {{ p.amount }} {{ p.currency }} /
+                {{ p.interval === 'YEARLY' ? 'year' : 'month' }} · Effective {{ p.effectiveDate }}
+              </li>
+            }
+          </ul>
+        </details>
+        <section class="panel">
+          <h3>Recorded subscriber trend</h3>
+          <p class="muted">
+            The 30 days ending {{ appliedAsOf() | date: 'd MMM y' : 'UTC' }}. Partial recorded
+            history, not a customer cohort.
+          </p>
+          <button z-button zType="outline" (click)="history(plan)" [disabled]="trendBusy()">
+            Inspect subscriber trend
+          </button>
+          @if (trendBusy()) {
+            <p role="status">Loading plan history…</p>
+          }
+          @if (planTrend(); as h) {
+            @if (h.planId === plan.id) {
+              <div
+                class="table-scroll"
+                tabindex="0"
+                role="region"
+                aria-label="Plan subscriber history"
+              >
+                <table>
+                  <caption>
+                    Recorded subscriber trend ·
+                    {{
+                      h.currency
+                    }}
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Paid subscriptions</th>
+                      <th>MRR (unrounded)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (point of h.trend; track point.date) {
+                      <tr>
+                        <td>{{ point.date }}</td>
+                        <td>{{ point.activePaidSubscriptions }}</td>
+                        <td>{{ point.mrr }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            }
+          }
+        </section>
+        <a routerLink="/saas/subscriptions" [queryParams]="{ asOf: appliedAsOf() }"
+          >View recorded subscriptions</a
+        >
+      } @else {
+        <h2>Plan is not in these results</h2>
+        <p>Return to the list to change the search or page.</p>
       }
-    </article>
-  } @empty {
-    <section class="notice">
-      <h2>No matching plans</h2>
-      <p>Add your first plan or change the search.</p>
-      <a routerLink="/saas/settings">Add a plan</a>
     </section>
+  } @else {
+    <p class="muted">
+      {{ result.totalElements }} matching plans · Page {{ page + 1 }} · As of
+      {{ appliedAsOf() | date: 'd MMM y' : 'UTC' }}
+    </p>
+    @for (plan of result.content; track plan.id) {
+      <article class="plan-row">
+        <div>
+          <h2>{{ plan.name }}</h2>
+          <p class="muted">{{ plan.archived ? 'Archived plan' : 'Active plan' }}</p>
+          @if (current(plan); as price) {
+            <p>
+              {{ price.amount | number: '1.2-2' }} {{ price.currency }} /
+              {{ price.interval === 'YEARLY' ? 'year' : 'month' }}
+            </p>
+          } @else {
+            <p>No price is effective on this date.</p>
+          }
+          @if (section() === 'insights') {
+            <p class="status">Needs evidence</p>
+            <p>Plan pricing has not been evaluated by a validated SaaS model.</p>
+          } @else {
+            <p>
+              {{ plan.activeSubscriptions }} active paid subscriptions ·
+              {{ plan.mrr | number: '1.2-2' }} {{ plan.prices[0]?.currency }} MRR
+            </p>
+          }
+        </div>
+        <button z-button zType="outline" [id]="'plan-open-' + plan.id" (click)="review(plan)">
+          Review plan<span class="sr-only"> {{ plan.name }}</span>
+        </button>
+      </article>
+    } @empty {
+      <section class="notice">
+        <h2>No matching plans</h2>
+        @if (search) {
+          <p>Try another plan name or clear the search.</p>
+          <button z-button zType="outline" (click)="clearSearch()">Clear search</button>
+        } @else {
+          <p>Add your first plan price to begin.</p>
+          <a routerLink="/saas/settings">Add a plan</a>
+        }
+      </section>
+    }
+    <div class="pagination">
+      <button z-button zType="outline" [disabled]="page === 0" (click)="next(-1)">Previous</button
+      ><button
+        z-button
+        zType="outline"
+        [disabled]="(page + 1) * 10 >= result.totalElements"
+        (click)="next(1)"
+      >
+        Next
+      </button>
+    </div>
   }
-  <div class="pagination">
-    <button z-button zType="outline" [disabled]="page === 0" (click)="next(-1)">Previous</button
-    ><button
-      z-button
-      zType="outline"
-      [disabled]="(page + 1) * 10 >= result.totalElements"
-      (click)="next(1)"
-    >
-      Next
-    </button>
-  </div>
 }
 @if (subscribers(); as result) {
-  <p class="muted">{{ result.totalElements }} matching subscriptions · As of {{ asOf }}</p>
+  <p class="muted">{{ result.totalElements }} matching subscriptions · As of {{ appliedAsOf() }}</p>
   @for (s of result.content; track s.id) {
     <article class="plan-row">
       <div>
-        <h2>{{ s.id }}</h2>
-        <p>{{ s.plan }} · {{ s.interval === 'YEARLY' ? 'Yearly' : 'Monthly' }}</p>
-        <p>{{ state(s.status) }} · Effective {{ s.since }}</p>
+        <h2>Subscription {{ s.id }}</h2>
+        <p>{{ s.interval === 'YEARLY' ? 'Yearly billing' : 'Monthly billing' }}</p>
+        <p>{{ state(s.status) }} · Effective {{ s.since | date: 'd MMM y' : 'UTC' }}</p>
+        <details>
+          <summary>Plan reference</summary>
+          <p>Plan ID: {{ s.plan }}. This source does not supply a customer name.</p>
+        </details>
         @if (s.scheduledEnd) {
-          <p>Scheduled end: {{ s.scheduledEnd }}. Remains active until this date.</p>
+          <p>
+            Scheduled end: {{ s.scheduledEnd | date: 'd MMM y' : 'UTC' }}. Remains active until this
+            date.
+          </p>
         }
       </div>
       <p>
@@ -407,8 +499,8 @@
   </div>
 }
 @if (section() === 'settings') {
-  <section class="panel">
-    <h2>Set up your subscription history</h2>
+  <details class="panel">
+    <summary>Setup and supported records</summary>
     <ol>
       <li>Installation type: SaaS subscriptions. This installation cannot switch to e-commerce.</li>
       <li>
@@ -422,32 +514,26 @@
       Manual template version 1 · Maximum 2,000 operations. No CSV or live billing sync. Source
       coverage remains partial.
     </p>
-  </section>
+  </details>
   <section class="panel">
     <h2>Add one record</h2>
+    <p>Start with a plan price, then record a subscription start and a real paid charge.</p>
     <p>
       Use opaque IDs from your source, never emails, customer names, card details or API secrets.
       Existing source IDs replay only if the whole record is identical.
     </p>
-    <form class="entry-form" (ngSubmit)="submit()">
+    <form #entryForm="ngForm" class="entry-form" (ngSubmit)="submit()">
       <label
         >Record type<select
           name="type"
+          aria-label="Record type"
           [(ngModel)]="entry.type"
           (ngModelChange)="changeType()"
           [disabled]="busy()"
         >
           @for (t of types; track t) {
             <option [value]="t">
-              {{
-                t === 'PLAN'
-                  ? 'Plan / new price version'
-                  : t === 'PAID'
-                    ? 'Paid charge'
-                    : t === 'CANCEL'
-                      ? 'Schedule effective cancellation'
-                      : t.toLowerCase()
-              }}
+              {{ recordLabel(t) }}
             </option>
           }
         </select></label
@@ -549,12 +635,16 @@
         /></label>
       }
       <p class="form-help">
-        One lifecycle transition per subscription per day, appended in date order. CANCEL uses the
-        effective end date and the previous price version. Scheduled ends cannot be silently
-        revised; preview explains invalid entries.
+        Find plan and price IDs under Plans → Review plan → Source references. One lifecycle
+        transition per subscription per day, appended in date order. CANCEL uses the effective end
+        date and the previous price version. Scheduled ends cannot be silently revised; preview
+        explains invalid entries.
       </p>
-      <button z-button type="submit" [disabled]="busy() || loading()">
+      <button z-button type="submit" [disabled]="busy() || loading() || !metrics()">
         {{ busy() ? 'Checking…' : 'Validate & preview' }}
+      </button>
+      <button z-button zType="outline" type="button" (click)="clearEntry()" [disabled]="busy()">
+        Clear entry
       </button>
     </form>
   </section>
@@ -563,9 +653,12 @@
   <dialog appModal (modalCancelled)="closePreview()" aria-labelledby="preview-title">
     <h2 id="preview-title">Review before recording</h2>
     <p>{{ p.receipt.message }}</p>
+    @if (busy()) {
+      <p role="status">Recording entry… Wait for the result before leaving.</p>
+    }
     <dl>
       <dt>Record</dt>
-      <dd>{{ p.entry.type }} · {{ p.entry.sourceId }}</dd>
+      <dd>{{ recordLabel(p.entry.type) }} · {{ p.entry.sourceId }}</dd>
       <dt>Effective date</dt>
       <dd>{{ p.entry.effectiveDate }}</dd>
       <dt>Identity</dt>

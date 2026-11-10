@@ -1,4 +1,4 @@
-import { editorLeaveGuard } from './core/editor-state';
+import { editorLeaveGuard } from './core/editor-session';
 import { Routes } from '@angular/router';
 import { authGuard, writeGuard } from './core/auth-integration';
 export const routes: Routes = [
@@ -12,7 +12,9 @@ export const routes: Routes = [
   ].map((path) => ({
     path,
     canActivate: [authGuard],
-    canDeactivate: [(component: { busy: () => boolean }) => !component.busy()],
+    canDeactivate: [
+      (component: { canLeave: () => boolean | Promise<boolean> }) => component.canLeave(),
+    ],
     loadComponent: () =>
       import('./features/subscription/workspace').then((m) => m.SubscriptionWorkspace),
     title: 'Subscriptions | SmartPricing',

@@ -357,7 +357,7 @@
     overflow-wrap: anywhere;
   }
   .error {
-    color: var(--destructive);
+    color: var(--error-foreground);
     background: var(--error-surface);
     border: 1px solid var(--error-border);
     margin: 20px 0;

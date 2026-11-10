@@ -59,6 +59,13 @@ export interface SyncStatus {
             }}
           </p>
           <p class="muted">
+            {{
+              sync.liveValidation === 'LIVE_SHOPIFY_NOT_VERIFIED'
+                ? 'Live store sync has not been verified with a real Shopify store.'
+                : 'Live store verification status is unavailable.'
+            }}
+          </p>
+          <p class="muted">
             Required read scopes: {{ sync.requiredScopes.join(', ') }}. Import progress and
             readiness are assessed separately.
           </p>
