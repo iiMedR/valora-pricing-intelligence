@@ -77,7 +77,7 @@ class LowDataBenchmarkTest {
             }
         }
         save("trials.csv",trials.toString());save("fixture-hashes.csv",hashes.toString());save("timing.csv",timing.toString());
-        save("run-metadata.txt","fixtureVersion="+ResearchFixtures.VERSION+"\ncases="+cases+"\nrows="+rows+"\nheldoutSeeds=1001..1012\njava="+System.getProperty("java.version")+"\nelapsedNanos="+(System.nanoTime()-started)+"\nproductionSourceUnchanged=true\n");
+        save("run-metadata.txt","fixtureVersion="+ResearchFixtures.VERSION+"\ncases="+cases+"\nrows="+rows+"\nheldoutSeeds=1001..1012\njava="+System.getProperty("java.version")+"\nelapsedNanos="+(System.nanoTime()-started)+"\noptimizerPolicy="+OptimizationService.VERSION+"\nresearchComparatorsOnly=true\n");
         System.out.println("RESEARCH_RUN cases="+cases+" rows="+rows+" output="+output().toAbsolutePath()+" elapsedSeconds="+(System.nanoTime()-started)/1e9);
         assertThat(cases).isEqualTo(ResearchFixtures.Kind.values().length*15);
     }

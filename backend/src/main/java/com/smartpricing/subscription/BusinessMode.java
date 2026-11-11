@@ -47,7 +47,7 @@ public class BusinessMode implements ApplicationRunner, HandlerInterceptor, WebM
     @Override public boolean preHandle(HttpServletRequest request,HttpServletResponse response,Object handler) {
         String p=java.util.Objects.toString(request.getAttribute(org.springframework.web.servlet.HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE),request.getServletPath());
         if(p.startsWith("/api/v1/saas")) { requireSaas(); return true; }
-        if(mode().equals("SAAS_SUBSCRIPTION") && (p.matches("/api/v1/(products|categories|sales|analytics|forecasting|optimization|onboarding|shopify|integrations|demo)(/.*)?") || (p.equals("/api/v1/business-settings")&&!request.getMethod().equals("GET"))))
+        if(mode().equals("SAAS_SUBSCRIPTION") && (p.matches("/api/v1/(products|categories|sales|analytics|forecasting|optimization|onboarding|shopify|integrations|demo|guidance)(/.*)?") || (p.equals("/api/v1/business-settings")&&!request.getMethod().equals("GET"))))
             throw ApiException.conflict("BUSINESS_MODE_MISMATCH","Use the subscription workspace for this installation.");
         return true;
     }
