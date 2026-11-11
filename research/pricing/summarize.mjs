@@ -23,4 +23,3 @@ const production=rows.filter(r=>r.method==='A_PRODUCTION'&&r.policyActionable===
 await writeFile(new URL('production-candidates.json',root),JSON.stringify({label:'Actual allowed production prices, synthetic expected-curve comparison only',summary:stats(production.map(r=>r.regret)),trials:production},null,2)+'\n');
 await writeFile(new URL('summary.json',root),JSON.stringify({split:'TEST',seeds:'1001..1012',intervalCaveat:'Conditional approximate coverage of local synthetic targets; NOT calibrated confidence or causal identification. Mixed scenarios are not a population performance estimate.',methods,pairedOnProductionAvailable:paired,scenarios},null,2)+'\n');
 console.log(JSON.stringify(methods,null,2));
-

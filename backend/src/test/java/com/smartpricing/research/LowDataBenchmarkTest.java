@@ -100,4 +100,3 @@ class LowDataBenchmarkTest {
         save("deterministic-calculators.csv","label,value\n"+csv("contribution_gross120_tax20pct_variable40_shipping5_fixedFee1_fee2pct",DecisionSupportResearchTest.contribution(new BigDecimal("120"),costs))+csv("breakEvenUnits_fixedOverhead1000",DecisionSupportResearchTest.breakEven(new BigDecimal("51.6"),costs.fixedOverhead()))+csv("grossPriceFor40pctContributionMargin",DecisionSupportResearchTest.targetGross(costs,new BigDecimal(".4")))+csv("unknownVariableCost","UNAVAILABLE"));
     }
 }
-
