@@ -7,7 +7,7 @@ import java.util.*;
 /** Fixed specification; no data-driven feature search or future observations. */
 public final class ControlledElasticity {
     public static final String VERSION="weekday-season-trend-qr-v2";
-    public record Fit(double beta,double rmse,double calendarR2,double residualPriceSd,int degreesOfFreedom) {}
+    public record Fit(double beta,double rmse,double calendarR2,double residualPriceSd,int degreesOfFreedom,Double maxPriceMeanResidual) {}
     public static Fit fit(List<Day> days,double tolerance) {
         int n=days.size(),k=13;
         if(n<Math.max(90,10*k))throw new IllegalArgumentException("Insufficient effective sample size");
@@ -35,8 +35,15 @@ public final class ControlledElasticity {
         }
         double[] b=new double[k];for(int j=0;j<k;j++)for(int i=0;i<n;i++)b[j]+=q[j][i]*y[i];
         for(int j=k-1;j>=0;j--){for(int l=j+1;l<k;l++)b[j]-=r[j][l]*b[l];b[j]/=r[j][j];}
-        double error=0;for(int i=0;i<n;i++){double p=0;for(int j=0;j<k;j++)p+=x[i][j]*b[j];error+=Math.pow(y[i]-p,2);}
-        return new Fit(b[k-1],Math.sqrt(error/n),variance==0?1:Math.max(0,1-residualPrice/variance),Math.sqrt(residualPrice/n),n-k);
+        Map<String,double[]> tiers=new HashMap<>();
+        double error=0;for(int i=0;i<n;i++){
+            double p=0;for(int j=0;j<k;j++)p+=x[i][j]*b[j];double residual=y[i]-p;error+=residual*residual;
+            String price=new java.math.BigDecimal(days.get(i).effectivePrice()).stripTrailingZeros().toPlainString();
+            var tier=tiers.computeIfAbsent(price,key->new double[2]);tier[0]+=residual;tier[1]++;
+        }
+        var replicated=tiers.values().stream().filter(t->t[1]>=15).toList();
+        Double shape=replicated.size()<3?null:replicated.stream().mapToDouble(t->Math.abs(t[0]/t[1])).max().orElseThrow();
+        return new Fit(b[k-1],Math.sqrt(error/n),variance==0?1:Math.max(0,1-residualPrice/variance),Math.sqrt(residualPrice/n),n-k,shape);
     }
     private ControlledElasticity() {}
 }

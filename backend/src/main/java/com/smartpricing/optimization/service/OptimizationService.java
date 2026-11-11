@@ -20,6 +20,7 @@ import static com.smartpricing.optimization.service.ContributionOptimizer.decima
 @EnableConfigurationProperties(OptimizationSettings.class)
 @Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ)
 public class OptimizationService {
+    public static final String VERSION="constrained-contribution-v2";
     private final ForecastService forecasts;private final DemandModel model;private final OptimizationRepository repository;
     private final ContributionOptimizer optimizer;private final OptimizationSettings settings;
     public OptimizationService(ForecastService forecasts,DemandModel model,OptimizationRepository repository,ContributionOptimizer optimizer,OptimizationSettings settings){this.forecasts=forecasts;this.model=model;this.repository=repository;this.optimizer=optimizer;this.settings=settings;}
@@ -67,6 +68,7 @@ public class OptimizationService {
             Double earlier=model.analyze(days.subList(0,days.size()-28)).elasticity().estimate();
             if(earlier==null||Math.abs(e-earlier)>settings.maxStabilityDelta())blockers.put("ELASTICITY_SUBWINDOW_UNSTABLE",Status.DIAGNOSTIC_ONLY);
         }
+        if(e!=null)for(String reason:model.optimizationDiagnostics(analysis,settings.maxStabilityDelta()))blockers.put(reason,Status.DIAGNOSTIC_ONLY);
         if(folds.size()!=2||folds.stream().anyMatch(f->!f.status().equals("EVALUATED")||f.censoredDays()>0||f.unknownDays()>0||f.model()==null||f.naive()==null||f.model().wapePercent()==null||f.model().wapePercent()>settings.maxBacktestWape()||f.model().mae()>settings.maxBacktestMaeRatio()*f.naive().mae()))blockers.put("BACKTEST_EVIDENCE_INSUFFICIENT",Status.DIAGNOSTIC_ONLY);
         if(market==null||market.stock()==null||market.stock()<=0||"INFERRED".equals(market.stockQuality())||old(market.stockAt(),at,Duration.ofHours(settings.maxStockAgeHours())))blockers.put("NO_FRESH_TRUSTED_POSITIVE_STOCK",Status.DIAGNOSTIC_ONLY);
         if(market!=null&&market.price()!=null&&market.price().signum()>0){
@@ -90,7 +92,7 @@ public class OptimizationService {
         }
         if(status!=Status.ACTIONABLE){recommended=null;comparison=null;sensitivity=List.of();}
         var inputs=new Inputs(market==null?null:decimal(market.price()),market==null?null:decimal(market.cost()),market==null?null:market.priceFrom(),market==null?null:market.costFrom(),market==null?null:market.stock(),market==null?null:market.stockAt(),market==null?null:market.stockQuality(),market==null?null:decimal(market.min()),market==null?null:decimal(market.max()),decimal(lower),decimal(upper),decimal(q));
-        return new Evaluation(identity,input.window(),horizon,at,"constrained-contribution-v1",status,List.copyOf(blockers.keySet()),List.of("OBSERVED_SALES_CONDITIONAL_ON_AVAILABILITY","NO_CAUSAL_ELASTICITY_PROOF","NO_CALIBRATED_INTERVAL","HORIZON_STOCK_CAP_NO_REPLENISHMENT","EXCLUDES_RETURNS_TAX_SHIPPING_FEES_MARKETING_OVERHEAD","CURRENT_CATALOG_POLICIES_EVENT_TIME_HISTORY","ESTIMATED_NOT_REALIZED_UPLIFT"),inputs,recommended,comparison,elasticity,forecast,folds,sensitivity);
+        return new Evaluation(identity,input.window(),horizon,at,VERSION,status,List.copyOf(blockers.keySet()),List.of("OBSERVED_SALES_CONDITIONAL_ON_AVAILABILITY","NO_CAUSAL_ELASTICITY_PROOF","NO_CALIBRATED_INTERVAL","HORIZON_STOCK_CAP_NO_REPLENISHMENT","EXCLUDES_RETURNS_TAX_SHIPPING_FEES_MARKETING_OVERHEAD","CURRENT_CATALOG_POLICIES_EVENT_TIME_HISTORY","ESTIMATED_NOT_REALIZED_UPLIFT"),inputs,recommended,comparison,elasticity,forecast,folds,sensitivity);
     }
     private boolean old(Instant from,Instant at,Duration age){return from==null||from.isAfter(at)||from.isBefore(at.minus(age));}
     private boolean mismatch(BigDecimal actual,BigDecimal reference){return actual.subtract(reference).abs().divide(reference,12,RoundingMode.HALF_UP).compareTo(BigDecimal.valueOf(settings.maxReferenceMismatch()))>0;}

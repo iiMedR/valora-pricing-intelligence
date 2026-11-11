@@ -68,6 +68,9 @@ public class DemandModel {
         return new Analysis(List.copyOf(history),readiness,new Elasticity(estimate==null?status:"READY",ControlledElasticity.VERSION,estimate,rmse,fit.size(),null,null,readiness,List.copyOf(reasons),identification));
     }
     public List<Day> baselineTraining(Analysis analysis) { return recent(analysis.history()); }
+    public List<String> optimizationDiagnostics(Analysis analysis,double stabilityDelta) {
+        return ResponseDiagnostics.assess(analysis,settings.rankTolerance(),stabilityDelta);
+    }
     private List<Day> recent(List<Day> history) {
         if(history.isEmpty())return List.of();
         LocalDate from=history.getLast().date().plusDays(1).minusDays(settings.lookbackDays());

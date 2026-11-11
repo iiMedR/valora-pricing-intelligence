@@ -27,7 +27,7 @@ public class EvaluationAudit {
         var input=forecasts.input(variant,start==null?until.minusDays(365):start,until);
         var market=markets.inputs(List.of(variant),until.atStartOfDay(ZoneOffset.UTC).toInstant().minusNanos(1000),input.window().currencyCode()).get(variant);
         var result=optimization.evaluate(input,market,horizon);
-        String config=json(Map.of("forecast",forecastSettings,"optimization",optimizationSettings,"estimator",ControlledElasticity.VERSION,"auditContract","evaluation-audit-v1","minimumResidualLogPriceSd",.03,"minimumObservationsPerParameter",10));
+        String config=json(Map.of("forecast",forecastSettings,"optimization",optimizationSettings,"estimator",ControlledElasticity.VERSION,"auditContract","evaluation-audit-v1","minimumResidualLogPriceSd",.03,"minimumObservationsPerParameter",10,"optimizerPolicy",OptimizationService.VERSION,"responseDiagnostics",ResponseDiagnostics.VERSION));
         String fingerprint=hash(json(input)+"\n"+json(market)+"\n"+horizon+"\n"+config);
         UUID id=UUID.randomUUID();
         jdbc.update("INSERT INTO model_evaluation_audit(id,variant_id,fingerprint,model_version,configuration,result) VALUES(?,?,?,?,CAST(? AS jsonb),CAST(? AS jsonb)) ON CONFLICT(fingerprint) DO NOTHING",id,variant,fingerprint,ControlledElasticity.VERSION,config,json(result));
