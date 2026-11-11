@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
 class LowDataBenchmarkTest {
+    // Freeze HTTP-support classification to this audit date; future reruns must not relabel fixtures.
+    static final LocalDate BENCHMARK_AS_OF=LocalDate.of(2026,11,13);
     static final DemandModel MODEL=new DemandModel(ForecastSettings.defaults());
     static final OptimizationService BASELINE=new OptimizationService(null,MODEL,null,new ContributionOptimizer(),OptimizationSettings.defaults());
     static Path output() {return Path.of(System.getProperty("pricing.research.output","target/pricing-research"));}
@@ -52,7 +54,7 @@ class LowDataBenchmarkTest {
             var id=new Identity(UUID.nameUUIDFromBytes((kind+"/"+seed).getBytes(StandardCharsets.UTF_8)),UUID.fromString("aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"),"Research only","Synthetic",kind.name(),"ACTIVE","ACTIVE");
             var market=new Market(new BigDecimal("50"),new BigDecimal("150"),new BigDecimal("100"),kind==ResearchFixtures.Kind.REFUNDS_MISSING_COST?null:new BigDecimal("40"),at.minus(Duration.ofDays(1)),at.minus(Duration.ofDays(1)),1000000,at.minus(Duration.ofHours(1)),"SNAPSHOT");
             long before=System.nanoTime();var evaluation=BASELINE.evaluate(new ForecastService.Input(id,new Window(start,end,"UTC","MAD"),days),market,30);long nanos=System.nanoTime()-before;
-            boolean api=days.size()<=731&&!end.isAfter(LocalDate.now(ZoneOffset.UTC).plusDays(1));
+            boolean api=days.size()<=731&&!end.isAfter(BENCHMARK_AS_OF.plusDays(1));
             boolean actionable=api&&evaluation.status().name().equals("ACTIONABLE");var readiness=evaluation.elasticity().readiness();
             if(evaluation.status().name().equals("ACTIONABLE"))assertThat(evaluation.comparison()).isNotNull();else{assertThat(evaluation.recommendedPrice()).isNull();assertThat(evaluation.comparison()).isNull();assertThat(evaluation.sensitivity()).isEmpty();}
             assertThat(evaluation.elasticity().confidenceLow()).isNull();assertThat(evaluation.elasticity().confidenceHigh()).isNull();

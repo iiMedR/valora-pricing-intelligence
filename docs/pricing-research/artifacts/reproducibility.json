@@ -1,0 +1,27 @@
+[
+  {
+    "File": "trials.csv",
+    "SHA256": "104B856C704240DA5045C08D6A7EA053476ED8772D0E5616CD4CBA3DEBE6AD7C",
+    "Reproduced": true
+  },
+  {
+    "File": "fixture-hashes.csv",
+    "SHA256": "9818EA5F7AFF33062FE17A1F69A575AA341E01AB2EA193D452A4CD3A5FEDF21B",
+    "Reproduced": true
+  },
+  {
+    "File": "assumed-scenarios.csv",
+    "SHA256": "AE1733D1C95A5ED7273F7967EE938B530C72ADDE017BF4F660F43B091BB0AA1C",
+    "Reproduced": true
+  },
+  {
+    "File": "experiment-simulation.csv",
+    "SHA256": "8D25E7664E1C6078D7DF3B48942DD6D205FBA38A8A74DB54CA826FEE3D86DA42",
+    "Reproduced": true
+  },
+  {
+    "File": "deterministic-calculators.csv",
+    "SHA256": "1D7B1136E1D13AE63F62A1823587A210A5EA77BF5DC8B9FD8A6FD1366BD82A34",
+    "Reproduced": true
+  }
+]

@@ -1,0 +1,17 @@
+FULL BACKEND VERIFY: 2026-11-13, Java21.0.11, mvnw.cmd verify
+[INFO] Tests run: 100, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 62, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  10:54 min
+[INFO] Finished at: 2026-11-13T22:10:08Z
+FINAL RESEARCH RERUN: mvnw.cmd -Dtest=LowDataBenchmarkTest,DecisionSupportResearchTest test
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  25.988 s
+[INFO] Finished at: 2026-11-13T22:10:54Z
+FRONTEND: npm.cmd test --prefix frontend -- --watch=false; npm.cmd run build --prefix frontend
+milestone1111-build.log:                    | Initial total          | 451.51 kB |               115.58 kB
+milestone1111-build.log:Application bundle generation complete. [17.004 seconds] - 2026-11-13T21:41:28.980Z
+milestone1111-frontend.log:Application bundle generation complete. [20.202 seconds] - 2026-11-13T21:40:41.003Z
+milestone1111-frontend.log: Test Files  32 passed (32)
+milestone1111-frontend.log:      Tests  133 passed (133)

@@ -1,0 +1,164 @@
+{
+  "label": "Actual allowed production prices, synthetic expected-curve comparison only",
+  "summary": {
+    "n": 25,
+    "mean": 2.200345375459934,
+    "min": 0,
+    "max": 23.49314772400336,
+    "variance": 28.82114892439735,
+    "p90": 9.123378042366454,
+    "sd": 5.368533219082969
+  },
+  "trials": [
+    {
+      "scenario": "HIDDEN_MARKETING",
+      "seed": "1001",
+      "price": 90,
+      "regret": 9.123378042366454
+    },
+    {
+      "scenario": "WEEKDAY_TREND",
+      "seed": "1001",
+      "price": 90,
+      "regret": 0
+    },
+    {
+      "scenario": "STRUCTURAL",
+      "seed": "1001",
+      "price": 90.5117,
+      "regret": 23.49314772400336
+    },
+    {
+      "scenario": "WEEKDAY_TREND",
+      "seed": "1002",
+      "price": 90,
+      "regret": 0
+    },
+    {
+      "scenario": "WEAK",
+      "seed": "1002",
+      "price": 110,
+      "regret": 0
+    },
+    {
+      "scenario": "WEEKDAY_TREND",
+      "seed": "1003",
+      "price": 90,
+      "regret": 0
+    },
+    {
+      "scenario": "STRUCTURAL",
+      "seed": "1003",
+      "price": 110,
+      "regret": 0
+    },
+    {
+      "scenario": "WEEKDAY_TREND",
+      "seed": "1004",
+      "price": 90,
+      "regret": 0
+    },
+    {
+      "scenario": "WEEKDAY_TREND",
+      "seed": "1005",
+      "price": 90,
+      "regret": 0
+    },
+    {
+      "scenario": "WEAK",
+      "seed": "1005",
+      "price": 110,
+      "regret": 0
+    },
+    {
+      "scenario": "WEEKDAY_TREND",
+      "seed": "1006",
+      "price": 90,
+      "regret": 0
+    },
+    {
+      "scenario": "WEEKDAY_TREND",
+      "seed": "1007",
+      "price": 90,
+      "regret": 0
+    },
+    {
+      "scenario": "WEAK",
+      "seed": "1007",
+      "price": 110,
+      "regret": 0
+    },
+    {
+      "scenario": "STRUCTURAL",
+      "seed": "1007",
+      "price": 105.8327,
+      "regret": 4.857300418666343
+    },
+    {
+      "scenario": "WEEKDAY_TREND",
+      "seed": "1008",
+      "price": 90,
+      "regret": 0
+    },
+    {
+      "scenario": "WEAK",
+      "seed": "1008",
+      "price": 110,
+      "regret": 0
+    },
+    {
+      "scenario": "STRUCTURAL",
+      "seed": "1008",
+      "price": 102.8283,
+      "regret": 8.411430159095728
+    },
+    {
+      "scenario": "WEEKDAY_TREND",
+      "seed": "1009",
+      "price": 90,
+      "regret": 0
+    },
+    {
+      "scenario": "WEAK",
+      "seed": "1009",
+      "price": 110,
+      "regret": 0
+    },
+    {
+      "scenario": "WEEKDAY_TREND",
+      "seed": "1010",
+      "price": 90,
+      "regret": 0
+    },
+    {
+      "scenario": "WEAK",
+      "seed": "1010",
+      "price": 110,
+      "regret": 0
+    },
+    {
+      "scenario": "WEEKDAY_TREND",
+      "seed": "1011",
+      "price": 90,
+      "regret": 0
+    },
+    {
+      "scenario": "WEAK",
+      "seed": "1011",
+      "price": 110,
+      "regret": 0
+    },
+    {
+      "scenario": "HIDDEN_MARKETING",
+      "seed": "1012",
+      "price": 90,
+      "regret": 9.123378042366454
+    },
+    {
+      "scenario": "WEEKDAY_TREND",
+      "seed": "1012",
+      "price": 90,
+      "regret": 0
+    }
+  ]
+}

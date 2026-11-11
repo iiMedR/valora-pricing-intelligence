@@ -1,0 +1,32 @@
+[
+  {
+    "Method": "A_PRODUCTION",
+    "Trials": 435,
+    "MeanMilliseconds": 9.268953103448265,
+    "MaxMilliseconds": 160.5569
+  },
+  {
+    "Method": "D_ELASTIC",
+    "Trials": 435,
+    "MeanMilliseconds": 0.40747310344827603,
+    "MaxMilliseconds": 13.4608
+  },
+  {
+    "Method": "D_OPTIMISTIC",
+    "Trials": 435,
+    "MeanMilliseconds": 0.40394459770114877,
+    "MaxMilliseconds": 20.4114
+  },
+  {
+    "Method": "D_WEAK",
+    "Trials": 435,
+    "MeanMilliseconds": 0.40285632183907993,
+    "MaxMilliseconds": 12.5372
+  },
+  {
+    "Method": "E_DONOR_POOL",
+    "Trials": 30,
+    "MeanMilliseconds": 2.0269300000000006,
+    "MaxMilliseconds": 16.565
+  }
+]

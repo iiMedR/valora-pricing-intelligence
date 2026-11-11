@@ -1,0 +1,7 @@
+fixtureVersion=independent-count-process-v1
+cases=435
+rows=1770
+heldoutSeeds=1001..1012
+java=21.0.11
+elapsedNanos=8265279300
+productionSourceUnchanged=true

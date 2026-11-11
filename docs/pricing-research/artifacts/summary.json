@@ -1,0 +1,6165 @@
+{
+  "split": "TEST",
+  "seeds": "1001..1012",
+  "intervalCaveat": "Conditional approximate coverage of local synthetic targets; NOT calibrated confidence or causal identification. Mixed scenarios are not a population performance estimate.",
+  "methods": {
+    "A_PRODUCTION": {
+      "n": 348,
+      "estimated": 156,
+      "error": {
+        "n": 156,
+        "mean": -0.13224129487179484,
+        "min": -1.491895,
+        "max": 0.9769730000000001,
+        "variance": 0.29568712713473877,
+        "p90": 0.045604999999999896,
+        "sd": 0.5437712084459224
+      },
+      "absoluteError": {
+        "n": 156,
+        "mean": 0.2801721794871795,
+        "min": 0.0004949999999999122,
+        "max": 1.491895,
+        "variance": 0.23428483259332242,
+        "p90": 1.2223680000000001,
+        "sd": 0.484029784820441
+      },
+      "intervals": 0,
+      "covered": 0,
+      "intervalWidth": null,
+      "priorShare": null,
+      "actionable": 25,
+      "unsafeApiCases": 228,
+      "falseActionable": 6,
+      "unsafeNegativeInterval": 0,
+      "regretPercent": {
+        "n": 156,
+        "mean": 1.3716234671861804,
+        "min": 0,
+        "max": 23.493088280147635,
+        "variance": 14.764934109525186,
+        "p90": 9.123378042366447,
+        "sd": 3.842516637507922
+      }
+    },
+    "D_WEAK": {
+      "n": 348,
+      "estimated": 348,
+      "error": {
+        "n": 348,
+        "mean": 0.11201724257775772,
+        "min": -1.5744122274804075,
+        "max": 2.8605700509419276,
+        "variance": 0.49937562943386976,
+        "p90": 0.5053460219863333,
+        "sd": 0.7066651466103799
+      },
+      "absoluteError": {
+        "n": 348,
+        "mean": 0.45316692480201765,
+        "min": 0.000060701737157886626,
+        "max": 2.8605700509419276,
+        "variance": 0.30600757500525816,
+        "p90": 1.285345293616615,
+        "sd": 0.553179514267528
+      },
+      "intervals": 348,
+      "covered": 279,
+      "intervalWidth": {
+        "n": 348,
+        "mean": 2.3649507636958673,
+        "min": 0.04284920061447273,
+        "max": 7.84,
+        "variance": 10.54016104252622,
+        "p90": 7.84,
+        "sd": 3.246561418258743
+      },
+      "priorShare": {
+        "n": 348,
+        "mean": 0.2619817481346337,
+        "min": 0.000029871244945129324,
+        "max": 1,
+        "variance": 0.17742750195883863,
+        "p90": 1,
+        "sd": 0.4212214405260476
+      },
+      "actionable": 0,
+      "unsafeApiCases": 228,
+      "falseActionable": 0,
+      "unsafeNegativeInterval": 114,
+      "regretPercent": {
+        "n": 334,
+        "mean": 2.840012340094024,
+        "min": 0,
+        "max": 24.139270090930193,
+        "variance": 13.480092137778174,
+        "p90": 6.2809917355372,
+        "sd": 3.6715244977772072
+      }
+    },
+    "D_OPTIMISTIC": {
+      "n": 348,
+      "estimated": 348,
+      "error": {
+        "n": 348,
+        "mean": 0.43468919584953647,
+        "min": -1.545339618191564,
+        "max": 1.9990680205083462,
+        "variance": 0.798741967595891,
+        "p90": 1.5,
+        "sd": 0.8937236528121492
+      },
+      "absoluteError": {
+        "n": 348,
+        "mean": 0.7094982825238995,
+        "min": 0.0006136104135769926,
+        "max": 1.9990680205083462,
+        "variance": 0.4834027043717282,
+        "p90": 1.5,
+        "sd": 0.6952716766644016
+      },
+      "intervals": 348,
+      "covered": 170,
+      "intervalWidth": {
+        "n": 348,
+        "mean": 0.7860911843537893,
+        "min": 0.04283960414700538,
+        "max": 1.96,
+        "variance": 0.6116775963861517,
+        "p90": 1.96,
+        "sd": 0.7820982012421149
+      },
+      "priorShare": {
+        "n": 348,
+        "mean": 0.31962183784423265,
+        "min": 0.0004777258651270617,
+        "max": 1,
+        "variance": 0.18702372611249743,
+        "p90": 1,
+        "sd": 0.43246239849551943
+      },
+      "actionable": 0,
+      "unsafeApiCases": 228,
+      "falseActionable": 0,
+      "unsafeNegativeInterval": 111,
+      "regretPercent": {
+        "n": 335,
+        "mean": 3.2174699809328926,
+        "min": 0,
+        "max": 24.139270090930193,
+        "variance": 13.372686664621853,
+        "p90": 6.2809917355372,
+        "sd": 3.6568684232033632
+      }
+    },
+    "D_ELASTIC": {
+      "n": 348,
+      "estimated": 348,
+      "error": {
+        "n": 348,
+        "mean": -0.36436539876104457,
+        "min": -2.75,
+        "max": 1.994408123050077,
+        "variance": 0.6687535855409451,
+        "p90": 0.05167278561230382,
+        "sd": 0.8177735539505696
+      },
+      "absoluteError": {
+        "n": 348,
+        "mean": 0.6066544323852752,
+        "min": 0.0004396407693181281,
+        "max": 2.75,
+        "variance": 0.43280812482508135,
+        "p90": 1.2993590624828257,
+        "sd": 0.6578815431558187
+      },
+      "intervals": 348,
+      "covered": 184,
+      "intervalWidth": {
+        "n": 348,
+        "mean": 0.7860911843537893,
+        "min": 0.04283960414700516,
+        "max": 1.96,
+        "variance": 0.6116775963861515,
+        "p90": 1.96,
+        "sd": 0.7820982012421148
+      },
+      "priorShare": {
+        "n": 348,
+        "mean": 0.31962183784423265,
+        "min": 0.0004777258651270617,
+        "max": 1,
+        "variance": 0.18702372611249743,
+        "p90": 1,
+        "sd": 0.43246239849551943
+      },
+      "actionable": 0,
+      "unsafeApiCases": 228,
+      "falseActionable": 0,
+      "unsafeNegativeInterval": 203,
+      "regretPercent": {
+        "n": 336,
+        "mean": 1.802578204997073,
+        "min": 0,
+        "max": 24.896615582621344,
+        "variance": 24.08937989284463,
+        "p90": 9.123378042366447,
+        "sd": 4.908093305230111
+      }
+    },
+    "E_DONOR_POOL": {
+      "n": 24,
+      "estimated": 24,
+      "error": {
+        "n": 24,
+        "mean": -1.1298236083758042,
+        "min": -2.7801236145617274,
+        "max": 0.06828993609198641,
+        "variance": 1.602486759753517,
+        "p90": 0.031154553464725288,
+        "sd": 1.2658936605234727
+      },
+      "absoluteError": {
+        "n": 24,
+        "mean": 1.149222375209803,
+        "min": 0.0029369567106176664,
+        "max": 2.7801236145617274,
+        "variance": 1.5563538745644327,
+        "p90": 2.751817324782763,
+        "sd": 1.2475391274683263
+      },
+      "intervals": 24,
+      "covered": 12,
+      "intervalWidth": {
+        "n": 24,
+        "mean": 0.870943174566956,
+        "min": 0.5390161388496004,
+        "max": 0.9800000000000004,
+        "variance": 0.02733650834988125,
+        "p90": 0.9798609303930803,
+        "sd": 0.16533755879981188
+      },
+      "priorShare": {
+        "n": 24,
+        "mean": 0.8170965227961303,
+        "min": 0.3025181153064679,
+        "max": 1,
+        "variance": 0.07388272807901441,
+        "p90": 0.9997162046134869,
+        "sd": 0.2718137746307468
+      },
+      "actionable": 0,
+      "unsafeApiCases": 24,
+      "falseActionable": 0,
+      "unsafeNegativeInterval": 24,
+      "regretPercent": {
+        "n": 24,
+        "mean": 9.336230843483003,
+        "min": 0,
+        "max": 24.896615582621344,
+        "variance": 151.59166323965798,
+        "p90": 24.896615582621344,
+        "sd": 12.31225662661634
+      }
+    }
+  },
+  "pairedOnProductionAvailable": {
+    "A_PRODUCTION": {
+      "n": 156,
+      "estimated": 156,
+      "error": {
+        "n": 156,
+        "mean": -0.13224129487179484,
+        "min": -1.491895,
+        "max": 0.9769730000000001,
+        "variance": 0.29568712713473877,
+        "p90": 0.045604999999999896,
+        "sd": 0.5437712084459224
+      },
+      "absoluteError": {
+        "n": 156,
+        "mean": 0.2801721794871795,
+        "min": 0.0004949999999999122,
+        "max": 1.491895,
+        "variance": 0.23428483259332242,
+        "p90": 1.2223680000000001,
+        "sd": 0.484029784820441
+      },
+      "intervals": 0,
+      "covered": 0,
+      "intervalWidth": null,
+      "priorShare": null,
+      "actionable": 25,
+      "unsafeApiCases": 72,
+      "falseActionable": 6,
+      "unsafeNegativeInterval": 0,
+      "regretPercent": {
+        "n": 156,
+        "mean": 1.3716234671861804,
+        "min": 0,
+        "max": 23.493088280147635,
+        "variance": 14.764934109525186,
+        "p90": 9.123378042366447,
+        "sd": 3.842516637507922
+      }
+    },
+    "D_WEAK": {
+      "n": 156,
+      "estimated": 156,
+      "error": {
+        "n": 156,
+        "mean": -0.17031963355174135,
+        "min": -1.5744122274804075,
+        "max": 1.5615601036423086,
+        "variance": 0.49107289063147713,
+        "p90": 0.07588295980084747,
+        "sd": 0.7007659314146751
+      },
+      "absoluteError": {
+        "n": 156,
+        "mean": 0.4179991663310256,
+        "min": 0.000060701737157886626,
+        "max": 1.5744122274804075,
+        "variance": 0.34441827143846865,
+        "p90": 1.3465739815368276,
+        "sd": 0.586871597062312
+      },
+      "intervals": 156,
+      "covered": 102,
+      "intervalWidth": {
+        "n": 156,
+        "mean": 0.19809912948976197,
+        "min": 0.04284920061447273,
+        "max": 0.6336117257734244,
+        "variance": 0.01914832965105654,
+        "p90": 0.35660626402465523,
+        "sd": 0.13837748968331715
+      },
+      "priorShare": {
+        "n": 156,
+        "mean": 0.0009479912187104109,
+        "min": 0.000029871244945129324,
+        "max": 0.006531520379489942,
+        "variance": 0.000002134793607964133,
+        "p90": 0.00206893006074328,
+        "sd": 0.0014610932920125711
+      },
+      "actionable": 0,
+      "unsafeApiCases": 72,
+      "falseActionable": 0,
+      "unsafeNegativeInterval": 60,
+      "regretPercent": {
+        "n": 144,
+        "mean": 2.1342367364980612,
+        "min": 0,
+        "max": 24.139270090930193,
+        "variance": 18.402032855963586,
+        "p90": 9.123378042366447,
+        "sd": 4.289759067356066
+      }
+    },
+    "D_OPTIMISTIC": {
+      "n": 156,
+      "estimated": 156,
+      "error": {
+        "n": 156,
+        "mean": -0.1547009946680839,
+        "min": -1.545339618191564,
+        "max": 1.5335974667344352,
+        "variance": 0.48028369074291416,
+        "p90": 0.17627962526758756,
+        "sd": 0.6930250289440593
+      },
+      "absoluteError": {
+        "n": 156,
+        "mean": 0.4168425216324791,
+        "min": 0.0006136104135769926,
+        "max": 1.545339618191564,
+        "variance": 0.32949178587851324,
+        "p90": 1.3234871440597622,
+        "sd": 0.5740137506005525
+      },
+      "intervals": 156,
+      "covered": 100,
+      "intervalWidth": {
+        "n": 156,
+        "mean": 0.19536260577138512,
+        "min": 0.04283960414700538,
+        "max": 0.6046825194706802,
+        "variance": 0.017619542627176,
+        "p90": 0.3511983641835479,
+        "sd": 0.13273862522708302
+      },
+      "priorShare": {
+        "n": 156,
+        "mean": 0.014492176326241663,
+        "min": 0.0004777258651270617,
+        "max": 0.09517933916946307,
+        "variance": 0.00046528953282537954,
+        "p90": 0.03210648974521031,
+        "sd": 0.021570570989785588
+      },
+      "actionable": 0,
+      "unsafeApiCases": 72,
+      "falseActionable": 0,
+      "unsafeNegativeInterval": 60,
+      "regretPercent": {
+        "n": 144,
+        "mean": 2.0633848664763206,
+        "min": 0,
+        "max": 24.139270090930193,
+        "variance": 17.14409428916634,
+        "p90": 9.123378042366447,
+        "sd": 4.14054275296927
+      }
+    },
+    "D_ELASTIC": {
+      "n": 156,
+      "estimated": 156,
+      "error": {
+        "n": 156,
+        "mean": -0.19093143548368816,
+        "min": -1.599137476461821,
+        "max": 1.4510476628533495,
+        "variance": 0.47120730994275295,
+        "p90": 0.07064481132926259,
+        "sd": 0.6864454165793177
+      },
+      "absoluteError": {
+        "n": 156,
+        "mean": 0.41401189822824436,
+        "min": 0.0004396407693181281,
+        "max": 1.599137476461821,
+        "variance": 0.33538561926071414,
+        "p90": 1.2941391987828321,
+        "sd": 0.5791248736332382
+      },
+      "intervals": 156,
+      "covered": 104,
+      "intervalWidth": {
+        "n": 156,
+        "mean": 0.19536260577138512,
+        "min": 0.04283960414700516,
+        "max": 0.6046825194706802,
+        "variance": 0.017619542627176007,
+        "p90": 0.3511983641835479,
+        "sd": 0.13273862522708305
+      },
+      "priorShare": {
+        "n": 156,
+        "mean": 0.014492176326241663,
+        "min": 0.0004777258651270617,
+        "max": 0.09517933916946307,
+        "variance": 0.00046528953282537954,
+        "p90": 0.03210648974521031,
+        "sd": 0.021570570989785588
+      },
+      "actionable": 0,
+      "unsafeApiCases": 72,
+      "falseActionable": 0,
+      "unsafeNegativeInterval": 60,
+      "regretPercent": {
+        "n": 144,
+        "mean": 2.2994545235527752,
+        "min": 0,
+        "max": 24.139270090930193,
+        "variance": 20.75638006381668,
+        "p90": 9.123378042366447,
+        "sd": 4.5559170387328916
+      }
+    },
+    "E_DONOR_POOL": {
+      "n": 0,
+      "estimated": 0,
+      "error": null,
+      "absoluteError": null,
+      "intervals": 0,
+      "covered": 0,
+      "intervalWidth": null,
+      "priorShare": null,
+      "actionable": 0,
+      "unsafeApiCases": 0,
+      "falseActionable": 0,
+      "unsafeNegativeInterval": 0,
+      "regretPercent": null
+    }
+  },
+  "scenarios": {
+    "EMPTY": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.5,
+          "min": 0.5,
+          "max": 0.5,
+          "variance": 0,
+          "p90": 0.5,
+          "sd": 0
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.5,
+          "min": 0.5,
+          "max": 0.5,
+          "variance": 0,
+          "p90": 0.5,
+          "sd": 0
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 7.8400000000000025,
+          "min": 7.84,
+          "max": 7.84,
+          "variance": 7.745179796715389e-30,
+          "p90": 7.84,
+          "sd": 2.7830163126930085e-15
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.280991735537185,
+          "min": 6.280991735537185,
+          "max": 6.280991735537185,
+          "variance": 0,
+          "p90": 6.280991735537185,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.5,
+          "min": 1.5,
+          "max": 1.5,
+          "variance": 0,
+          "p90": 1.5,
+          "sd": 0
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.5,
+          "min": 1.5,
+          "max": 1.5,
+          "variance": 0,
+          "p90": 1.5,
+          "sd": 0
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.9600000000000006,
+          "min": 1.96,
+          "max": 1.96,
+          "variance": 4.840737372947118e-31,
+          "p90": 1.96,
+          "sd": 6.957540781732521e-16
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.280991735537185,
+          "min": 6.280991735537185,
+          "max": 6.280991735537185,
+          "variance": 0,
+          "p90": 6.280991735537185,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1,
+          "min": -1,
+          "max": -1,
+          "variance": 0,
+          "p90": -1,
+          "sd": 0
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.9600000000000006,
+          "min": 1.96,
+          "max": 1.96,
+          "variance": 4.840737372947118e-31,
+          "p90": 1.96,
+          "sd": 6.957540781732521e-16
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "ZERO_SALES": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.9998109688067156,
+          "min": 1.999782718106922,
+          "max": 1.9998249479485863,
+          "variance": 1.6094102313903954e-10,
+          "p90": 1.999824521747212,
+          "sd": 0.000012686253313687202
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.9998109688067156,
+          "min": 1.999782718106922,
+          "max": 1.9998249479485863,
+          "variance": 1.6094102313903954e-10,
+          "p90": 1.999824521747212,
+          "sd": 0.000012686253313687202
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.08796655972863604,
+          "min": 0.08469427124022866,
+          "max": 0.0943587548567503,
+          "variance": 0.000008539831414715716,
+          "p90": 0.09059117281698612,
+          "sd": 0.002922298994749804
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0001260207955228374,
+          "min": 0.00011670136760909232,
+          "max": 0.0001448545953853261,
+          "variance": 7.152934361766464e-11,
+          "p90": 0.00013351794487253106,
+          "sd": 0.00000845750220914335
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.280991735537185,
+          "min": 6.280991735537185,
+          "max": 6.280991735537185,
+          "variance": 0,
+          "p90": 6.280991735537185,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.9989937436121255,
+          "min": 1.9988436757202026,
+          "max": 1.9990680205083462,
+          "variance": 4.5425983620084216e-9,
+          "p90": 1.9990657553812639,
+          "sd": 0.00006739880089444041
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.9989937436121255,
+          "min": 1.9988436757202026,
+          "max": 1.9990680205083462,
+          "variance": 4.5425983620084216e-9,
+          "p90": 1.9990657553812639,
+          "sd": 0.00006739880089444041
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.08788336638409937,
+          "min": 0.08462023889280161,
+          "max": 0.09425640936583017,
+          "variance": 0.000008490537071911156,
+          "p90": 0.09050059224914178,
+          "sd": 0.0029138526167105908
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.002012512775749106,
+          "min": 0.001863958983307688,
+          "max": 0.002312648559594689,
+          "variance": 1.8170393448033316e-8,
+          "p90": 0.002132017179676547,
+          "sd": 0.00013479760178887945
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.280991735537185,
+          "min": 6.280991735537185,
+          "max": 6.280991735537185,
+          "variance": 0,
+          "p90": 6.280991735537185,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.9939624616727525,
+          "min": 1.9930620543212159,
+          "max": 1.994408123050077,
+          "variance": 1.6353354103230143e-7,
+          "p90": 1.9943945322875836,
+          "sd": 0.0004043928053666403
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.9939624616727525,
+          "min": 1.9930620543212159,
+          "max": 1.994408123050077,
+          "variance": 1.6353354103230143e-7,
+          "p90": 1.9943945322875836,
+          "sd": 0.0004043928053666403
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.08788336638409937,
+          "min": 0.08462023889280161,
+          "max": 0.09425640936583017,
+          "variance": 0.000008490537071911156,
+          "p90": 0.09050059224914178,
+          "sd": 0.0029138526167105908
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.002012512775749106,
+          "min": 0.001863958983307688,
+          "max": 0.002312648559594689,
+          "variance": 1.8170393448033316e-8,
+          "p90": 0.002132017179676547,
+          "sd": 0.00013479760178887945
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.280991735537185,
+          "min": 6.280991735537185,
+          "max": 6.280991735537185,
+          "variance": 0,
+          "p90": 6.280991735537185,
+          "sd": 0
+        }
+      }
+    },
+    "N5_CONSTANT": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.5,
+          "min": 0.5,
+          "max": 0.5,
+          "variance": 0,
+          "p90": 0.5,
+          "sd": 0
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.5,
+          "min": 0.5,
+          "max": 0.5,
+          "variance": 0,
+          "p90": 0.5,
+          "sd": 0
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 7.8400000000000025,
+          "min": 7.84,
+          "max": 7.84,
+          "variance": 7.745179796715389e-30,
+          "p90": 7.84,
+          "sd": 2.7830163126930085e-15
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.280991735537185,
+          "min": 6.280991735537185,
+          "max": 6.280991735537185,
+          "variance": 0,
+          "p90": 6.280991735537185,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.5,
+          "min": 1.5,
+          "max": 1.5,
+          "variance": 0,
+          "p90": 1.5,
+          "sd": 0
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.5,
+          "min": 1.5,
+          "max": 1.5,
+          "variance": 0,
+          "p90": 1.5,
+          "sd": 0
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.9600000000000006,
+          "min": 1.96,
+          "max": 1.96,
+          "variance": 4.840737372947118e-31,
+          "p90": 1.96,
+          "sd": 6.957540781732521e-16
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.280991735537185,
+          "min": 6.280991735537185,
+          "max": 6.280991735537185,
+          "variance": 0,
+          "p90": 6.280991735537185,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1,
+          "min": -1,
+          "max": -1,
+          "variance": 0,
+          "p90": -1,
+          "sd": 0
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.9600000000000006,
+          "min": 1.96,
+          "max": 1.96,
+          "variance": 4.840737372947118e-31,
+          "p90": 1.96,
+          "sd": 6.957540781732521e-16
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "N5_THREE": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.49988177248319876,
+          "min": 0.49858126979838513,
+          "max": 0.5,
+          "variance": 1.6773294874784762e-7,
+          "p90": 0.5,
+          "sd": 0.00040955213190489877
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.49988177248319876,
+          "min": 0.49858126979838513,
+          "max": 0.5,
+          "variance": 1.6773294874784762e-7,
+          "p90": 0.5,
+          "sd": 0.00040955213190489877
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 7.819308622971433,
+          "min": 7.591703475657173,
+          "max": 7.84,
+          "variance": 0.0051375970000606674,
+          "p90": 7.84,
+          "sd": 0.07167703258408978
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.9948051724085033,
+          "min": 0.9376620689020396,
+          "max": 1,
+          "variance": 0.00032383480446450467,
+          "p90": 1,
+          "sd": 0.017995410650065886
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.280991735537185,
+          "min": 6.280991735537185,
+          "max": 6.280991735537185,
+          "variance": 0,
+          "p90": 6.280991735537185,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.49964732297171,
+          "min": 1.495767875660521,
+          "max": 1.5,
+          "variance": 0.0000014925730354008435,
+          "p90": 1.5,
+          "sd": 0.001221709063321069
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.49964732297171,
+          "min": 1.495767875660521,
+          "max": 1.5,
+          "variance": 0.0000014925730354008435,
+          "p90": 1.5,
+          "sd": 0.001221709063321069
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.9596617171059496,
+          "min": 1.9559406052713926,
+          "max": 1.96,
+          "variance": 0.0000013732237968871223,
+          "p90": 1.96,
+          "sd": 0.0011718463196542122
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.9996551708348393,
+          "min": 0.995862050018071,
+          "max": 1,
+          "variance": 0.0000014268858377454877,
+          "p90": 1,
+          "sd": 0.0011945232679799452
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.280991735537185,
+          "min": 6.280991735537185,
+          "max": 6.280991735537185,
+          "variance": 0,
+          "p90": 6.280991735537185,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.999490604115388,
+          "min": -1,
+          "max": -0.9938872493846564,
+          "variance": 0.0000031138100071152496,
+          "p90": -1,
+          "sd": 0.0017645991066288257
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.999490604115388,
+          "min": 0.9938872493846564,
+          "max": 1,
+          "variance": 0.0000031138100071152466,
+          "p90": 1,
+          "sd": 0.0017645991066288249
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.95966171710595,
+          "min": 1.955940605271393,
+          "max": 1.96,
+          "variance": 0.0000013732237968868225,
+          "p90": 1.96,
+          "sd": 0.0011718463196540843
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.9996551708348393,
+          "min": 0.995862050018071,
+          "max": 1,
+          "variance": 0.0000014268858377454877,
+          "p90": 1,
+          "sd": 0.0011945232679799452
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "N20_TWO": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.2994533133363545,
+          "min": -0.0642784751254526,
+          "max": 0.5,
+          "variance": 0.026903257952999648,
+          "p90": 0.4369507822374614,
+          "sd": 0.16402212641287042
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.3101663925239299,
+          "min": 0.021292488411191357,
+          "max": 0.5,
+          "variance": 0.019778635207704013,
+          "p90": 0.4369507822374614,
+          "sd": 0.14063653582090258
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 4.891703091511928,
+          "min": 0.6698486842136184,
+          "max": 7.84,
+          "variance": 9.167026748277777,
+          "p90": 6.801201068370063,
+          "sd": 3.0277098190344756
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.5260156410755824,
+          "min": 0.007299973639608426,
+          "max": 1,
+          "variance": 0.1495114388419205,
+          "p90": 0.7525564864314037,
+          "sd": 0.3866670904562742
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 4,
+        "regretPercent": {
+          "n": 12,
+          "mean": 3.086659302338383,
+          "min": 0,
+          "max": 6.280991735537185,
+          "variance": 4.897107977821552,
+          "p90": 6.280991735537185,
+          "sd": 2.2129410244788614
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.1053634125203204,
+          "min": 0.10155610939483495,
+          "max": 1.5,
+          "variance": 0.30505535538224454,
+          "p90": 1.4727965415676203,
+          "sd": 0.5523181649939142
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.1053634125203204,
+          "min": 0.10155610939483495,
+          "max": 1.5,
+          "variance": 0.30505535538224454,
+          "p90": 1.4727965415676203,
+          "sd": 0.5523181649939142
+        },
+        "intervals": 12,
+        "covered": 2,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.545237671515031,
+          "min": 0.6359355927282406,
+          "max": 1.96,
+          "variance": 0.34913140548719895,
+          "p90": 1.94016593855351,
+          "sd": 0.5908734259443379
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.7048616678378266,
+          "min": 0.10527230271205194,
+          "max": 1,
+          "variance": 0.16876814219469935,
+          "p90": 0.9798635644323256,
+          "sd": 0.41081399951157865
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 4,
+        "regretPercent": {
+          "n": 12,
+          "mean": 5.43271612734361,
+          "min": 0,
+          "max": 6.280991735537185,
+          "variance": 4.182987574497232,
+          "p90": 6.280991735537185,
+          "sd": 2.045235334746892
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.6567907570742462,
+          "min": -1,
+          "max": 0.18576047156861808,
+          "variance": 0.24714541106618643,
+          "p90": 0.17698440731055953,
+          "sd": 0.49713721553127205
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.7172482368874423,
+          "min": 0.1695906921676249,
+          "max": 1,
+          "variance": 0.1565225731680229,
+          "p90": 0.9891405728762699,
+          "sd": 0.3956293381032591
+        },
+        "intervals": 12,
+        "covered": 4,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.545237671515031,
+          "min": 0.6359355927282406,
+          "max": 1.96,
+          "variance": 0.34913140548719884,
+          "p90": 1.94016593855351,
+          "sd": 0.5908734259443378
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.7048616678378266,
+          "min": 0.10527230271205194,
+          "max": 1,
+          "variance": 0.16876814219469935,
+          "p90": 0.9798635644323256,
+          "sd": 0.41081399951157865
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "N20_FIVE": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.31590723633846846,
+          "min": -0.07622502827684174,
+          "max": 0.5128621790381682,
+          "variance": 0.054121488607886306,
+          "p90": 0.5053460219863333,
+          "sd": 0.23264025577678146
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.34016784069293887,
+          "min": 0.024774125025914584,
+          "max": 0.5128621790381682,
+          "variance": 0.03675773093077248,
+          "p90": 0.5053460219863333,
+          "sd": 0.19172305790064084
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 5.263983797159988,
+          "min": 0.6511405850026484,
+          "max": 7.7697371698940385,
+          "variance": 10.880387616661643,
+          "p90": 7.7697371698940385,
+          "sd": 3.298543256751629
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.6130781130481019,
+          "min": 0.006897908121576802,
+          "max": 0.9821561278053583,
+          "variance": 0.20383892095482067,
+          "p90": 0.9821561278053583,
+          "sd": 0.4514852389113299
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 4,
+        "regretPercent": {
+          "n": 12,
+          "mean": 4.187327823691457,
+          "min": 0,
+          "max": 6.280991735537185,
+          "variance": 9.563844165305795,
+          "p90": 6.280991735537185,
+          "sd": 3.092546550224555
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.071964102249005,
+          "min": 0.10131660940697973,
+          "max": 1.4992055950554481,
+          "variance": 0.3918510058749635,
+          "p90": 1.4983174754769715,
+          "sd": 0.6259800363230152
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.071964102249005,
+          "min": 0.10131660940697973,
+          "max": 1.4992055950554481,
+          "variance": 0.3918510058749635,
+          "p90": 1.4983174754769715,
+          "sd": 0.6259800363230152
+        },
+        "intervals": 12,
+        "covered": 3,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.5544945314003178,
+          "min": 0.6198616547831586,
+          "max": 1.9588881530694047,
+          "variance": 0.3543730563030882,
+          "p90": 1.9588881530694047,
+          "sd": 0.595292412435341
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.7135816369302699,
+          "min": 0.10001782358145457,
+          "max": 0.9988657841096583,
+          "variance": 0.17207110143714452,
+          "p90": 0.9988657841096583,
+          "sd": 0.4148145386038736
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 4,
+        "regretPercent": {
+          "n": 12,
+          "mean": 4.710743801652889,
+          "min": 0,
+          "max": 6.280991735537185,
+          "variance": 8.06949351447677,
+          "p90": 6.280991735537185,
+          "sd": 2.840685395195457
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.7119899900766692,
+          "min": -1.0010138596545368,
+          "max": -0.08069224372954853,
+          "variance": 0.1728838852773378,
+          "p90": -0.1187294923082054,
+          "sd": 0.4157930798814932
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.7119899900766695,
+          "min": 0.08069224372954853,
+          "max": 1.0010138596545368,
+          "variance": 0.1728838852773378,
+          "p90": 0.9989427188468527,
+          "sd": 0.4157930798814932
+        },
+        "intervals": 12,
+        "covered": 4,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.5544945314003178,
+          "min": 0.6198616547831586,
+          "max": 1.9588881530694051,
+          "variance": 0.3543730563030882,
+          "p90": 1.9588881530694051,
+          "sd": 0.595292412435341
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.7135816369302699,
+          "min": 0.10001782358145457,
+          "max": 0.9988657841096583,
+          "variance": 0.17207110143714452,
+          "p90": 0.9988657841096583,
+          "sd": 0.4148145386038736
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "N50_CONSTANT": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.5,
+          "min": 0.5,
+          "max": 0.5,
+          "variance": 0,
+          "p90": 0.5,
+          "sd": 0
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.5,
+          "min": 0.5,
+          "max": 0.5,
+          "variance": 0,
+          "p90": 0.5,
+          "sd": 0
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 7.8400000000000025,
+          "min": 7.84,
+          "max": 7.84,
+          "variance": 7.745179796715389e-30,
+          "p90": 7.84,
+          "sd": 2.7830163126930085e-15
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.280991735537185,
+          "min": 6.280991735537185,
+          "max": 6.280991735537185,
+          "variance": 0,
+          "p90": 6.280991735537185,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.5,
+          "min": 1.5,
+          "max": 1.5,
+          "variance": 0,
+          "p90": 1.5,
+          "sd": 0
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.5,
+          "min": 1.5,
+          "max": 1.5,
+          "variance": 0,
+          "p90": 1.5,
+          "sd": 0
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.9600000000000006,
+          "min": 1.96,
+          "max": 1.96,
+          "variance": 4.840737372947118e-31,
+          "p90": 1.96,
+          "sd": 6.957540781732521e-16
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.280991735537185,
+          "min": 6.280991735537185,
+          "max": 6.280991735537185,
+          "variance": 0,
+          "p90": 6.280991735537185,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1,
+          "min": -1,
+          "max": -1,
+          "variance": 0,
+          "p90": -1,
+          "sd": 0
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.9600000000000006,
+          "min": 1.96,
+          "max": 1.96,
+          "variance": 4.840737372947118e-31,
+          "p90": 1.96,
+          "sd": 6.957540781732521e-16
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "N50_FIVE": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.005508106101919152,
+          "min": -0.15913598996860623,
+          "max": 0.2908918024195386,
+          "variance": 0.021421849794653756,
+          "p90": 0.18796844865280593,
+          "sd": 0.1463620503909868
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.11961227556626895,
+          "min": 0.02230339796573899,
+          "max": 0.2908918024195386,
+          "variance": 0.005847205540132597,
+          "p90": 0.18796844865280593,
+          "sd": 0.07646702256615329
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.6843945536603885,
+          "min": 0.4617716301246988,
+          "max": 0.8451075316622125,
+          "variance": 0.014339223641792426,
+          "p90": 0.8335676496286852,
+          "sd": 0.1197464974092872
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.007834303958934953,
+          "min": 0.003469144340704742,
+          "max": 0.01161961715288223,
+          "variance": 0.000006977017252023096,
+          "p90": 0.011304453653872905,
+          "sd": 0.0026414044090262087
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0.14025383808657058,
+          "min": 0,
+          "max": 1.683046057038847,
+          "variance": 0.23605366917616752,
+          "p90": 0,
+          "sd": 0.4858535470449583
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.16836646080981255,
+          "min": -0.011144735870182387,
+          "max": 0.41412249994389905,
+          "variance": 0.01887792791377852,
+          "p90": 0.3677075789175004,
+          "sd": 0.13739697199639633
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.17022391678817628,
+          "min": 0.011144735870182387,
+          "max": 0.41412249994389905,
+          "variance": 0.018191836945321265,
+          "p90": 0.3677075789175004,
+          "sd": 0.13487711794563698
+        },
+        "intervals": 12,
+        "covered": 10,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.6458560182398284,
+          "min": 0.45020644350569894,
+          "max": 0.779872315447169,
+          "variance": 0.010424227730760814,
+          "p90": 0.7707762687471835,
+          "sd": 0.10209910739453511
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.1110697465595419,
+          "min": 0.052760787633811444,
+          "max": 0.15831966586862994,
+          "variance": 0.0011422581405836285,
+          "p90": 0.15464807800495367,
+          "sd": 0.033797309664877595
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0.9658934695433631,
+          "min": 0,
+          "max": 5.654200755122037,
+          "variance": 3.6039000386584594,
+          "p90": 3.8881202755511577,
+          "sd": 1.8983940683268212
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.10930790558904213,
+          "min": -0.27219747606281297,
+          "max": 0.15654163469286586,
+          "variance": 0.01898423341547015,
+          "p90": 0.05167278561230382,
+          "sd": 0.1377832842382201
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.14735324944538142,
+          "min": 0.02005764283286604,
+          "max": 0.27219747606281297,
+          "variance": 0.00833176589054304,
+          "p90": 0.23981708305029592,
+          "sd": 0.09127850727604522
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.6458560182398283,
+          "min": 0.4502064435056987,
+          "max": 0.779872315447169,
+          "variance": 0.010424227730760821,
+          "p90": 0.7707762687471833,
+          "sd": 0.10209910739453515
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.1110697465595419,
+          "min": 0.052760787633811444,
+          "max": 0.15831966586862994,
+          "variance": 0.0011422581405836285,
+          "p90": 0.15464807800495367,
+          "sd": 0.033797309664877595
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "SPARSE_LOW_DEMAND": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.6726827364142691,
+          "min": -0.8368217501593564,
+          "max": 2.8605700509419276,
+          "variance": 0.9615433252206554,
+          "p90": 1.8138454082664206,
+          "sd": 0.9805831556888255
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.8301425894374183,
+          "min": 0.05125154262728859,
+          "max": 2.8605700509419276,
+          "variance": 0.7033964289354852,
+          "p90": 1.8138454082664206,
+          "sd": 0.8386873248925878
+        },
+        "intervals": 12,
+        "covered": 10,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 3.441213494549789,
+          "min": 2.7061244314904513,
+          "max": 4.547124397893669,
+          "variance": 0.3162404991167562,
+          "p90": 4.34544339659284,
+          "sd": 0.56235264658109
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.19737605163314,
+          "min": 0.11914159202398608,
+          "max": 0.3363888140670532,
+          "variance": 0.0044255563323106475,
+          "p90": 0.30721050982976367,
+          "sd": 0.0665248549965398
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 4,
+        "regretPercent": {
+          "n": 11,
+          "mean": 3.479612328484699,
+          "min": 0,
+          "max": 6.2809917355372,
+          "variance": 8.3753309253628,
+          "p90": 6.2809917355372,
+          "sd": 2.894016400327199
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.3480138830776671,
+          "min": 1.0914388180274175,
+          "max": 1.9119687820905988,
+          "variance": 0.05925643779812056,
+          "p90": 1.6494039364714506,
+          "sd": 0.2434264525439266
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.3480138830776671,
+          "min": 1.0914388180274175,
+          "max": 1.9119687820905988,
+          "variance": 0.05925643779812056,
+          "p90": 1.6494039364714506,
+          "sd": 0.2434264525439266
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.733231403986607,
+          "min": 1.6209500270497648,
+          "max": 1.8493060502573255,
+          "variance": 0.004927660604314537,
+          "p90": 1.8349489680706084,
+          "sd": 0.07019729769951645
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.7831653795257202,
+          "min": 0.68395433938792,
+          "max": 0.8902365856722069,
+          "variance": 0.004019947589831314,
+          "p90": 0.876467543581682,
+          "sd": 0.06340305662845691
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 1,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.2809917355372,
+          "min": 6.2809917355372,
+          "max": 6.2809917355372,
+          "variance": 0,
+          "p90": 6.2809917355372,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.6098995657366331,
+          "min": -1.0530722446861898,
+          "max": -0.04304842734379877,
+          "variance": 0.09098472248490391,
+          "p90": -0.12465878678375342,
+          "sd": 0.3016367392823757
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.6098995657366332,
+          "min": 0.04304842734379877,
+          "max": 1.0530722446861898,
+          "variance": 0.09098472248490391,
+          "p90": 0.8595940657695307,
+          "sd": 0.3016367392823757
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.7332314039866075,
+          "min": 1.6209500270497648,
+          "max": 1.8493060502573258,
+          "variance": 0.0049276606043145346,
+          "p90": 1.8349489680706084,
+          "sd": 0.07019729769951642
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.7831653795257202,
+          "min": 0.68395433938792,
+          "max": 0.8902365856722069,
+          "variance": 0.004019947589831314,
+          "p90": 0.876467543581682,
+          "sd": 0.06340305662845691
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "GROWING100": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.0234786235569636,
+          "min": -0.17236945724647867,
+          "max": 0.09514034305906449,
+          "variance": 0.005853749025914553,
+          "p90": 0.06001875158950676,
+          "sd": 0.07650979692767818
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.06275119368390912,
+          "min": 0.018711941825681366,
+          "max": 0.17236945724647867,
+          "variance": 0.0021594218863226957,
+          "p90": 0.11493596538745798,
+          "sd": 0.04646958022537642
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.38387859860851153,
+          "min": 0.28383063921702223,
+          "max": 0.5472117697005101,
+          "variance": 0.004269807295769936,
+          "p90": 0.4228105254865573,
+          "sd": 0.06534376248556503
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0024611615031945844,
+          "min": 0.0013106490745773813,
+          "max": 0.004871679783468541,
+          "variance": 7.975344347534764e-7,
+          "p90": 0.0029084356202854714,
+          "sd": 0.0008930478345270629
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.03304287663027592,
+          "min": -0.11694146526639138,
+          "max": 0.15665429611250747,
+          "variance": 0.005369868035421468,
+          "p90": 0.1030284604116849,
+          "sd": 0.0732793834268648
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.06388143675489032,
+          "min": 0.0034888649554707385,
+          "max": 0.15665429611250747,
+          "variance": 0.0021091339272046494,
+          "p90": 0.11694146526639138,
+          "sd": 0.04592530813401963
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.37663166274713306,
+          "min": 0.2810810971612301,
+          "max": 0.5282510287757867,
+          "variance": 0.0037595024150363188,
+          "p90": 0.41387885016737846,
+          "sd": 0.061314781374773884
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.03782216262254968,
+          "min": 0.020566061844377582,
+          "max": 0.07263878316396222,
+          "variance": 0.00017009847227550599,
+          "p90": 0.044589676857525844,
+          "sd": 0.013042180503102461
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.061512529926098215,
+          "min": -0.2019356620982382,
+          "max": 0.045180103968692764,
+          "variance": 0.005926657612163281,
+          "p90": 0.026904134541384517,
+          "sd": 0.07698478818677935
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.07406214067573896,
+          "min": 0.002857588469597605,
+          "max": 0.2019356620982382,
+          "variance": 0.004070574691911841,
+          "p90": 0.15263467050608082,
+          "sd": 0.0638010555705142
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.37663166274713317,
+          "min": 0.2810810971612303,
+          "max": 0.5282510287757871,
+          "variance": 0.0037595024150363257,
+          "p90": 0.41387885016737824,
+          "sd": 0.06131478137477395
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.03782216262254968,
+          "min": 0.020566061844377582,
+          "max": 0.07263878316396222,
+          "variance": 0.00017009847227550599,
+          "p90": 0.044589676857525844,
+          "sd": 0.013042180503102461
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "GROWING250": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.02251796218861311,
+          "min": -0.08550771885065167,
+          "max": 0.044959862006892726,
+          "variance": 0.001729294142848053,
+          "p90": 0.03335348244481118,
+          "sd": 0.04158478258748088
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.03884255586457591,
+          "min": 0.006075928703759725,
+          "max": 0.08550771885065167,
+          "variance": 0.0006365462974318089,
+          "p90": 0.07596130877484741,
+          "sd": 0.025229869152094485
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.17539577605584863,
+          "min": 0.16050805188314987,
+          "max": 0.2012089950776177,
+          "variance": 0.00011679314454895979,
+          "p90": 0.1868047134105455,
+          "sd": 0.010807087699697814
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0005022441599974072,
+          "min": 0.00041914232870620213,
+          "max": 0.0006586620760253658,
+          "variance": 4.0279746666927686e-9,
+          "p90": 0.0005677322104135658,
+          "sd": 0.00006346632703010919
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.010619902329697783,
+          "min": -0.06934404566786201,
+          "max": 0.05446726369533583,
+          "variance": 0.0016493301006590495,
+          "p90": 0.043940515571239125,
+          "sd": 0.04061194529518439
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.03355441863060412,
+          "min": 0.0011744111569387261,
+          "max": 0.06934404566786201,
+          "variance": 0.0005441118997730361,
+          "p90": 0.06545156385387418,
+          "sd": 0.023326206287629287
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.17473419769490586,
+          "min": 0.16000585081095453,
+          "max": 0.2002223346822165,
+          "variance": 0.00011404691215107953,
+          "p90": 0.18601434501975245,
+          "sd": 0.010679274888824593
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.007974953885591319,
+          "min": 0.006664377419236099,
+          "max": 0.010435491281132225,
+          "variance": 9.986318983967445e-7,
+          "p90": 0.00900701180579121,
+          "sd": 0.0009993157150754433
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.030557287043676162,
+          "min": -0.0954327738706926,
+          "max": 0.03780632014724561,
+          "variance": 0.0017432320125565601,
+          "p90": 0.025528042093768244,
+          "sd": 0.04175203004114363
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.043036077330471156,
+          "min": 0.011538379479756111,
+          "max": 0.0954327738706926,
+          "variance": 0.0007413889283478247,
+          "p90": 0.08251323994544091,
+          "sd": 0.027228458060415846
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.17473419769490586,
+          "min": 0.16000585081095453,
+          "max": 0.2002223346822165,
+          "variance": 0.00011404691215107991,
+          "p90": 0.18601434501975245,
+          "sd": 0.010679274888824612
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.007974953885591319,
+          "min": 0.006664377419236099,
+          "max": 0.010435491281132225,
+          "variance": 9.986318983967445e-7,
+          "p90": 0.00900701180579121,
+          "sd": 0.0009993157150754433
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "GROWING500": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.002112166666666674,
+          "min": -0.042612000000000094,
+          "max": 0.028445000000000054,
+          "variance": 0.0005012793077878788,
+          "p90": 0.027395999999999976,
+          "sd": 0.02238926769208584
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.017883499999999997,
+          "min": 0.0027970000000001605,
+          "max": 0.042612000000000094,
+          "variance": 0.00015725204500000018,
+          "p90": 0.0298569999999998,
+          "sd": 0.012540017743209146
+        },
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.005626730006445683,
+          "min": -0.03373654050010666,
+          "max": 0.03383766492836626,
+          "variance": 0.0004851967671235737,
+          "p90": 0.030488190157635486,
+          "sd": 0.022027182459941938
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.01824058898487213,
+          "min": 0.000060701737157886626,
+          "max": 0.03383766492836626,
+          "variance": 0.00015676877154218957,
+          "p90": 0.03373654050010666,
+          "sd": 0.012520733666290869
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.11414781866844136,
+          "min": 0.108830610614161,
+          "max": 0.12778564238466394,
+          "variance": 0.000025047040967762256,
+          "p90": 0.11732744232522441,
+          "sd": 0.005004701886003027
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0002123575511231837,
+          "min": 0.00019269480500720985,
+          "max": 0.000265663564655046,
+          "variance": 3.71104682909708e-10,
+          "p90": 0.00022395825831975788,
+          "sd": 0.000019264077525532022
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.010584744667280155,
+          "min": -0.02890233382714147,
+          "max": 0.03865433443150934,
+          "variance": 0.000477327471001047,
+          "p90": 0.03539492159065927,
+          "sd": 0.021847825315144
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.020403164405424723,
+          "min": 0.004093000189870688,
+          "max": 0.03865433443150934,
+          "variance": 0.00014541587309202007,
+          "p90": 0.03539492159065927,
+          "sd": 0.012058850405076765
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.11396579477358704,
+          "min": 0.10867366755640573,
+          "max": 0.12753179090346745,
+          "variance": 0.000024791877887469974,
+          "p90": 0.11713086409934848,
+          "sd": 0.0049791442926942755
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.003386851381309574,
+          "min": 0.0030742310548105504,
+          "max": 0.004233745754645402,
+          "variance": 9.370782357709934e-8,
+          "p90": 0.0035713346846782635,
+          "sd": 0.00030611733628969684
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.002117616214006172,
+          "min": -0.03695731505739941,
+          "max": 0.03027476176305388,
+          "variance": 0.0004855842827151805,
+          "p90": 0.0268772803433579,
+          "sd": 0.022035977008410142
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.017676264732084185,
+          "min": 0.0024165514807865662,
+          "max": 0.03695731505739941,
+          "variance": 0.00014962133386183356,
+          "p90": 0.03065035017090434,
+          "sd": 0.012231979964904846
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.113965794773587,
+          "min": 0.10867366755640595,
+          "max": 0.12753179090346745,
+          "variance": 0.00002479187788746959,
+          "p90": 0.11713086409934825,
+          "sd": 0.0049791442926942365
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.003386851381309574,
+          "min": 0.0030742310548105504,
+          "max": 0.004233745754645402,
+          "variance": 9.370782357709934e-8,
+          "p90": 0.0035713346846782635,
+          "sd": 0.00030611733628969684
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "MATURE3000": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.00046924999999995814,
+          "min": -0.017621999999999804,
+          "max": 0.011967000000000061,
+          "variance": 0.00009565806565909025,
+          "p90": 0.010990000000000055,
+          "sd": 0.009780494141866772
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.007763749999999976,
+          "min": 0.0010099999999999554,
+          "max": 0.017621999999999804,
+          "variance": 0.000030142845477272432,
+          "p90": 0.012577999999999978,
+          "sd": 0.005490250037773547
+        },
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.007343676096359071,
+          "min": -0.010949956883321121,
+          "max": 0.024240731843063745,
+          "variance": 0.00014356085176721371,
+          "p90": 0.020303820170811226,
+          "sd": 0.011981688185193842
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.011925187782965438,
+          "min": 0.0018336598107013824,
+          "max": 0.024240731843063745,
+          "variance": 0.00004725482443912006,
+          "p90": 0.020303820170811226,
+          "sd": 0.00687421445978521
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.044320715647256814,
+          "min": 0.04284920061447273,
+          "max": 0.04552338687036683,
+          "variance": 4.89672502375494e-7,
+          "p90": 0.04491986672714243,
+          "sd": 0.0006997660340252977
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.000031965435982818136,
+          "min": 0.000029871244945129324,
+          "max": 0.000033716074554695595,
+          "variance": 1.0110781980595798e-12,
+          "p90": 0.00003282802782018324,
+          "sd": 0.0000010055238426111934
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.008091010952045397,
+          "min": -0.010187460613276578,
+          "max": 0.024995211417662144,
+          "variance": 0.0001433314959449071,
+          "p90": 0.02106490603476585,
+          "sd": 0.011972113261446664
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.01229061822983248,
+          "min": 0.002587560417461665,
+          "max": 0.024995211417662144,
+          "variance": 0.00004995530876813768,
+          "p90": 0.02106490603476585,
+          "sd": 0.007067906958084386
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.04431008915399113,
+          "min": 0.04283960414700538,
+          "max": 0.04551187971062309,
+          "variance": 4.889739377089148e-7,
+          "p90": 0.04490881108023537,
+          "sd": 0.0006992667142864122
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0005112016417493248,
+          "min": 0.0004777258651270617,
+          "max": 0.0005391845051005389,
+          "variance": 2.5834346994454763e-10,
+          "p90": 0.0005249899293628352,
+          "sd": 0.000016073066600513658
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.0068130068476721095,
+          "min": -0.011476318347426684,
+          "max": 0.023690808083383086,
+          "variance": 0.00014348773695837893,
+          "p90": 0.019752431211358834,
+          "sd": 0.011978636690307413
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.011658887497454529,
+          "min": 0.0013028216566999262,
+          "max": 0.023690808083383086,
+          "variance": 0.000045837632916334036,
+          "p90": 0.019752431211358834,
+          "sd": 0.00677034954166578
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.044310089153991095,
+          "min": 0.04283960414700516,
+          "max": 0.045511879710623315,
+          "variance": 4.88973937709026e-7,
+          "p90": 0.044908811080235145,
+          "sd": 0.0006992667142864916
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0005112016417493248,
+          "min": 0.0004777258651270617,
+          "max": 0.0005391845051005389,
+          "variance": 2.5834346994454763e-10,
+          "p90": 0.0005249899293628352,
+          "sd": 0.000016073066600513658
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "LARGE_CONSTANT": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.5,
+          "min": 0.5,
+          "max": 0.5,
+          "variance": 0,
+          "p90": 0.5,
+          "sd": 0
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.5,
+          "min": 0.5,
+          "max": 0.5,
+          "variance": 0,
+          "p90": 0.5,
+          "sd": 0
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 7.8400000000000025,
+          "min": 7.84,
+          "max": 7.84,
+          "variance": 7.745179796715389e-30,
+          "p90": 7.84,
+          "sd": 2.7830163126930085e-15
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.280991735537185,
+          "min": 6.280991735537185,
+          "max": 6.280991735537185,
+          "variance": 0,
+          "p90": 6.280991735537185,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.5,
+          "min": 1.5,
+          "max": 1.5,
+          "variance": 0,
+          "p90": 1.5,
+          "sd": 0
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.5,
+          "min": 1.5,
+          "max": 1.5,
+          "variance": 0,
+          "p90": 1.5,
+          "sd": 0
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.9600000000000006,
+          "min": 1.96,
+          "max": 1.96,
+          "variance": 4.840737372947118e-31,
+          "p90": 1.96,
+          "sd": 6.957540781732521e-16
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.280991735537185,
+          "min": 6.280991735537185,
+          "max": 6.280991735537185,
+          "variance": 0,
+          "p90": 6.280991735537185,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1,
+          "min": -1,
+          "max": -1,
+          "variance": 0,
+          "p90": -1,
+          "sd": 0
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.9600000000000006,
+          "min": 1.96,
+          "max": 1.96,
+          "variance": 4.840737372947118e-31,
+          "p90": 1.96,
+          "sd": 6.957540781732521e-16
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "variance": 0,
+          "p90": 1,
+          "sd": 0
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "SEASONAL_CONFOUNDED": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.8710825,
+          "min": 0.7710980000000001,
+          "max": 0.9769730000000001,
+          "variance": 0.003281882182090911,
+          "p90": 0.9256090000000001,
+          "sd": 0.05728771405887052
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.8710825,
+          "min": 0.7710980000000001,
+          "max": 0.9769730000000001,
+          "variance": 0.003281882182090911,
+          "p90": 0.9256090000000001,
+          "sd": 0.05728771405887052
+        },
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.42339614718467,
+          "min": 1.3080490720729507,
+          "max": 1.5615601036423086,
+          "variance": 0.005463609091448537,
+          "p90": 1.5483955059213959,
+          "sd": 0.07391623023023114
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.42339614718467,
+          "min": 1.3080490720729507,
+          "max": 1.5615601036423086,
+          "variance": 0.005463609091448537,
+          "p90": 1.5483955059213959,
+          "sd": 0.07391623023023114
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.3498208744478523,
+          "min": 0.33135389294967865,
+          "max": 0.3877673225970619,
+          "variance": 0.000252447868281783,
+          "p90": 0.3635526197698892,
+          "sd": 0.01588860812915288
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.001994710126402167,
+          "min": 0.0017862902562231085,
+          "max": 0.0024463032407410637,
+          "variance": 3.418052988010974e-8,
+          "p90": 0.002150316719295828,
+          "sd": 0.00018487977141945448
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.4013812719956897,
+          "min": 1.2913121012715174,
+          "max": 1.5335974667344352,
+          "variance": 0.005100801593209559,
+          "p90": 1.52420586851229,
+          "sd": 0.0714198963399525
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.4013812719956897,
+          "min": 1.2913121012715174,
+          "max": 1.5335974667344352,
+          "variance": 0.005100801593209559,
+          "p90": 1.52420586851229,
+          "sd": 0.0714198963399525
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.3446836101407,
+          "min": 0.3270019491601953,
+          "max": 0.3808428448211993,
+          "variance": 0.00023020041430699533,
+          "p90": 0.35782759818037635,
+          "sd": 0.01517235691338018
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.03098131199137706,
+          "min": 0.027834827872388317,
+          "max": 0.0377554332703832,
+          "variance": 0.000007732754061898368,
+          "p90": 0.033330016144194334,
+          "sd": 0.0027807829943917537
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.3239279920172473,
+          "min": 1.2217250315905466,
+          "max": 1.4510476628533495,
+          "variance": 0.004975293084013625,
+          "p90": 1.4502724263739493,
+          "sd": 0.07053575748521898
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.3239279920172473,
+          "min": 1.2217250315905466,
+          "max": 1.4510476628533495,
+          "variance": 0.004975293084013625,
+          "p90": 1.4502724263739493,
+          "sd": 0.07053575748521898
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.34468361014069987,
+          "min": 0.3270019491601953,
+          "max": 0.38084284482119934,
+          "variance": 0.00023020041430699543,
+          "p90": 0.35782759818037635,
+          "sd": 0.015172356913380184
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.03098131199137706,
+          "min": 0.027834827872388317,
+          "max": 0.0377554332703832,
+          "variance": 0.000007732754061898368,
+          "p90": 0.033330016144194334,
+          "sd": 0.0027807829943917537
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      }
+    },
+    "PROMO_DISCREPANCY": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.006471166666666732,
+          "min": -0.12678500000000015,
+          "max": 0.15718100000000002,
+          "variance": 0.005480808483787885,
+          "p90": 0.045604999999999896,
+          "sd": 0.0740324826261276
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.05379833333333336,
+          "min": 0.009897999999999962,
+          "max": 0.15718100000000002,
+          "variance": 0.002369116114969701,
+          "p90": 0.12678500000000015,
+          "sd": 0.04867356690206401
+        },
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1.2051326360668464,
+          "min": -1.2484591483740333,
+          "max": -1.1291488405226395,
+          "variance": 0.0013034050818818603,
+          "p90": -1.1573603022855672,
+          "sd": 0.03610270186401373
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.2051326360668464,
+          "min": 1.1291488405226395,
+          "max": 1.2484591483740333,
+          "variance": 0.0013034050818818603,
+          "p90": 1.232698762664761,
+          "sd": 0.03610270186401373
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.2088656336456316,
+          "min": 0.19025840730630073,
+          "max": 0.2260540499844792,
+          "variance": 0.00012157398584038338,
+          "p90": 0.22466199604287773,
+          "sd": 0.011026059397644445
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0007115572895822195,
+          "min": 0.0005889190303312793,
+          "max": 0.0008313663824055316,
+          "variance": 5.665821748398856e-9,
+          "p90": 0.000821158704478114,
+          "sd": 0.00007527165302023635
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 9.123378042366449,
+          "min": 9.123378042366447,
+          "max": 9.123378042366447,
+          "variance": 3.442302131873506e-30,
+          "p90": 9.123378042366447,
+          "sd": 1.8553442084620055e-15
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1.1842973751427093,
+          "min": -1.2271719767300715,
+          "max": -1.1092742729163898,
+          "variance": 0.0012218785816095373,
+          "p90": -1.1405126890331687,
+          "sd": 0.034955379866474595
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.184297375142709,
+          "min": 1.1092742729163898,
+          "max": 1.2271719767300715,
+          "variance": 0.0012218785816095373,
+          "p90": 1.2093535753920752,
+          "sd": 0.034955379866474595
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.20775430527989772,
+          "min": 0.18942358326930542,
+          "max": 0.22465759433295318,
+          "variance": 0.00011773515135470193,
+          "p90": 0.22329102455334304,
+          "sd": 0.01085058299607454
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.01126347752266626,
+          "min": 0.009340195204754138,
+          "max": 0.013138024440719953,
+          "variance": 0.000001389404955117599,
+          "p90": 0.012978675980341942,
+          "sd": 0.0011787302300007407
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 9.123378042366449,
+          "min": 9.123378042366447,
+          "max": 9.123378042366447,
+          "variance": 3.442302131873506e-30,
+          "p90": 9.123378042366447,
+          "sd": 1.8553442084620055e-15
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1.2124560689493749,
+          "min": -1.255341826288283,
+          "max": -1.1372299715321128,
+          "variance": 0.0012984698430255899,
+          "p90": -1.163863177045054,
+          "sd": 0.036034287047555
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.2124560689493749,
+          "min": 1.1372299715321128,
+          "max": 1.255341826288283,
+          "variance": 0.0012984698430255899,
+          "p90": 1.2408181562966252,
+          "sd": 0.036034287047555
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.20775430527989772,
+          "min": 0.18942358326930542,
+          "max": 0.22465759433295318,
+          "variance": 0.00011773515135470193,
+          "p90": 0.22329102455334304,
+          "sd": 0.01085058299607454
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.01126347752266626,
+          "min": 0.009340195204754138,
+          "max": 0.013138024440719953,
+          "variance": 0.000001389404955117599,
+          "p90": 0.012978675980341942,
+          "sd": 0.0011787302300007407
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 9.123378042366449,
+          "min": 9.123378042366447,
+          "max": 9.123378042366447,
+          "variance": 3.442302131873506e-30,
+          "p90": 9.123378042366447,
+          "sd": 1.8553442084620055e-15
+        }
+      }
+    },
+    "HIDDEN_MARKETING": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1.2200165,
+          "min": -1.282303,
+          "max": -1.151458,
+          "variance": 0.0017657279102727295,
+          "p90": -1.1613209999999998,
+          "sd": 0.04202056532547759
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.2200165,
+          "min": 1.151458,
+          "max": 1.282303,
+          "variance": 0.0017657279102727295,
+          "p90": 1.2717250000000002,
+          "sd": 0.04202056532547759
+        },
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 2,
+        "unsafeApiCases": 12,
+        "falseActionable": 2,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 9.123378042366449,
+          "min": 9.123378042366447,
+          "max": 9.123378042366447,
+          "variance": 3.442302131873506e-30,
+          "p90": 9.123378042366447,
+          "sd": 1.8553442084620055e-15
+        }
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1.2051326360668464,
+          "min": -1.2484591483740333,
+          "max": -1.1291488405226395,
+          "variance": 0.0013034050818818603,
+          "p90": -1.1573603022855672,
+          "sd": 0.03610270186401373
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.2051326360668464,
+          "min": 1.1291488405226395,
+          "max": 1.2484591483740333,
+          "variance": 0.0013034050818818603,
+          "p90": 1.232698762664761,
+          "sd": 0.03610270186401373
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.2088656336456316,
+          "min": 0.19025840730630073,
+          "max": 0.2260540499844792,
+          "variance": 0.00012157398584038338,
+          "p90": 0.22466199604287773,
+          "sd": 0.011026059397644445
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0007115572895822195,
+          "min": 0.0005889190303312793,
+          "max": 0.0008313663824055316,
+          "variance": 5.665821748398856e-9,
+          "p90": 0.000821158704478114,
+          "sd": 0.00007527165302023635
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 9.123378042366449,
+          "min": 9.123378042366447,
+          "max": 9.123378042366447,
+          "variance": 3.442302131873506e-30,
+          "p90": 9.123378042366447,
+          "sd": 1.8553442084620055e-15
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1.1842973751427093,
+          "min": -1.2271719767300715,
+          "max": -1.1092742729163898,
+          "variance": 0.0012218785816095373,
+          "p90": -1.1405126890331687,
+          "sd": 0.034955379866474595
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.184297375142709,
+          "min": 1.1092742729163898,
+          "max": 1.2271719767300715,
+          "variance": 0.0012218785816095373,
+          "p90": 1.2093535753920752,
+          "sd": 0.034955379866474595
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.20775430527989772,
+          "min": 0.18942358326930542,
+          "max": 0.22465759433295318,
+          "variance": 0.00011773515135470193,
+          "p90": 0.22329102455334304,
+          "sd": 0.01085058299607454
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.01126347752266626,
+          "min": 0.009340195204754138,
+          "max": 0.013138024440719953,
+          "variance": 0.000001389404955117599,
+          "p90": 0.012978675980341942,
+          "sd": 0.0011787302300007407
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 9.123378042366449,
+          "min": 9.123378042366447,
+          "max": 9.123378042366447,
+          "variance": 3.442302131873506e-30,
+          "p90": 9.123378042366447,
+          "sd": 1.8553442084620055e-15
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1.2124560689493749,
+          "min": -1.255341826288283,
+          "max": -1.1372299715321128,
+          "variance": 0.0012984698430255899,
+          "p90": -1.163863177045054,
+          "sd": 0.036034287047555
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.2124560689493749,
+          "min": 1.1372299715321128,
+          "max": 1.255341826288283,
+          "variance": 0.0012984698430255899,
+          "p90": 1.2408181562966252,
+          "sd": 0.036034287047555
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.20775430527989772,
+          "min": 0.18942358326930542,
+          "max": 0.22465759433295318,
+          "variance": 0.00011773515135470193,
+          "p90": 0.22329102455334304,
+          "sd": 0.01085058299607454
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.01126347752266626,
+          "min": 0.009340195204754138,
+          "max": 0.013138024440719953,
+          "variance": 0.000001389404955117599,
+          "p90": 0.012978675980341942,
+          "sd": 0.0011787302300007407
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 9.123378042366449,
+          "min": 9.123378042366447,
+          "max": 9.123378042366447,
+          "variance": 3.442302131873506e-30,
+          "p90": 9.123378042366447,
+          "sd": 1.8553442084620055e-15
+        }
+      }
+    },
+    "WEEKDAY_TREND": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.004593166666666666,
+          "min": -0.03306999999999993,
+          "max": 0.04460299999999995,
+          "variance": 0.0007061743446969682,
+          "p90": 0.038103,
+          "sd": 0.026573941083267424
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.02263149999999997,
+          "min": 0.0031089999999998064,
+          "max": 0.04460299999999995,
+          "variance": 0.00017044240409090896,
+          "p90": 0.038103,
+          "sd": 0.013055359209570181
+        },
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 12,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.01770389316716194,
+          "min": -0.028225565481754256,
+          "max": 0.06245709718764725,
+          "variance": 0.0007264271150889202,
+          "p90": 0.0577163968099601,
+          "sd": 0.02695231186909428
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.025352339352296287,
+          "min": 0.003206755037689746,
+          "max": 0.06245709718764725,
+          "variance": 0.00036717626706014807,
+          "p90": 0.0577163968099601,
+          "sd": 0.019161844041222863
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.13000098570814303,
+          "min": 0.12207255998677224,
+          "max": 0.1425923752908682,
+          "variance": 0.000042529841539604656,
+          "p90": 0.14236387426827823,
+          "sd": 0.006521490745190447
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.00027558897941558797,
+          "min": 0.00024243983466726225,
+          "max": 0.0003307961769036957,
+          "variance": 7.994533021768769e-10,
+          "p90": 0.0003297368397392067,
+          "sd": 0.000028274605252361648
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.024081403759969772,
+          "min": -0.021975457135762433,
+          "max": 0.06857947989308966,
+          "variance": 0.0007178438354222748,
+          "p90": 0.06347064168090188,
+          "sd": 0.02679260785034325
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.02891338442545181,
+          "min": 0.0017882671521476379,
+          "max": 0.06857947989308966,
+          "variance": 0.0004384949715496135,
+          "p90": 0.06347064168090188,
+          "sd": 0.020940271525212214
+        },
+        "intervals": 12,
+        "covered": 10,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.12973186343371834,
+          "min": 0.12185119916983167,
+          "max": 0.14223991880698006,
+          "variance": 0.00004198121281731355,
+          "p90": 0.14201310531958233,
+          "sd": 0.006479291073667979
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.004391097242919831,
+          "min": 0.00386498197082621,
+          "max": 0.005266606232355326,
+          "variance": 2.0113303191676653e-7,
+          "p90": 0.005249823532515305,
+          "sd": 0.0004484785746462885
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.013103660652670176,
+          "min": -0.03242566515192369,
+          "max": 0.05772570378871711,
+          "variance": 0.0007232398625877393,
+          "p90": 0.053301550428719535,
+          "sd": 0.026893119242433358
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.023261547385077058,
+          "min": 0.002240265810739661,
+          "max": 0.05772570378871711,
+          "variance": 0.0003202649561355407,
+          "p90": 0.053301550428719535,
+          "sd": 0.017895948036791478
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.12973186343371831,
+          "min": 0.12185119916983145,
+          "max": 0.14223991880697984,
+          "variance": 0.00004198121281731326,
+          "p90": 0.14201310531958233,
+          "sd": 0.006479291073667956
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.004391097242919831,
+          "min": 0.00386498197082621,
+          "max": 0.005266606232355326,
+          "variance": 2.0113303191676653e-7,
+          "p90": 0.005249823532515305,
+          "sd": 0.0004484785746462885
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "STOCKOUT": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.011878079081475035,
+          "min": -0.09104467244096748,
+          "max": 0.05479603494554186,
+          "variance": 0.0012686443996569577,
+          "p90": 0.014319955795801809,
+          "sd": 0.03561803475287425
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.025837793717537083,
+          "min": 0.001645999963807654,
+          "max": 0.09104467244096748,
+          "variance": 0.0006942776852668954,
+          "p90": 0.05479603494554186,
+          "sd": 0.026349149611835584
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.17794634976715853,
+          "min": 0.15358958035131032,
+          "max": 0.201691591924144,
+          "variance": 0.00026422382871489077,
+          "p90": 0.19865828396434626,
+          "sd": 0.01625496320250805
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0005191051347709596,
+          "min": 0.0003837879918603504,
+          "max": 0.0006618254479399126,
+          "variance": 8.93650350118766e-9,
+          "p90": 0.0006420683079260391,
+          "sd": 0.00009453308151746488
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.0003338449861731522,
+          "min": -0.07474970555395499,
+          "max": 0.06733455111153619,
+          "variance": 0.0011885519028111539,
+          "p90": 0.028933797451484944,
+          "sd": 0.03447538111190584
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.02480229638318922,
+          "min": 0.0024246734657424884,
+          "max": 0.07474970555395499,
+          "variance": 0.0005175964990968613,
+          "p90": 0.06733455111153619,
+          "sd": 0.022750747220626873
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.17724726026289436,
+          "min": 0.1531493862561315,
+          "max": 0.2006978500631369,
+          "variance": 0.00025812274201741036,
+          "p90": 0.1977084976343575,
+          "sd": 0.016066198741999004
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.008239588656866454,
+          "min": 0.006105459837210997,
+          "max": 0.010485117404197566,
+          "variance": 0.0000022168055479286268,
+          "p90": 0.010175096323624217,
+          "sd": 0.0014888940687398237
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.020265126655992987,
+          "min": -0.10096249906444887,
+          "max": 0.04521887374616851,
+          "variance": 0.00129139435515735,
+          "p90": 0.00482299960054644,
+          "sd": 0.03593597577856138
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.02924372422074441,
+          "min": 0.0038297120417936092,
+          "max": 0.10096249906444887,
+          "variance": 0.0008064633937949691,
+          "p90": 0.04846252981687149,
+          "sd": 0.028398299135599107
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.17724726026289436,
+          "min": 0.1531493862561315,
+          "max": 0.20069785006313712,
+          "variance": 0.00025812274201740976,
+          "p90": 0.1977084976343575,
+          "sd": 0.016066198741998983
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.008239588656866454,
+          "min": 0.006105459837210997,
+          "max": 0.010485117404197566,
+          "variance": 0.0000022168055479286268,
+          "p90": 0.010175096323624217,
+          "sd": 0.0014888940687398237
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "REFUNDS_MISSING_COST": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.01677350000000009,
+          "min": -0.08003800000000005,
+          "max": 0.015371999999999941,
+          "variance": 0.0006579573749999995,
+          "p90": 0.005131999999999914,
+          "sd": 0.02565067981555264
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.020418666666666713,
+          "min": 0.0006140000000001145,
+          "max": 0.08003800000000005,
+          "variance": 0.0005100610336969704,
+          "p90": 0.042013999999999996,
+          "sd": 0.02258453084960966
+        },
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.008702202702912387,
+          "min": -0.07102341900703424,
+          "max": 0.016395316592913156,
+          "variance": 0.0005683496089581189,
+          "p90": 0.010041057959402577,
+          "sd": 0.02384008408034919
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.016832509635806608,
+          "min": 0.002163706558867773,
+          "max": 0.07102341900703424,
+          "variance": 0.0003418713739505407,
+          "p90": 0.02505312754941702,
+          "sd": 0.018489764031770137
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.13493156540879878,
+          "min": 0.12351271420108167,
+          "max": 0.15351616471706464,
+          "variance": 0.00007827869808879526,
+          "p90": 0.14739925025416833,
+          "sd": 0.008847524969662152
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0002973741868120867,
+          "min": 0.00024819395839816136,
+          "max": 0.0003834211791544684,
+          "variance": 1.5814124212861176e-9,
+          "p90": 0.0003534747724823471,
+          "sd": 0.00003976697651677982
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.0016999928022318016,
+          "min": -0.0616584042261068,
+          "max": 0.023114759503608973,
+          "variance": 0.0005400014817982562,
+          "p90": 0.018250946375970134,
+          "sd": 0.023237931960444675
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.016987629487120293,
+          "min": 0.003814959437498988,
+          "max": 0.0616584042261068,
+          "variance": 0.00022834012172839546,
+          "p90": 0.023114759503608973,
+          "sd": 0.015110927229273373
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.13462924551493297,
+          "min": 0.12328344085488352,
+          "max": 0.1530765997525354,
+          "variance": 0.0000771934123001152,
+          "p90": 0.1470100329568267,
+          "sd": 0.008785978164104166
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.004736514570976125,
+          "min": 0.003956374112093814,
+          "max": 0.0060996577966987596,
+          "variance": 3.973128615760229e-7,
+          "p90": 0.005625767854531269,
+          "sd": 0.000630327582750448
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.013541279229672113,
+          "min": -0.07690754871785366,
+          "max": 0.011556451064463902,
+          "variance": 0.0005789719945843486,
+          "p90": 0.004186526739641927,
+          "sd": 0.024061836891317103
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.017608063481630503,
+          "min": 0.001445506826582843,
+          "max": 0.07690754871785366,
+          "variance": 0.00044077818760560674,
+          "p90": 0.029792727906772676,
+          "sd": 0.020994718088262265
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.13462924551493297,
+          "min": 0.12328344085488352,
+          "max": 0.15307659975253518,
+          "variance": 0.00007719341230011463,
+          "p90": 0.1470100329568267,
+          "sd": 0.008785978164104133
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.004736514570976125,
+          "min": 0.003956374112093814,
+          "max": 0.0060996577966987596,
+          "variance": 3.973128615760229e-7,
+          "p90": 0.005625767854531269,
+          "sd": 0.000630327582750448
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "WEAK": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.0005613333333333304,
+          "min": -0.05454199999999998,
+          "max": 0.03354299999999999,
+          "variance": 0.0007521573824242424,
+          "p90": 0.02330299999999999,
+          "sd": 0.027425487824726882
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.02126083333333333,
+          "min": 0.001580999999999999,
+          "max": 0.05454199999999998,
+          "variance": 0.0002593850854242424,
+          "p90": 0.040157,
+          "sd": 0.016105436517655843
+        },
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 7,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.0013316951941765899,
+          "min": -0.08822113152354022,
+          "max": 0.05550978431172224,
+          "variance": 0.001565173530914904,
+          "p90": 0.038637764437165295,
+          "sd": 0.03956227408674714
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.02896468492367515,
+          "min": 0.001974404194529822,
+          "max": 0.08822113152354022,
+          "variance": 0.0006518867374920878,
+          "p90": 0.05550978431172224,
+          "sd": 0.02553207272220741
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.13566818887781035,
+          "min": 0.12142804753981151,
+          "max": 0.1516359778730047,
+          "variance": 0.00006112999892572253,
+          "p90": 0.14341984709806177,
+          "sd": 0.00781856757505635
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0003003613941087991,
+          "min": 0.00023988655002685596,
+          "max": 0.0003740868027889156,
+          "variance": 1.1949617693097467e-9,
+          "p90": 0.000334646575346721,
+          "sd": 0.000034568219064767376
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.0021493877440188513,
+          "min": -0.08863991242152935,
+          "max": 0.05439882239584681,
+          "variance": 0.001550626783893927,
+          "p90": 0.037636266944112956,
+          "sd": 0.0393779987289086
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.028685080501278437,
+          "min": 0.002073521185400412,
+          "max": 0.08863991242152935,
+          "variance": 0.0006580297195040878,
+          "p90": 0.05439882239584681,
+          "sd": 0.02565208996366744
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.13536176510743822,
+          "min": 0.12121016819445674,
+          "max": 0.15121232234981535,
+          "variance": 0.00006030986042761986,
+          "p90": 0.14306123442536423,
+          "sd": 0.007765942339962348
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.004783968005967981,
+          "min": 0.0038244233844566054,
+          "max": 0.005951990428577797,
+          "variance": 3.003935323170904e-7,
+          "p90": 0.00532760224784179,
+          "sd": 0.0005480816839824977
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.014109307758938807,
+          "min": -0.1003812982800727,
+          "max": 0.04199501047858756,
+          "variance": 0.0015445242652163333,
+          "p90": 0.02560470063526757,
+          "sd": 0.03930043594181028
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.028833955870014583,
+          "min": 0.0008989774160120534,
+          "max": 0.1003812982800727,
+          "variance": 0.0008547157790226994,
+          "p90": 0.058544141363668756,
+          "sd": 0.02923552255429513
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.13536176510743822,
+          "min": 0.12121016819445674,
+          "max": 0.15121232234981533,
+          "variance": 0.000060309860427619766,
+          "p90": 0.14306123442536423,
+          "sd": 0.007765942339962342
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.004783968005967981,
+          "min": 0.0038244233844566054,
+          "max": 0.005951990428577797,
+          "variance": 3.003935323170904e-7,
+          "p90": 0.00532760224784179,
+          "sd": 0.0005480816839824977
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "STRONG": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.010706500000000027,
+          "min": -0.04182100000000011,
+          "max": 0.03237699999999988,
+          "variance": 0.0003866323080909097,
+          "p90": 0.0009950000000000792,
+          "sd": 0.019662967936985243
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.01626850000000002,
+          "min": 0.0009950000000000792,
+          "max": 0.04182100000000011,
+          "variance": 0.0002229578171818187,
+          "p90": 0.039543000000000106,
+          "sd": 0.014931772071051001
+        },
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.000710536798165351,
+          "min": -0.045690770809202697,
+          "max": 0.049287962022826814,
+          "variance": 0.0005402926629084907,
+          "p90": 0.028849653825939292,
+          "sd": 0.023244196327438182
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.01564755711549648,
+          "min": 0.0008549886528195216,
+          "max": 0.049287962022826814,
+          "variance": 0.00027373864711811543,
+          "p90": 0.045690770809202697,
+          "sd": 0.016545049021327057
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.1361614845624103,
+          "min": 0.130173882671615,
+          "max": 0.1550303341712418,
+          "variance": 0.00005128429592385296,
+          "p90": 0.14366235621488332,
+          "sd": 0.007161305462264053
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0003023961448816305,
+          "min": 0.0002756865584945641,
+          "max": 0.0003910220434396943,
+          "variance": 1.0947186711478361e-9,
+          "p90": 0.0003357792422625331,
+          "sd": 0.00003308653307839666
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.01229710680662873,
+          "min": -0.03453323336633485,
+          "max": 0.05987716260590492,
+          "variance": 0.0005334867973517866,
+          "p90": 0.04092435665619254,
+          "sd": 0.023097333122068155
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.01855026884311828,
+          "min": 0.0029857388526024486,
+          "max": 0.05987716260590492,
+          "variance": 0.0003230573737099719,
+          "p90": 0.04092435665619254,
+          "sd": 0.017973796864045502
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.13585211584861967,
+          "min": 0.12990556065622538,
+          "max": 0.15457767237366937,
+          "variance": 0.00005053358959707462,
+          "p90": 0.1433019258979744,
+          "sd": 0.007108698164718672
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.004816253602060984,
+          "min": 0.004392819317317828,
+          "max": 0.006219871094455824,
+          "variance": 2.747598014993405e-7,
+          "p90": 0.00534554403531564,
+          "sd": 0.0005241753537694618
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.0002564728014762263,
+          "min": -0.045922728828996284,
+          "max": 0.04865999128025189,
+          "variance": 0.000535761775595478,
+          "p90": 0.028236598876800745,
+          "sd": 0.0231465283702649
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.015667231128605314,
+          "min": 0.0004396407693181281,
+          "max": 0.04865999128025189,
+          "variance": 0.0002680566632981227,
+          "p90": 0.045922728828996284,
+          "sd": 0.016372436083189414
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.13585211584861975,
+          "min": 0.12990556065622538,
+          "max": 0.15457767237366937,
+          "variance": 0.00005053358959707458,
+          "p90": 0.1433019258979744,
+          "sd": 0.007108698164718669
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.004816253602060984,
+          "min": 0.004392819317317828,
+          "max": 0.006219871094455824,
+          "variance": 2.747598014993405e-7,
+          "p90": 0.00534554403531564,
+          "sd": 0.0005241753537694618
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "HIGH_NOISE": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.12434985240478591,
+          "min": -0.4630766629382572,
+          "max": 0.3974765943835148,
+          "variance": 0.06029853536585643,
+          "p90": 0.31507910156471475,
+          "sd": 0.24555760091240594
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.23711240086735152,
+          "min": 0.033234922003567036,
+          "max": 0.4630766629382572,
+          "variance": 0.01583373007277909,
+          "p90": 0.3974765943835148,
+          "sd": 0.1258321503940034
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.1672068588246758,
+          "min": 1.0796855172934814,
+          "max": 1.2647668065108344,
+          "variance": 0.0030281905696379523,
+          "p90": 1.2132495800096303,
+          "sd": 0.0550289975343723
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.022209946582199932,
+          "min": 0.018965418319406173,
+          "max": 0.026024883428317856,
+          "variance": 0.000004361543108944664,
+          "p90": 0.023947940691924328,
+          "sd": 0.002088430776670528
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0.9590054591648904,
+          "min": 0,
+          "max": 4.978871756014137,
+          "variance": 2.2471314307620784,
+          "p90": 2.2905863834648295,
+          "sd": 1.4990435052933182
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.48454274275019094,
+          "min": 0.04687466660732831,
+          "max": 0.7064741757317392,
+          "variance": 0.03365421175892769,
+          "p90": 0.6436414451835868,
+          "sd": 0.1834508428951137
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.48454274275019094,
+          "min": 0.04687466660732831,
+          "max": 0.7064741757317392,
+          "variance": 0.03365421175892769,
+          "p90": 0.6436414451835868,
+          "sd": 0.1834508428951137
+        },
+        "intervals": 12,
+        "covered": 5,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.0105790753754802,
+          "min": 0.9526500336147015,
+          "max": 1.0726172006626062,
+          "variance": 0.0012827742668614119,
+          "p90": 1.0406517374322548,
+          "sd": 0.035815838212464216
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.26615106830436547,
+          "min": 0.23624065143328088,
+          "max": 0.29948658349575324,
+          "variance": 0.00035392289358609065,
+          "p90": 0.2819023424148196,
+          "sd": 0.018812838530803656
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 5.273379221040858,
+          "min": 0,
+          "max": 6.280991735537185,
+          "variance": 5.547975146577721,
+          "p90": 6.280991735537185,
+          "sd": 2.355414007468267
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.18083492801072265,
+          "min": -0.6230968476659817,
+          "max": 0.0017183196946901624,
+          "variance": 0.03501172205245087,
+          "p90": -0.017169249745768056,
+          "sd": 0.18711419521899153
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.18112131462650435,
+          "min": 0.0017183196946901624,
+          "max": 0.6230968476659817,
+          "variance": 0.034898639045116406,
+          "p90": 0.43468104198018054,
+          "sd": 0.1868117743749478
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.0105790753754802,
+          "min": 0.9526500336147015,
+          "max": 1.072617200662606,
+          "variance": 0.0012827742668614136,
+          "p90": 1.0406517374322553,
+          "sd": 0.035815838212464236
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.26615106830436547,
+          "min": 0.23624065143328088,
+          "max": 0.29948658349575324,
+          "variance": 0.00035392289358609065,
+          "p90": 0.2819023424148196,
+          "sd": 0.018812838530803656
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "NONLINEAR": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.02053125,
+          "min": -0.009614000000000011,
+          "max": 0.06254800000000005,
+          "variance": 0.0005857853938409096,
+          "p90": 0.05822499999999997,
+          "sd": 0.024203003818553382
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.022520583333333326,
+          "min": 0.0007070000000000132,
+          "max": 0.06254800000000005,
+          "variance": 0.0004923550879015159,
+          "p90": 0.05822499999999997,
+          "sd": 0.02218907586857812
+        },
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.027283098094210017,
+          "min": -0.025147237847173987,
+          "max": 0.07588295980084747,
+          "variance": 0.0010063002273220526,
+          "p90": 0.0750868527905606,
+          "sd": 0.03172223553474838
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.033411621778871935,
+          "min": 0.0012750994687005246,
+          "max": 0.07588295980084747,
+          "variance": 0.000600515832839031,
+          "p90": 0.0750868527905606,
+          "sd": 0.02450542455945277
+        },
+        "intervals": 12,
+        "covered": 10,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.14086370008606444,
+          "min": 0.12717000111357502,
+          "max": 0.15902120563661692,
+          "variance": 0.00006504271784602823,
+          "p90": 0.14657448550776864,
+          "sd": 0.008064906561518754
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0003237941953433393,
+          "min": 0.0002631099213743407,
+          "max": 0.0004114129503677367,
+          "variance": 1.4075000622120865e-9,
+          "p90": 0.0003495301404666523,
+          "sd": 0.0000375166637937342
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.03472631390860457,
+          "min": -0.01775413812448612,
+          "max": 0.08252388127223687,
+          "variance": 0.0009871216257905692,
+          "p90": 0.08246801550557747,
+          "sd": 0.03141849178096506
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.03817916017260827,
+          "min": 0.0029629394595360736,
+          "max": 0.08252388127223687,
+          "variance": 0.0007125055598195865,
+          "p90": 0.08246801550557747,
+          "sd": 0.026692799774837905
+        },
+        "intervals": 12,
+        "covered": 10,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.14052081213303094,
+          "min": 0.12691979381328067,
+          "max": 0.15853278968457252,
+          "variance": 0.00006407765054565663,
+          "p90": 0.14619174835254922,
+          "sd": 0.008004851687923807
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.005155361435042718,
+          "min": 0.004193209616203071,
+          "max": 0.006542233810176185,
+          "variance": 3.531391111172765e-7,
+          "p90": 0.005563314058302558,
+          "sd": 0.0005942550892649355
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.021837910320997782,
+          "min": -0.030139337511128517,
+          "max": 0.07064481132926259,
+          "variance": 0.0010049750417713457,
+          "p90": 0.06927187246967192,
+          "sd": 0.03170134132448256
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.030516536071464373,
+          "min": 0.006480290683124501,
+          "max": 0.07064481132926259,
+          "variance": 0.0005093045181934785,
+          "p90": 0.06927187246967192,
+          "sd": 0.022567776102077018
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.14052081213303097,
+          "min": 0.1269197938132809,
+          "max": 0.15853278968457252,
+          "variance": 0.00006407765054565653,
+          "p90": 0.14619174835254944,
+          "sd": 0.008004851687923802
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.005155361435042718,
+          "min": 0.004193209616203071,
+          "max": 0.006542233810176185,
+          "variance": 3.531391111172765e-7,
+          "p90": 0.005563314058302558,
+          "sd": 0.0005942550892649355
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "STRUCTURAL": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1.3331602499999997,
+          "min": -1.491895,
+          "max": -1.2037,
+          "variance": 0.007572648545477273,
+          "p90": -1.218278,
+          "sd": 0.0870209661258554
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.33316025,
+          "min": 1.2037,
+          "max": 1.491895,
+          "variance": 0.007572648545477275,
+          "p90": 1.420323,
+          "sd": 0.08702096612585541
+        },
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 4,
+        "unsafeApiCases": 12,
+        "falseActionable": 4,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 8.707727031053894,
+          "min": 0,
+          "max": 23.493088280147635,
+          "variance": 61.21173541234764,
+          "p90": 17.24206160612738,
+          "sd": 7.823792904489973
+        }
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1.3189847695583818,
+          "min": -1.5744122274804075,
+          "max": -1.1301094717360298,
+          "variance": 0.01222867181871428,
+          "p90": -1.2361462578107674,
+          "sd": 0.11058332522905197
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.3189847695583818,
+          "min": 1.1301094717360298,
+          "max": 1.5744122274804075,
+          "variance": 0.012228671818714282,
+          "p90": 1.4309261427998252,
+          "sd": 0.11058332522905197
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.29482126112398965,
+          "min": 0.2815611857292084,
+          "max": 0.31534546140653896,
+          "variance": 0.00010116118011930444,
+          "p90": 0.30667304388795635,
+          "sd": 0.0100578914350526
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0014156260915457709,
+          "min": 0.0012897734880850064,
+          "max": 0.0016178603971929513,
+          "variance": 9.473122762095424e-9,
+          "p90": 0.0015300974178647005,
+          "sd": 0.00009732996846858333
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 6.9874225240485295,
+          "min": 0,
+          "max": 24.139270090930193,
+          "variance": 63.04496976213173,
+          "p90": 18.235129832938995,
+          "sd": 7.940086256592665
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1.2943862381777123,
+          "min": -1.545339618191564,
+          "max": -1.1103909261579872,
+          "variance": 0.01187354781799746,
+          "p90": -1.211402983979781,
+          "sd": 0.10896581031680286
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.2943862381777123,
+          "min": 1.1103909261579872,
+          "max": 1.545339618191564,
+          "variance": 0.01187354781799746,
+          "p90": 1.4062985902063043,
+          "sd": 0.10896581031680286
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.2917337589146182,
+          "min": 0.278876452726621,
+          "max": 0.3115873390493835,
+          "variance": 0.00009488129091103269,
+          "p90": 0.3032131905408044,
+          "sd": 0.009740702793486345
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0221771034483343,
+          "min": 0.02024470946620763,
+          "max": 0.025272456751321205,
+          "variance": 0.0000022260648203235666,
+          "p90": 0.023932277935738794,
+          "sd": 0.001492000274907336
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 5.489481174202393,
+          "min": 0,
+          "max": 24.139270090930193,
+          "variance": 58.67737240879794,
+          "p90": 15.888880706936755,
+          "sd": 7.660115691606618
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1.3498289967985482,
+          "min": -1.599137476461821,
+          "max": -1.1631437822730784,
+          "variance": 0.011576878112246185,
+          "p90": -1.271233678819128,
+          "sd": 0.10759590193053908
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.349828996798548,
+          "min": 1.1631437822730784,
+          "max": 1.599137476461821,
+          "variance": 0.011576878112246187,
+          "p90": 1.4569103638718233,
+          "sd": 0.1075959019305391
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.2917337589146182,
+          "min": 0.278876452726621,
+          "max": 0.3115873390493835,
+          "variance": 0.00009488129091103252,
+          "p90": 0.3032131905408044,
+          "sd": 0.009740702793486336
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.0221771034483343,
+          "min": 0.02024470946620763,
+          "max": 0.025272456751321205,
+          "variance": 0.0000022260648203235666,
+          "p90": 0.023932277935738794,
+          "sd": 0.001492000274907336
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 9.316708275803883,
+          "min": 0,
+          "max": 24.139270090930193,
+          "variance": 62.741297507309646,
+          "p90": 20.566122682506954,
+          "sd": 7.920940443363379
+        }
+      }
+    },
+    "OUTLIERS": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.017400750000000003,
+          "min": -0.07586400000000015,
+          "max": 0.015983999999999998,
+          "variance": 0.0006823342980227292,
+          "p90": 0.013816999999999968,
+          "sd": 0.02612152939670128
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.022637583333333322,
+          "min": 0.0016199999999999548,
+          "max": 0.07586400000000015,
+          "variance": 0.00045359893953788135,
+          "p90": 0.045421000000000156,
+          "sd": 0.021297862323197636
+        },
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.04746705676697471,
+          "min": -0.21556971524269652,
+          "max": 0.32375667016298504,
+          "variance": 0.0246743941721826,
+          "p90": 0.3035954150064679,
+          "sd": 0.15708085234102404
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.11572543474363446,
+          "min": 0.0013075990964201978,
+          "max": 0.32375667016298504,
+          "variance": 0.012522479879290964,
+          "p90": 0.3035954150064679,
+          "sd": 0.11190388679259967
+        },
+        "intervals": 12,
+        "covered": 10,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.5871578209286653,
+          "min": 0.5557902987285179,
+          "max": 0.6336117257734244,
+          "variance": 0.0004546029296073891,
+          "p90": 0.607578499748409,
+          "sd": 0.021321419502636055
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.005615678135897781,
+          "min": 0.005025621748762479,
+          "max": 0.006531520379489942,
+          "variance": 1.6963423295514904e-7,
+          "p90": 0.006005824938771073,
+          "sd": 0.00041186676602409793
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0.37666222919529985,
+          "min": 0,
+          "max": 2.5270988935718197,
+          "variance": 0.7868343799366648,
+          "p90": 1.9928478567717778,
+          "sd": 0.8870368537646364
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.16587742506732023,
+          "min": -0.0565396392359081,
+          "max": 0.4108845279597364,
+          "variance": 0.019693410876463816,
+          "p90": 0.4030255668409486,
+          "sd": 0.14033321373240126
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.17530069827330488,
+          "min": 0.030875266235238508,
+          "max": 0.4108845279597364,
+          "variance": 0.016186122147579616,
+          "p90": 0.4030255668409486,
+          "sd": 0.12722469157981722
+        },
+        "intervals": 12,
+        "covered": 10,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.5638412826255061,
+          "min": 0.5359559673967804,
+          "max": 0.6046825194706802,
+          "variance": 0.0003549166355907639,
+          "p90": 0.5819313341387766,
+          "sd": 0.018839231289804897
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.08284109023377435,
+          "min": 0.0747732192285034,
+          "max": 0.09517933916946307,
+          "variance": 0.00003118911399733447,
+          "p90": 0.08815183195869854,
+          "sd": 0.005584721478940062
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 1.0243811387805495,
+          "min": 0,
+          "max": 5.518987245278273,
+          "variance": 4.306621931268137,
+          "p90": 5.198583090945753,
+          "sd": 2.075240210498085
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.04122530051711563,
+          "min": -0.29448798715956537,
+          "max": 0.22395147988847786,
+          "variance": 0.021929750512909543,
+          "p90": 0.1931030694283109,
+          "sd": 0.14808696942307092
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.12271463993771407,
+          "min": 0.02587212623784385,
+          "max": 0.29448798715956537,
+          "variance": 0.007355906019473562,
+          "p90": 0.22395147988847786,
+          "sd": 0.0857665786858352
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.5638412826255063,
+          "min": 0.5359559673967802,
+          "max": 0.6046825194706802,
+          "variance": 0.00035491663559076214,
+          "p90": 0.5819313341387762,
+          "sd": 0.01883923128980485
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.08284109023377435,
+          "min": 0.0747732192285034,
+          "max": 0.09517933916946307,
+          "variance": 0.00003118911399733447,
+          "p90": 0.08815183195869854,
+          "sd": 0.005584721478940062
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0.02998992209651515,
+          "min": 0,
+          "max": 0.3598790651581818,
+          "variance": 0.010792745128260573,
+          "p90": 0,
+          "sd": 0.10388813757239357
+        }
+      }
+    },
+    "KNOWN_OPTIMUM": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.008795000000000016,
+          "min": -0.03697499999999998,
+          "max": 0.009260999999999964,
+          "variance": 0.0002503208976363637,
+          "p90": 0.007006000000000068,
+          "sd": 0.015821532720832192
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.012795833333333359,
+          "min": 0.0004949999999999122,
+          "max": 0.03697499999999998,
+          "variance": 0.0001560867241515148,
+          "p90": 0.02969400000000011,
+          "sd": 0.01249346725899239
+        },
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.004402434697458842,
+          "min": -0.03473460598435141,
+          "max": 0.02122957342296994,
+          "variance": 0.00036753705258906654,
+          "p90": 0.015669715734321965,
+          "sd": 0.01917125589493465
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.015243049108969767,
+          "min": 0.0006599875306487757,
+          "max": 0.03473460598435141,
+          "variance": 0.00013520710909116715,
+          "p90": 0.032650529560393604,
+          "sd": 0.011627859179194042
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.08966300061620981,
+          "min": 0.08479844022143812,
+          "max": 0.0939103948606348,
+          "variance": 0.000008250101915276276,
+          "p90": 0.09354370393921929,
+          "sd": 0.002872299064386624
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.00013091902255773605,
+          "min": 0.00011698861581093859,
+          "max": 0.0001434812685938201,
+          "variance": 6.963954200080367e-11,
+          "p90": 0.00014236295662400274,
+          "sd": 0.000008345030976623375
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.0013218388332474906,
+          "min": -0.031295441527622536,
+          "max": 0.024304572245855915,
+          "variance": 0.0003612514132172064,
+          "p90": 0.018459985574190707,
+          "sd": 0.019006614985767625
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.01528051642526764,
+          "min": 0.0006136104135769926,
+          "max": 0.031295441527622536,
+          "variance": 0.00010843658668434134,
+          "p90": 0.029548287204886226,
+          "sd": 0.010413288946550045
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.08957492682206725,
+          "min": 0.08472413461130901,
+          "max": 0.09380949982320552,
+          "variance": 0.000008202114620518899,
+          "p90": 0.09344398493212402,
+          "sd": 0.0028639334176127243
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.00209058364229683,
+          "min": 0.0018685388863065487,
+          "max": 0.0022907700585901728,
+          "variance": 1.7689339153805555e-8,
+          "p90": 0.002272953540190287,
+          "sd": 0.00013300127500819514
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.006548297938989552,
+          "min": -0.037022366674098084,
+          "max": 0.018998632006115068,
+          "variance": 0.0003694930324030206,
+          "p90": 0.013662606979403469,
+          "sd": 0.019222201549328854
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.015548424148587777,
+          "min": 0.0014666989453959722,
+          "max": 0.037022366674098084,
+          "variance": 0.00015254035501398845,
+          "p90": 0.034720898554823076,
+          "sd": 0.012350722853905696
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.08957492682206719,
+          "min": 0.08472413461130901,
+          "max": 0.09380949982320552,
+          "variance": 0.000008202114620518816,
+          "p90": 0.09344398493212402,
+          "sd": 0.00286393341761271
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.00209058364229683,
+          "min": 0.0018685388863065487,
+          "max": 0.0022907700585901728,
+          "variance": 1.7689339153805555e-8,
+          "p90": 0.002272953540190287,
+          "sd": 0.00013300127500819514
+        },
+        "actionable": 0,
+        "unsafeApiCases": 0,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "COMPARABLE_POOL": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.31590723633846846,
+          "min": -0.07622502827684174,
+          "max": 0.5128621790381682,
+          "variance": 0.054121488607886306,
+          "p90": 0.5053460219863333,
+          "sd": 0.23264025577678146
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.34016784069293887,
+          "min": 0.024774125025914584,
+          "max": 0.5128621790381682,
+          "variance": 0.03675773093077248,
+          "p90": 0.5053460219863333,
+          "sd": 0.19172305790064084
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 5.263983797159988,
+          "min": 0.6511405850026484,
+          "max": 7.7697371698940385,
+          "variance": 10.880387616661643,
+          "p90": 7.7697371698940385,
+          "sd": 3.298543256751629
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.6130781130481019,
+          "min": 0.006897908121576802,
+          "max": 0.9821561278053583,
+          "variance": 0.20383892095482067,
+          "p90": 0.9821561278053583,
+          "sd": 0.4514852389113299
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 4,
+        "regretPercent": {
+          "n": 12,
+          "mean": 4.187327823691457,
+          "min": 0,
+          "max": 6.280991735537185,
+          "variance": 9.563844165305795,
+          "p90": 6.280991735537185,
+          "sd": 3.092546550224555
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 1.071964102249005,
+          "min": 0.10131660940697973,
+          "max": 1.4992055950554481,
+          "variance": 0.3918510058749635,
+          "p90": 1.4983174754769715,
+          "sd": 0.6259800363230152
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.071964102249005,
+          "min": 0.10131660940697973,
+          "max": 1.4992055950554481,
+          "variance": 0.3918510058749635,
+          "p90": 1.4983174754769715,
+          "sd": 0.6259800363230152
+        },
+        "intervals": 12,
+        "covered": 3,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.5544945314003178,
+          "min": 0.6198616547831586,
+          "max": 1.9588881530694047,
+          "variance": 0.3543730563030882,
+          "p90": 1.9588881530694047,
+          "sd": 0.595292412435341
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.7135816369302699,
+          "min": 0.10001782358145457,
+          "max": 0.9988657841096583,
+          "variance": 0.17207110143714452,
+          "p90": 0.9988657841096583,
+          "sd": 0.4148145386038736
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 4,
+        "regretPercent": {
+          "n": 12,
+          "mean": 4.710743801652889,
+          "min": 0,
+          "max": 6.280991735537185,
+          "variance": 8.06949351447677,
+          "p90": 6.280991735537185,
+          "sd": 2.840685395195457
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.7119899900766692,
+          "min": -1.0010138596545368,
+          "max": -0.08069224372954853,
+          "variance": 0.1728838852773378,
+          "p90": -0.1187294923082054,
+          "sd": 0.4157930798814932
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.7119899900766695,
+          "min": 0.08069224372954853,
+          "max": 1.0010138596545368,
+          "variance": 0.1728838852773378,
+          "p90": 0.9989427188468527,
+          "sd": 0.4157930798814932
+        },
+        "intervals": 12,
+        "covered": 4,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.5544945314003178,
+          "min": 0.6198616547831586,
+          "max": 1.9588881530694051,
+          "variance": 0.3543730563030882,
+          "p90": 1.9588881530694051,
+          "sd": 0.595292412435341
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.7135816369302699,
+          "min": 0.10001782358145457,
+          "max": 0.9988657841096583,
+          "variance": 0.17207110143714452,
+          "p90": 0.9988657841096583,
+          "sd": 0.4148145386038736
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "E_DONOR_POOL": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": 0.01063323121250089,
+          "min": -0.053749976241920905,
+          "max": 0.06828993609198641,
+          "variance": 0.0012777977260954457,
+          "p90": 0.06484543578247193,
+          "sd": 0.03574629667665513
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.0281643024554968,
+          "min": 0.0029369567106176664,
+          "max": 0.06828993609198641,
+          "variance": 0.0005358024605105002,
+          "p90": 0.06484543578247193,
+          "sd": 0.023147407209242684
+        },
+        "intervals": 12,
+        "covered": 12,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.8602263174318022,
+          "min": 0.5436434549110727,
+          "max": 0.9798609303930803,
+          "variance": 0.03297507043793571,
+          "p90": 0.9798609303930803,
+          "sd": 0.18159039192076135
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.8019746617073312,
+          "min": 0.3077344919488211,
+          "max": 0.9997162046134869,
+          "variance": 0.08787980741314574,
+          "p90": 0.9997162046134869,
+          "sd": 0.29644528569897305
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      }
+    },
+    "HETEROGENEOUS_POOL": {
+      "A_PRODUCTION": {
+        "n": 12,
+        "estimated": 0,
+        "error": null,
+        "absoluteError": null,
+        "intervals": 0,
+        "covered": 0,
+        "intervalWidth": null,
+        "priorShare": null,
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 0,
+        "regretPercent": null
+      },
+      "D_WEAK": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.7129712864695162,
+          "min": -1.25,
+          "max": 1.1423204768932647,
+          "variance": 0.5234060566137686,
+          "p90": -0.02871492153154298,
+          "sd": 0.7234680757391916
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.9033580326183935,
+          "min": 0.02871492153154298,
+          "max": 1.25,
+          "variance": 0.18770313323248378,
+          "p90": 1.2421680156814863,
+          "sd": 0.43324719645080656
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 5.291301963814843,
+          "min": 0.6432335026605527,
+          "max": 7.84,
+          "variance": 10.167715077121546,
+          "p90": 7.7697371698940385,
+          "sd": 3.188685477923708
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.6071409367130923,
+          "min": 0.0067313967315858515,
+          "max": 1,
+          "variance": 0.19598371179608043,
+          "p90": 0.9821561278053583,
+          "sd": 0.4427004763901666
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 2,
+        "regretPercent": {
+          "n": 11,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_OPTIMISTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -0.15451297920493534,
+          "min": -0.3961611709531755,
+          "max": 0.7741983286742119,
+          "variance": 0.09111334190673448,
+          "p90": -0.054991037399166165,
+          "sd": 0.3018498665011043
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 0.28354603398397066,
+          "min": 0.054991037399166165,
+          "max": 0.7741983286742119,
+          "variance": 0.029450695384638917,
+          "p90": 0.3961611709531755,
+          "sd": 0.1716120490660225
+        },
+        "intervals": 12,
+        "covered": 11,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.5968790351193034,
+          "min": 0.6130285857487534,
+          "max": 1.96,
+          "variance": 0.2880263814726876,
+          "p90": 1.9588881530694047,
+          "sd": 0.536680893523039
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.7325194803780161,
+          "min": 0.09782487685993255,
+          "max": 1,
+          "variance": 0.14984048292678043,
+          "p90": 0.9988657841096583,
+          "sd": 0.38709234418518335
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 2,
+        "regretPercent": {
+          "n": 11,
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "variance": 0,
+          "p90": 0,
+          "sd": 0
+        }
+      },
+      "D_ELASTIC": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -1.9858116801499754,
+          "min": -2.75,
+          "max": 0.033688963148625795,
+          "variance": 1.2632308074902663,
+          "p90": -0.4390874645742062,
+          "sd": 1.1239354107288666
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 1.9914265073414137,
+          "min": 0.033688963148625795,
+          "max": 2.75,
+          "variance": 1.2388691655390471,
+          "p90": 2.7474218036251257,
+          "sd": 1.1130449970863923
+        },
+        "intervals": 12,
+        "covered": 1,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 1.5968790351193032,
+          "min": 0.6130285857487534,
+          "max": 1.96,
+          "variance": 0.28802638147268755,
+          "p90": 1.9588881530694042,
+          "sd": 0.536680893523039
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.7325194803780161,
+          "min": 0.09782487685993255,
+          "max": 1,
+          "variance": 0.14984048292678043,
+          "p90": 0.9988657841096583,
+          "sd": 0.38709234418518335
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 11,
+        "regretPercent": {
+          "n": 12,
+          "mean": 16.59774372174756,
+          "min": 0,
+          "max": 24.896615582621344,
+          "variance": 150.26459817426039,
+          "p90": 24.896615582621344,
+          "sd": 12.258246129616602
+        }
+      },
+      "E_DONOR_POOL": {
+        "n": 12,
+        "estimated": 12,
+        "error": {
+          "n": 12,
+          "mean": -2.270280447964109,
+          "min": -2.7801236145617274,
+          "max": -0.9694701498132059,
+          "variance": 0.5116124025649056,
+          "p90": -1.246013479581996,
+          "sd": 0.7152708595804149
+        },
+        "absoluteError": {
+          "n": 12,
+          "mean": 2.270280447964109,
+          "min": 0.9694701498132059,
+          "max": 2.7801236145617274,
+          "variance": 0.5116124025649056,
+          "p90": 2.7628554708340767,
+          "sd": 0.7152708595804149
+        },
+        "intervals": 12,
+        "covered": 0,
+        "intervalWidth": {
+          "n": 12,
+          "mean": 0.8816600317021098,
+          "min": 0.5390161388496004,
+          "max": 0.9800000000000004,
+          "variance": 0.023932499325949916,
+          "p90": 0.9798609303930803,
+          "sd": 0.15470132296121425
+        },
+        "priorShare": {
+          "n": 12,
+          "mean": 0.832218383884929,
+          "min": 0.3025181153064679,
+          "max": 1,
+          "variance": 0.06610334253507218,
+          "p90": 0.9997162046134869,
+          "sd": 0.2571057030387933
+        },
+        "actionable": 0,
+        "unsafeApiCases": 12,
+        "falseActionable": 0,
+        "unsafeNegativeInterval": 12,
+        "regretPercent": {
+          "n": 12,
+          "mean": 18.672461686966006,
+          "min": 0,
+          "max": 24.896615582621344,
+          "variance": 126.78575470953218,
+          "p90": 24.896615582621344,
+          "sd": 11.259918059627795
+        }
+      }
+    }
+  }
+}
