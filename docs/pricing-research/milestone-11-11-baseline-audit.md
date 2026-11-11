@@ -1,0 +1,31 @@
+# Milestone 11.11 baseline audit — before benchmark implementation
+
+Actual branch codex/milestone-01, clean HEAD 0ef18015e67ff91b0779c43e3d5c80f318e61617. No AGENTS.md found. Java 21 / Spring Boot 3.5.16 / PostgreSQL 17.7 / Flyway V1–V7 / Angular 22.2.6. No user changes. Read README, forecasting/optimization contracts and settings, DemandRepository, DemandModel, ControlledElasticity, ForecastService, ContributionOptimizer, OptimizationService/Repository/DTOs, permanent generator/scenario source, 10.5 plan/verification, recommendation-quality docs/CSV, oracle and independent actionable tests, frontend pricing/evidence/conditional comparison, subscription domain/metrics/service/tests and security/mode boundaries. No runtime or migration changes are authorized or planned.
+
+## Actual current pipeline
+
+Daily completed-order sales are availability/price-filtered; refunds are returned units, not negative demand. DemandModel excludes unknown/censored/missing-price/discrepant/outlier/zero-selection days. ControlledElasticity uses 13 fixed columns (intercept, six weekday, four annual harmonic terms, centered trend, log price), two-pass QR, >=130 fit days, >=3 distinct prices/15% spread, residual log-price SD .03 and calendar-risk gates. Promotion labels are unavailable. Confidence bounds remain null, UNCERTAINTY_UNAVAILABLE. Eligible sample count is not a serial-correlation-adjusted effective sample size.
+
+OptimizationService evaluates all market/catalog, historical support, forecast, coverage/selection, stability, chronological backtest, stock freshness and recent-reference rules. Final status is the first blocker in insertion order; all returned reasons must be inspected, not inferred from one label. Default minimum eligible 180, coverage .8, max unknown .1/censored .05, price age120d/cost210d/stock24h, change +/-10%, reference mismatch2%, WAPE30%, MAE ratio1.10, prefix drift .25. No-calibrated-interval remains an assumption, not a separately enforced actionability blocker. Production ACTIONABLE is therefore the current engineering policy result, not causal certification.
+
+SubscriptionService is a separate immutable price/lifecycle/paid/refund domain, with date-specific run rate, cash, movement and beginning-population churn. No subscription elasticity or validated SaaS price optimizer exists. Monthly/yearly normalization and paid-history/lifecycle assumptions must remain separate from merchandise demand. Existing UI distinguishes illustrative/assumed scenarios, estimates, explicit saved snapshots and realized outcomes not measured; no research output will appear there.
+
+## Real baseline commands/evidence
+
+- git status --short: empty; git log confirms 0ef1801.
+- Existing `mvnw.cmd -Dtest=ContributionOptimizerTest,OptimizationGateTest,IdentificationBenchmarkTest test`: BUILD SUCCESS, 14 tests, no failures/errors/skips (milestone1111-baseline-model.log). Includes known mathematical optimum80 (cost40, elasticity-2), existing identification protections and independent constrained90 policy fixtures. No estimator/test thresholds changed.
+- This milestone's unchanged frontend run: npm.cmd test --prefix frontend -- --watch=false: 133/32 passed. npm.cmd run build --prefix frontend launched; final measured size will be recorded from output. 11.10 verified baseline451.51kB with no warning. Full backend baseline from 11.10:93 unit+61 integration; full suite will be rerun including research.
+- Current backend copy running read-only on8084 for actual permanent diagnosis. GET summary: matchesSeed=true, checksum6668dcb85d28e183c3e0f94cd9f1043616a96b1f978597fc6e8e3daca1b06c34. Full2025/end-excluded2026-01-01/horizon30, three10-row overview reads:21 DIAGNOSTIC_ONLY,3 INACTIVE_VARIANT,3 UNRELIABLE_ELASTICITY,3 MISSING_PRICE; all30 abstain.
+- Actual overlapping optimizer reasons: calendar confounding21, low eligible coverage6, zero/discrepancy/outlier selection9, recent-reference mix3, inactive3, elasticity not trustworthy9, no positive forecast6, insufficient backtests9, critical stock coverage6, missing/stale price3, missing/stale cost3, insufficient demand3, unsupported price constraints3, no fresh positive stock3. These sum beyond30 because they overlap. Do not assume the seasonal coefficient explains every case.
+
+## Research design boundaries and instrumentation
+
+Use existing anonymous GET demand/recommendation DTOs for all30 histories, coefficients, configured/fitted controls, selection counts, identification, backtests and exact blocker codes. Export a reproducible read-only script and sanitized CSV/JSON trace, with source/history hashes. Unreported optimizer rule is NOT_REPORTED, not a scientific PASS; parameters and statistical ESS that the application does not calculate remain explicitly unavailable. No schema/API additions. Permanent demo is diagnostic only, never train/tune/holdout data.
+
+New independent generators and comparators belong solely in backend/src/test/java/com/smartpricing/research and research/pricing. Observation views passed to estimators exclude truth/future curves/latent marketing. Ground truth is evaluator-only. Preregister methodology and seed policy in a separate document before reviewing results. Synthetic finance examples are not actual store recommendations. Full regressions, unchanged V1–V7/data, checksum and all30 abstentions must be verified at delivery.
+
+## Skill/tool assessment and limits
+
+Installed session skills include frontend/UI, PostgreSQL query guidance, general documentation and security workflows, but none for this Java/statistical experimental task. No skill is invoked merely by keyword; no skill/dependency install or Zard migration. Existing JUnit/Jackson/Java BigDecimal/Testcontainers and Node standard library suffice. Consulted primary research: Talts et al. simulation-based calibration (arXiv1804.06788), Gelman multilevel modeling2006, Bojinov/Simchi-Levi/Zhao switchback design (arXiv2009.00148); methodology cites exact links and distinguishes our minimal prototypes from those full methods.
+
+Independent usability remains NOT VERIFIED; LIVE_SHOPIFY_NOT_VERIFIED; no live billing, experiment, production pricing change, automatic write, image ingestion, deployment or push. This milestone only proposes safe 11.12 scope; it does not implement it.
