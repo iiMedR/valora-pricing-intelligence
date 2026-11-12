@@ -1,0 +1,720 @@
+{
+  "checksum": "6668dcb85d28e183c3e0f94cd9f1043616a96b1f978597fc6e8e3daca1b06c34",
+  "unchanged": true,
+  "variants": 30,
+  "orders": 9466,
+  "refunds": 114,
+  "historicalObservations": 10044,
+  "actionable": 0,
+  "readOnlyGetOnly": true,
+  "rows": [
+    {
+      "sku": "DEMO-REFUND-1",
+      "variantId": "04379567-fbd6-49c4-8d07-cfd72f65ea9b",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "143.0000",
+        "unitCost": "70.7850",
+        "unitContribution": "72.2150",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-REFUND-2",
+      "variantId": "de6ec446-a9be-4075-9c74-c746396e7506",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "146.0000",
+        "unitCost": "72.2700",
+        "unitContribution": "73.7300",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-REFUND-3",
+      "variantId": "6b44fa72-0983-466e-9f14-9a25895bfae8",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "149.0000",
+        "unitCost": "73.7550",
+        "unitContribution": "75.2450",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-PROMOTION-1",
+      "variantId": "32f80d57-be58-4554-acfc-5b81f996396c",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "LOW_ELIGIBLE_COVERAGE",
+        "ZERO_DISCREPANCY_OR_OUTLIER_SELECTION",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED",
+        "RECENT_PRICE_MIX_NOT_REFERENCE_DEMAND"
+      ],
+      "currentCatalogFacts": {
+        "price": "113.0000",
+        "unitCost": "55.9350",
+        "unitContribution": "57.0650",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-PROMOTION-2",
+      "variantId": "934e14dd-c448-4a22-844a-b9163d8d3349",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "LOW_ELIGIBLE_COVERAGE",
+        "ZERO_DISCREPANCY_OR_OUTLIER_SELECTION",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED",
+        "RECENT_PRICE_MIX_NOT_REFERENCE_DEMAND"
+      ],
+      "currentCatalogFacts": {
+        "price": "116.0000",
+        "unitCost": "57.4200",
+        "unitContribution": "58.5800",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-PROMOTION-3",
+      "variantId": "821b09ae-b5ad-402e-ba65-c9837dfbc522",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "LOW_ELIGIBLE_COVERAGE",
+        "ZERO_DISCREPANCY_OR_OUTLIER_SELECTION",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED",
+        "RECENT_PRICE_MIX_NOT_REFERENCE_DEMAND"
+      ],
+      "currentCatalogFacts": {
+        "price": "119.0000",
+        "unitCost": "58.9050",
+        "unitContribution": "60.0950",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-ARCHIVE-1",
+      "variantId": "d0680460-e48d-41dd-95f8-1392d4f4afba",
+      "status": "INACTIVE_VARIANT",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "CURRENT_CATALOG_INACTIVE",
+        "ELASTICITY_NOT_TRUSTWORTHY",
+        "NO_POSITIVE_SUPPORTED_FORECAST",
+        "ZERO_DISCREPANCY_OR_OUTLIER_SELECTION",
+        "BACKTEST_EVIDENCE_INSUFFICIENT"
+      ],
+      "currentCatalogFacts": {
+        "price": "163.0000",
+        "unitCost": "80.6850",
+        "unitContribution": "82.3150",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-ARCHIVE-2",
+      "variantId": "73892b11-cc60-4603-b621-054c7732cf26",
+      "status": "INACTIVE_VARIANT",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "CURRENT_CATALOG_INACTIVE",
+        "ELASTICITY_NOT_TRUSTWORTHY",
+        "NO_POSITIVE_SUPPORTED_FORECAST",
+        "ZERO_DISCREPANCY_OR_OUTLIER_SELECTION",
+        "BACKTEST_EVIDENCE_INSUFFICIENT"
+      ],
+      "currentCatalogFacts": {
+        "price": "166.0000",
+        "unitCost": "82.1700",
+        "unitContribution": "83.8300",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-ARCHIVE-3",
+      "variantId": "20461aaa-c6b0-4e81-adea-9578ae5b3083",
+      "status": "INACTIVE_VARIANT",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "CURRENT_CATALOG_INACTIVE",
+        "ELASTICITY_NOT_TRUSTWORTHY",
+        "NO_POSITIVE_SUPPORTED_FORECAST",
+        "ZERO_DISCREPANCY_OR_OUTLIER_SELECTION",
+        "BACKTEST_EVIDENCE_INSUFFICIENT"
+      ],
+      "currentCatalogFacts": {
+        "price": "169.0000",
+        "unitCost": "83.6550",
+        "unitContribution": "85.3450",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-COST_CHANGE_UNKNOWN-1",
+      "variantId": "bedcab53-35ac-4054-af24-3b52143b0f11",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "153.0000",
+        "unitCost": "82.6200",
+        "unitContribution": "70.3800",
+        "marginPercent": "46.0000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-COST_CHANGE_UNKNOWN-2",
+      "variantId": "bc21670f-351d-4701-89c6-b8f362a4fc58",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "156.0000",
+        "unitCost": "84.2400",
+        "unitContribution": "71.7600",
+        "marginPercent": "46.0000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-COST_CHANGE_UNKNOWN-3",
+      "variantId": "59cb524b-028c-4a04-a305-a2244d76f25a",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "159.0000",
+        "unitCost": "85.8600",
+        "unitContribution": "73.1400",
+        "marginPercent": "46.0000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-ZERO_SALES-1",
+      "variantId": "e2e3cc5a-73d5-4046-a551-78edf7b7413b",
+      "status": "UNRELIABLE_ELASTICITY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "ELASTICITY_NOT_TRUSTWORTHY",
+        "ZERO_DISCREPANCY_OR_OUTLIER_SELECTION"
+      ],
+      "currentCatalogFacts": {
+        "price": "173.0000",
+        "unitCost": "85.6350",
+        "unitContribution": "87.3650",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-ZERO_SALES-2",
+      "variantId": "a2d02c7d-9b19-46c4-963f-eb95ce71c776",
+      "status": "UNRELIABLE_ELASTICITY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "ELASTICITY_NOT_TRUSTWORTHY",
+        "ZERO_DISCREPANCY_OR_OUTLIER_SELECTION"
+      ],
+      "currentCatalogFacts": {
+        "price": "176.0000",
+        "unitCost": "87.1200",
+        "unitContribution": "88.8800",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-ZERO_SALES-3",
+      "variantId": "f5561817-d605-4a90-999b-5284d4d6fda1",
+      "status": "UNRELIABLE_ELASTICITY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "ELASTICITY_NOT_TRUSTWORTHY",
+        "ZERO_DISCREPANCY_OR_OUTLIER_SELECTION"
+      ],
+      "currentCatalogFacts": {
+        "price": "179.0000",
+        "unitCost": "88.6050",
+        "unitContribution": "90.3950",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-ELASTIC_LOW-1",
+      "variantId": "67c470ba-eb20-498e-9cfc-7848e1fa20da",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "93.0000",
+        "unitCost": "46.0350",
+        "unitContribution": "46.9650",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-ELASTIC_LOW-2",
+      "variantId": "b0b8f7e3-8d6a-4782-a7a5-03fec8121624",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "96.0000",
+        "unitCost": "47.5200",
+        "unitContribution": "48.4800",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-ELASTIC_LOW-3",
+      "variantId": "2cfb6d60-15de-4bac-a27b-40308545120d",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "99.0000",
+        "unitCost": "49.0050",
+        "unitContribution": "49.9950",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-STOCKOUT-1",
+      "variantId": "ae77548f-0853-4a8f-a51c-dd7c282201d3",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "CRITICAL_STOCK_COVERAGE",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "123.0000",
+        "unitCost": "60.8850",
+        "unitContribution": "62.1150",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-STOCKOUT-2",
+      "variantId": "50e45ccd-0c58-486b-999c-6d85a04fcc78",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "CRITICAL_STOCK_COVERAGE",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "126.0000",
+        "unitCost": "62.3700",
+        "unitContribution": "63.6300",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-STOCKOUT-3",
+      "variantId": "6afc8d65-28bb-485f-a5e1-fa62616eb137",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "CRITICAL_STOCK_COVERAGE",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "129.0000",
+        "unitCost": "63.8550",
+        "unitContribution": "65.1450",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-ELASTIC_HIGH-1",
+      "variantId": "69f4cea6-2c3e-45c7-8e2a-49b829637a3c",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "83.0000",
+        "unitCost": "41.0850",
+        "unitContribution": "41.9150",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-ELASTIC_HIGH-2",
+      "variantId": "990cfc00-fa33-450c-8c15-fde3135cd7dc",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "86.0000",
+        "unitCost": "42.5700",
+        "unitContribution": "43.4300",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-ELASTIC_HIGH-3",
+      "variantId": "103ac694-c595-4c3b-b694-4ae59d439a3a",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED"
+      ],
+      "currentCatalogFacts": {
+        "price": "89.0000",
+        "unitCost": "44.0550",
+        "unitContribution": "44.9450",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-SEASONAL-1",
+      "variantId": "bc2d689f-9bff-4119-8ce7-5e83d28cc005",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED",
+        "BACKTEST_EVIDENCE_INSUFFICIENT"
+      ],
+      "currentCatalogFacts": {
+        "price": "103.0000",
+        "unitCost": "50.9850",
+        "unitContribution": "52.0150",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-SEASONAL-2",
+      "variantId": "1cb47f4a-d90c-4c5a-a3b4-5b5c10fece75",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED",
+        "BACKTEST_EVIDENCE_INSUFFICIENT"
+      ],
+      "currentCatalogFacts": {
+        "price": "106.0000",
+        "unitCost": "52.4700",
+        "unitContribution": "53.5300",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-SEASONAL-3",
+      "variantId": "711474ba-7b8c-4bfc-a1e8-d6488a70f405",
+      "status": "DIAGNOSTIC_ONLY",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "SEASONAL_OR_CALENDAR_CONFOUNDING",
+        "DISJOINT_PRICE_RESPONSE_UNCHECKED",
+        "BACKTEST_EVIDENCE_INSUFFICIENT"
+      ],
+      "currentCatalogFacts": {
+        "price": "109.0000",
+        "unitCost": "53.9550",
+        "unitContribution": "55.0450",
+        "marginPercent": "50.5000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-SPARSE-1",
+      "variantId": "c6790703-2a72-4c16-97bb-e8190bfd756c",
+      "status": "MISSING_PRICE",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "MISSING_OR_STALE_EFFECTIVE_PRICE",
+        "MISSING_OR_STALE_EFFECTIVE_COST",
+        "INSUFFICIENT_DEMAND_EVIDENCE",
+        "ELASTICITY_NOT_TRUSTWORTHY",
+        "PRICE_SUPPORT_OR_CONSTRAINTS_UNAVAILABLE",
+        "NO_POSITIVE_SUPPORTED_FORECAST",
+        "LOW_ELIGIBLE_COVERAGE",
+        "CRITICAL_STOCK_COVERAGE",
+        "BACKTEST_EVIDENCE_INSUFFICIENT",
+        "NO_FRESH_TRUSTED_POSITIVE_STOCK"
+      ],
+      "currentCatalogFacts": {
+        "price": "133.0000",
+        "unitCost": "59.8500",
+        "unitContribution": "73.1500",
+        "marginPercent": "55.0000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-SPARSE-2",
+      "variantId": "6df239d9-79c8-4257-970b-a5444611f838",
+      "status": "MISSING_PRICE",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "MISSING_OR_STALE_EFFECTIVE_PRICE",
+        "MISSING_OR_STALE_EFFECTIVE_COST",
+        "INSUFFICIENT_DEMAND_EVIDENCE",
+        "ELASTICITY_NOT_TRUSTWORTHY",
+        "PRICE_SUPPORT_OR_CONSTRAINTS_UNAVAILABLE",
+        "NO_POSITIVE_SUPPORTED_FORECAST",
+        "LOW_ELIGIBLE_COVERAGE",
+        "CRITICAL_STOCK_COVERAGE",
+        "BACKTEST_EVIDENCE_INSUFFICIENT",
+        "NO_FRESH_TRUSTED_POSITIVE_STOCK"
+      ],
+      "currentCatalogFacts": {
+        "price": "136.0000",
+        "unitCost": "61.2000",
+        "unitContribution": "74.8000",
+        "marginPercent": "55.0000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    },
+    {
+      "sku": "DEMO-SPARSE-3",
+      "variantId": "5e6b6512-99f8-4765-8f40-28bcd515139d",
+      "status": "MISSING_PRICE",
+      "modelVersion": "constrained-contribution-v2",
+      "reasons": [
+        "MISSING_OR_STALE_EFFECTIVE_PRICE",
+        "MISSING_OR_STALE_EFFECTIVE_COST",
+        "INSUFFICIENT_DEMAND_EVIDENCE",
+        "ELASTICITY_NOT_TRUSTWORTHY",
+        "PRICE_SUPPORT_OR_CONSTRAINTS_UNAVAILABLE",
+        "NO_POSITIVE_SUPPORTED_FORECAST",
+        "LOW_ELIGIBLE_COVERAGE",
+        "CRITICAL_STOCK_COVERAGE",
+        "BACKTEST_EVIDENCE_INSUFFICIENT",
+        "NO_FRESH_TRUSTED_POSITIVE_STOCK"
+      ],
+      "currentCatalogFacts": {
+        "price": "139.0000",
+        "unitCost": "62.5500",
+        "unitContribution": "76.4500",
+        "marginPercent": "55.0000"
+      },
+      "asOf": "2026-11-14",
+      "assumptionsRequired": [
+        "Confirm the simplified cost and refund assumptions to compare scenarios.",
+        "Supply expected units at both prices for period totals; volumes are assumptions, not forecasts.",
+        "Enter a candidate price to compare."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "generator": "independent-evidence-count-process-v1",
+  "java": "21.0.11",
+  "horizonDays": 30,
+  "policy": "constrained-contribution-v2",
+  "responseAdequacy": "response-adequacy-v1",
+  "splits": {
+    "DEV": [
+      3101,
+      3103,
+      3109,
+      3119
+    ],
+    "TEST": "4101..4120",
+    "CHALLENGE": "7101..7112"
+  },
+  "families": 35,
+  "cases": 1260,
+  "bootstrapReplicates": 99,
+  "nominalCoverage": 0.95,
+  "productionChanges": false,
+  "reproducibility": {
+    "cases": {
+      "sha256": "8f44c4bc5cd759862799c743a2e3f926bddf703a9f6e39c3d13858bcfd0bc010",
+      "byteIdentical": true
+    },
+    "diagnostics": {
+      "sha256": "d5b42f1b879bf6a1a74ee2acb4c872a2f190ea514177b86dd718a3faac3ab2be",
+      "byteIdentical": true
+    }
+  },
+  "sources": {
+    "backend/src/test/java/com/smartpricing/research/EvidenceQualityFixtures.java": "2e81d11b04c0eb1242ee44739c3706907df7c1a9deeb669ef643fef648f87f75",
+    "backend/src/test/java/com/smartpricing/research/EvidenceQualityIntervals.java": "429e6621f13641ed8c14765b3f05660998f45f445d76f92b334ee8c328fe49ff",
+    "backend/src/test/java/com/smartpricing/research/EvidenceQualityBenchmarkTest.java": "a1159b61013624ef5900d14fecab10edab35fd0f608518dc086aa112096e0b09",
+    "research/pricing/evidence-quality-summary.mjs": "7f23e156d3109072de4aaf39f83a011b1f3222041cd386ea2ea74367bd41d519",
+    "research/pricing/evidence-quality-tables.mjs": "85b85f12c1bf7591057ae0d7022fa817ca1f937b8e28a7709a7cb3bd5394d90d",
+    "research/pricing/verify-evidence-demo.mjs": "2e810a63107c82706631e029f8cf852c3b3a5cf65e9b959839f81ab0ea11b044",
+    "research/pricing/evidence-quality-manifest.mjs": "153e3310a7fb615e133e9b34b08d111a37d34dd2677aca0e03d84231414a7e9e",
+    "research/pricing/verify-evidence-integrity.mjs": "62b790ca5be3d80e429bfd4b288c8a613d404a4be33e9fef2a5a6d8a1e5779d1"
+  }
+}

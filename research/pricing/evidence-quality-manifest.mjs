@@ -1,0 +1,8 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+const root=new URL('../../',import.meta.url),out=new URL('docs/pricing-research/milestone-11-13-artifacts/',root);
+const sha=b=>createHash('sha256').update(b).digest('hex');
+const comparisons={};for(const name of ['cases','diagnostics']){const final=await readFile(new URL(`backend/target/evidence-quality/${name}.csv`,root)),prior=await readFile(new URL(`backend/target/evidence-quality/repro-${name}.csv`,root));if(!final.equals(prior))throw Error('Reproducibility mismatch: '+name);comparisons[name]={sha256:sha(final),byteIdentical:true};}
+const paths=['backend/src/test/java/com/smartpricing/research/EvidenceQualityFixtures.java','backend/src/test/java/com/smartpricing/research/EvidenceQualityIntervals.java','backend/src/test/java/com/smartpricing/research/EvidenceQualityBenchmarkTest.java','research/pricing/evidence-quality-summary.mjs','research/pricing/evidence-quality-tables.mjs','research/pricing/verify-evidence-demo.mjs','research/pricing/evidence-quality-manifest.mjs','research/pricing/verify-evidence-integrity.mjs'];
+let sources={};for(const p of paths)sources[p]=sha((await readFile(new URL(p,root),'utf8')).replace(/\r\n/g,'\n'));
+await writeFile(new URL('manifest.json',out),JSON.stringify({generator:'independent-evidence-count-process-v1',java:'21.0.11',horizonDays:30,policy:'constrained-contribution-v2',responseAdequacy:'response-adequacy-v1',splits:{DEV:[3101,3103,3109,3119],TEST:'4101..4120',CHALLENGE:'7101..7112'},families:35,cases:1260,bootstrapReplicates:99,nominalCoverage:.95,productionChanges:false,reproducibility:comparisons,sources},null,2)+'\n');console.log(JSON.stringify(comparisons));

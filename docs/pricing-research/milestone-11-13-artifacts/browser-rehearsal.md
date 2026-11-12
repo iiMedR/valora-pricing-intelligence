@@ -1,0 +1,11 @@
+# Developer browser rehearsal — 2026-11-14
+
+Not independent usability evidence. No participants recruited or measured; no comprehension scores claimed. Installed Playwright CLI skill used via cached npx @playwright/cli and Chrome. Browser plugin not available. No new dependency installed.
+
+The prior4201 dev server was stopped (ERR_CONNECTION_REFUSED). A temporary local proxy served the freshly built frontend on4204 to existing demo8081. Its root-path guard rejected the initial / navigation; opening /index.html loaded the application successfully. This is a QA-proxy limitation, not a product finding. Proxy removes Origin for the local reverse-proxy setup; this does not verify deployment CORS. No normal/store/provider data was written.
+
+Observed navigation: Overview → Pricing insights → DEMO-REFUND-1 Review insight → View catalog variant → Pricing guidance. Pricing insights used30days and explicitly historical2025 dates. Variant showed143 MAD and No reliable price suggestion yet, calendar/disjoint evidence reasons, a data-fix link and catalog/sales/forecast links. At375×812 the sidebar became the Open navigation button and variant heading/return link remained available.
+
+Product guidance disclosed Not a predicted demand response, Known catalog inputs, Compare scenarios · Merchant assumptions and no saving/application. Entered candidate130, assumed current units100, candidate units110,30days, then explicitly confirmed zero unentered extras. Result disclosed Calculated scenarios ·30days · Volumes and costs are your assumptions and excluded other expenses/full net profit. Checkbox remained keyboard focusable; one Tab was exercised. Resized to1440×960; guidance remained present. Browser closed afterwards. No exhaustive keyboard, screen-reader, contrast or all-mode accessibility certification is claimed. SaaS participant tasks are prepared but not independently rehearsed in this run; no live billing verified.
+
+This rehearsal confirms route/label reachability for the companion protocol only. Independent merchant/founder testing remains NOT VERIFIED. No saved evaluation, catalog edit, actual price application, seeding, sync or provider write occurred. GET-only demo integrity is verified separately after the rehearsal.

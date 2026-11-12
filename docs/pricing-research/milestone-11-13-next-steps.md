@@ -1,0 +1,16 @@
+# Milestone 11.13 prioritized follow-on decisions
+
+Verdict: research complete; production recommendation authority not validated. No automatic Milestone12 start. Existing guidance can remain within its explicit assumption-based scope; do not market it as predicted uplift or validated elasticity. No production changes were made in11.13.
+
+|Priority|Proposal and expected value|Failure risk|Prerequisite / release condition|
+|---|---|---|---|
+|1|Establish price-assignment and intervention provenance; addresses indistinguishable hidden-marketing worlds.|A campaign flag alone can miss latent demand/competitor shifts; false causal certainty.|Independently audited assignment, campaign/calendar/competitor context, supported overlap and future external holdout; no blanket gate lowering.|
+|2|Verify effective cost provenance and uncertainty; wrong-cost cases remain actionable despite excellent fits.|A precisely estimated demand curve can recommend an economically wrong direction.|Reconcile authoritative time-scoped variable costs; explicit missing/unverified state; independently test stale/wrong costs and refund objective.|
+|3|Research continuous-price adequacy diagnostics replacing exact-tier assumptions.|Flexible tests overfit curves or silently weaken nonlinear protection.|Frozen DEV design and brand-new holdout/challenge, confounded twins, shape/regime negatives, conservative economic-loss bounds; no production relaxation now.|
+|4|Research split adequacy using effective independent variation rather than two130-row halves.|Short windows conceal regimes, serial dependence or selection.|Independent allocation audit, power/effective-information study, conservative uncertainty and safety tradeoffs; new short-history holdouts.|
+|5|Add practical-significance and uncertainty-aware decision research.|Intervals can be narrow around a biased association; near-flat estimates invite noise chasing.|Economic-loss validation including flat/boundary/wrong-cost cases; no calibrated claim until external coverage supports it.|
+|6|Run the prepared independent merchant/founder usability study.|Calculated arithmetic may be mistaken for a sales/churn prediction.|Actual consented participants, blank-sheet observations/timings, facts/assumptions/estimates comprehension; developer checks cannot substitute.|
+
+Unsafe-approval safety is a prerequisite to recovering false abstentions. Label sensitivity must be reviewed independently: HOLIDAY and stable-response/baseline-shift cases are conservative evidence-authority negatives, not proof that every approved price loses money. Preserve paired-world failures; they prevent threshold tuning from being mistaken for identification.
+
+Milestone12 product work may be separately reviewed only with model limitations and live-provider status explicit. **NO-GO for shipping a newly validated autonomous pricing model**, blanket threshold reductions, automatic price application, live experiments, or claims of calibrated/causal uplift. Any future experimental collection needs separate user authorization and a documented design. Keep original demo and existing safety controls immutable. New seeds are necessary for any future tuned policy; current TEST/CHALLENGE are now seen. No deployment or push.
