@@ -54,7 +54,10 @@
         Recorded unit cost is missing. Contribution is unavailable.
         <a [routerLink]="['/products', productId(), 'variants', variantId(), 'history']"
           >Add or review unit cost</a
-        >, or enter an assumed cost below. Demo records cannot be edited.
+        >, or enter an assumed cost below.
+        @if (isDemo()) {
+          Demo records cannot be edited.
+        }
       </p>
     }
     <h3>Compare scenarios <span class="muted">· Merchant assumptions</span></h3>
@@ -261,7 +264,13 @@
               } @else if (fields['targetMarginPercent']) {
                 <div>
                   <dt>Arithmetic target-margin price</dt>
-                  <dd>{{ amount(values['targetMarginPrice']) }}</dd>
+                  <dd>
+                    {{
+                      values['targetMarginPrice'] == null
+                        ? 'Unavailable'
+                        : values['targetMarginPrice'] + ' ' + r.currency
+                    }}
+                  </dd>
                 </div>
               }
             </dl>

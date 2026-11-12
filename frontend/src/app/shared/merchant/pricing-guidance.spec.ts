@@ -23,6 +23,27 @@ const result = (extra: Partial<GuidanceResult> = {}): GuidanceResult => ({
   ...extra,
 });
 describe('Pricing guidance provenance and ephemeral scenarios', () => {
+  it('does not show a demo-only edit restriction in an authenticated normal workspace', async () => {
+    const { f, http } = await create();
+    http
+      .expectOne((r) => r.url.includes('/guidance/'))
+      .flush(result({ facts: { price: '100', unitCost: null, unitContribution: null } }));
+    await f.whenStable();
+    expect(f.nativeElement.textContent).toContain('Demo records cannot be edited');
+    TestBed.inject(SessionService).value.set({
+      mode: 'NORMAL',
+      authenticated: true,
+      readOnly: false,
+      username: 'owner',
+    });
+    await f.whenStable();
+    http
+      .expectOne((r) => r.url.includes('/guidance/'))
+      .flush(result({ facts: { price: '100', unitCost: null, unitContribution: null } }));
+    await f.whenStable();
+    expect(f.nativeElement.textContent).not.toContain('Demo records cannot be edited');
+    expect(f.nativeElement.textContent).toContain('Add or review unit cost');
+  });
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [PricingGuidance],
@@ -72,6 +93,7 @@ describe('Pricing guidance provenance and ephemeral scenarios', () => {
     f.componentInstance.changed('candidatePrice', '80');
     f.componentInstance.changed('currentUnits', '100');
     f.componentInstance.changed('scenarioUnits', '156.25');
+    f.componentInstance.changed('targetMarginPercent', '40');
     f.componentInstance.confirm(true);
     f.componentInstance.load();
     const req = http.expectOne((r) => r.url.includes('/guidance/'));
@@ -92,6 +114,7 @@ describe('Pricing guidance provenance and ephemeral scenarios', () => {
           unitContribution: '40',
           marginPercent: '50',
           totalContribution: '6250',
+          targetMarginPrice: '104.1234',
         },
       }),
     );
@@ -100,6 +123,7 @@ describe('Pricing guidance provenance and ephemeral scenarios', () => {
       f.nativeElement.querySelector('[aria-label="Candidate price scenario"]').textContent,
     ).toContain('6,250');
     expect(f.nativeElement.textContent).toContain('Merchant assumptions');
+    expect(f.nativeElement.textContent).toContain('104.1234 MAD');
     expect(f.nativeElement.textContent).toContain('How was this calculated?');
   });
   it('keeps missing costs unknown and offers the scoped cost-history next step', async () => {

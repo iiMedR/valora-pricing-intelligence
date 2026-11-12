@@ -74,6 +74,9 @@ export class PricingGuidance {
   isSaas() {
     return !!this.planId();
   }
+  isDemo() {
+    return this.session.value()?.mode === 'DEMO';
+  }
   private authorized() {
     const s = this.session.value();
     return s?.mode === 'DEMO' || s?.authenticated === true;

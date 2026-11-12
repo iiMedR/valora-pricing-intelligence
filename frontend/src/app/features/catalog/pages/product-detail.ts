@@ -156,7 +156,7 @@ import { SessionService } from '../../../core/session.service';
               <option value="">Choose a variant</option>
             }
             @for (v of data.variants; track v.id) {
-              <option [value]="v.id">
+              <option [value]="v.id" [selected]="v.id === focusedVariant()?.id">
                 {{ v.name }} · {{ v.sku }}{{ v.status === 'ARCHIVED' ? ' · Archived' : '' }}
               </option>
             }
