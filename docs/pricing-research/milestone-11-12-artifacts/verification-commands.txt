@@ -1,0 +1,34 @@
+BASELINE: Java21.0.11; mvnw.cmd -Dtest=ContributionOptimizerTest,OptimizationGateTest,IdentificationBenchmarkTest,LowDataBenchmarkTest,DecisionSupportResearchTest test
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  26.719 s
+[INFO] Finished at: 2026-11-13T22:43:50Z
+FULL BACKEND: mvnw.cmd verify
+[INFO] Tests run: 120, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 66, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  14:26 min
+[INFO] Finished at: 2026-11-13T23:19:12Z
+FINAL AFFECTED CONTRACTS: mvnw.cmd verify -Dtest=GuidanceCalculatorTest,LowDataBenchmarkTest,OptimizerSafetyRegressionTest,ContributionOptimizerTest,OptimizationGateTest -Dit.test=GuidanceIT,SubscriptionGuidanceIT,OptimizationApiIT,DemoReadOnlyIT
+[INFO] Tests run: 34, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  02:44 min
+[INFO] Finished at: 2026-11-13T23:25:29Z
+FINAL FRONTEND: npm.cmd test --prefix frontend -- --watch=false; npm.cmd run build --prefix frontend
+milestone1112-frontend-final-verified.log:Application bundle generation complete. [14.785 seconds] - 2026-11-14T00:00:38.864Z
+milestone1112-frontend-final-verified.log: Test Files  35 passed (35)
+milestone1112-frontend-final-verified.log:      Tests  145 passed (145)
+milestone1112-build-final-verified.log:                    | Initial total          | 451.51 kB |               115.60 kB
+milestone1112-build-final-verified.log:Application bundle generation complete. [15.980 seconds] - 2026-11-14T00:01:20.860Z
+FINAL CHROME: shipping matrix (strict backend probes), keyboard, corrected missing-cost Back/reload
+{"matrix":12,"axeScans":25,"violations":0,"errors":0,"writes":0,"extraChecks":{"missingCost":true,"networkErrorRetry":true,"realSessionExpiry":true,"monthlyAndAnnual":true,"strictVerifiedContracts":true,"demoWrites":0}}
+PASS keyboard-only core journey, fixed-cost break-even17/25, arithmetic target-margin price66.6667; axe0.
+PASS normal missing-cost wording, actual scoped history link, Back/reload variant selection and no runtime errors.
+{"variants":30,"actionable":0,"checksum":"6668dcb85d28e183c3e0f94cd9f1043616a96b1f978597fc6e8e3daca1b06c34"}
+REPRODUCED SELECTOR FAILURE BEFORE CORRECTION (not a final pass):
+AssertionError: expected 'a' to be 'b' // Object.is equality
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+Usual-port smoke check:
+PASS usual demo4201 renders new guidance from updated8081; normal4200 preserves sign-in; no page errors.

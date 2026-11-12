@@ -1,0 +1,9 @@
+{
+  "keyboardOnlyCoreFlow": true,
+  "steps": "Catalog link Enter → product guidance link Enter/focus → native Tab/type inputs → Enter disclosure → Tab costs/target → Space consent → Tab/Enter formula",
+  "currentBreakEven": 17,
+  "scenarioBreakEven": 25,
+  "targetMarginPrice": "66.6667 MAD",
+  "violations": [],
+  "errors": []
+}

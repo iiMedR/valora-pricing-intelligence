@@ -1,0 +1,249 @@
+{
+  "browser": "Installed Chrome, Playwright1.65.0; Browser plugin absent",
+  "matrix": [
+    {
+      "mode": "normal",
+      "width": 320,
+      "url": "http://localhost:4205/products/4b124741-3cda-4a78-aacc-e7abf3f516f8?variant=37f4907e-d5e6-499a-ad4c-46015ce7bda1",
+      "title": "Product detail | SmartPricing",
+      "meaningfulContent": true,
+      "frameworkOverlay": false,
+      "overflow": false,
+      "interaction": "Explicit inputs → keyboard consent → API calculated Current/Scenario → keyboard formula disclosure",
+      "screenshot": "guidance-normal-320.png"
+    },
+    {
+      "mode": "demo",
+      "width": 320,
+      "url": "http://localhost:4204/products/25b46e30-8045-4fad-908f-d3879fcc7893?variant=f5561817-d605-4a90-999b-5284d4d6fda1",
+      "title": "Product detail | SmartPricing",
+      "meaningfulContent": true,
+      "frameworkOverlay": false,
+      "overflow": false,
+      "interaction": "Explicit inputs → keyboard consent → API calculated Current/Scenario → keyboard formula disclosure",
+      "screenshot": "guidance-demo-320.png"
+    },
+    {
+      "mode": "saas",
+      "width": 320,
+      "url": "http://localhost:4206/saas/plans?asOf=2025-01-31&planId=guidance-annual",
+      "title": "Subscriptions | SmartPricing",
+      "meaningfulContent": true,
+      "frameworkOverlay": false,
+      "overflow": false,
+      "interaction": "Explicit inputs → keyboard consent → API calculated Current/Scenario → keyboard formula disclosure",
+      "screenshot": "guidance-saas-320.png"
+    },
+    {
+      "mode": "normal",
+      "width": 375,
+      "url": "http://localhost:4205/products/4b124741-3cda-4a78-aacc-e7abf3f516f8?variant=37f4907e-d5e6-499a-ad4c-46015ce7bda1",
+      "title": "Product detail | SmartPricing",
+      "meaningfulContent": true,
+      "frameworkOverlay": false,
+      "overflow": false,
+      "interaction": "Explicit inputs → keyboard consent → API calculated Current/Scenario → keyboard formula disclosure",
+      "screenshot": "guidance-normal-375.png"
+    },
+    {
+      "mode": "demo",
+      "width": 375,
+      "url": "http://localhost:4204/products/25b46e30-8045-4fad-908f-d3879fcc7893?variant=f5561817-d605-4a90-999b-5284d4d6fda1",
+      "title": "Product detail | SmartPricing",
+      "meaningfulContent": true,
+      "frameworkOverlay": false,
+      "overflow": false,
+      "interaction": "Explicit inputs → keyboard consent → API calculated Current/Scenario → keyboard formula disclosure",
+      "screenshot": "guidance-demo-375.png"
+    },
+    {
+      "mode": "saas",
+      "width": 375,
+      "url": "http://localhost:4206/saas/plans?asOf=2025-01-31&planId=guidance-annual",
+      "title": "Subscriptions | SmartPricing",
+      "meaningfulContent": true,
+      "frameworkOverlay": false,
+      "overflow": false,
+      "interaction": "Explicit inputs → keyboard consent → API calculated Current/Scenario → keyboard formula disclosure",
+      "screenshot": "guidance-saas-375.png"
+    },
+    {
+      "mode": "normal",
+      "width": 768,
+      "url": "http://localhost:4205/products/4b124741-3cda-4a78-aacc-e7abf3f516f8?variant=37f4907e-d5e6-499a-ad4c-46015ce7bda1",
+      "title": "Product detail | SmartPricing",
+      "meaningfulContent": true,
+      "frameworkOverlay": false,
+      "overflow": false,
+      "interaction": "Explicit inputs → keyboard consent → API calculated Current/Scenario → keyboard formula disclosure",
+      "screenshot": "guidance-normal-768.png"
+    },
+    {
+      "mode": "demo",
+      "width": 768,
+      "url": "http://localhost:4204/products/25b46e30-8045-4fad-908f-d3879fcc7893?variant=f5561817-d605-4a90-999b-5284d4d6fda1",
+      "title": "Product detail | SmartPricing",
+      "meaningfulContent": true,
+      "frameworkOverlay": false,
+      "overflow": false,
+      "interaction": "Explicit inputs → keyboard consent → API calculated Current/Scenario → keyboard formula disclosure",
+      "screenshot": "guidance-demo-768.png"
+    },
+    {
+      "mode": "saas",
+      "width": 768,
+      "url": "http://localhost:4206/saas/plans?asOf=2025-01-31&planId=guidance-annual",
+      "title": "Subscriptions | SmartPricing",
+      "meaningfulContent": true,
+      "frameworkOverlay": false,
+      "overflow": false,
+      "interaction": "Explicit inputs → keyboard consent → API calculated Current/Scenario → keyboard formula disclosure",
+      "screenshot": "guidance-saas-768.png"
+    },
+    {
+      "mode": "normal",
+      "width": 1440,
+      "url": "http://localhost:4205/products/4b124741-3cda-4a78-aacc-e7abf3f516f8?variant=37f4907e-d5e6-499a-ad4c-46015ce7bda1",
+      "title": "Product detail | SmartPricing",
+      "meaningfulContent": true,
+      "frameworkOverlay": false,
+      "overflow": false,
+      "interaction": "Explicit inputs → keyboard consent → API calculated Current/Scenario → keyboard formula disclosure",
+      "screenshot": "guidance-normal-1440.png"
+    },
+    {
+      "mode": "demo",
+      "width": 1440,
+      "url": "http://localhost:4204/products/25b46e30-8045-4fad-908f-d3879fcc7893?variant=f5561817-d605-4a90-999b-5284d4d6fda1",
+      "title": "Product detail | SmartPricing",
+      "meaningfulContent": true,
+      "frameworkOverlay": false,
+      "overflow": false,
+      "interaction": "Explicit inputs → keyboard consent → API calculated Current/Scenario → keyboard formula disclosure",
+      "screenshot": "guidance-demo-1440.png"
+    },
+    {
+      "mode": "saas",
+      "width": 1440,
+      "url": "http://localhost:4206/saas/plans?asOf=2025-01-31&planId=guidance-annual",
+      "title": "Subscriptions | SmartPricing",
+      "meaningfulContent": true,
+      "frameworkOverlay": false,
+      "overflow": false,
+      "interaction": "Explicit inputs → keyboard consent → API calculated Current/Scenario → keyboard formula disclosure",
+      "screenshot": "guidance-saas-1440.png"
+    }
+  ],
+  "accessibility": [
+    {
+      "tag": "normal-320-initial",
+      "violations": []
+    },
+    {
+      "tag": "normal-320-calculated",
+      "violations": []
+    },
+    {
+      "tag": "demo-320-initial",
+      "violations": []
+    },
+    {
+      "tag": "demo-320-calculated",
+      "violations": []
+    },
+    {
+      "tag": "saas-320-initial",
+      "violations": []
+    },
+    {
+      "tag": "saas-320-calculated",
+      "violations": []
+    },
+    {
+      "tag": "normal-375-initial",
+      "violations": []
+    },
+    {
+      "tag": "normal-375-calculated",
+      "violations": []
+    },
+    {
+      "tag": "demo-375-initial",
+      "violations": []
+    },
+    {
+      "tag": "demo-375-calculated",
+      "violations": []
+    },
+    {
+      "tag": "saas-375-initial",
+      "violations": []
+    },
+    {
+      "tag": "saas-375-calculated",
+      "violations": []
+    },
+    {
+      "tag": "normal-768-initial",
+      "violations": []
+    },
+    {
+      "tag": "normal-768-calculated",
+      "violations": []
+    },
+    {
+      "tag": "demo-768-initial",
+      "violations": []
+    },
+    {
+      "tag": "demo-768-calculated",
+      "violations": []
+    },
+    {
+      "tag": "saas-768-initial",
+      "violations": []
+    },
+    {
+      "tag": "saas-768-calculated",
+      "violations": []
+    },
+    {
+      "tag": "normal-1440-initial",
+      "violations": []
+    },
+    {
+      "tag": "normal-1440-calculated",
+      "violations": []
+    },
+    {
+      "tag": "demo-1440-initial",
+      "violations": []
+    },
+    {
+      "tag": "demo-1440-calculated",
+      "violations": []
+    },
+    {
+      "tag": "saas-1440-initial",
+      "violations": []
+    },
+    {
+      "tag": "saas-1440-calculated",
+      "violations": []
+    },
+    {
+      "tag": "normal-missing-cost",
+      "violations": []
+    }
+  ],
+  "errors": [],
+  "unexpectedWrites": [],
+  "extraChecks": {
+    "missingCost": true,
+    "networkErrorRetry": true,
+    "realSessionExpiry": true,
+    "monthlyAndAnnual": true,
+    "strictVerifiedContracts": true,
+    "demoWrites": 0
+  }
+}

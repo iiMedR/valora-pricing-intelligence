@@ -49,3 +49,21 @@ Pricing insights always explains Needs evidence. No SaaS suggested price, elasti
 ## Test data
 
 SubscriptionIT's deterministic fixture uses January 2025 monthly 100 / yearly 1,200 subscriptions, an upgrade to 150, effective cancellation and refund. Its expected results are documented in subscription-metrics.md. It is created only in disposable Testcontainers databases. Browser QA used a separately named QA-only database; these records were never added to normal or permanent demo data. No production route synthesizes these metrics. A permanent SaaS demo is deferred.
+
+## Plan scenarios (11.12)
+
+In **Plans**, apply your search/as-of date and choose **Review plan**. The actual immutable plan price, billing interval and recorded paid metrics appear first. **Pricing guidance** then offers explicitly assumed scenarios. Historical/scheduled prices, existing subscriptions and their assigned versions are not changed. A version must belong to the plan and be effective by the applied as-of date.
+
+Enter a candidate price **in the displayed billing period**, assumed starting subscribers, new subscribers, cancellations and servicing cost **per subscriber per full billing period**. Enter zero explicitly when assuming none; do not mistake an empty field for zero. Scenario subscribers=starting−cancellations+new. No subscriber response, retention or churn is inferred from price.
+
+Expand **Costs, fees and other assumptions** for fixed costs for that billing period, discount, payment fee and refunds of its billings. Explicitly confirm the simplified zero assumptions for unentered extras before calculating. Current and Scenario both remain assumption-based calculations, not observed reports. Annual costs must be annual; an annual charge is not immediate monthly cash. All assumed subscribers are modeled as assigned/paid for a full period without proration. Tax and other expenses are excluded; refund fee/cost recovery is not modeled.
+
+Compare contribution per subscriber, total contribution, fixed-cost break-even where computable, **normalized monthly recurring revenue (assumed)** and **full-period net cash after fees/refunds (assumed paid)**. These differ from ledger MRR/ARR, recognized accounting revenue, collected cash and full profit. Actual ledger semantics remain unchanged, including200+50−100=150MRR/1800ARR,50% subscription churn and25% net revenue churn in the validated accounting fixture. Refunds do not automatically change lifecycle/run rate.
+
+This **isolated synthetic QA screenshot** uses an actual QA annual1200 price version with merchant assumptions: candidate1440, starting10/new2/cancellations1, servicing240 per subscriber/year,10%discount,2%fee and refunds120. Scenario annual billings14256 normalize to monthly1188; full-period net cash after fees/refunds13850.88 differs from contribution11210.88. These are assumed outcomes, not billing-provider results or a pricing recommendation.
+
+![Annual-plan scenario comparison in isolated QA](ux/screenshots/milestone-11-12/saas-guidance-1440.png)
+
+[Mobile annual-plan screenshot](ux/screenshots/milestone-11-12/saas-guidance-375.png) · [Calculation definitions](pricing-research/progressive-pricing-guidance.md). A monthly100→150 example with assumed starting2/cancellation1/new0 and servicing40 produces monthly recurring150/annual1800 and contribution110; no subscription is migrated.
+
+Use **How was this calculated?** for math/evidence and **Reset assumptions** to clear the ephemeral draft. Inputs recalculate through authenticated read-only GETs. No scenario saving, ledger write, automatic price application, SaaS elasticity, provider connection or live billing integration is added. Protected results/drafts clear on session loss; Back/reload retain the existing applied plan/date context, not a secretly stored scenario. No validated subscription price optimization model exists. Independent founder usability remains NOT VERIFIED; live billing remains unavailable.
