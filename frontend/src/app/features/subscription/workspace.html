@@ -312,6 +312,9 @@
           <p>No validated SaaS pricing model is available.</p>
           <button z-button zType="outline" (click)="why.set(plan)">Why this result?</button>
         }
+        @if (current(plan); as price) {
+          <app-pricing-guidance [planId]="plan.id" [priceId]="price.id" [asOf]="appliedAsOf()" />
+        }
         <details class="panel">
           <summary>Price history</summary>
           <ul>

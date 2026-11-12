@@ -1,4 +1,5 @@
 import { ProductThumbnail } from '../../../shared/merchant/product-thumbnail';
+import { PricingGuidance } from '../../../shared/merchant/pricing-guidance';
 import { VariantSummary } from '../components/variant-summary';
 import { StatusPill, formatMoney } from '../../../shared/merchant/foundation';
 import { ZardButtonComponent } from '@/shared/components/button';
@@ -31,6 +32,7 @@ import { SessionService } from '../../../core/session.service';
 @Component({
   imports: [
     ProductThumbnail,
+    PricingGuidance,
     VariantSummary,
     StatusPill,
     ZardButtonComponent,
@@ -229,7 +231,16 @@ import { SessionService } from '../../../core/session.service';
                 </p>
               </details>
               <p class="muted">Stock availability: review dated inventory history.</p>
+              <a
+                z-button
+                zType="outline"
+                [routerLink]="[]"
+                fragment="pricing-guidance"
+                queryParamsHandling="preserve"
+                >Pricing guidance</a
+              >
               <app-variant-summary [variant]="v" [context]="evidenceContext()" />
+              <app-pricing-guidance [productId]="data.product.id" [variantId]="v.id" />
               @if (v.belowCost) {
                 <p class="warning">Current price is below cost. This is allowed.</p>
               }

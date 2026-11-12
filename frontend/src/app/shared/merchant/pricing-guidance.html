@@ -1,0 +1,307 @@
+<section id="pricing-guidance" class="guidance" tabindex="-1" aria-label="Pricing guidance">
+  <div class="guidance-heading">
+    <div>
+      <h2>Pricing guidance</h2>
+      <p class="muted">Understand costs. Compare your own assumptions.</p>
+    </div>
+    <button z-button zType="outline" (click)="reset()">Reset assumptions</button>
+  </div>
+  <p class="notice">
+    Not a predicted demand response. These calculations do not recommend an optimal price.
+  </p>
+  @if (loading()) {
+    <p role="status">Calculating guidance…</p>
+  }
+  @if (error()) {
+    <div class="error" role="alert">
+      {{ error() }} <button z-button zType="outline" (click)="load()">Retry guidance</button>
+    </div>
+  }
+  @if (result(); as r) {
+    <p class="muted">
+      {{ isSaas() ? 'Observed price version' : 'Known catalog inputs' }} · {{ r.currency }} ·
+      {{
+        isSaas() ? (r.period === 'YEARLY' ? 'per year' : 'per month') : 'catalog as of ' + r.asOf
+      }}
+    </p>
+    <dl class="guidance-facts">
+      <div>
+        <dt>Listed price</dt>
+        <dd>{{ amount(r.facts['price']) }}</dd>
+      </div>
+      @if (isSaas()) {
+        <div>
+          <dt>Normalized monthly price</dt>
+          <dd>{{ amount(r.facts['monthlyPrice']) }}</dd>
+        </div>
+      } @else {
+        <div>
+          <dt>Recorded unit cost</dt>
+          <dd>{{ amount(r.facts['unitCost']) }}</dd>
+        </div>
+        <div>
+          <dt>Price minus recorded cost</dt>
+          <dd>{{ amount(r.facts['unitContribution']) }}</dd>
+        </div>
+        <div>
+          <dt>Margin before excluded expenses</dt>
+          <dd>{{ percent(r.facts['marginPercent']) }}</dd>
+        </div>
+      }
+    </dl>
+    @if (!isSaas() && r.facts['unitCost'] == null) {
+      <p class="notice">
+        Recorded unit cost is missing. Contribution is unavailable.
+        <a [routerLink]="['/products', productId(), 'variants', variantId(), 'history']"
+          >Add or review unit cost</a
+        >, or enter an assumed cost below. Demo records cannot be edited.
+      </p>
+    }
+    <h3>Compare scenarios <span class="muted">· Merchant assumptions</span></h3>
+    <p class="muted">
+      Nothing is saved or applied.
+      {{
+        isSaas()
+          ? 'No validated subscription price optimization model exists.'
+          : 'Supply units at each price; sales volume is never assumed to stay constant.'
+      }}
+    </p>
+    <div class="guidance-inputs">
+      <label
+        >Candidate price ({{ r.currency
+        }}{{ isSaas() ? (r.period === 'YEARLY' ? ' / year' : ' / month') : ' / unit' }})<input
+          z-input
+          type="number"
+          min="0.0001"
+          max="1000000000000"
+          step="0.0001"
+          [value]="fields['candidatePrice'] || ''"
+          (input)="changed('candidatePrice', $any($event.target).value)"
+      /></label>
+      @if (isSaas()) {
+        <label
+          >Starting subscribers (assumed)<input
+            z-input
+            type="number"
+            min="0"
+            max="1000000"
+            step="1"
+            [value]="fields['retainedSubscribers'] || ''"
+            (input)="changed('retainedSubscribers', $any($event.target).value)"
+        /></label>
+        <label
+          >New subscribers (assumed)<input
+            z-input
+            type="number"
+            min="0"
+            max="1000000"
+            step="1"
+            [value]="fields['newSubscribers'] || ''"
+            (input)="changed('newSubscribers', $any($event.target).value)"
+        /></label>
+        <label
+          >Cancellations (assumed)<input
+            z-input
+            type="number"
+            min="0"
+            max="1000000"
+            step="1"
+            [value]="fields['cancellations'] || ''"
+            (input)="changed('cancellations', $any($event.target).value)"
+        /></label>
+        <label
+          >Servicing cost / subscriber / {{ r.period === 'YEARLY' ? 'year' : 'month' }} ({{
+            r.currency
+          }}, assumed)<input
+            z-input
+            type="number"
+            min="0"
+            max="1000000000000"
+            step="0.0001"
+            [value]="fields['servicingCost'] || ''"
+            (input)="changed('servicingCost', $any($event.target).value)"
+        /></label>
+      } @else {
+        <label
+          >Units at current price (assumed)<input
+            z-input
+            type="number"
+            min="0"
+            max="1000000"
+            step="0.0001"
+            [value]="fields['currentUnits'] || ''"
+            (input)="changed('currentUnits', $any($event.target).value)"
+        /></label>
+        <label
+          >Units at candidate price (assumed)<input
+            z-input
+            type="number"
+            min="0"
+            max="1000000"
+            step="0.0001"
+            [value]="fields['scenarioUnits'] || ''"
+            (input)="changed('scenarioUnits', $any($event.target).value)"
+        /></label>
+        <label
+          >Scenario period (days)<input
+            z-input
+            type="number"
+            min="1"
+            max="366"
+            step="1"
+            [value]="fields['periodDays'] || ''"
+            (input)="changed('periodDays', $any($event.target).value)"
+        /></label>
+      }
+    </div>
+    <details>
+      <summary>Costs, fees and other assumptions</summary>
+      <div class="guidance-inputs">
+        @if (!isSaas()) {
+          @for (field of commerceExtras; track field[0]) {
+            <label
+              >{{ field[1]
+              }}<input
+                z-input
+                type="number"
+                min="0"
+                step="0.0001"
+                [value]="fields[field[0]] || ''"
+                (input)="changed(field[0], $any($event.target).value)"
+            /></label>
+          }
+        }
+        @for (field of sharedExtras; track field[0]) {
+          <label
+            >{{ field[1]
+            }}<input
+              z-input
+              type="number"
+              min="0"
+              step="0.0001"
+              [value]="fields[field[0]] || ''"
+              (input)="changed(field[0], $any($event.target).value)"
+          /></label>
+        }
+      </div>
+    </details>
+    <label class="guidance-consent"
+      ><input
+        type="checkbox"
+        [checked]="confirmed"
+        (change)="confirm($any($event.target).checked)"
+      />
+      <span
+        >I explicitly assume unentered extras, discounts, taxes, fees and refunds are zero for this
+        scenario. Other business expenses are excluded.</span
+      ></label
+    >
+    @if (r.missing.length) {
+      <ul class="muted">
+        @for (reason of r.missing; track reason) {
+          <li>{{ reason }}</li>
+        }
+      </ul>
+    }
+    @if (r.current['unitContribution'] != null || r.scenario['unitContribution'] != null) {
+      <p class="muted">
+        Calculated scenarios ·
+        {{
+          isSaas()
+            ? r.period === 'YEARLY'
+              ? 'one full annual billing period'
+              : 'one full monthly billing period'
+            : r.period
+        }}
+        · Volumes and costs are your assumptions.
+      </p>
+      <div class="guidance-comparison" aria-live="polite" aria-atomic="true">
+        @for (side of ['current', 'scenario']; track side) {
+          @let values = side === 'current' ? r.current : r.scenario;
+          <article
+            [attr.aria-label]="
+              side === 'current' ? 'Current price scenario' : 'Candidate price scenario'
+            "
+          >
+            <h3>{{ side === 'current' ? 'Current' : 'Scenario' }} <small>Calculated</small></h3>
+            <dl>
+              <div>
+                <dt>Price</dt>
+                <dd>{{ amount(values['price']) }}</dd>
+              </div>
+              <div>
+                <dt>
+                  {{
+                    isSaas() ? 'Contribution / subscriber / billing period' : 'Unit contribution'
+                  }}
+                </dt>
+                <dd>{{ amount(values['unitContribution']) }}</dd>
+              </div>
+              <div>
+                <dt>Contribution margin</dt>
+                <dd>{{ percent(values['marginPercent']) }}</dd>
+              </div>
+              <div>
+                <dt>Total contribution</dt>
+                <dd>{{ amount(values['totalContribution']) }}</dd>
+              </div>
+              <div>
+                <dt>{{ isSaas() ? 'Break-even subscribers' : 'Break-even units' }}</dt>
+                <dd>{{ values['breakEvenUnits'] ?? 'Not computable' }}</dd>
+              </div>
+              @if (isSaas()) {
+                <div>
+                  <dt>Normalized monthly recurring revenue (assumed)</dt>
+                  <dd>{{ amount(values['normalizedMonthlyRecurring']) }}</dd>
+                </div>
+                <div>
+                  <dt>Full-period net cash after fees/refunds (assumed paid)</dt>
+                  <dd>{{ amount(values['netCashAfterFeesAndRefunds']) }}</dd>
+                </div>
+              } @else if (fields['targetMarginPercent']) {
+                <div>
+                  <dt>Arithmetic target-margin price</dt>
+                  <dd>{{ amount(values['targetMarginPrice']) }}</dd>
+                </div>
+              }
+            </dl>
+          </article>
+        }
+      </div>
+      <p class="muted">
+        Contribution excludes other business expenses; this is not full net profit. Break-even needs
+        entered fixed costs and positive unit contribution.
+      </p>
+    }
+    <details>
+      <summary>How was this calculated?</summary>
+      <p>
+        Unit contribution = discounted, tax-exclusive price − unit cost − extra variable cost −
+        payment fees. Total contribution = units × unit contribution − tax-exclusive refunds.
+      </p>
+      <p>
+        Margin = unit contribution ÷ tax-exclusive discounted price. Break-even = ceiling((fixed
+        costs + tax-exclusive refunds) ÷ unit contribution). Target-margin price solves the same
+        equation and rounds up to four decimals; unavailable if its denominator or combined variable
+        cost is not positive.
+      </p>
+      @if (isSaas()) {
+        <p>
+          Scenario subscribers = starting − cancellations + new. Annual billings ÷ 12 gives
+          normalized monthly recurring revenue; actual cash and recognized revenue are different. No
+          subscriber or price response is predicted. Existing ledger MRR/ARR and assigned price
+          versions are unchanged.
+        </p>
+      }
+      <ul>
+        @for (exclusion of r.exclusions; track exclusion) {
+          <li>{{ exclusion }}</li>
+        }
+      </ul>
+      <p>
+        Calculation {{ r.version }} · Source {{ r.sourceEvidence }} · Assumptions
+        {{ r.assumptionEvidence }} · Result {{ r.resultEvidence }}
+      </p>
+    </details>
+  }
+</section>

@@ -19,6 +19,7 @@ import { ZardButtonComponent } from '@/shared/components/button';
 import { ZardInputComponent } from '@/shared/components/input';
 import { Confirmation, ModalFocus } from '../../core/confirmation';
 import { SessionService } from '../../core/session.service';
+import { PricingGuidance } from '../../shared/merchant/pricing-guidance';
 import { apiError } from '../catalog/services/catalog-api.service';
 import {
   subscriptionQuery,
@@ -105,6 +106,7 @@ interface Receipt {
     ZardButtonComponent,
     ZardInputComponent,
     ModalFocus,
+    PricingGuidance,
   ],
   templateUrl: './workspace.html',
   styleUrl: './workspace.css',

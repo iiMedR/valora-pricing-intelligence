@@ -13,7 +13,33 @@ describe('Subscription workspace', () => {
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }),
   );
-  afterEach(() => TestBed.inject(HttpTestingController).verify());
+  afterEach(() => {
+    const http = TestBed.inject(HttpTestingController);
+    // Detail now composes a separately tested read-only guidance panel. Parent tests retain their
+    // real plan-navigation scope and explicitly satisfy the child's initial source read.
+    for (const req of http.match((r) => r.url.endsWith('/guidance'))) {
+      expect(req.request.method).toBe('GET');
+      if (!req.cancelled)
+        req.flush({
+          version: 'deterministic-guidance-v1',
+          businessMode: 'SAAS_SUBSCRIPTION',
+          resourceId: 'basic',
+          currency: 'MAD',
+          period: 'MONTHLY',
+          asOf: '2025-01-31',
+          sourceEvidence: 'OBSERVED',
+          assumptionEvidence: 'MERCHANT_ASSUMPTION',
+          resultEvidence: 'CALCULATED_SCENARIO',
+          facts: { price: '100', monthlyPrice: '100' },
+          current: {},
+          scenario: {},
+          assumptions: {},
+          missing: [],
+          exclusions: [],
+        });
+    }
+    http.verify();
+  });
   async function create(path = '/saas/settings') {
     const router = TestBed.inject(Router);
     let currentUrl = path;
@@ -126,8 +152,8 @@ describe('Subscription workspace', () => {
     f.componentInstance.review(f.componentInstance.plans()!.content[0]);
     await f.whenStable();
     (
-      f.nativeElement.querySelector(
-        '#plan-detail button[z-button][zType="outline"]',
+      Array.from(f.nativeElement.querySelectorAll('#plan-detail button')).find(
+        (button) => (button as HTMLButtonElement).textContent?.trim() === 'Why this result?',
       ) as HTMLButtonElement
     ).click();
     await f.whenStable();

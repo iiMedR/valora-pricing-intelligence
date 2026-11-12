@@ -40,6 +40,14 @@ export function explainReason(code: string): string {
       'Zero sales, price discrepancies or unusual observations prevent a reliable comparison.',
     ELASTICITY_SUBWINDOW_UNSTABLE:
       'Price sensitivity changes too much when the most recent 28 days are excluded.',
+    PRICE_RESPONSE_SHAPE_MISMATCH:
+      'Sales behave differently across price levels, so one price-response estimate is not reliable enough to suggest a change.',
+    PRICE_RESPONSE_SHAPE_UNCHECKED:
+      'There are not enough repeated observations at comparable prices to check the price response.',
+    DISJOINT_PRICE_RESPONSE_UNSTABLE:
+      'Price sensitivity differs between earlier and later history; one estimate may not describe recent sales.',
+    DISJOINT_PRICE_RESPONSE_UNCHECKED:
+      'Both halves of the period need enough supported price and sales history to check whether the response is stable.',
     BACKTEST_EVIDENCE_INSUFFICIENT:
       'Historical forecast tests do not meet the required evidence checks.',
     NO_FRESH_TRUSTED_POSITIVE_STOCK: 'There is no recent, trusted positive stock observation.',
