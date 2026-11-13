@@ -1,0 +1,179 @@
+{
+  "milestone": "11.15",
+  "baseline": "1e8df6fae9075282abb95887b28a22c89391e282",
+  "auditCommit": "7e55af0",
+  "sourceHeadAtGeneration": "1d5816e2cff82705abf41f14e8e6c9fc01a80d4a",
+  "hashEncoding": "UTF-8 normalized LF; raw PNG; manifest excludes recursive self-hash",
+  "backendChanges": false,
+  "datasetChanges": false,
+  "files": [
+    {
+      "path": "docs/demo/README.md",
+      "sha256": "0257b7dd3091923e18900dae730d72b793a28b8ab33e4293d25ba4e348754d0c"
+    },
+    {
+      "path": "docs/demo/artifacts/milestone-11-15/browser-results.json",
+      "sha256": "7f3aabc7df9ac2a53b63b192aaa3170cfac71ddfe6469e543368ce863c5b2004"
+    },
+    {
+      "path": "docs/demo/artifacts/milestone-11-15/invariants.json",
+      "sha256": "7b1fd5ea74ee184f99b498c0eb9294ff6ad3f2301334c592b02a2b30121657de"
+    },
+    {
+      "path": "docs/demo/artifacts/milestone-11-15/manifest.json",
+      "sha256": null
+    },
+    {
+      "path": "docs/demo/artifacts/milestone-11-15/performance.json",
+      "sha256": "6c83a898aa0fe25740174f08324bd4a9ce309fa09c375d30456dbb64b59c6142"
+    },
+    {
+      "path": "docs/demo/artifacts/milestone-11-15/reproducibility.txt",
+      "sha256": "dd590440509c4c912f7e1efae6f538cea0d0c65e727a31fe43421d08d33d8927"
+    },
+    {
+      "path": "docs/demo/screenshots/milestone-11-15/README.md",
+      "sha256": "928b1dcf0d464b3d0e34fa12030767c7e0a196955ce93fc60e23c865c496e452"
+    },
+    {
+      "path": "docs/demo/screenshots/milestone-11-15/chooser-expanded-1440.png",
+      "sha256": "a476ba93556f7d7decce50583c912d0b8b7e326457f9269043a5f0b190e50864"
+    },
+    {
+      "path": "docs/demo/screenshots/milestone-11-15/examples-320.png",
+      "sha256": "1f86d3c15a9ea171ef3c9bffe642acfd2b05989b901812107ccbb77520b07615"
+    },
+    {
+      "path": "docs/demo/screenshots/milestone-11-15/experimental-1440.png",
+      "sha256": "3681562dca4efdbf414cda06d297b0ad06247c24f861c5cbbebf5b47599b211c"
+    },
+    {
+      "path": "docs/demo/screenshots/milestone-11-15/hidden-failure-375.png",
+      "sha256": "2838672bc985fe8bfbcfa3f49303a7ddd86d5e233981813d102d6892d123eb7b"
+    },
+    {
+      "path": "docs/demo/screenshots/milestone-11-15/missing-cost-375.png",
+      "sha256": "a752b10f89ec65bb6afafe964a443303b4cc6516c6f62eaa25e063e28930d6ce"
+    },
+    {
+      "path": "docs/demo/screenshots/milestone-11-15/saas-yearly-guidance-375.png",
+      "sha256": "23e3fefba5504f52ef1928b0e1dd14d36e36d9b127eabe9eed5b28ab0fefde89"
+    },
+    {
+      "path": "docs/demo/screenshots/milestone-11-15/unverified-environment-1440.png",
+      "sha256": "15e150591aca352cbd634b90239ecb024d2cbe337fc2a09679ce854a44609006"
+    },
+    {
+      "path": "docs/demo/screenshots/milestone-11-15/wrong-cost-1440.png",
+      "sha256": "74513d878d4c580a4164a0d93bc7b7d92a04ca96eade21cc13a15f8b01dc22e4"
+    },
+    {
+      "path": "docs/milestone-11-15-baseline-audit.md",
+      "sha256": "b068f8756f918214508f0fd2e510e76faa0bd1b428ad6505dc32d9fa361d440a"
+    },
+    {
+      "path": "docs/milestone-11-15-cleanup-report.md",
+      "sha256": "97e9d1b5169f733921e4ea8ed31cbf14c38ba30274e1e6e198b1e275016dfadd"
+    },
+    {
+      "path": "docs/milestone-11-15-verification.md",
+      "sha256": "f8fcd247caea2c385e2b375dfe34e80e74c3d579fbae31c5ee26fd4c5c7cb001"
+    },
+    {
+      "path": "frontend/src/app/app.routes.ts",
+      "sha256": "35df5308a374bb9454022d39c0193577fec7df49cc563f25cf2eba853ad15f33"
+    },
+    {
+      "path": "frontend/src/app/core/environment-details.ts",
+      "sha256": "c3aaac43cc1fb65df9080e083f84b00fc027e6d712c71c5bc43bc74211f3bc93"
+    },
+    {
+      "path": "frontend/src/app/core/environment-indicator.ts",
+      "sha256": "066e3205be57a79247e83ae926b9677aec30024baa7f1b6adb9be83c7852cb25"
+    },
+    {
+      "path": "frontend/src/app/core/environment.service.ts",
+      "sha256": "370484f53f9dd9bfb8d9ccd95a6feb53f2c5d0c4712bd624443828a958479737"
+    },
+    {
+      "path": "frontend/src/app/core/portfolio-context.spec.ts",
+      "sha256": "a062d5d21364a4246dac4d01f6469e06b4c6a991dff9100d7ee47e4e6fd70aa5"
+    },
+    {
+      "path": "frontend/src/app/core/portfolio-context.ts",
+      "sha256": "b9552540717b46bd44824961bc803ef187da0fdacf629bffc4c24dc4f2efedd3"
+    },
+    {
+      "path": "frontend/src/app/features/catalog/components/product-entry.ts",
+      "sha256": "ffd382df0abe67172551e571e24b5eb0f59f070fae05e2506efff40687a1ca0c"
+    },
+    {
+      "path": "frontend/src/app/features/catalog/components/variant-summary.ts",
+      "sha256": "effbe4b4d643356a78e0f951658f8f9e74df5f83729a6c3935f428ae36915a38"
+    },
+    {
+      "path": "frontend/src/app/features/catalog/pages/product-list.spec.ts",
+      "sha256": "d73dfb121fc4aaefcd6c271876793cef7f13c3b0d621a5275d2f6cb6d313cebc"
+    },
+    {
+      "path": "frontend/src/app/features/catalog/pages/product-list.ts",
+      "sha256": "07fc6acee0e36f57fe6cf829046acb647e1b4256b7e1adc903096fe1350814f9"
+    },
+    {
+      "path": "frontend/src/app/features/home/home.html",
+      "sha256": "4d7164b33ed8535fda390b1089996c906bdc2dc2f45c4bd6b572dce3c9c30ce4"
+    },
+    {
+      "path": "frontend/src/app/features/home/home.ts",
+      "sha256": "7329a2815b87141e29abf6c197bf2d7cb8605c0130d257ada76cbdebd1ff0631"
+    },
+    {
+      "path": "frontend/src/app/features/optimization/optimization.html",
+      "sha256": "dc30ac1e5d478e8fefe3e1f1fc8ea49228f679480c15bd1cd2fa0e7a23eb6607"
+    },
+    {
+      "path": "frontend/src/app/features/optimization/optimization.spec.ts",
+      "sha256": "d536658691a0ebdd27cf937c491400418a9188258827e96808b7505e34c3351d"
+    },
+    {
+      "path": "frontend/src/app/features/optimization/pricing-result.ts",
+      "sha256": "f0d21b02f4ab411dac56c2469908b23e3b1aae08ba087205fd3fa42294c16b1a"
+    },
+    {
+      "path": "frontend/src/app/shared/merchant/decision-summary.ts",
+      "sha256": "9f1a32b3c804acf8cad50db818fce32fc8ae6e7f2c1b1364960eec523d2f916b"
+    },
+    {
+      "path": "frontend/src/app/shared/merchant/portfolio-examples.ts",
+      "sha256": "87ce4affe3e9d4e4e02845beb3381bf1eab24cb1270060f19f4589f436a63e4d"
+    },
+    {
+      "path": "frontend/src/app/shared/merchant/pricing-guidance.html",
+      "sha256": "499fb370870936017ad3011bd1e86f23555e1e9d46a7554b2121d210801ed044"
+    },
+    {
+      "path": "frontend/src/app/shared/merchant/pricing-presentation.spec.ts",
+      "sha256": "1c31aa8fc7b2e3e02f37fefb95f1706dcbc32f275c54131f653349feb4ac10b9"
+    },
+    {
+      "path": "frontend/src/app/shared/merchant/pricing-presentation.ts",
+      "sha256": "dbe4a12f3d0a3996389519f7c85511663b040a2904c36106eba3d01bd96bd17a"
+    },
+    {
+      "path": "frontend/src/styles.css",
+      "sha256": "eba5736cb77c6729cf99c6e0df854c057085ed79d182fb9bc0267e1977d8805e"
+    },
+    {
+      "path": "research/pricing/portfolio-ux-manifest.mjs",
+      "sha256": "784814b6f07f8484add8fe40bf51d9a833f95b24e3ff4fb13728b137c02ba756"
+    },
+    {
+      "path": "research/pricing/verify-portfolio-ux.mjs",
+      "sha256": "715157d3fd442e988a5d9e67f7b96e74ea8162bd1bcefc950d6eed58c64182eb"
+    },
+    {
+      "path": "scripts/measure-catalog.cjs",
+      "sha256": "b2cd61428a214df0933527e079b27f853a100d50380a93e9334ffe4615f0ba6a"
+    }
+  ]
+}
