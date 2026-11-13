@@ -1,0 +1,227 @@
+[
+  {
+    "width": 320,
+    "step": "catalog",
+    "url": "http://localhost:4207/products",
+    "title": "Products | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 320,
+    "step": "product",
+    "url": "http://localhost:4207/products/a83de61a-dd88-4ef3-a5bb-39760e39f188?search=Roasted%20Coffee&categoryId=&status=&page=0&view=grid",
+    "title": "Product detail | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 320,
+    "step": "guidance",
+    "url": "http://localhost:4207/products/a83de61a-dd88-4ef3-a5bb-39760e39f188?search=Roasted%20Coffee&categoryId=&status=&page=0&view=grid",
+    "title": "Product detail | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 320,
+    "step": "insight",
+    "url": "http://localhost:4207/optimization?catalogSearch=Roasted%20Coffee&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=a83de61a-dd88-4ef3-a5bb-39760e39f188&variantId=de84808d-761c-4fde-851b-444841c74608&search=PORT-ELASTIC_HIGH-1",
+    "title": "Pricing Recommendations | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 320,
+    "step": "missing-cost",
+    "url": "http://localhost:4207/products/50df440b-985c-4f95-94a3-b04b8f3240ca?variant=13d8f732-984c-4976-8e4c-01a41b6a52c4",
+    "title": "Product detail | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 320,
+    "step": "withheld",
+    "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=50df440b-985c-4f95-94a3-b04b8f3240ca&variantId=13d8f732-984c-4976-8e4c-01a41b6a52c4&search=PORT-SPARSE-1",
+    "title": "Pricing Recommendations | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 375,
+    "step": "catalog",
+    "url": "http://localhost:4207/products",
+    "title": "Products | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 375,
+    "step": "product",
+    "url": "http://localhost:4207/products/a83de61a-dd88-4ef3-a5bb-39760e39f188?search=Roasted%20Coffee&categoryId=&status=&page=0&view=grid",
+    "title": "Product detail | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 375,
+    "step": "guidance",
+    "url": "http://localhost:4207/products/a83de61a-dd88-4ef3-a5bb-39760e39f188?search=Roasted%20Coffee&categoryId=&status=&page=0&view=grid",
+    "title": "Product detail | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 375,
+    "step": "insight",
+    "url": "http://localhost:4207/optimization?catalogSearch=Roasted%20Coffee&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=a83de61a-dd88-4ef3-a5bb-39760e39f188&variantId=de84808d-761c-4fde-851b-444841c74608&search=PORT-ELASTIC_HIGH-1",
+    "title": "Pricing Recommendations | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 375,
+    "step": "missing-cost",
+    "url": "http://localhost:4207/products/50df440b-985c-4f95-94a3-b04b8f3240ca?variant=13d8f732-984c-4976-8e4c-01a41b6a52c4",
+    "title": "Product detail | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 375,
+    "step": "withheld",
+    "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=50df440b-985c-4f95-94a3-b04b8f3240ca&variantId=13d8f732-984c-4976-8e4c-01a41b6a52c4&search=PORT-SPARSE-1",
+    "title": "Pricing Recommendations | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 768,
+    "step": "catalog",
+    "url": "http://localhost:4207/products",
+    "title": "Products | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 768,
+    "step": "product",
+    "url": "http://localhost:4207/products/a83de61a-dd88-4ef3-a5bb-39760e39f188?search=Roasted%20Coffee&categoryId=&status=&page=0&view=grid",
+    "title": "Product detail | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 768,
+    "step": "guidance",
+    "url": "http://localhost:4207/products/a83de61a-dd88-4ef3-a5bb-39760e39f188?search=Roasted%20Coffee&categoryId=&status=&page=0&view=grid",
+    "title": "Product detail | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 768,
+    "step": "insight",
+    "url": "http://localhost:4207/optimization?catalogSearch=Roasted%20Coffee&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=a83de61a-dd88-4ef3-a5bb-39760e39f188&variantId=de84808d-761c-4fde-851b-444841c74608&search=PORT-ELASTIC_HIGH-1",
+    "title": "Pricing Recommendations | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 768,
+    "step": "missing-cost",
+    "url": "http://localhost:4207/products/50df440b-985c-4f95-94a3-b04b8f3240ca?variant=13d8f732-984c-4976-8e4c-01a41b6a52c4",
+    "title": "Product detail | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 768,
+    "step": "withheld",
+    "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=50df440b-985c-4f95-94a3-b04b8f3240ca&variantId=13d8f732-984c-4976-8e4c-01a41b6a52c4&search=PORT-SPARSE-1",
+    "title": "Pricing Recommendations | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "step": "catalog",
+    "url": "http://localhost:4207/products",
+    "title": "Products | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "step": "synthetic-label",
+    "url": "http://localhost:4207/products",
+    "title": "Products | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "step": "product",
+    "url": "http://localhost:4207/products/a83de61a-dd88-4ef3-a5bb-39760e39f188?search=Roasted%20Coffee&categoryId=&status=&page=0&view=grid",
+    "title": "Product detail | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "step": "guidance",
+    "url": "http://localhost:4207/products/a83de61a-dd88-4ef3-a5bb-39760e39f188?search=Roasted%20Coffee&categoryId=&status=&page=0&view=grid",
+    "title": "Product detail | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "step": "insight",
+    "url": "http://localhost:4207/optimization?catalogSearch=Roasted%20Coffee&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=a83de61a-dd88-4ef3-a5bb-39760e39f188&variantId=de84808d-761c-4fde-851b-444841c74608&search=PORT-ELASTIC_HIGH-1",
+    "title": "Pricing Recommendations | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "step": "missing-cost",
+    "url": "http://localhost:4207/products/50df440b-985c-4f95-94a3-b04b8f3240ca?variant=13d8f732-984c-4976-8e4c-01a41b6a52c4",
+    "title": "Product detail | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "step": "withheld",
+    "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=50df440b-985c-4f95-94a3-b04b8f3240ca&variantId=13d8f732-984c-4976-8e4c-01a41b6a52c4&search=PORT-SPARSE-1",
+    "title": "Pricing Recommendations | SmartPricing",
+    "overflow": false,
+    "violations": [],
+    "errors": []
+  }
+]

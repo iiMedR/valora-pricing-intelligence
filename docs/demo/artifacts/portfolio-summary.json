@@ -1,0 +1,105 @@
+{
+  "matchesSeed": true,
+  "summary": {
+    "generatorVersion": "portfolio-v1",
+    "seed": 20251114,
+    "startDate": "2025-01-01",
+    "endDate": "2025-12-31",
+    "categories": 5,
+    "products": 30,
+    "variants": 30,
+    "orders": 9863,
+    "orderLines": 9863,
+    "refunds": 54,
+    "priceObservations": 853,
+    "costObservations": 107,
+    "inventoryObservations": 9930,
+    "unknownCostLines": 166,
+    "zeroSalesVariantDates": 67,
+    "checksum": "5c9b2e4391fcf5cbb0a3f4b15f0ca97ad25b8fe6ecad9252e718f4826fff3ca6",
+    "scenarios": [
+      {
+        "scenario": "ELASTIC_HIGH",
+        "products": 3,
+        "orders": 1095,
+        "observedUnits": 55427,
+        "refunds": 0,
+        "inventoryObservations": 1095
+      },
+      {
+        "scenario": "ELASTIC_LOW",
+        "products": 3,
+        "orders": 1095,
+        "observedUnits": 49881,
+        "refunds": 0,
+        "inventoryObservations": 1095
+      },
+      {
+        "scenario": "SEASONAL",
+        "products": 3,
+        "orders": 1095,
+        "observedUnits": 51448,
+        "refunds": 0,
+        "inventoryObservations": 1095
+      },
+      {
+        "scenario": "PROMOTION",
+        "products": 3,
+        "orders": 1095,
+        "observedUnits": 52662,
+        "refunds": 0,
+        "inventoryObservations": 1095
+      },
+      {
+        "scenario": "STOCKOUT",
+        "products": 3,
+        "orders": 1081,
+        "observedUnits": 49608,
+        "refunds": 0,
+        "inventoryObservations": 1095
+      },
+      {
+        "scenario": "SPARSE",
+        "products": 3,
+        "orders": 75,
+        "observedUnits": 3635,
+        "refunds": 0,
+        "inventoryObservations": 75
+      },
+      {
+        "scenario": "REFUND",
+        "products": 3,
+        "orders": 1095,
+        "observedUnits": 51122,
+        "refunds": 54,
+        "inventoryObservations": 1095
+      },
+      {
+        "scenario": "COST_CHANGE_UNKNOWN",
+        "products": 3,
+        "orders": 1095,
+        "observedUnits": 53968,
+        "refunds": 0,
+        "inventoryObservations": 1095
+      },
+      {
+        "scenario": "ARCHIVE",
+        "products": 3,
+        "orders": 1095,
+        "observedUnits": 52049,
+        "refunds": 0,
+        "inventoryObservations": 1095
+      },
+      {
+        "scenario": "ZERO_SALES",
+        "products": 3,
+        "orders": 1042,
+        "observedUnits": 52969,
+        "refunds": 0,
+        "inventoryObservations": 1095
+      }
+    ]
+  },
+  "synthetic": true,
+  "currentChecksum": "5c9b2e4391fcf5cbb0a3f4b15f0ca97ad25b8fe6ecad9252e718f4826fff3ca6"
+}

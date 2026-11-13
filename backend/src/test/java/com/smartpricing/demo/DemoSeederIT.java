@@ -57,6 +57,7 @@ class DemoSeederIT {
         reset(sales);
 
         var first=seeds.seed(DemoSeedConfig.defaults());
+        assertThat(first.checksum()).isEqualTo("6668dcb85d28e183c3e0f94cd9f1043616a96b1f978597fc6e8e3daca1b06c34");
         assertThat(first.products()).isEqualTo(30);assertThat(first.variants()).isEqualTo(30);assertThat(first.categories()).isEqualTo(5);
         assertThat(first.priceObservations()).isEqualTo(117);assertThat(first.costObservations()).isEqualTo(57);assertThat(first.inventoryObservations()).isEqualTo(9870);
         assertThat(first.orders()).isGreaterThan(9000);assertThat(first.refunds()).isPositive();assertThat(first.unknownCostLines()).isPositive();

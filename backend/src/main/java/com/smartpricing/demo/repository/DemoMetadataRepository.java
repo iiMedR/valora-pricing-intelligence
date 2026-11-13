@@ -27,7 +27,7 @@ public class DemoMetadataRepository {
     }
     public void completed(DemoSeedConfig config,DemoSummary summary,Map<String,Object> truth) {
         jdbc.update("INSERT INTO demo_control.seed_runs(id,generator_version,seed,reference_start,checksum,summary,ground_truth) VALUES (1,?,?,?,?,?::jsonb,?::jsonb)",
-                DemoSeedConfig.VERSION,config.seed(),Date.valueOf(config.startDate()),summary.checksum(),json(summary),json(truth));
+                summary.generatorVersion(),config.seed(),Date.valueOf(config.startDate()),summary.checksum(),json(summary),json(truth));
     }
     public String json(Object value) {
         try { return mapper.writeValueAsString(value); }

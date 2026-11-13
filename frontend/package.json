@@ -8,7 +8,8 @@
     "start:demo": "ng serve --host localhost --port 4201 --proxy-config proxy.demo.conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "start:portfolio": "ng serve --host localhost --port 4207 --proxy-config proxy.portfolio.conf.json"
   },
   "private": true,
   "packageManager": "npm@11.19.1",

@@ -6,6 +6,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class DemoGenerator {
+    public String version() { return DemoSeedConfig.VERSION; }
+    public void validate(DemoSeedConfig config) { /* Legacy supports its documented seed/date options. */ }
+    public String businessName() { return "Atlas Home & Pantry — Synthetic Demo"; }
+    public BigDecimal minimumPrice(ProductPlan product) { return product.basePrice().multiply(new BigDecimal("0.50")); }
+    public BigDecimal maximumPrice(ProductPlan product) { return product.basePrice().multiply(new BigDecimal("2.00")); }
+    public boolean archived(ProductPlan product) { return product.scenario()==DemoScenario.ARCHIVE; }
     public record ProductPlan(DemoScenario scenario, int replica, String key, String sku, String name,
                               BigDecimal basePrice, BigDecimal baseCost) {}
     public record PeriodPlan(String key, BigDecimal amount, LocalDate from, LocalDate to, boolean authoritative) {}

@@ -23,6 +23,10 @@ import type { ApplicationEnvironment } from './environment-indicator';
       </p>
       <p>Historical sample sales: 1 January–31 December 2025.</p>
       <p>
+        {{ environment().datasetVersion === 'portfolio-v1' ? 'Portfolio demo' : 'Legacy research fixture' }}
+        · Synthetic examples. Model estimates are not validated causal recommendations.
+      </p>
+      <p>
         {{ environment().datasetVersion }} ·
         {{
           environment().datasetState === 'READY' ? 'Dataset initialized' : 'Dataset not initialized'
@@ -40,7 +44,8 @@ import type { ApplicationEnvironment } from './environment-indicator';
       </p>
     } @else {
       <p>Your business records. Looking for seeded examples?</p>
-      <a href="http://localhost:4201/products">Open the read-only synthetic demo</a>
+      <a href="http://localhost:4207/products">Open the synthetic portfolio demo</a>
+      <a href="http://localhost:4201/products">Open the legacy research fixture</a>
     }
   </dialog>`,
 })

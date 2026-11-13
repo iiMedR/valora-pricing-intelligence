@@ -25,8 +25,16 @@ public class DemoCommandRunner implements ApplicationRunner {
         }
         guard.requireDemo();
         String action=option(args,"demo.action","");
-        if(!java.util.Set.of("seed","reset","summary").contains(action)) throw ApiException.invalid("Demo action must be seed, reset, or summary.");
-        DemoSeedConfig config=new DemoSeedConfig(Long.parseLong(option(args,"demo.seed",String.valueOf(DemoSeedConfig.DEFAULT_SEED))),
+        if(!java.util.Set.of("seed","reset","summary","export").contains(action)) throw ApiException.invalid("Demo action must be seed, reset, summary, or export.");
+        if(action.equals("export")) {
+            var target=java.nio.file.Path.of(option(args,"demo.export-file","target/demo-canonical.jsonl")).toAbsolutePath().normalize();
+            java.nio.file.Files.createDirectories(target.getParent());
+            java.nio.file.Files.writeString(target,seeds.getObject().canonicalExport(),java.nio.charset.StandardCharsets.UTF_8);
+            System.out.println("DEMO_EXPORT "+target);
+            return;
+        }
+        long defaultSeed=guard.portfolioRequested()?com.smartpricing.demo.generator.PortfolioGenerator.SEED:DemoSeedConfig.DEFAULT_SEED;
+        DemoSeedConfig config=new DemoSeedConfig(Long.parseLong(option(args,"demo.seed",String.valueOf(defaultSeed))),
                 LocalDate.parse(option(args,"demo.start-date",DemoSeedConfig.DEFAULT_START.toString())));
         Object result=switch(action) {
             case "seed" -> seeds.getObject().seed(config);

@@ -1,0 +1,64 @@
+{
+  "portfolioChecksum": "5c9b2e4391fcf5cbb0a3f4b15f0ca97ad25b8fe6ecad9252e718f4826fff3ca6",
+  "canonicalBytes": 4878054,
+  "localMatchesTwoFreshTestExport": true,
+  "rows": "30|30|9863|54|0|0|0",
+  "mode": "ECOMMERCE",
+  "migrations": [
+    "1|1436242292",
+    "2|581270318",
+    "3|-1414359703",
+    "4|56597636",
+    "5|147175724",
+    "6|-1432513541",
+    "7|-319300667"
+  ],
+  "invalidLines": 0,
+  "invalidOrders": 0,
+  "invalidRefunds": 0,
+  "sqlNetSales": "59946403.0400",
+  "apiAnalytics": {
+    "range": {
+      "startDate": "2025-01-01",
+      "endDate": "2026-01-01",
+      "timezone": "UTC",
+      "currencyCode": "MAD"
+    },
+    "metrics": {
+      "grossSales": "59950686.4400",
+      "refundAmount": "4283.4000",
+      "netSales": "59946403.0400",
+      "unitsSold": 472769,
+      "unitsRefunded": 36,
+      "orders": 9863,
+      "grossAverageOrderValue": "6078.3419",
+      "salesLines": 9863,
+      "knownCostLines": 9697,
+      "refundEvents": 54,
+      "knownCostRefundEvents": 54,
+      "knownCostSales": "58904288.8400",
+      "knownCostRefunds": "4283.4000",
+      "knownCostNetSales": "58900005.4400",
+      "historicalSoldCost": "25434828.4000",
+      "knownContributionBeforeReturnRecovery": "33465177.0400",
+      "knownContributionMarginPercent": "56.8169",
+      "salesCostCoveragePercent": "98.3169",
+      "costCoverageState": "PARTIAL"
+    }
+  },
+  "writeAttemptsRefused403": true,
+  "benchmark11_12ByteIdentical": true,
+  "benchmark11_13ByteIdentical": true,
+  "controls": {
+    "KNOWN_REGRESSION": {
+      "unsafe": 228,
+      "approved": 0
+    },
+    "PROSPECTIVE": {
+      "unsafe": 380,
+      "approved": 0
+    }
+  },
+  "liveShopify": "NOT_VERIFIED",
+  "liveBilling": "NOT_VERIFIED"
+}

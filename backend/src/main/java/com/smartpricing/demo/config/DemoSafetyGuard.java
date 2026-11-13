@@ -21,12 +21,15 @@ public class DemoSafetyGuard {
 
     public boolean demoRequested() {
         return Arrays.asList(environment.getActiveProfiles()).contains("demo")
+                || Arrays.asList(environment.getActiveProfiles()).contains("portfolio")
                 || "demo".equals(environment.getProperty("app.mode"));
     }
+    public boolean portfolioRequested() { return Arrays.asList(environment.getActiveProfiles()).contains("portfolio"); }
 
     public void requireDemoMode() {
         var profiles = Arrays.asList(environment.getActiveProfiles());
-        if (!profiles.contains("demo") || profiles.contains("local")
+        if (!profiles.contains("demo") || profiles.contains("local") || profiles.contains("saas")
+                || !"ECOMMERCE".equals(environment.getProperty("app.business-mode","ECOMMERCE"))
                 || !"demo".equals(environment.getProperty("app.mode"))) {
             throw refused("An exclusive demo profile and demo application mode are required.");
         }
@@ -47,7 +50,9 @@ public class DemoSafetyGuard {
                     FROM demo_control.environment e
                     JOIN pg_class c ON c.oid='demo_control.environment'::regclass WHERE e.id=1
                     """)) {
-                if (!marker.next() || !"SMARTPRICING_ISOLATED_SYNTHETIC_V1".equals(marker.getString(1))
+                String expectedMarker=Arrays.asList(environment.getActiveProfiles()).contains("portfolio")
+                        ? "SMARTPRICING_ISOLATED_PORTFOLIO_V1" : "SMARTPRICING_ISOLATED_SYNTHETIC_V1";
+                if (!marker.next() || !expectedMarker.equals(marker.getString(1))
                         || !"smartpricing_demo_admin".equals(marker.getString(2))) {
                     throw refused("The read-only isolated-demo identity marker is invalid.");
                 }

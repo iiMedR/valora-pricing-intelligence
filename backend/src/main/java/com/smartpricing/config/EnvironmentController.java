@@ -17,6 +17,7 @@ public class EnvironmentController {
         if(!guard.demoRequested()) return new EnvironmentView("NORMAL",false,"Local workspace",null,"NOT_APPLICABLE",businessMode());
         guard.requireDemo();
         var versions=jdbc.queryForList("SELECT generator_version FROM demo_control.seed_runs WHERE id=1",String.class);
-        return new EnvironmentView("DEMO",true,"Synthetic Demo Data",versions.isEmpty()?DemoSeedConfig.VERSION:versions.getFirst(),versions.isEmpty()?"NOT_INITIALIZED":"READY","ECOMMERCE");
+        String version=versions.isEmpty()?(guard.portfolioRequested()?"portfolio-v1":DemoSeedConfig.VERSION):versions.getFirst();
+        return new EnvironmentView("DEMO",true,guard.portfolioRequested()?"Synthetic portfolio demo":"Synthetic Demo Data · Legacy research fixture",version,versions.isEmpty()?"NOT_INITIALIZED":"READY","ECOMMERCE");
     }
 }

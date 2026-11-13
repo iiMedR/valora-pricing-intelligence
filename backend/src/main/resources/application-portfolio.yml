@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5437/smartpricing_demo
+    username: smartpricing_demo
+    password: ${PORTFOLIO_DB_PASSWORD}
+server:
+  port: 8087
+  servlet:
+    session:
+      cookie:
+        name: SP_PORTFOLIO_SESSION
+app:
+  mode: demo
+  business-mode: ECOMMERCE
+  frontend-origin: http://localhost:4207
+  cors:
+    allowed-origins: http://localhost:4207

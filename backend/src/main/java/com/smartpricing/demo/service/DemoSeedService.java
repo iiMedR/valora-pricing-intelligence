@@ -68,6 +68,13 @@ public class DemoSeedService {
     }
 
     @Transactional(readOnly=true)
+    public String canonicalExport() {
+        guard.requireDemo();
+        if(metadata.existing()==null) throw ApiException.missing("Initialized demo dataset");
+        return checksum.canonicalExport();
+    }
+
+    @Transactional(readOnly=true)
     public Map<String,Object> summary() {
         guard.requireDemo();
         DemoSummary existing=metadata.existing();
@@ -80,7 +87,7 @@ public class DemoSeedService {
         validateDates(config);
         DemoSummary existing=metadata.existing();
         if(existing!=null) {
-            if(!DemoSeedConfig.VERSION.equals(existing.generatorVersion())||existing.seed()!=config.seed()||!existing.startDate().equals(config.startDate()))
+            if(!generator.version().equals(existing.generatorVersion())||existing.seed()!=config.seed()||!existing.startDate().equals(config.startDate()))
                 throw ApiException.conflict("DEMO_DATASET_MISMATCH","An existing dataset has a different seed/date/version. Use an explicitly confirmed isolated-demo reset.");
             if(!existing.checksum().equals(checksum.calculate()))
                 throw ApiException.conflict("DEMO_DATA_CHANGED","Demo records were edited. They were preserved; inspect the summary or explicitly reset the isolated demo.");
@@ -88,7 +95,7 @@ public class DemoSeedService {
         }
         requireEmpty();
         var settings=business.get();
-        business.update(new Update("Atlas Home & Pantry — Synthetic Demo","MAD",settings.version()));
+        business.update(new Update(generator.businessName(),"MAD",settings.version()));
         Map<String,UUID> categoryIds=new LinkedHashMap<>(),productIds=new LinkedHashMap<>(),variantIds=new LinkedHashMap<>();
         List<ProductPlan> plans=generator.products();
         for(ProductPlan plan:plans) {
@@ -99,13 +106,12 @@ public class DemoSeedService {
                 metadata.mapping("category/"+category,"CATEGORY",created.id(),null);
             }
             var product=catalog.createProduct(new ProductWrite(plan.name(),"Synthetic demo item. Generated observations are not real business records.",categoryIds.get(category),CatalogStatus.ARCHIVED,null));
-            var variant=catalog.createVariant(product.id(),new VariantWrite(plan.sku(),"Standard",plan.baseCost(),plan.basePrice(),
-                    money(plan.basePrice().multiply(new BigDecimal("0.50"))),money(plan.basePrice().multiply(new BigDecimal("2.00"))),CatalogStatus.ACTIVE,null));
-            productIds.put(plan.key(),product.id()); variantIds.put(plan.key(),variant.id());
+            UUID variant=createVariant(product.id(),plan);
+            productIds.put(plan.key(),product.id()); variantIds.put(plan.key(),variant);
             metadata.mapping("product/"+plan.key(),"PRODUCT",product.id(),plan.scenario().name());
-            metadata.mapping("variant/"+plan.key(),"VARIANT",variant.id(),plan.scenario().name());
-            periods(config,plan,variant.id(),PeriodKind.PRICE,generator.prices(config,plan));
-            periods(config,plan,variant.id(),PeriodKind.COST,generator.costs(config,plan));
+            metadata.mapping("variant/"+plan.key(),"VARIANT",variant,plan.scenario().name());
+            periods(config,plan,variant,PeriodKind.PRICE,generator.prices(config,plan));
+            periods(config,plan,variant,PeriodKind.COST,generator.costs(config,plan));
             // History writes update catalog versions through SQL. Refresh the JPA view before later catalog actions.
             entities.clear();
             catalog.updateProduct(product.id(),new ProductWrite(product.name(),product.description(),product.categoryId(),CatalogStatus.ACTIVE,product.version()));
@@ -137,18 +143,33 @@ public class DemoSeedService {
             }
         }
         entities.clear();
-        for(ProductPlan plan:plans) if(plan.scenario()==DemoScenario.ARCHIVE) {
+        for(ProductPlan plan:plans) if(generator.archived(plan)) {
             catalog.archiveVariant(productIds.get(plan.key()),variantIds.get(plan.key()),null);
             catalog.archiveProduct(productIds.get(plan.key()),null);
         }
         String digest=checksum.calculate();
-        DemoSummary result=new DemoSummary(DemoSeedConfig.VERSION,config.seed(),config.startDate(),config.endExclusive().minusDays(1),
+        DemoSummary result=new DemoSummary(generator.version(),config.seed(),config.startDate(),config.endExclusive().minusDays(1),
                 (int)count("categories"),(int)count("products"),(int)count("product_variants"),count("sales_orders"),count("sales_order_items"),
                 count("sales_refunds"),count("variant_price_history"),count("variant_cost_history"),count("inventory_snapshots"),
                 jdbc.queryForObject("SELECT count(*) FROM sales_order_items WHERE unit_cost IS NULL",Long.class),
                 count("inventory_snapshots")-count("sales_orders"),digest,scenarioSummaries());
         metadata.completed(config,result,generator.groundTruth());
         return result;
+    }
+
+    private UUID createVariant(UUID productId,ProductPlan plan) {
+        if(plan.baseCost()!=null)
+            return catalog.createVariant(productId,new VariantWrite(plan.sku(),"Standard",plan.baseCost(),plan.basePrice(),
+                    money(generator.minimumPrice(plan)),money(generator.maximumPrice(plan)),CatalogStatus.ACTIVE,null)).id();
+        // The normal editor requires a cost. Demo import represents genuinely missing cost using
+        // the existing nullable schema, like external imports; no zero placeholder or relaxed API rule.
+        if(!(generator instanceof PortfolioGenerator)) throw ApiException.invalid("Missing cost requires the portfolio import fixture.");
+        var variant=new com.smartpricing.catalog.entity.ProductVariant();
+        variant.setProductId(productId);variant.setSku(plan.sku());variant.setName("Standard");
+        variant.setCostPrice(null);variant.setCurrentPrice(plan.basePrice());
+        variant.setMinPrice(money(generator.minimumPrice(plan)));variant.setMaxPrice(money(generator.maximumPrice(plan)));
+        variant.setStatus(CatalogStatus.ACTIVE);entities.persist(variant);entities.flush();
+        return variant.getId();
     }
 
     private void periods(DemoSeedConfig config,ProductPlan product,UUID variant,PeriodKind kind,List<PeriodPlan> periods) {
@@ -181,12 +202,13 @@ public class DemoSeedService {
             throw ApiException.conflict("DEMO_DATABASE_NOT_EMPTY","Existing demo business settings were preserved. Use an explicit isolated-demo reset to replace them.");
     }
     private void validateDates(DemoSeedConfig config) {
+        generator.validate(config);
         if(config.endExclusive().atStartOfDay(ZoneOffset.UTC).toInstant().isAfter(Instant.now()))
             throw ApiException.invalid("The demo must cover twelve complete past months; future observations are not allowed.");
     }
     private void lock() { jdbc.queryForList("SELECT pg_advisory_xact_lock(4778340401)"); }
     private long count(String table) { return jdbc.queryForObject("SELECT count(*) FROM "+table,Long.class); }
-    private String key(String type,String logical) { return DemoSeedConfig.VERSION+"/"+type+"/"+logical; }
+    private String key(String type,String logical) { return generator.version()+"/"+type+"/"+logical; }
     private Instant at(LocalDate date,int hour) { return date.atTime(hour,0).toInstant(ZoneOffset.UTC); }
     private BigDecimal money(BigDecimal value) { return value.setScale(4,RoundingMode.UNNECESSARY); }
 }

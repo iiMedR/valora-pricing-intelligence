@@ -1,0 +1,58 @@
+{
+  "readOnly": true,
+  "normalDemoSeparate": true,
+  "normal": {
+    "countsOrder": [
+      "products",
+      "orders",
+      "refunds",
+      "accounts",
+      "evaluations",
+      "subscriptionEvents"
+    ],
+    "counts": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "migrations": [
+      "1|1436242292",
+      "2|581270318",
+      "3|-1414359703",
+      "4|56597636",
+      "5|147175724",
+      "6|-1432513541",
+      "7|-319300667"
+    ]
+  },
+  "demo": {
+    "countsOrder": [
+      "products",
+      "orders",
+      "refunds",
+      "accounts",
+      "evaluations",
+      "subscriptionEvents"
+    ],
+    "counts": [
+      30,
+      9466,
+      114,
+      0,
+      0,
+      0
+    ],
+    "migrations": [
+      "1|1436242292",
+      "2|581270318",
+      "3|-1414359703",
+      "4|56597636",
+      "5|147175724",
+      "6|-1432513541",
+      "7|-319300667"
+    ]
+  }
+}
