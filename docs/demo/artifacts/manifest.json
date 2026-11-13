@@ -1,0 +1,260 @@
+{
+  "milestone": "11.14",
+  "baseline": "6ae3e090fb832eace8cd489996de2ce8508a3ff3",
+  "designAuditCommit": "274cd26",
+  "gitHeadAtManifestGeneration": "47d0ec82324dff98126f22d988a69049692699b0",
+  "sourceHashEncoding": "UTF-8 normalized LF; raw PNG bytes",
+  "datasets": {
+    "legacy": {
+      "version": "demo-v1",
+      "sha256": "6668dcb85d28e183c3e0f94cd9f1043616a96b1f978597fc6e8e3daca1b06c34",
+      "canonicalBytes": 4146763
+    },
+    "portfolio": {
+      "version": "portfolio-v1",
+      "seed": 20251114,
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31",
+      "sha256": "5c9b2e4391fcf5cbb0a3f4b15f0ca97ad25b8fe6ecad9252e718f4826fff3ca6",
+      "canonicalBytes": 4878054,
+      "twoFreshRunsByteIdentical": true
+    }
+  },
+  "verification": {
+    "backendUnit": 126,
+    "backendPostgresIntegration": 67,
+    "frontendTests": 145,
+    "frontendFiles": 35,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "browserStates": 25,
+    "browserWidths": [
+      320,
+      375,
+      768,
+      1440
+    ],
+    "liveShopify": "NOT_VERIFIED",
+    "liveBilling": "NOT_VERIFIED"
+  },
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "12c3d9b469af8bad52eba4d64a4e31a4401ba5231ed0f89aecc5f4ea6c86aabb"
+    },
+    {
+      "path": "backend/src/main/java/com/smartpricing/config/EnvironmentController.java",
+      "sha256": "961606e63cc18636aae89f9a7ba15ae6f17594bc6bbec3ad8b3c9cca9620daf6"
+    },
+    {
+      "path": "backend/src/main/java/com/smartpricing/demo/config/DemoCommandRunner.java",
+      "sha256": "d23c4d58b08cd16de1798eeb85bc7ada94226d4b2e7a3d9e86d3267a1b2bd320"
+    },
+    {
+      "path": "backend/src/main/java/com/smartpricing/demo/config/DemoConfiguration.java",
+      "sha256": "7157dcc62202ff9d813fce7b150795eabee0ee8de2f6e3a9e3a1f0bc74e4603b"
+    },
+    {
+      "path": "backend/src/main/java/com/smartpricing/demo/config/DemoSafetyGuard.java",
+      "sha256": "c2a764c3a1c92ecf16d7b2ca048f21b48f19d734bc89e96cc3d582e927c1f056"
+    },
+    {
+      "path": "backend/src/main/java/com/smartpricing/demo/generator/DemoGenerator.java",
+      "sha256": "23e65dfe8412bcc6b2c3dc74c8a78ad3fa5579974e5278e6e676e27475a1d70b"
+    },
+    {
+      "path": "backend/src/main/java/com/smartpricing/demo/generator/PortfolioGenerator.java",
+      "sha256": "f5d9a3aadb236efc33cc6fd4decf71392f0ba8b1ed76dd1898b7b9465eb2ee21"
+    },
+    {
+      "path": "backend/src/main/java/com/smartpricing/demo/repository/DemoChecksum.java",
+      "sha256": "69ce10ae0fe2d5e96e90c42135cbed996b6fee0dc08429923738f281c6baf11f"
+    },
+    {
+      "path": "backend/src/main/java/com/smartpricing/demo/repository/DemoMetadataRepository.java",
+      "sha256": "f7d2cb9155d214e01d73952941eee2208a1310bb54e6db52fa2348484475558f"
+    },
+    {
+      "path": "backend/src/main/java/com/smartpricing/demo/service/DemoSeedService.java",
+      "sha256": "9af0fe7d7172e8ab2c3710c66d14a06a1916bcc693edd23a59580aea6e171348"
+    },
+    {
+      "path": "backend/src/main/resources/application-portfolio.yml",
+      "sha256": "1fa5346092388e0bc3d775014ef09392a73f4f730d36ef15a2672f786456001f"
+    },
+    {
+      "path": "backend/src/test/java/com/smartpricing/demo/DemoSafetyGuardTest.java",
+      "sha256": "0727445455a1280237f5fd9dcac1b5f4c1b962c1c0f2b51ec6355cccfa75714a"
+    },
+    {
+      "path": "backend/src/test/java/com/smartpricing/demo/DemoSeederIT.java",
+      "sha256": "203507ce76288bf4cf510f56e8f9c0626ac65c38aa74056ae939cac149809f4b"
+    },
+    {
+      "path": "backend/src/test/java/com/smartpricing/demo/PortfolioGeneratorTest.java",
+      "sha256": "03e100b181d5292a090241a5551b23da61d1cf6c2d7fd8af6253596b517170fa"
+    },
+    {
+      "path": "backend/src/test/java/com/smartpricing/demo/PortfolioSeederIT.java",
+      "sha256": "b6b4a5fd753e5df1e08b265dd0898d14bee5708b476db6a7c4d0459ae60fd156"
+    },
+    {
+      "path": "docs/demo/README.md",
+      "sha256": "5ecba0de8ae5717f2d390151284c7009dbc08d9e099bb6f1d0ab2b973a26f814"
+    },
+    {
+      "path": "docs/demo/artifacts/browser-results.json",
+      "sha256": "822d68cbeefaacc5ed42318c9341f7d4b25ac40d6197792b678eddc5d06dc2bd"
+    },
+    {
+      "path": "docs/demo/artifacts/database-integrity.json",
+      "sha256": "ff4dbc670d95326c493931240ae4cec3891180536cadf2acc5f0e029e73c2364"
+    },
+    {
+      "path": "docs/demo/artifacts/legacy-research-demo.json",
+      "sha256": "f14f22e2c82a566f0b727c0745907dfbba941d7e94ebb1084759e0a24f810fe9"
+    },
+    {
+      "path": "docs/demo/artifacts/manifest.json",
+      "sha256": null,
+      "note": "Manifest excludes its own recursive hash"
+    },
+    {
+      "path": "docs/demo/artifacts/portfolio-evaluations.json",
+      "sha256": "283cc3c936775d3178971a735cb847f08ba1c829e4f4f659a0f78d44c17a6836"
+    },
+    {
+      "path": "docs/demo/artifacts/portfolio-integrity.json",
+      "sha256": "a59e1825dc79a60289d6b9464664593b05fb2c311ecccf7fb1493b364e88972d"
+    },
+    {
+      "path": "docs/demo/artifacts/portfolio-summary.json",
+      "sha256": "081eaf291f470884d04b49e14dba36cd0dff7d27a5f94b77676f37a4365ee90b"
+    },
+    {
+      "path": "docs/demo/artifacts/portfolio-truth.json",
+      "sha256": "046d7fdd3d3a80ef87eb52f023a66adace17d4abba1c7885fbf711ab9b098121"
+    },
+    {
+      "path": "docs/demo/artifacts/reproducibility.txt",
+      "sha256": "d8790837b2a18075ae1439a6615cc0f41f1a18642055c6b1d819d95d8b6940b3"
+    },
+    {
+      "path": "docs/demo/portfolio-dataset-design.md",
+      "sha256": "92c2b9935efa2f95400edb6708136038471ead213a2f91cd42668b9ec474923f"
+    },
+    {
+      "path": "docs/demo/portfolio-evaluation.md",
+      "sha256": "115cc5372c143aabc00627f12e2c65ef1eb9d7d188ae95409bb6dc31741e0232"
+    },
+    {
+      "path": "docs/demo/screenshots/README.md",
+      "sha256": "d38714445964488fa332e81ed812b5de0cfc72d186ea7cb57476fb87ec3a9451"
+    },
+    {
+      "path": "docs/demo/screenshots/catalog-1440.png",
+      "sha256": "9b0e4acb4d4ff8714ee6e8b50666fea58b08d6bd7de68e13c6a8ee7cc527d851"
+    },
+    {
+      "path": "docs/demo/screenshots/catalog-320.png",
+      "sha256": "30be54362399ac1918a5470a9db002c3658165c919a903f536c9845a6e0d5de5"
+    },
+    {
+      "path": "docs/demo/screenshots/catalog-375.png",
+      "sha256": "3a05639ac093ec4cc16c0e377850c63a1188f246b57ec36248a5b6a2b9c2bbd3"
+    },
+    {
+      "path": "docs/demo/screenshots/catalog-768.png",
+      "sha256": "f6a25d5835a20b8a27cea7384b8f8930ccccfe6cca7f09412ee54eab1c8b9606"
+    },
+    {
+      "path": "docs/demo/screenshots/guidance-375.png",
+      "sha256": "aa401a15e1a4fe044fda359c40548a349756d22eaa26e8f73e673e92031f67bc"
+    },
+    {
+      "path": "docs/demo/screenshots/insight-1440.png",
+      "sha256": "4b3f019dcd501af2d45991abf6ed7fc32d143a7ef7ae971d4d3c630fd0a7f296"
+    },
+    {
+      "path": "docs/demo/screenshots/missing-cost-375.png",
+      "sha256": "c7b45cf8f199fc42829b1f725e78fa676de07321c246ee699bb476ac8ffc1410"
+    },
+    {
+      "path": "docs/demo/screenshots/product-1440.png",
+      "sha256": "65b0c0a46d38f3fc67564e259f990c07ce932449a8600d57d63cbbbaa47d43ac"
+    },
+    {
+      "path": "docs/demo/screenshots/synthetic-label-1440.png",
+      "sha256": "e78c195ce26d5a39c0cfd31d0c2ce41fee7daeedb3b8b4aa122a0087f79c3372"
+    },
+    {
+      "path": "docs/demo/screenshots/withheld-375.png",
+      "sha256": "28fab98b20e6fbff67a85c0fbc27624f7f8f215847cd6eeff4fa956e18207424"
+    },
+    {
+      "path": "docs/milestone-11-14-baseline-audit.md",
+      "sha256": "165fcff64fdca6166787430ef880aa31f836a39b8926525ea0753e6ccc20203d"
+    },
+    {
+      "path": "docs/milestone-11-14-cleanup-audit.md",
+      "sha256": "1e1fcf53544bc518053319d854a5365d8cced3fe9a9f2efeaa015ec1d25082f4"
+    },
+    {
+      "path": "docs/milestone-11-14-verification.md",
+      "sha256": "59638c4b0c03f83419ebe1960e1e492b050cac933415e7b5175fdef11d372c7c"
+    },
+    {
+      "path": "frontend/package.json",
+      "sha256": "81d2a61c9a31289d6ebc5e407faa9a2d468e4591afac1afe66049db2f53e81dc"
+    },
+    {
+      "path": "frontend/proxy.portfolio.conf.json",
+      "sha256": "e8663fd00cd991bb42bec8f4a17d66fa019907969bc7528d85b61f271a1ea59e"
+    },
+    {
+      "path": "frontend/src/app/core/environment-details.ts",
+      "sha256": "9a4d496defba0576c390f3d4d4480bb442c124612a8505f21c1c6866d0963f81"
+    },
+    {
+      "path": "infra/compose.portfolio.yaml",
+      "sha256": "8c4aba53219a0a11efaa01fc7a84c96aabd9a34de6a524445b846aff725d16c7"
+    },
+    {
+      "path": "infra/demo/10-isolated-demo.sh",
+      "sha256": "e50b300b019e673d904e54122748d4e942e9975098822f143f293dcf90b4a966"
+    },
+    {
+      "path": "research/pricing/evaluate-portfolio.mjs",
+      "sha256": "531086a820d7d42484ffba4bc662c1b4c93e945cd9959003b121a45b9d3f9ca4"
+    },
+    {
+      "path": "research/pricing/portfolio-manifest.mjs",
+      "sha256": "72da56f742189309eaa9bf2666eb34ac836506fecc362f14e513d3e8995c8de7"
+    },
+    {
+      "path": "research/pricing/report-portfolio.mjs",
+      "sha256": "100458b50ffc65ac775d6c058614980dfeef645390e1068761bffbde44abc9ce"
+    },
+    {
+      "path": "research/pricing/verify-demo-isolation.mjs",
+      "sha256": "cb76cb40905e442d61146fac3b0f02b42b4c190bfc22bbe8192ea0029ee04db2"
+    },
+    {
+      "path": "research/pricing/verify-legacy-demo.mjs",
+      "sha256": "cacc6abe0d0ff95af0a9e3c0e9786d7bce4c3001a4fa60cf8bf3136b8d251d47"
+    },
+    {
+      "path": "research/pricing/verify-portfolio.mjs",
+      "sha256": "fd6acf36b22e8ab5aef61e013535ea067ad871c0ea52ccb1a9038fe33aaadf60"
+    },
+    {
+      "path": "scripts/demo.ps1",
+      "sha256": "70fdd3e3ebc213381ab64e6b396f7b38b545ab1eb9ff8839e9d00e7cf038b135"
+    },
+    {
+      "path": "scripts/portfolio-demo.ps1",
+      "sha256": "ecb273b6f62bc43b82302f8606626fa85544834215f0a433b26e34d39b0d6ca5"
+    }
+  ]
+}
