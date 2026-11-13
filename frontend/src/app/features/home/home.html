@@ -1,11 +1,12 @@
 <app-page-header title="Overview" [description]="period()" />
+<app-portfolio-examples />
 @if (!authorized()) {
   <app-empty-state
     title="Your store overview starts here"
     description="Sign in to connect your store, import records, and review pricing evidence."
   >
     <a z-button routerLink="/login">Sign in</a>
-    <a z-button zType="outline" href="http://localhost:4201">Explore the synthetic demo</a>
+    <a z-button zType="outline" href="http://localhost:4207">Explore the portfolio demo</a>
   </app-empty-state>
 } @else if (loading()) {
   <app-loading-skeleton />
@@ -72,7 +73,7 @@
             <app-insight-summary
               [title]="
                 actionable().length
-                  ? 'Price suggestions available to review'
+                  ? 'Experimental suggestions to review'
                   : 'No reliable price changes suggested'
               "
               [description]="
@@ -106,7 +107,7 @@
         } @else {
           <app-insight-summary
             title="Review pricing evidence"
-            description="Check products for supported suggestions and compare estimated contribution."
+            description="Review experimental model suggestions and compare estimated contribution."
             ><a z-button routerLink="/optimization">Review products</a></app-insight-summary
           >
           @if (!readiness.synchronization.connected || readiness.counts['products'] === 0) {

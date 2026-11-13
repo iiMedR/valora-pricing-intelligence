@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { ModalFocus } from './confirmation';
 import { ZardButtonComponent } from '../shared/components/button';
-import type { ApplicationEnvironment } from './environment-indicator';
+import type { ApplicationEnvironment } from './environment.service';
 @Component({
   selector: 'app-environment-details',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,7 +23,11 @@ import type { ApplicationEnvironment } from './environment-indicator';
       </p>
       <p>Historical sample sales: 1 January–31 December 2025.</p>
       <p>
-        {{ environment().datasetVersion === 'portfolio-v1' ? 'Portfolio demo' : 'Legacy research fixture' }}
+        {{
+          environment().datasetVersion === 'portfolio-v1'
+            ? 'Portfolio demo'
+            : 'Legacy research fixture'
+        }}
         · Synthetic examples. Model estimates are not validated causal recommendations.
       </p>
       <p>

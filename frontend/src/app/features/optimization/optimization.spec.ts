@@ -152,7 +152,7 @@ describe('Pricing Recommendations', () => {
     overview([unsafe]);
     await f.whenStable();
     const list = f.nativeElement.textContent;
-    expect(list).toContain('Confounded or uncertain');
+    expect(list).toContain('Withheld · uncertain');
     expect(list).not.toContain('90.0000');
     f.componentInstance.select('v1');
     detail(unsafe);
@@ -161,7 +161,7 @@ describe('Pricing Recommendations', () => {
     f.componentInstance.openWhy();
     await f.whenStable();
     expect(f.nativeElement.textContent).toContain('Prices mostly changed with the calendar');
-    expect(f.nativeElement.textContent).toContain('Confounded or uncertain');
+    expect(f.nativeElement.textContent).toContain('Withheld · uncertain');
     expect(f.nativeElement.textContent).not.toContain('Conditional suggested price');
     expect(
       f.nativeElement.querySelector('[aria-label="Contribution comparison table"]'),
@@ -199,7 +199,7 @@ describe('Pricing Recommendations', () => {
     f.componentInstance.select('v1');
     detail(missing);
     await f.whenStable();
-    expect(f.nativeElement.textContent).toContain('Needs evidence');
+    expect(f.nativeElement.textContent).toContain('Withheld · needs inputs');
     f.componentInstance.openWhy();
     await f.whenStable();
     expect(f.nativeElement.textContent).toContain('Unavailable');

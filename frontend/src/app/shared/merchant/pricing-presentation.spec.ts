@@ -14,7 +14,7 @@ describe('Merchant pricing status', () => {
       reasons: [],
     } as unknown as Evaluation;
     expect(actionable(base)).toBe(true);
-    expect(pricingLabel(base)).toBe('Actionable');
+    expect(pricingLabel(base)).toBe('Experimental suggestion');
     for (const [status, group] of [
       ['DIAGNOSTIC_ONLY', 'uncertain'],
       ['UNRELIABLE_ELASTICITY', 'uncertain'],

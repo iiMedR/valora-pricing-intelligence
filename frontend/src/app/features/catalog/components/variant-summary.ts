@@ -1,3 +1,4 @@
+import { PortfolioStory } from '../../../shared/merchant/portfolio-examples';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,7 +27,7 @@ import { ExplainMore, formatMoney } from '../../../shared/merchant/foundation';
 import { ZardButtonComponent } from '../../../shared/components/button';
 @Component({
   selector: 'app-variant-summary',
-  imports: [RouterLink, ExplainMore, ZardButtonComponent],
+  imports: [RouterLink, ExplainMore, ZardButtonComponent, PortfolioStory],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<section class="product-sales" aria-labelledby="variant-sales-title">
       <h2 id="variant-sales-title">Sales performance</h2>
@@ -73,17 +74,21 @@ import { ZardButtonComponent } from '../../../shared/components/button';
         <h3>
           {{
             actionable()
-              ? 'Price suggestion available to review'
+              ? 'Experimental suggestion to review'
               : 'No reliable price change suggested'
           }}
         </h3>
+        <app-portfolio-story [sku]="result.variant.sku" />
         <p>{{ reason() }}</p>
         @if (actionable()) {
           <p class="suggested-price">
             {{ money(result.inputs.currentPrice, result.window.currencyCode) }} →
             {{ money(result.recommendedPrice, result.window.currencyCode) }}
           </p>
-          <p class="muted">Review estimated contribution and assumptions before deciding.</p>
+          <p class="muted">
+            Not causally validated or a proven optimal price. Review the estimated contribution and
+            assumptions.
+          </p>
         }
         <app-explain-more label="Why this result?" title="Pricing evidence for this variant"
           ><p>{{ result.variant.productName }} · {{ result.variant.sku }}</p>

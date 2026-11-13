@@ -1,3 +1,4 @@
+import { PortfolioStory } from '../../shared/merchant/portfolio-examples';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { RouterLink, Params } from '@angular/router';
 import { Evaluation } from './optimization-api.service';
@@ -11,7 +12,7 @@ import {
 import { ZardButtonComponent } from '../../shared/components/button';
 @Component({
   selector: 'app-pricing-result',
-  imports: [RouterLink, ProductThumbnail, StatusPill, ZardButtonComponent],
+  imports: [RouterLink, ProductThumbnail, StatusPill, ZardButtonComponent, PortfolioStory],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `@let d = evaluation();
     <article class="pricing-row" [attr.aria-label]="d.variant.sku + ' pricing insight'">
@@ -36,7 +37,10 @@ import { ZardButtonComponent } from '../../shared/components/button';
       >
         Review insight
       </button>
-      <p class="row-reason">{{ reason(d) }}</p>
+      <div class="row-reason">
+        <p>{{ reason(d) }}</p>
+        <app-portfolio-story [sku]="d.variant.sku" />
+      </div>
     </article>`,
   styles: [
     `

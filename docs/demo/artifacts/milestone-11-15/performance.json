@@ -1,0 +1,106 @@
+{
+  "before": {
+    "method": "Chrome headless, localhost Angular dev server, 3 fresh pages, initial catalog then one explicit filter; includes networkidle wait, not a production speed claim",
+    "runs": [
+      {
+        "catalogMs": 504,
+        "filterMs": 603,
+        "categoriesRequests": 2,
+        "productsRequests": 2
+      },
+      {
+        "catalogMs": 371,
+        "filterMs": 656,
+        "categoriesRequests": 2,
+        "productsRequests": 2
+      },
+      {
+        "catalogMs": 390,
+        "filterMs": 702,
+        "categoriesRequests": 2,
+        "productsRequests": 2
+      }
+    ]
+  },
+  "intermediateAfter": {
+    "method": "Chrome headless, localhost Angular dev server, 3 fresh pages, initial catalog then one explicit filter; includes networkidle wait, not a production speed claim",
+    "runs": [
+      {
+        "catalogMs": 752,
+        "filterMs": 665,
+        "categoriesRequests": 1,
+        "productsRequests": 2
+      },
+      {
+        "catalogMs": 446,
+        "filterMs": 633,
+        "categoriesRequests": 1,
+        "productsRequests": 2
+      },
+      {
+        "catalogMs": 456,
+        "filterMs": 683,
+        "categoriesRequests": 1,
+        "productsRequests": 2
+      }
+    ]
+  },
+  "finalAfter": {
+    "method": "Chrome headless, localhost Angular dev server, 3 fresh pages, initial catalog then one explicit filter; includes networkidle wait, not a production speed claim",
+    "runs": [
+      {
+        "catalogMs": 501,
+        "filterMs": 582,
+        "categoriesRequests": 1,
+        "productsRequests": 2
+      },
+      {
+        "catalogMs": 387,
+        "filterMs": 686,
+        "categoriesRequests": 1,
+        "productsRequests": 2
+      },
+      {
+        "catalogMs": 366,
+        "filterMs": 689,
+        "categoriesRequests": 1,
+        "productsRequests": 2
+      }
+    ]
+  },
+  "bundle": {
+    "before": {
+      "initialKB": 451.51,
+      "transferKB": 115.61
+    },
+    "after": {
+      "initialKB": 451.87,
+      "transferKB": 115.71
+    },
+    "rejectedEagerButtonInitialKB": 486.02
+  },
+  "claim": "One duplicate category request removed; no consistent latency improvement or bundle reduction claimed.",
+  "repeatFromReusableScript": {
+    "method": "Chrome headless, localhost Angular dev server, 3 fresh pages, initial catalog then one explicit filter; includes networkidle wait, not a production speed claim",
+    "runs": [
+      {
+        "catalogMs": 455,
+        "filterMs": 686,
+        "categoriesRequests": 1,
+        "productsRequests": 2
+      },
+      {
+        "catalogMs": 383,
+        "filterMs": 677,
+        "categoriesRequests": 1,
+        "productsRequests": 2
+      },
+      {
+        "catalogMs": 352,
+        "filterMs": 692,
+        "categoriesRequests": 1,
+        "productsRequests": 2
+      }
+    ]
+  }
+}

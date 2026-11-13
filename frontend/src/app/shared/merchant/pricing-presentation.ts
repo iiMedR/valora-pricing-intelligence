@@ -32,10 +32,10 @@ export function pricingGroup(e: Evaluation): PricingGroup {
 }
 export function pricingLabel(e: Evaluation): string {
   return {
-    actionable: 'Actionable',
-    uncertain: 'Confounded or uncertain',
-    history: 'Insufficient history',
-    evidence: 'Needs evidence',
+    actionable: 'Experimental suggestion',
+    uncertain: 'Withheld · uncertain',
+    history: 'Withheld · limited history',
+    evidence: 'Withheld · needs inputs',
     unavailable: 'Unavailable',
     inactive: 'Inactive',
   }[pricingGroup(e)];
@@ -44,7 +44,7 @@ export function pricingReason(e: Evaluation): string {
   if (e.status === 'ACTIONABLE' && !actionable(e))
     return 'The returned comparison is incomplete. Review this variant again.';
   if (actionable(e))
-    return 'Compare the estimated contribution before deciding; this is not a guaranteed price effect.';
+    return 'Experimental model output, not a causally validated price effect. Compare the estimated contribution and assumptions.';
   if (e.status === 'INACTIVE_VARIANT')
     return 'This variant is inactive; review its catalog status.';
   return reasonSummary(e.reasons).split('. ')[0].replace(/\.$/, '') + '.';

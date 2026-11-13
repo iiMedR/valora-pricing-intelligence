@@ -1,3 +1,4 @@
+import { SessionService } from '../../../core/session.service';
 import { Router } from '@angular/router';
 import { EditorState } from '../../../core/editor-state';
 import { BehaviorSubject } from 'rxjs';
@@ -28,7 +29,7 @@ describe('ProductList', () => {
     expect(fixture.nativeElement.textContent).toContain('No products found');
     fixture.componentInstance.filters.patchValue({ search: 'Blue', status: 'ARCHIVED' });
     fixture.componentInstance.apply();
-    http.expectOne('/api/v1/categories').flush([]);
+    http.expectNone('/api/v1/categories');
     const request = http.expectOne((r) => r.url === '/api/v1/products');
     expect(request.request.params.get('status')).toBe('ARCHIVED');
     expect(request.request.params.get('search')).toBe('Blue');
@@ -135,10 +136,43 @@ describe('ProductList', () => {
     expect(f.nativeElement.querySelectorAll('app-product-entry').length).toBe(20);
     http.expectNone((r) => /\/products\//.test(r.url));
     f.componentInstance.changePage(1);
-    http.expectOne('/api/v1/categories').flush([]);
+    http.expectNone('/api/v1/categories');
     const request = http.expectOne((r) => r.url.endsWith('/products'));
     expect(request.request.params.get('page')).toBe('1');
     expect(request.request.params.get('size')).toBe('20');
     request.flush({ content: rows, page: 1, size: 20, totalElements: 10000, totalPages: 500 });
+  });
+  it('reuses categories on product failure/retry and clears the page cache on session loss', async () => {
+    const session = TestBed.inject(SessionService);
+    session.value.set({ mode: 'DEMO', authenticated: false, readOnly: true, username: null });
+    const f = TestBed.createComponent(ProductList),
+      http = TestBed.inject(HttpTestingController);
+    f.detectChanges();
+    http.expectOne('/api/v1/categories').flush([{ id: 'pantry', name: 'Pantry' }]);
+    http
+      .expectOne((r) => r.url === '/api/v1/products')
+      .flush({ content: [], page: 0, size: 20, totalElements: 0, totalPages: 0 });
+    await f.whenStable();
+    f.componentInstance.load();
+    http.expectNone('/api/v1/categories');
+    http
+      .expectOne((r) => r.url === '/api/v1/products')
+      .flush({ message: 'Try again' }, { status: 503, statusText: 'Unavailable' });
+    await f.whenStable();
+    expect(f.nativeElement.textContent).toContain('Try again');
+    f.componentInstance.load();
+    http.expectNone('/api/v1/categories');
+    const pending = http.expectOne((r) => r.url === '/api/v1/products');
+    session.clear();
+    await f.whenStable();
+    expect(pending.cancelled).toBe(true);
+    expect(f.componentInstance.categories()).toEqual([]);
+    expect(f.componentInstance.result()).toBeNull();
+    session.value.set({ mode: 'DEMO', authenticated: false, readOnly: true, username: null });
+    f.componentInstance.load();
+    http.expectOne('/api/v1/categories').flush([]);
+    http
+      .expectOne((r) => r.url === '/api/v1/products')
+      .flush({ content: [], page: 0, size: 20, totalElements: 0, totalPages: 0 });
   });
 });

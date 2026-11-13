@@ -89,7 +89,7 @@
         [attr.aria-pressed]="view() === 'actionable'"
         (click)="setView('actionable')"
       >
-        Actionable</button
+        Suggestions</button
       ><button
         z-button
         zType="outline"
@@ -109,10 +109,10 @@
             aria-label="Pricing status"
           >
             <option value="all">All statuses</option>
-            <option value="actionable">Actionable</option>
-            <option value="uncertain">Confounded or uncertain</option>
-            <option value="history">Insufficient history</option>
-            <option value="evidence">Needs evidence</option>
+            <option value="actionable">Experimental suggestions</option>
+            <option value="uncertain">Withheld · uncertain</option>
+            <option value="history">Withheld · limited history</option>
+            <option value="evidence">Withheld · needs inputs</option>
             <option value="unavailable">Unavailable</option>
             <option value="inactive">Inactive</option>
           </select></label
@@ -135,7 +135,7 @@
     <section class="catalog-progress" aria-label="Catalog check progress">
       <p role="status" aria-live="polite">
         Checked {{ catalogCheck.checked() }} of {{ catalogCheck.total() ?? 'unknown' }} variants.
-        {{ suggestions().length }} actionable in the loaded results.
+        {{ suggestions().length }} experimental suggestions in the loaded results.
       </p>
       @if (catalogCheck.state() === 'running') {
         <button z-button zType="outline" (click)="catalogCheck.cancel()">
@@ -177,7 +177,7 @@
     <section id="pricing-results" tabindex="-1" aria-labelledby="pricing-results-title">
       <h2 id="pricing-results-title">Variant results</h2>
       <p role="status" aria-live="polite" class="result-counts">
-        {{ rows().length }} checked · {{ suggestions().length }} actionable ·
+        {{ rows().length }} checked · {{ suggestions().length }} experimental suggestions ·
         {{ withheld().length }} need evidence · {{ scope() }}. Showing {{ visibleRows().length }}.
       </p>
 
@@ -266,8 +266,9 @@
       </header>
       <p class="insight-meta">
         {{ d.horizonDays }}-day comparison · history {{ d.window.startDate }} to
-        {{ d.window.endDate }} (end excluded), {{ d.window.timezone }}<br />Calculated result · as
-        of {{ d.evaluationInstant | date: 'yyyy-MM-dd HH:mm' : 'UTC' }} UTC · {{ d.modelVersion }}
+        {{ d.window.endDate }} (end excluded), {{ d.window.timezone }}<br />Experimental model
+        output · as of {{ d.evaluationInstant | date: 'yyyy-MM-dd HH:mm' : 'UTC' }} UTC ·
+        {{ d.modelVersion }}
         @if (isDemo()) {
           <br />Historical demo window; not a prediction for today.
         }

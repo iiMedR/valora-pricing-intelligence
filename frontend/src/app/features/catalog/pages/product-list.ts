@@ -1,3 +1,4 @@
+import { PortfolioExamples } from '../../../shared/merchant/portfolio-examples';
 import { ProductEntry } from '../components/product-entry';
 import { SearchField } from '../../../shared/merchant/foundation';
 import { ZardInputComponent } from '@/shared/components/input';
@@ -15,13 +16,14 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged, forkJoin, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, forkJoin, of, Subscription } from 'rxjs';
 import { CatalogApi, apiError } from '../services/catalog-api.service';
 import { Category, Page, Product, ProductWrite } from '../models/catalog.models';
 import { ProductForm } from '../components/product-form';
 import { SessionService } from '../../../core/session.service';
 @Component({
   imports: [
+    PortfolioExamples,
     ProductEntry,
     SearchField,
     ZardButtonComponent,
@@ -62,6 +64,7 @@ import { SessionService } from '../../../core/session.service';
         (cancelled)="creating.set(false)"
       />
     }
+    <app-portfolio-examples />
     <form class="filters" [formGroup]="filters" (ngSubmit)="apply()">
       <app-search-field
         ><input
@@ -169,6 +172,7 @@ export class ProductList {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private pending?: Subscription;
+  private categoriesLoaded = false;
   readonly categories = signal<Category[]>([]);
   readonly result = signal<Page<Product> | null>(null);
   readonly loading = signal(true);
@@ -213,6 +217,8 @@ export class ProductList {
       if (session?.mode === 'NORMAL' && !session.authenticated) {
         this.pending?.unsubscribe();
         this.result.set(null);
+        this.categories.set([]);
+        this.categoriesLoaded = false;
         this.creating.set(false);
       }
     });
@@ -238,13 +244,14 @@ export class ProductList {
     this.error.set('');
     this.result.set(null);
     this.pending = forkJoin({
-      categories: this.api.categories(),
+      categories: this.categoriesLoaded ? of(this.categories()) : this.api.categories(),
       products: this.api.products({ ...this.filters.getRawValue(), page: this.page, size: 20 }),
     })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (value) => {
           this.categories.set(value.categories);
+          this.categoriesLoaded = true;
           this.result.set(value.products);
           this.loading.set(false);
         },

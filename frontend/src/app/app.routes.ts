@@ -59,7 +59,7 @@ export const routes: Routes = [
     path: 'optimization',
     canActivate: [authGuard],
     loadComponent: () => import('./features/optimization/optimization').then((m) => m.Optimization),
-    title: 'Pricing Recommendations | SmartPricing',
+    title: 'Pricing insights | SmartPricing',
   },
   {
     path: 'forecasting',

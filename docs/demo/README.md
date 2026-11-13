@@ -1,10 +1,10 @@
 # Portfolio demo and legacy research fixture
 
-SmartPricing is a junior full-stack portfolio project. The demo showcases Spring Boot, Angular, PostgreSQL, immutable financial history, analytics, guarded modeling and tests. It does **not** establish commercial causal optimization.11.13 unsafe synthetic approvals remain TEST 65/260 and CHALLENGE 41/156; conditional interval causal coverage0/20. No automatic price application or live provider integration is demonstrated.
+SmartPricing is a junior full-stack portfolio project built with Spring Boot, Angular and PostgreSQL. Explore recorded financial calculations, hypothetical scenarios and guarded experimental models. It is not a commercial SaaS launch or a validated autonomous pricing system. No prices are applied automatically.
 
-## Recruiter launch — PowerShell
+## Launch the portfolio — PowerShell
 
-Prerequisites: JDK21, Node/npm and Docker Desktop (Linux containers); pinned versions and normal startup are in the root README. From the repository root:
+Use JDK21, Node/npm and Docker Desktop with Linux containers (pinned versions in the root README). From the repository root:
 
 ```powershell
 $env:JAVA_HOME='C:/Program Files/Java/jdk-21.0.11' # adapt to your JDK21
@@ -16,41 +16,54 @@ npm.cmd ci
 npm.cmd run start:portfolio
 ```
 
-Open http://localhost:4207/products. Init explicitly creates a new isolated volume and seeds it; ordinary serve never seeds. The first seed can take several minutes because the existing transactional business services validate every imported history/order. No default administrator or customer identity is created. Browsing is anonymous/read-only. Select a product, inspect sales, pricing insight and Pricing guidance. Entered units/costs in guidance are assumptions; contribution is sales less known variable costs, excluding other business expenses. A green engine result is a synthetic demonstration, not a validated causal recommendation. See portfolio-evaluation.md for every outcome, including errors.
+Open [Products](http://localhost:4207/products) or [Overview](http://localhost:4207). Browsing is anonymous and read-only. Init explicitly seeds an isolated volume; ordinary serve never seeds. The first seed can take several minutes while existing business services validate immutable history. No customer identity or default administrator is created.
 
-|Installation|Database port|Backend|Frontend|Fixture|
-|---|---:|---:|---:|---|
-|Normal|5433|8080|4200|User records; unchanged|
-|Legacy research demo|5434|8081|4201|Original demo-v1,2025,30 abstentions|
-|SaaS|5435|8082|4202|Separate subscription installation; no new SaaS seed|
-|Portfolio demo|5437|8087|4207|portfolio-v1, frozen seed 20251114,2025|
+## A 3–5-minute walkthrough
 
-## Repeat, export and reset
+1. Open **Products → Explore the portfolio → Choose an example → Elastic demand**. Open the matching product. Its scenario label explains the synthetic history; the selected variant and search survive back navigation.
+2. Follow **Pricing guidance**. This is financial arithmetic. For Roasted Coffee · Classic, the recorded price is90 MAD and recorded unit cost36 MAD. Try candidate80, assumed current units100 and assumed candidate units110. Explicitly confirm simplified cost assumptions. These volumes are your assumptions, not a demand forecast; contribution excludes other business expenses.
+3. Open **View pricing evidence**. Compare the engine's current and model-suggested prices, units and estimated contribution. “Experimental suggestion” means the existing model returned a comparison; it is not a proven optimal price or validated causal effect. Historical forecast dates are1–30January2026, not the coming month today.
+4. Return to **Explore the portfolio** and open **Hidden marketing** or **Incorrect recorded cost**. Each carries a **Known synthetic failure** warning beside the statistical result. Approval is not evidence of correctness. These deliberately misleading approvals remain visible rather than being tuned away.
+5. Try **Seasonality**, **Missing costs**, **Stock constraints** or **Refunds**. Review a withheld reason and “Why this result?” or compare financial assumptions with missing inputs. Adding records alone does not guarantee eligibility. The near-optimum example also shows why tiny estimated improvements can be misleading.
+
+Optional separate SaaS installation: follow [subscription setup](../subscription-setup.md), then **Plans → Review plan → Pricing guidance** at http://localhost:4202/saas/plans. Monthly and annual prices retain their billing periods; subscriber counts, cancellations and servicing costs are assumptions. Cash is not MRR. SaaS has no validated price-response model and receives no commerce portfolio labels. There is no anonymous SaaS demo seed or business-mode switch; use your own separate approved test installation. Browser verification uses an existing disposable QA installation, never normal records or live billing.
+
+## What the examples mean
+
+|Example|What to inspect|
+|---|---|
+|Elastic / inelastic demand|Independent synthetic weekly price variation; conditional model suggestions.|
+|Seasonality / promotions|Calendar overlap or listed-versus-paid price differences; actual withholding reasons.|
+|Hidden marketing|Known failure: an unobserved influence produces a misleading approved price.|
+|Incorrect recorded cost|Known failure: a good model fit does not verify a cost input.|
+|Missing costs|Sparse observations and unavailable cost; no invented zero contribution.|
+|Stock constraints|Censored sales and availability limits; lost customers are not estimated.|
+|Refunds|Recorded sales/refunds; model contribution excludes future refund effects.|
+|Near the optimum|A small estimated improvement can be worse under known synthetic truth.|
+
+The unchanged seed has15 approved and15 withheld engine outcomes. That is not15 scientifically correct recommendations. Earlier11.13 research still found unsafe TEST65/260 and CHALLENGE41/156, and hidden causal interval coverage0/20. See [every actual scenario and limitation](portfolio-evaluation.md). No independent merchant usability or live Shopify/billing validation is claimed.
+
+## Installations and safe repeat/reset
+
+|Installation|PostgreSQL|Backend|Frontend|
+|---|---:|---:|---:|
+|Normal records|5433|8080|4200|
+|Original legacy research fixture|5434|8081|4201|
+|Separate SaaS installation|5435|8082|4202|
+|Portfolio synthetic fixture|5437|8087|4207|
 
 ```powershell
-./scripts/portfolio-demo.ps1 seed       # idempotent; refuses altered/mismatched data
-./scripts/portfolio-demo.ps1 summary    # checksum and counts
+./scripts/portfolio-demo.ps1 seed       # idempotent; refuses edited/mismatched data
+./scripts/portfolio-demo.ps1 summary
 ./scripts/portfolio-demo.ps1 export     # backend/target/demo-canonical.jsonl
 ./scripts/portfolio-demo.ps1 reset -ConfirmReset
 ```
 
-Reset is destructive **only within the verified portfolio fixture** and requires the explicit flag. Before reset, run export and copy backend/target/demo-canonical.jsonl to a safe local backup path. This canonical export is an audit/reconciliation artifact, not a pg_restore backup. If you need recovery of IDs/metadata, also use PostgreSQL pg_dump for the portfolio container and keep the ignored credential file privately. Do not remove volumes or credentials casually. Never aim a demo command at a normal/live database. There is no automatic switch, migration or replacement of the legacy fixture.
+Reset replaces only the verified portfolio fixture and requires the explicit flag. Before reset, export and copy the canonical file to a safe local backup path. This export is an audit artifact, not a pg_restore backup; for recovery of IDs/metadata, also use pg_dump for the portfolio container and retain the private ignored credentials. Do not remove volumes or point demo commands at normal/live databases.
 
-Shared scripts/demo.ps1 defaults to legacy; scripts/portfolio-demo.ps1 is a small named wrapper selecting portfolio. The existing legacy commands remain:
+The shared scripts/demo.ps1 defaults to legacy; scripts/portfolio-demo.ps1 selects portfolio. Existing `./scripts/demo.ps1 summary` and `./scripts/demo.ps1 serve` and `npm.cmd run start:demo` still address the legacy installation. Switching means opening a different installation, not reseeding it. The original fixture remains unchanged at30 variants,9466 orders,114 refunds,10044 observations and30 abstentions.
 
-```powershell
-./scripts/demo.ps1 summary
-./scripts/demo.ps1 serve
-# frontend, separate terminal: npm.cmd run start:demo
-```
-
-Use separate terminals/browser tabs; switching means opening the other installation, not reseeding an existing database. Legacy reset remains explicitly destructive and is not required to launch portfolio. Original setup/checksum details remain in ../demo-data.md and historical research documents.
-
-## Guards and environment
-
-Portfolio uses infra/compose.portfolio.yaml, a dedicated smartpricing-portfolio project/volume and admin-owned SMARTPRICING_ISOLATED_PORTFOLIO_V1 marker. Legacy uses SMARTPRICING_ISOLATED_SYNTHETIC_V1. Both use restricted smartpricing_demo roles inside separate servers. Markers are not interchangeable; checks run before Flyway and every reset. Profile must include demo plus portfolio for the new fixture and exclude local/saas; ECOMMERCE mode is required. The frozen portfolio generator rejects any seed/date other than20251114/2025-01-01. All financial/history writes remain transactional with an advisory lock. Failed first attempts roll back rather than leave partial catalogs.
-
-Init generates ignored infra/.env.portfolio.local with PORTFOLIO_ADMIN_PASSWORD and PORTFOLIO_DB_PASSWORD. Do not commit or print it. The wrapper loads/restores these process variables temporarily. Legacy retains its separate infra/.env.demo.local credentials. No provider keys, network integration or billing account is needed. No new migration or dependency was added. Optional SaaS seeding was deliberately deferred rather than mixing business modes.
+Portfolio requires demo+portfolio profiles, ECOMMERCE mode, a restricted dedicated DB/user and its admin-owned immutable PORTFOLIO marker. Legacy uses a different immutable SYNTHETIC marker. Checks precede Flyway and every reset. No local/saas profile mixing; frozen portfolio seed20251114/date2025-01-01; no automatic seeding. Init creates private ignored infra/.env.portfolio.local credentials; never commit or print them. No migrations, providers or new dependencies are needed.
 
 ## Reproduce verification
 
@@ -60,6 +73,7 @@ cd backend
 cd ..
 npm.cmd test --prefix frontend -- --watch=false
 npm.cmd run build --prefix frontend
+./frontend/node_modules/.bin/tsc.cmd --noEmit -p frontend/tsconfig.app.json
 ```
 
-PortfolioSeederIT creates two fresh disposable PostgreSQL containers, compares canonical bytes, tests repeat/reset and cross-marker refusal, and writes target/portfolio-verification results. Existing legacy tests assert the original golden checksum and all benchmark/oracle/security suites remain included. Random entity UUIDs and insertion timestamps are normalized out of canonical rows; SKU/logical keys, sales times and amounts are stable. Source parameters/truth are in portfolio-dataset-design.md and PortfolioGenerator.java; final evaluation and verification contain checksums, timings, limitations and real screenshots.
+PortfolioSeederIT compares two fresh isolated canonical exports, idempotency and guarded reset. The original golden checksum, oracle80/actionable90 and security/SaaS/research regressions remain included. UUIDs and insertion timestamps normalize out; logical keys and money remain stable. Milestone11.14 evidence is retained. Latest UX checks and curated screenshots are documented in [11.15 verification](../milestone-11-15-verification.md).

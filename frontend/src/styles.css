@@ -157,8 +157,8 @@
   }
   .environment-warning {
     padding: 14px 6%;
-    background: var(--error-surface);
-    color: var(--destructive);
+    background: var(--muted);
+    color: var(--foreground);
     font-size: 13px;
     line-height: 1.7;
   }

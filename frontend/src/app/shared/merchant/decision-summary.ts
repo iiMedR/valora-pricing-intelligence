@@ -1,3 +1,4 @@
+import { PortfolioStory } from './portfolio-examples';
 import { actionable } from './pricing-presentation';
 import { StatusPill } from './foundation';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
@@ -38,7 +39,7 @@ export function sensitivityText(elasticity: DemandDetail['elasticity']): string 
   selector: 'app-sensitivity-summary',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<section class="sensitivity-summary">
-    <h3>How customers responded to price</h3>
+    <h3>Observed price association</h3>
     @if (explanation(); as text) {
       <p>{{ text }}</p>
       <p class="muted">
@@ -61,7 +62,7 @@ export class SensitivitySummary {
 
 @Component({
   selector: 'app-price-comparison',
-  imports: [StatusPill, RouterLink, ZardButtonComponent, SensitivitySummary],
+  imports: [StatusPill, RouterLink, ZardButtonComponent, SensitivitySummary, PortfolioStory],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `@let d = evaluation();
     <article class="decision-card" [attr.aria-label]="d.variant.productName + ' pricing review'">
@@ -71,16 +72,19 @@ export class SensitivitySummary {
             <h3>{{ d.variant.productName }}</h3>
             <p class="muted">{{ d.variant.name }} · {{ d.variant.sku }}</p>
           </div>
-          <app-status-pill
-            [label]="eligible(d) ? 'Suggestion available' : 'No reliable suggestion yet'"
-          />
+          <app-status-pill [label]="eligible(d) ? 'Experimental suggestion' : 'Withheld'" />
         </div>
       }
+      <app-portfolio-story [sku]="d.variant.sku" />
       @if (eligible(d)) {
+        <p class="muted">
+          <strong>Experimental model suggestion.</strong> Not causally validated or a proven optimal
+          price. No price is applied.
+        </p>
         <div class="price-change">
           <span><small>Current price</small>{{ number(d.inputs.currentPrice) }}</span
           ><span aria-hidden="true">→</span
-          ><span><small>Suggested price</small>{{ number(d.recommendedPrice) }}</span
+          ><span><small>Model suggested price</small>{{ number(d.recommendedPrice) }}</span
           ><small>{{ d.window.currencyCode }}</small>
         </div>
         <p class="decision-period">

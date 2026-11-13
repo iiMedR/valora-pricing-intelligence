@@ -1,3 +1,4 @@
+import { PortfolioExamples } from '../../shared/merchant/portfolio-examples';
 import { CatalogCheck } from '../optimization/catalog-check';
 import { ExplainMore, InsightSummary, formatMoney } from '../../shared/merchant/foundation';
 import { reasonSummary } from '../../core/presentation';
@@ -37,6 +38,7 @@ import { ZardButtonComponent } from '../../shared/components/button';
 @Component({
   selector: 'app-home',
   imports: [
+    PortfolioExamples,
     ExplainMore,
     InsightSummary,
     RouterLink,

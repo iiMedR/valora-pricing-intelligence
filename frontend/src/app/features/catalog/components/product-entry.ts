@@ -1,3 +1,4 @@
+import { PortfolioBadge } from '../../../shared/merchant/portfolio-examples';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink, Params } from '@angular/router';
 import { Product } from '../models/catalog.models';
@@ -5,7 +6,7 @@ import { ProductThumbnail } from '../../../shared/merchant/product-thumbnail';
 import { StatusPill } from '../../../shared/merchant/foundation';
 @Component({
   selector: 'app-product-entry',
-  imports: [RouterLink, ProductThumbnail, StatusPill],
+  imports: [RouterLink, ProductThumbnail, StatusPill, PortfolioBadge],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<a
     class="product-entry"
@@ -16,6 +17,7 @@ import { StatusPill } from '../../../shared/merchant/foundation';
     <div class="entry-identity">
       <h2>{{ product().name }}</h2>
       <p>{{ category() }}</p>
+      <app-portfolio-badge [productName]="product().name" />
     </div>
     <app-status-pill [label]="product().status === 'ACTIVE' ? 'Active' : 'Archived'" /><span
       class="entry-action"
