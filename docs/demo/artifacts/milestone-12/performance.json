@@ -1,0 +1,23 @@
+{
+  "method": "Chrome headless, localhost Angular dev server, 3 fresh pages, initial catalog then one explicit filter; includes networkidle wait, not a production speed claim",
+  "runs": [
+    {
+      "catalogMs": 660,
+      "filterMs": 666,
+      "categoriesRequests": 1,
+      "productsRequests": 2
+    },
+    {
+      "catalogMs": 663,
+      "filterMs": 725,
+      "categoriesRequests": 1,
+      "productsRequests": 2
+    },
+    {
+      "catalogMs": 548,
+      "filterMs": 636,
+      "categoriesRequests": 1,
+      "productsRequests": 2
+    }
+  ]
+}

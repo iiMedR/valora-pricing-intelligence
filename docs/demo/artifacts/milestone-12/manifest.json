@@ -1,0 +1,86 @@
+{
+  "startingHead": "0657cd5fefdc27e873a831ab35dece34d957acbb",
+  "files": [
+    {
+      "path": "docs/demo/artifacts/milestone-12/browser-results.json",
+      "sha256": "7f3aabc7df9ac2a53b63b192aaa3170cfac71ddfe6469e543368ce863c5b2004",
+      "normalizedBytes": 21588
+    },
+    {
+      "path": "docs/demo/artifacts/milestone-12/invariants.json",
+      "sha256": "7c2ce2191235019dd4789e55057c4073494a04ab0c89f925926620974aa3eb24",
+      "normalizedBytes": 7262
+    },
+    {
+      "path": "docs/demo/artifacts/milestone-12/isolation-widths.json",
+      "sha256": "ab46d4c66346d110adca639dfa178e20f125de1038699b25180df17ae0c60540",
+      "normalizedBytes": 1253
+    },
+    {
+      "path": "docs/demo/artifacts/milestone-12/performance.json",
+      "sha256": "20a638070856c1a314ce6c4970826d4eaae80170107a7fa08441891d26860da9",
+      "normalizedBytes": 551
+    },
+    {
+      "path": "docs/demo/artifacts/milestone-12/summary.json",
+      "sha256": "53fa1953b811e13a776fb553b93e54dabced671aac84cd505161d1e621474f19",
+      "normalizedBytes": 1269
+    },
+    {
+      "path": "docs/demo/artifacts/milestone-12/tests.json",
+      "sha256": "261f492de50bf6d4377a46020bcbb0939f583ad11aef89f073d4e928074ce177",
+      "normalizedBytes": 7497
+    },
+    {
+      "path": "docs/demo/README.md",
+      "sha256": "148f917affff555dc435d8f09ae07060fb42df6e8f62494727987678e9cf326b",
+      "normalizedBytes": 7589
+    },
+    {
+      "path": "docs/local-setup.md",
+      "sha256": "3feda22ef06e39c0e079146bc0f3ddc98ab0e309c84bc3fb39d3043fd090c8e5",
+      "normalizedBytes": 2075
+    },
+    {
+      "path": "docs/milestone-12-architecture-and-quality-audit.md",
+      "sha256": "91ce02bdf50f5d09e7230fbe382324e48739e1887db0046e0e100cd885e47e8b",
+      "normalizedBytes": 6589
+    },
+    {
+      "path": "docs/milestone-12-baseline-audit.md",
+      "sha256": "b467c317c9b3cc98b9f62ad33d60b05d345ecc84f9683af4b6791000d9a48e3f",
+      "normalizedBytes": 4705
+    },
+    {
+      "path": "docs/milestone-12-cleanup-and-performance.md",
+      "sha256": "9ab5b49cf2fdf5798b4039aa1b7ec62ef19402ff061f5c6a0a25a27ec59efc25",
+      "normalizedBytes": 3031
+    },
+    {
+      "path": "docs/milestone-12-end-to-end-verification.md",
+      "sha256": "3c10c412a929b002e52d0dbc1d750ec54fa43ae207f01ad758854d0d354930fa",
+      "normalizedBytes": 8605
+    },
+    {
+      "path": "docs/milestone-12-verification.md",
+      "sha256": "3543e5943253eb6674340cb79a7efc5898062d4d28841fdee5bbc94f55cee2a4",
+      "normalizedBytes": 9773
+    },
+    {
+      "path": "docs/portfolio-interview-notes.md",
+      "sha256": "eca000ec2996aeb095499f495688415033af4dfe21a898a99f2c32969132ee3e",
+      "normalizedBytes": 4674
+    },
+    {
+      "path": "README.md",
+      "sha256": "5198f52cf07e0b85a80f078e60d1d9ada6ab80475a77decc2bd2cea59a722570",
+      "normalizedBytes": 6830
+    },
+    {
+      "path": "research/pricing/verify-portfolio-ux.mjs",
+      "sha256": "9d97ff7f9c354e3787e01a8aa8c2824cdd03456f89b50aa83e5a03b949e66f46",
+      "normalizedBytes": 4126
+    }
+  ],
+  "hashConvention": "UTF-8 text with CRLF normalized to LF; manifest excludes itself"
+}

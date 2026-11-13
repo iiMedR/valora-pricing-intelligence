@@ -1,0 +1,45 @@
+{
+  "documentationCommit": "3f73b50",
+  "noPush": true,
+  "browser": {
+    "additionalIsolationStates": 8,
+    "controlled503ConsoleErrors": 2,
+    "pageExceptions": 0,
+    "axeViolations": 0,
+    "axeScans": 62,
+    "primaryStates": 54
+  },
+  "limitations": [
+    "LIVE_SHOPIFY_NOT_VERIFIED",
+    "LIVE_BILLING_NOT_VERIFIED",
+    "INDEPENDENT_USABILITY_NOT_VERIFIED",
+    "UNSUPPORTED_ENVIRONMENTS_NOT_VERIFIED",
+    "TIMED_IDLE_EXPIRY_NOT_VERIFIED",
+    "PROJECT_LICENSE_NOT_SELECTED"
+  ],
+  "productionBuild": {
+    "initialKilobytes": 451.87,
+    "result": "PASS",
+    "estimatedTransferKilobytes": 115.71,
+    "sourceMapsEmitted": false,
+    "thirdPartyLicenseOutput": true
+  },
+  "date": "2026-11-14",
+  "startingHead": "0657cd5fefdc27e873a831ab35dece34d957acbb",
+  "localSupportedChecks": "PASS",
+  "portfolioVerdict": "PARTIAL",
+  "model": "NOT_CAUSALLY_VALIDATED",
+  "cleanTrackedSource": {
+    "offlineNpmCi": "PASS",
+    "productionBuild": "PASS",
+    "freshOnlineBootstrap": "NOT_VERIFIED"
+  },
+  "noDeployment": true,
+  "dependencyHealth": {
+    "offlineMavenDependencyTree": "FAILED_PLUGIN_NOT_CACHED",
+    "freshVulnerabilityAdvisories": "NOT_VERIFIED",
+    "offlineNpmAuditReportedEntries": 0
+  },
+  "baselineCommit": "c781eac",
+  "typecheck": "PASS"
+}

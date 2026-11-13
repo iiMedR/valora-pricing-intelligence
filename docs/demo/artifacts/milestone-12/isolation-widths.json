@@ -1,0 +1,66 @@
+[
+  {
+    "mode": "normal",
+    "width": 320,
+    "url": "http://localhost:4205/products",
+    "violations": [],
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "mode": "legacy",
+    "width": 320,
+    "url": "http://localhost:4204/products",
+    "violations": [],
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "mode": "normal",
+    "width": 375,
+    "url": "http://localhost:4205/products",
+    "violations": [],
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "mode": "legacy",
+    "width": 375,
+    "url": "http://localhost:4204/products",
+    "violations": [],
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "mode": "normal",
+    "width": 768,
+    "url": "http://localhost:4205/products",
+    "violations": [],
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "mode": "legacy",
+    "width": 768,
+    "url": "http://localhost:4204/products",
+    "violations": [],
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "mode": "normal",
+    "width": 1440,
+    "url": "http://localhost:4205/products",
+    "violations": [],
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "mode": "legacy",
+    "width": 1440,
+    "url": "http://localhost:4204/products",
+    "violations": [],
+    "overflow": false,
+    "errors": []
+  }
+]

@@ -1,0 +1,582 @@
+{
+  "states": [
+    {
+      "name": "examples",
+      "width": 320,
+      "url": "http://localhost:4207/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "chooser-expanded",
+      "width": 320,
+      "url": "http://localhost:4207/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "hidden-failure",
+      "width": 320,
+      "url": "http://localhost:4207/optimization?catalogSearch=Ceramic%20Mug%20%C2%B7%20Classic&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=34903091-74a2-4489-b72d-60d9a1926f1f&variantId=1a749b31-80e7-4fb5-9ba3-4d3c4f3addc7&search=PORT-PROMOTION-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "wrong-cost",
+      "width": 320,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=7cf3ff87-6ecd-451b-aa22-535033dd88d5&variantId=b8ace4a5-731a-4035-af2d-f374d3ff3d8f&search=PORT-COST_CHANGE_UNKNOWN-2",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "financial-guidance",
+      "width": 320,
+      "url": "http://localhost:4207/products/a83de61a-dd88-4ef3-a5bb-39760e39f188?variant=de84808d-761c-4fde-851b-444841c74608",
+      "title": "Product detail | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "experimental",
+      "width": 320,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=a83de61a-dd88-4ef3-a5bb-39760e39f188&variantId=de84808d-761c-4fde-851b-444841c74608&search=PORT-ELASTIC_HIGH-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "missing-cost",
+      "width": 320,
+      "url": "http://localhost:4207/products/50df440b-985c-4f95-94a3-b04b8f3240ca?variant=13d8f732-984c-4976-8e4c-01a41b6a52c4",
+      "title": "Product detail | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "withheld",
+      "width": 320,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=50df440b-985c-4f95-94a3-b04b8f3240ca&variantId=13d8f732-984c-4976-8e4c-01a41b6a52c4&search=PORT-SPARSE-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "examples",
+      "width": 375,
+      "url": "http://localhost:4207/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "chooser-expanded",
+      "width": 375,
+      "url": "http://localhost:4207/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "hidden-failure",
+      "width": 375,
+      "url": "http://localhost:4207/optimization?catalogSearch=Ceramic%20Mug%20%C2%B7%20Classic&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=34903091-74a2-4489-b72d-60d9a1926f1f&variantId=1a749b31-80e7-4fb5-9ba3-4d3c4f3addc7&search=PORT-PROMOTION-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "wrong-cost",
+      "width": 375,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=7cf3ff87-6ecd-451b-aa22-535033dd88d5&variantId=b8ace4a5-731a-4035-af2d-f374d3ff3d8f&search=PORT-COST_CHANGE_UNKNOWN-2",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "financial-guidance",
+      "width": 375,
+      "url": "http://localhost:4207/products/a83de61a-dd88-4ef3-a5bb-39760e39f188?variant=de84808d-761c-4fde-851b-444841c74608",
+      "title": "Product detail | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "experimental",
+      "width": 375,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=a83de61a-dd88-4ef3-a5bb-39760e39f188&variantId=de84808d-761c-4fde-851b-444841c74608&search=PORT-ELASTIC_HIGH-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "missing-cost",
+      "width": 375,
+      "url": "http://localhost:4207/products/50df440b-985c-4f95-94a3-b04b8f3240ca?variant=13d8f732-984c-4976-8e4c-01a41b6a52c4",
+      "title": "Product detail | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "withheld",
+      "width": 375,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=50df440b-985c-4f95-94a3-b04b8f3240ca&variantId=13d8f732-984c-4976-8e4c-01a41b6a52c4&search=PORT-SPARSE-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "examples",
+      "width": 768,
+      "url": "http://localhost:4207/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "chooser-expanded",
+      "width": 768,
+      "url": "http://localhost:4207/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "hidden-failure",
+      "width": 768,
+      "url": "http://localhost:4207/optimization?catalogSearch=Ceramic%20Mug%20%C2%B7%20Classic&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=34903091-74a2-4489-b72d-60d9a1926f1f&variantId=1a749b31-80e7-4fb5-9ba3-4d3c4f3addc7&search=PORT-PROMOTION-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "wrong-cost",
+      "width": 768,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=7cf3ff87-6ecd-451b-aa22-535033dd88d5&variantId=b8ace4a5-731a-4035-af2d-f374d3ff3d8f&search=PORT-COST_CHANGE_UNKNOWN-2",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "financial-guidance",
+      "width": 768,
+      "url": "http://localhost:4207/products/a83de61a-dd88-4ef3-a5bb-39760e39f188?variant=de84808d-761c-4fde-851b-444841c74608",
+      "title": "Product detail | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "experimental",
+      "width": 768,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=a83de61a-dd88-4ef3-a5bb-39760e39f188&variantId=de84808d-761c-4fde-851b-444841c74608&search=PORT-ELASTIC_HIGH-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "missing-cost",
+      "width": 768,
+      "url": "http://localhost:4207/products/50df440b-985c-4f95-94a3-b04b8f3240ca?variant=13d8f732-984c-4976-8e4c-01a41b6a52c4",
+      "title": "Product detail | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "withheld",
+      "width": 768,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=50df440b-985c-4f95-94a3-b04b8f3240ca&variantId=13d8f732-984c-4976-8e4c-01a41b6a52c4&search=PORT-SPARSE-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "examples",
+      "width": 1440,
+      "url": "http://localhost:4207/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "chooser-expanded",
+      "width": 1440,
+      "url": "http://localhost:4207/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "hidden-failure",
+      "width": 1440,
+      "url": "http://localhost:4207/optimization?catalogSearch=Ceramic%20Mug%20%C2%B7%20Classic&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=34903091-74a2-4489-b72d-60d9a1926f1f&variantId=1a749b31-80e7-4fb5-9ba3-4d3c4f3addc7&search=PORT-PROMOTION-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "wrong-cost",
+      "width": 1440,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=7cf3ff87-6ecd-451b-aa22-535033dd88d5&variantId=b8ace4a5-731a-4035-af2d-f374d3ff3d8f&search=PORT-COST_CHANGE_UNKNOWN-2",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "financial-guidance",
+      "width": 1440,
+      "url": "http://localhost:4207/products/a83de61a-dd88-4ef3-a5bb-39760e39f188?variant=de84808d-761c-4fde-851b-444841c74608",
+      "title": "Product detail | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "experimental",
+      "width": 1440,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=a83de61a-dd88-4ef3-a5bb-39760e39f188&variantId=de84808d-761c-4fde-851b-444841c74608&search=PORT-ELASTIC_HIGH-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "missing-cost",
+      "width": 1440,
+      "url": "http://localhost:4207/products/50df440b-985c-4f95-94a3-b04b8f3240ca?variant=13d8f732-984c-4976-8e4c-01a41b6a52c4",
+      "title": "Product detail | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "withheld",
+      "width": 1440,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=50df440b-985c-4f95-94a3-b04b8f3240ca&variantId=13d8f732-984c-4976-8e4c-01a41b6a52c4&search=PORT-SPARSE-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "port-elastic_low-1",
+      "width": 1440,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=f8464d0b-b9ed-4658-9eb0-63bac97184b2&variantId=fa8b021f-4efa-473e-8eda-61379d75742a&search=PORT-ELASTIC_LOW-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "port-seasonal-1",
+      "width": 1440,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=7e1771fa-da39-4884-bbff-3ed9bfdd44fe&variantId=3dbf6f81-e6a0-4188-8d93-5800f0a4dd30&search=PORT-SEASONAL-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "port-promotion-2",
+      "width": 1440,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=e1a26fe0-3a2f-45ce-978a-fbd0141aaeb6&variantId=d80c7132-e6a9-4675-841f-4c76794dc768&search=PORT-PROMOTION-2",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "port-stockout-1",
+      "width": 1440,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=4bc9e84e-9c7a-4f15-8395-8dc1e3474120&variantId=a3378ed9-e560-46f7-955a-9cc4479dd86e&search=PORT-STOCKOUT-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "port-refund-1",
+      "width": 1440,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=eed06510-0d90-4926-a9f8-84d0d92d3097&variantId=4929f3bf-b6f1-453c-88d9-b4f3b61a219b&search=PORT-REFUND-1",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "port-archive-2",
+      "width": 1440,
+      "url": "http://localhost:4207/optimization?catalogSearch=&catalogCategory=&catalogStatus=&catalogPage=0&catalogView=grid&startDate=2025-01-01&endDate=2026-01-01&horizonDays=30&productId=141a053f-9a94-4475-99bb-28390d619a62&variantId=4aa3143e-ba2b-4f87-9206-b9c65810c541&search=PORT-ARCHIVE-2",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "no-data",
+      "width": 1440,
+      "url": "http://localhost:4207/products?search=NoSuchPortfolioProduct",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "controlled-api-error",
+      "width": 1440,
+      "url": "http://localhost:4207/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": true
+    },
+    {
+      "name": "retry-recovered",
+      "width": 1440,
+      "url": "http://localhost:4207/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "chart-inspection",
+      "width": 1440,
+      "url": "http://localhost:4207/analytics",
+      "title": "Analytics | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "overview",
+      "width": 375,
+      "url": "http://localhost:4207/",
+      "title": "Overview | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "overview",
+      "width": 1440,
+      "url": "http://localhost:4207/",
+      "title": "Overview | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "unverified-environment",
+      "width": 1440,
+      "url": "http://localhost:4207/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": true
+    },
+    {
+      "name": "environment-recovered",
+      "width": 1440,
+      "url": "http://localhost:4207/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "legacy-isolation",
+      "width": 1440,
+      "url": "http://localhost:4204/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "normal-isolation",
+      "width": 1440,
+      "url": "http://localhost:4205/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "saas-yearly-guidance",
+      "width": 320,
+      "url": "http://localhost:4206/saas/plans?start=2025-01-02&asOf=2025-01-31&planId=guidance-annual",
+      "title": "Subscriptions | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "saas-yearly-guidance",
+      "width": 375,
+      "url": "http://localhost:4206/saas/plans?start=2025-01-02&asOf=2025-01-31&planId=guidance-annual",
+      "title": "Subscriptions | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "saas-monthly-guidance",
+      "width": 375,
+      "url": "http://localhost:4206/saas/plans?asOf=2025-01-31&planId=guidance-monthly",
+      "title": "Subscriptions | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "saas-yearly-guidance",
+      "width": 768,
+      "url": "http://localhost:4206/saas/plans?start=2025-01-02&asOf=2025-01-31&planId=guidance-annual",
+      "title": "Subscriptions | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "saas-yearly-guidance",
+      "width": 1440,
+      "url": "http://localhost:4206/saas/plans?start=2025-01-02&asOf=2025-01-31&planId=guidance-annual",
+      "title": "Subscriptions | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": false
+    },
+    {
+      "name": "expired-session",
+      "width": 1440,
+      "url": "http://localhost:4206/login?returnUrl=%2Fsaas%2Fplans%3FasOf%3D2025-01-31%26planId%3Dguidance-annual",
+      "title": "Sign in | SmartPricing",
+      "overflow": false,
+      "scan": true,
+      "violations": [],
+      "controlledFault": true
+    }
+  ],
+  "console": [
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+  ],
+  "pageErrors": [],
+  "extra": [
+    {
+      "width": 320,
+      "hardReloadAndBack": true
+    },
+    {
+      "width": 375,
+      "keyboardModalFocusAndEscape": true
+    },
+    {
+      "width": 375,
+      "hardReloadAndBack": true
+    },
+    {
+      "width": 768,
+      "hardReloadAndBack": true
+    },
+    {
+      "width": 1440,
+      "keyboardModalFocusAndEscape": true
+    },
+    {
+      "width": 1440,
+      "hardReloadAndBack": true
+    },
+    {
+      "loadingVisible": true
+    },
+    {
+      "realLogoutClearsProtectedResults": true,
+      "saasRejectsCommerce409": true
+    }
+  ]
+}
