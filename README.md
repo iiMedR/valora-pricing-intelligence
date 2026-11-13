@@ -1,129 +1,82 @@
 # SmartPricing
 
-A junior full-stack developer portfolio project built with Spring Boot, Angular and PostgreSQL. Explore an explicitly synthetic catalog, immutable financial history, analytics, assumption-based pricing guidance and guarded experimental models. This is not a commercial SaaS launch or validated autonomous pricing system. Research in milestone 11.13 still found unsafe approvals in broader synthetic tests; no automatic price application is implemented.
+A junior full-stack portfolio project using **Java 21, Spring Boot, Angular and PostgreSQL**. It combines an explorable synthetic catalog, immutable sales/refund history, financial what-if calculations and explicitly experimental pricing insights.
 
-For the recruiter-friendly demo, follow [portfolio demo startup](docs/demo/README.md) (5437/8087/4207). The [original 2025 demo](docs/demo-data.md) remains separately available as a legacy research fixture on 5434/8081/4201, with its checksum and 30 abstentions preserved. See [portfolio dataset design](docs/demo/portfolio-dataset-design.md), [actual evaluation and known errors](docs/demo/portfolio-evaluation.md), and [11.13 research findings](docs/pricing-research/milestone-11-13-results.md).
+**MODEL NOT CAUSALLY VALIDATED.** An approved statistical suggestion can be wrong. Known synthetic failures are deliberately visible; no prices are applied automatically. This project demonstrates engineering and honest evaluation, not a commercial SaaS launch.
 
-A single-business pricing optimization platform. Milestones 01–10 provide the local foundation, catalog, immutable sales/refund and price/cost/inventory history, isolated synthetic demo, analytics, guarded forecasting, constrained recommendations, administrator sessions, Shopify OAuth, bounded read-only imports and onboarding/readiness diagnostics. Readiness never bypasses model gates or applies prices. Milestone 10.5 adds controlled observational elasticity, independent validation fixtures and explicit append-only evaluation audits. Milestone 11 unifies responsive merchant navigation, workspace indicators, editor safety and diagnostic wording. Calibrated uncertainty and stronger identification remain future work; no automatic price writes are implemented. See [recommendation quality](docs/recommendation-quality.md) and [verification](docs/milestone-10-5-verification.md). Live Shopify compatibility remains unverified.
+![Synthetic portfolio catalog and example chooser](docs/demo/screenshots/milestone-11-15/chooser-expanded-1440.png)
 
-The existing `SmartPricing` directory is the repository root (no redundant `smartpricing-platform` wrapper).
+## Try it locally — Windows PowerShell
 
-## Prerequisites and pinned versions
+Verified toolchain: JDK 21.0.11, Node 24.22.1 / npm 11.19.1, Docker Desktop with Linux containers. Maven wrapper 3.9.11; Spring Boot 3.5.16; Angular 22.2.6 / TypeScript 6.0.x; PostgreSQL 17.7-alpine. Initial dependency/image downloads require network access. Other operating systems have not been verified.
 
-- Java 21 (verified: Oracle JDK 21.0.11).
-- Spring Boot 3.5.16; Maven wrapper downloads Maven 3.9.11. System Maven is not required.
-- Node 24.22.1 and npm 11.19.1 verified; Angular framework and CLI 22.2.6, TypeScript 6.0.x. Use `npm ci` to reproduce the lockfile.
-- Milestone 11.5 uses source-owned Zard UI components (CLI 1.6.0 provenance), Angular CDK 22.2.6, ng-icons 36.1.0 and Tailwind/PostCSS 4.3.5. Gradient sales charts use ngx-echarts 22.0.0 / ECharts 6.1.0, loaded with the chart feature. No global Zard installation or initializer is needed to run the app. See [redesign plan](docs/ux-redesign-plan.md) and [verification](docs/milestone-11-5-verification.md).
-- Docker Desktop with Linux containers and Compose (verified: Desktop 4.92.0, client/engine 29.8.0).
-- PostgreSQL image `postgres:17.7-alpine` is pinned in Compose and Testcontainers.
-
-Version references: [Angular compatibility](https://angular.dev/reference/versions), [Spring Boot 3.5 requirements](https://docs.spring.io/spring-boot/3.5/system-requirements.html).
-
-## Local startup (PowerShell)
-
-From the repository root, start Docker Desktop, then:
+From this repository root, with Docker Desktop running:
 
 ```powershell
-docker compose -f infra/compose.yaml up -d --wait
-docker compose -f infra/compose.yaml ps
+$env:JAVA_HOME = 'C:/Program Files/Java/jdk-21.0.11' # adapt to your JDK 21
+./scripts/portfolio-demo.ps1 init
+./scripts/portfolio-demo.ps1 serve
 ```
 
 In a second terminal:
 
 ```powershell
-cd backend
-$env:JAVA_HOME = 'C:\Program Files\Java\jdk-21.0.11'
-.\mvnw.cmd spring-boot:run '-Dspring-boot.run.profiles=local'
-```
-
-In a third terminal:
-
-```powershell
 cd frontend
 npm.cmd ci
-npm.cmd start
+npm.cmd run start:portfolio
 ```
 
-Open [SmartPricing](http://localhost:4200). Check the backend directly:
+Open [localhost:4207/products](http://localhost:4207/products). The portfolio is anonymous and read-only. Init explicitly seeds its own database on 5437; backend is 8087. Serve does not seed. No default administrator/customer identity is created. Keep generated local environment files private. Reset requires the separate guarded command and explicit confirmation; it is unnecessary for browsing.
 
-```powershell
-curl.exe -i http://localhost:8080/api/v1/health
-curl.exe -i http://localhost:8080/actuator/health
-```
+## A five-minute review
 
-The application endpoint returns `{"status":"UP"}` and confirms application responsiveness; Actuator also checks database health. The UI does not claim database or business-data readiness from the application endpoint.
+1. **Explore the portfolio → Choose an example → Elastic demand.** Open the product and compare its recorded price/cost with an explicitly assumed what-if scenario in Pricing guidance.
+2. **View pricing evidence.** Read the model's current → suggested price, expected units and estimated contribution. Contribution means sales minus known variable costs, excluding other expenses. Historical forecasts display their actual dates, not the coming month today.
+3. Open **Hidden marketing** or **Incorrect recorded cost**. The approved result carries a known-failure warning: statistical fit does not establish causality or verify costs.
+4. Open **Missing costs** or a withheld insight. Missing inputs remain unavailable, rather than turning into invented zero profit or a forced recommendation.
+5. Inspect Analytics, Forecasting and Data readiness; technical evidence stays expandable.
 
-Normal business pages/APIs require sign-in. Provision your own administrator once with `.\scripts\admin.ps1 -Username owner` (secure password prompt), then sign in at `/login`. No default account or HTTP setup exists; existing accounts are never replaced. See [authentication and local credential recovery](docs/authentication.md). The demo remains anonymous and read-only. [Shopify connection setup](docs/shopify-connection.md) is optional and requires a separately configured app and public HTTPS callback; authorization alone does not import data. Use Store Connection's explicit historical/latest import actions only after configuring a permitted store. [Import contracts and limitations](docs/shopify-sync.md) and [Milestone 09 verification](docs/milestone-09-verification.md) distinguish fixture tests from live validation.
+![Experimental price comparison with its limitations](docs/demo/screenshots/milestone-11-15/experimental-1440.png)
 
-The Angular development proxy forwards `/api/**` to `http://localhost:8080`, avoiding browser cross-origin requests. Backend CORS separately permits `http://localhost:4200`; override using `CORS_ALLOWED_ORIGINS` (comma-separated explicit origins). No wildcard is used.
+The immutable portfolio has 30 variants, 9,863 orders, 54 refunds and 15 approved / 15 withheld engine outcomes. **15 approvals do not mean 15 correct decisions.** Broader research still found unsafe TEST 65/260 and CHALLENGE 41/156, with hidden causal interval coverage 0/20. See [actual evaluations and known failures](docs/demo/portfolio-evaluation.md) and [canonical research](docs/pricing-research/milestone-11-13-results.md).
 
-## Isolated synthetic demo
+## Engineering choices
 
-From the repository root, initialize once, then run the demo backend and frontend in separate terminals:
+- One modular Spring Boot application: catalog, append-only finance/history, analytics, forecasting, constrained optimization, financial guidance, auth and read-only Shopify import. JPA handles catalog entities; prepared JDBC queries make financial aggregations explicit. Flyway V1–V7 and database constraints preserve history.
+- Angular lazy routes, typed API services, compact Zard/Tailwind UI and black charts. Financial assumptions are separate from observational model estimates; ECharts loads lazily.
+- BCrypt administrator sessions, CSRF protection, explicit CORS allowlists, encrypted OAuth tokens and guarded demo database identity. Frontend labels never grant server permissions.
+- A separate SaaS business mode supports plan/subscriber arithmetic: yearly cash is not monthly recurring revenue. It has no validated price-response model or live billing integration.
 
-```powershell
-.\scripts\demo.ps1 init
-.\scripts\demo.ps1 serve
-# Separate terminal:
-cd frontend
-npm.cmd run start:demo
-```
+Tradeoffs: a modular monolith is easier to run and explain than microservices; SQL aggregation is explicit but needs maintained query tests; immutable records favor traceability over destructive edits; strict model gates withhold weak evidence but cannot establish causal truth. See the [architecture and quality audit](docs/milestone-12-architecture-and-quality-audit.md).
 
-Open [the synthetic demo](http://localhost:4201). It uses backend 8081 and a separate PostgreSQL database on 5434; normal development remains on 4200/8080/5433. Ordinary startup never seeds. Initialization creates ignored local credentials and explicitly seeds 30 products, 9,466 orders and 114 refunds for January–December 2025. Repeat with `.\scripts\demo.ps1 seed`; destructive reseeding requires `.\scripts\demo.ps1 reset -ConfirmReset` and validates the dedicated database identity before changing anything. See [demo setup, scenarios and limitations](docs/demo-data.md) and [Milestone 04 verification](docs/milestone-04-verification.md).
+## Verify
 
-## Normal database configuration
-
-The `local` profile defaults to `jdbc:postgresql://localhost:5433/smartpricing`, user `smartpricing`, password `smartpricing_local`. Host port 5433 avoids a collision with an existing PostgreSQL service on 5432; the container still listens on 5432. These credentials are for development only. Override backend settings using `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`. Compose accepts `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_PORT`; keep the backend values consistent. The backend also reads `POSTGRES_PORT` when `DB_URL` is not set: export the same port in both terminals to change it. Environment files are ignored. No database defaults are enabled outside the local profile.
-
-Flyway owns schema changes. Hibernate uses `validate`, never schema creation. V1 supplies the empty metadata table. V2 creates the catalog and initializes exactly one settings row (`My Business`, `MAD`), without catalog/demo records. V3 adds business history; V4 adds security/connection metadata; V5 adds sync jobs, checkpoints, source mappings, inventory provenance and order metadata. V5 permits unknown imported current costs and archived zero-price placeholders without changing existing rows or seeding. Products start archived; add an active variant before activating a product. Currency cannot change once any variant exists, including archived variants.
-
-## Catalog management
-
-Open [Onboarding](http://localhost:4200/onboarding) for Connect → Sync → Review coverage → Complete inputs → Check readiness. It works without live credentials and separates imported data, observed analytics, forecast evaluation and actual optimization eligibility. The [synthetic view](http://localhost:4201/onboarding) is anonymous/read-only. See [onboarding contracts and source precedence](docs/onboarding.md) and [Milestone 10 evidence](docs/milestone-10-verification.md). Onboarding itself needs no persistence. The current schema includes unchanged V1–V6, including the Milestone 10.5 append-only evaluation audit; no dependency change or database reset is required.
-
-Open Products, Categories, or Business settings in the navigation. Monetary values are decimal strings with at most four decimal places; below-cost prices are allowed and flagged. Archive retains catalog records. See the [catalog API and domain guide](docs/catalog.md) for endpoint examples, validation, concurrent edits, and archive rules.
-
-## Checks
+With Java 21, Docker and installed frontend dependencies:
 
 ```powershell
 cd backend
-.\mvnw.cmd test                 # controller and CORS tests; no Docker needed
-.\mvnw.cmd verify               # also full context + PostgreSQL/Flyway integration; requires Docker
-cd ../frontend
-npm.cmd test -- --watch=false
-npm.cmd run build
+./mvnw.cmd verify
+cd ..
+npm.cmd test --prefix frontend -- --watch=false
+./frontend/node_modules/.bin/tsc.cmd --noEmit -p frontend/tsconfig.app.json
+npm.cmd run build --prefix frontend
 ```
 
-On macOS/Linux use `./mvnw` (make executable if necessary) and `npm` in place of `npm.cmd`.
+[Final verification](docs/milestone-12-verification.md) records exact local results, limitations and evidence. There is no CI workflow or claimed hosted CI run. Docker is required for PostgreSQL integration tests. [Interview notes](docs/portfolio-interview-notes.md) explain the design and defensible scope.
 
-See [verification](docs/verification.md) for actual outcomes, [architecture](docs/architecture.md) for boundaries, and [development](docs/development.md) for workflow and troubleshooting.
+## Other installations and documentation
 
-Milestone 02 results are recorded separately in [catalog verification](docs/milestone-02-verification.md).
+|Installation|Database / API / frontend|Guide|
+|---|---|---|
+|Portfolio, synthetic read-only|5437 / 8087 / 4207|[Walkthrough and reproducibility](docs/demo/README.md)|
+|Normal commerce, authenticated|5433 / 8080 / 4200|[Local setup](docs/local-setup.md)|
+|Original research demo, read-only|5434 / 8081 / 4201|[Legacy fixture](docs/demo-data.md)|
+|Separate SaaS, authenticated|5435 / 8082 / 4202|[Subscription setup](docs/subscription-setup.md)|
 
-## Sales and variant history
+These installations have separate databases/profiles; there is no runtime business-mode toggle. Evaluation saving is an explicit authenticated, CSRF-protected action in normal mode. Demo browsing never saves evaluations or edits prices. See [merchant guide](docs/merchant-workflow.md), [Shopify setup](docs/shopify-connection.md) and [research index](docs/pricing-research/milestone-11-13-results.md).
 
-Open Sales orders to enter/inspect manual transactions and refunds. Each variant's product-detail card links to listed-price, unit-cost, and inventory history. Unknown historical cost or inventory is displayed explicitly rather than replaced with current catalog data. Verified current price/cost changes synchronize with the catalog atomically; snapshots remain point observations.
+## Release status and attribution
 
-V3 adds history without backfilling data or modifying V1/V2. It uses PostgreSQL's `btree_gist` extension for authoritative period-overlap constraints; the migration role needs permission to create this trusted extension. The supplied local PostgreSQL image supports it. Normal APIs require the M08 administrator session; M09 imports use provider-scoped source mappings and preserve immutable snapshots.
+Locally verified as a CV portfolio; independent merchant usability, live Shopify OAuth/sync, live billing, fresh dependency vulnerability advisories and unsupported environments remain **NOT VERIFIED**. This is not a production security certification.
 
-See [history contracts and API examples](docs/history.md), [implementation design](docs/milestone-03-design.md), and [Milestone 03 verification](docs/milestone-03-verification.md). No new setup commands or package installations are needed.
-
-## Business analytics
-
-Open Analytics in the navigation: [normal dashboard](http://localhost:4200/analytics) or [synthetic demo dashboard](http://localhost:4201/analytics). Use Full 2025 to inspect the existing demo's historical period. UTC date ranges, sale/refund timing, exact monetary strings, partial known-cost contribution, trends, product/variant drill-downs and inventory freshness all use persisted data. No initialization/reset runs from the dashboard. See [metric definitions and API contract](docs/analytics.md) and [Milestone 05 verification](docs/milestone-05-verification.md). Existing startup commands and dependencies are unchanged.
-
-## Demand Forecasting
-
-Open [demo forecasting](http://localhost:4201/forecasting) or [normal forecasting](http://localhost:4200/forecasting). Select Full 2025 to inspect existing demo history, search a variant, and inspect 7/14/30-day observed-sales baselines, guarded association-based elasticity and chronological backtests. Sparse, missing-stock and zero-sales histories produce explicit limitations rather than fabricated elasticity. Historical forecasts state their as-of date and latest known price assumption. No calibrated uncertainty/causal claim, model tables, new dependency, data reset or price recommendation is introduced. See [model/data contract](docs/forecasting.md) and [Milestone 06 verification](docs/milestone-06-verification.md). Existing normal/demo startup commands and isolated ports remain unchanged.
-
-## Pricing Recommendations
-
-Open [demo evaluations](http://localhost:4201/optimization) or [normal evaluations](http://localhost:4200/optimization). Full 2025 evaluates the existing historical demo. A stricter gate than forecasting readiness withholds suggestions for calendar-confounded, sparse, baseline-only, missing-cost and inactive cases. The seasonal weak-elasticity case is explicitly non-actionable; good forecasting alone never authorizes a price change. Supported cases optimize estimated contribution on the existing 0.0001 grid with effective known cost, constraints and a conservative horizon stock cap. No price is applied, no GET writes occur, and evaluation history is not persisted. See [objective, gates and APIs](docs/optimization.md) and [Milestone 07 verification](docs/milestone-07-verification.md). No migration, dependency installation or reseed is needed.
-
-## Merchant workflow and workspace navigation
-
-Use [normal workspace](http://localhost:4200) for your business, or [synthetic demo](http://localhost:4201/products) for the existing read-only seeded records. The desktop workflow rail becomes an Open navigation disclosure on tablet/mobile. Escape closes it; navigation focuses the destination content. The workspace indicator stays explicit on nested routes.
-
-Follow Store connection → Onboarding → Products/history → Analytics → Demand forecasting → Pricing recommendations. Demo insights initially select **Full 2025** to match the permanent seed; normal insights keep their current UTC defaults. Date filters remain editable and Full 2025 remains available. Ordinary startup does not seed either workspace.
-
-Dirty merchant editors ask before leaving or reloading; successful saves clear that state, failed saves retain inputs. Normal recommendation details offer **Save fresh evaluation**, which re-evaluates the selected window and records metadata through the existing authenticated/CSRF endpoint. It does not apply a price. Demo offers read-only history loading only. See [merchant workflow](docs/merchant-workflow.md), [UX audit](docs/milestone-11-ux-audit.md) and [verification](docs/milestone-11-verification.md).
+**No root project license has been selected.** Before public publication, the owner must choose the repository visibility and a license appropriate to their rights. This README grants no new reuse rights. Source-owned Zard components retain their [MIT license](frontend/src/app/shared/ZARD-LICENSE) and [provenance](frontend/src/app/shared/zard-provenance.json); dependencies retain their upstream licenses, and the production build emits `3rdpartylicenses.txt`. Product illustrations are repository SVG assets; demo commerce records are synthetic. No push or deployment was performed for final verification.

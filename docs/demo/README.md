@@ -77,3 +77,7 @@ npm.cmd run build --prefix frontend
 ```
 
 PortfolioSeederIT compares two fresh isolated canonical exports, idempotency and guarded reset. The original golden checksum, oracle80/actionable90 and security/SaaS/research regressions remain included. UUIDs and insertion timestamps normalize out; logical keys and money remain stable. Milestone11.14 evidence is retained. Latest UX checks and curated screenshots are documented in [11.15 verification](../milestone-11-15-verification.md).
+
+## Final verification
+
+See [Milestone12 verification](../milestone-12-verification.md) for the final local test matrix, fresh-seed evidence and publishing limits, and [interview notes](../portfolio-interview-notes.md) for a concise technical explanation. The root project license is still an owner decision; no public repository or deployment was created. Existing11.15 screenshots remain representative because no runtime UI changed in12; current browser evidence is versioned separately.

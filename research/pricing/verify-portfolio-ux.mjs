@@ -1,7 +1,7 @@
 import {execFileSync} from 'node:child_process';
 import {readFile,writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-const root=new URL('../../',import.meta.url),out=new URL('docs/demo/artifacts/milestone-11-15/',root);
+const root=new URL('../../',import.meta.url),out=new URL(process.argv[2] ?? 'docs/demo/artifacts/milestone-11-15/',root);
 const get=async(base,path)=>{const r=await fetch(base+path);if(!r.ok)throw Error(r.status+' '+path);return r.json()};
 const expected={portfolio:'5c9b2e4391fcf5cbb0a3f4b15f0ca97ad25b8fe6ecad9252e718f4826fff3ca6',legacy:'6668dcb85d28e183c3e0f94cd9f1043616a96b1f978597fc6e8e3daca1b06c34'};
 const result={readOnly:true,datasets:{},migrations:{},counts:{},benchmarkBytes:{}};
