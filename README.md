@@ -1,8 +1,10 @@
-# SmartPricing
+# Valora
 
-A junior full-stack portfolio project using **Java 21, Spring Boot, Angular and PostgreSQL**. It combines an explorable synthetic catalog, immutable sales/refund history, financial what-if calculations and explicitly experimental pricing insights.
+Valora (formerly SmartPricing) is a junior full-stack portfolio project using **Java 21, Spring Boot, Angular and PostgreSQL**. It combines an explorable synthetic catalog, immutable sales/refund history, financial what-if calculations and explicitly experimental pricing insights.
 
 **MODEL NOT CAUSALLY VALIDATED.** An approved statistical suggestion can be wrong. Known synthetic failures are deliberately visible; no prices are applied automatically. This project demonstrates engineering and honest evaluation, not a commercial SaaS launch.
+
+Workspace screenshots below predate the Valora branding; historical verification artifacts retain their original names.
 
 ![Synthetic portfolio catalog and example chooser](docs/demo/screenshots/milestone-12-1/after/products-1440.png)
 
@@ -26,7 +28,7 @@ npm.cmd ci
 npm.cmd run start:portfolio
 ```
 
-Open [localhost:4207/products](http://localhost:4207/products). The portfolio is anonymous and read-only. Init explicitly seeds its own database on 5437; backend is 8087. Serve does not seed. No default administrator/customer identity is created. Keep generated local environment files private. Reset requires the separate guarded command and explicit confirmation; it is unnecessary for browsing.
+Open the [Valora landing page](http://localhost:4207/) or the [portfolio catalog](http://localhost:4207/products). The portfolio uses a public read-only demo account: `demo` / `ValoraDemo2026!`. Credentials are also displayed on `/login`; `/dashboard` and business routes require a real server session. Init explicitly seeds its own database on 5437; backend is 8087. Serve does not seed. No default administrator/customer identity is created. Keep generated local environment files private. Reset requires the separate guarded command and explicit confirmation; it is unnecessary for browsing.
 
 ## A five-minute review
 
@@ -79,4 +81,4 @@ These installations have separate databases/profiles; there is no runtime busine
 
 Locally verified as a CV portfolio; independent merchant usability, live Shopify OAuth/sync, live billing, fresh dependency vulnerability advisories and unsupported environments remain **NOT VERIFIED**. This is not a production security certification.
 
-**No root project license has been selected.** Before public publication, the owner must choose the repository visibility and a license appropriate to their rights. This README grants no new reuse rights. Source-owned Zard components retain their [MIT license](frontend/src/app/shared/ZARD-LICENSE) and [provenance](frontend/src/app/shared/zard-provenance.json); dependencies retain their upstream licenses, and the production build emits `3rdpartylicenses.txt`. Product illustrations are repository SVG assets; demo commerce records are synthetic. No push or deployment was performed for final verification.
+The project uses the [MIT license](LICENSE) selected by the owner in the GitHub repository. Source-owned Zard components retain their [MIT license](frontend/src/app/shared/ZARD-LICENSE) and [provenance](frontend/src/app/shared/zard-provenance.json); dependencies retain their upstream licenses, and the production build emits `3rdpartylicenses.txt`. Product illustrations are repository SVG assets; demo commerce records are synthetic. Earlier verification milestones were local; the subsequent GitHub import is described in [Repository history](docs/repository-history.md). No deployment is claimed.

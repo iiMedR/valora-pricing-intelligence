@@ -1,4 +1,4 @@
-# Authentication and anonymous demo access
+# Authentication and demo access
 
 Milestone 08 adds one administrator for one business. Spring Security 6.5.11 is managed by Spring Boot 3.5.16; framework major versions are unchanged. Server-side sessions avoid browser-managed bearer tokens. Sessions are in memory and disappear on backend restart; there is no clustered session store, password-change screen or public account registration.
 
@@ -42,10 +42,10 @@ Login throttling is bounded in-memory: eight attempts per remote IP per 15 minut
 | Endpoint | Access / response |
 | --- | --- |
 | GET `/api/v1/health`, `/actuator/health`, `/api/v1/environment` | Public, read-only health/environment |
-| GET `/api/v1/auth/me` | Public; mode, authenticated, readOnly, username only |
+| GET `/api/v1/auth/me` | Public; mode, authenticated, readOnly, username, loginRequired and portfolio-only public demoAccount |
 | GET `/api/v1/auth/csrf` | Public; cookie plus `{"status":"READY"}` |
-| POST `/api/v1/auth/login` | Normal only; CSRF + JSON username/password; 200 session view |
-| POST `/api/v1/auth/logout` | Normal session logout, CSRF; 204 |
+| POST `/api/v1/auth/login` | Normal or login-enabled portfolio; CSRF + JSON username/password; 200 session view |
+| POST `/api/v1/auth/logout` | Normal or portfolio session logout, CSRF; 204 |
 | GET `/api/v1/integrations/shopify/callback` | Public entry; independent session/state/HMAC checks, fixed 303 outcome redirect |
 | Catalog, categories, business settings, sales/history, analytics, forecasting, optimization and Shopify administration | Normal ADMIN required |
 
@@ -62,3 +62,11 @@ See [Shopify setup](shopify-connection.md) and [verification](milestone-08-verif
 ## Milestone 11 session UX
 
 Revoked/expired business requests returning401 clear protected content and return to sign-in with a session-expired notice. Unsafe requests are never automatically retried. Approved internal return paths may retain only ISO startDate/endDate and 7/14/30-day horizon query parameters; callback codes, external destinations and arbitrary query keys are refused. A403 displays a permission/session notice; it does not silently retry. Editor navigation confirmation never blocks forced sign-in after session expiry. No session token is stored in browser storage.
+
+## Public portfolio viewer
+
+The isolated `demo,portfolio` profile enables `app.demo.require-login=true`. Its public in-memory account is `demo` / `ValoraDemo2026!`, displayed on the login page. It has only `DEMO_VIEWER`, never `ADMIN`, and creates no database account. The setting fails startup outside demo mode; the existing database identity guard still runs. The original legacy demo remains anonymous and read-only.
+
+The public landing page is `/`; the authenticated overview is `/dashboard`. Unauthenticated business GETs return 401. Login uses the existing CSRF, BCrypt verification, throttling, session-ID rotation and context persistence. The portfolio session cookie is `SP_PORTFOLIO_SESSION` (HttpOnly, SameSite=Lax). Logout requires CSRF and invalidates the session. All business writes, saved evaluations, imports and provider connections remain forbidden, even after demo sign-in.
+
+`GET /api/v1/auth/me` additionally returns `loginRequired` and `demoAccount`. The latter is present only when public demo login is explicitly enabled; normal installations never publish credentials. Normal provisioning and administrator access are unchanged. Expiry/logout clears protected frontend results, and internal return URLs default to `/dashboard`.

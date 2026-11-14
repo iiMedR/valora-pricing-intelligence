@@ -16,7 +16,7 @@ npm.cmd ci
 npm.cmd run start:portfolio
 ```
 
-Open [Products](http://localhost:4207/products) or [Overview](http://localhost:4207). Browsing is anonymous and read-only. Init explicitly seeds an isolated volume; ordinary serve never seeds. The first seed can take several minutes while existing business services validate immutable history. No customer identity or default administrator is created.
+Open the [landing page](http://localhost:4207/) and choose **Explore the demo**. On [Sign in](http://localhost:4207/login), use the displayed public credentials: account `demo`, password `ValoraDemo2026!`. **Use demo credentials** fills the form; **Sign in** creates a real server session. The [dashboard](http://localhost:4207/dashboard) and business routes require authentication. The viewer remains read-only; normal administrator credentials are separate and private. Init explicitly seeds an isolated volume; ordinary serve never seeds. The first seed can take several minutes while existing business services validate immutable history. No customer identity or default administrator is created.
 
 ## A 3–5-minute walkthrough
 

@@ -2,7 +2,25 @@ import {execFileSync} from 'node:child_process';
 import {readFile,writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 const root=new URL('../../',import.meta.url),out=new URL(process.argv[2] ?? 'docs/demo/artifacts/milestone-11-15/',root);
-const get=async(base,path)=>{const r=await fetch(base+path);if(!r.ok)throw Error(r.status+' '+path);return r.json()};
+const jars=new Map();
+const request=async(base,path,options={})=>{
+ const jar=jars.get(base)??new Map();jars.set(base,jar);
+ const r=await fetch(base+path,{...options,headers:{...options.headers,Cookie:[...jar].map(([k,v])=>`${k}=${v}`).join('; ')}});
+ for(const cookie of r.headers.getSetCookie()){const pair=cookie.split(';')[0],i=pair.indexOf('=');jar.set(pair.slice(0,i),pair.slice(i+1));}
+ return r;
+};
+const get=async(base,path)=>{
+ let r=await request(base,path);
+ if(r.status===401){
+  const session=await(await request(base,'/api/v1/auth/me')).json();
+  if(session.mode!=='DEMO'||!session.readOnly||!session.loginRequired||!session.demoAccount)throw Error('No public demo access '+base);
+  await request(base,'/api/v1/auth/csrf');
+  const login=await request(base,'/api/v1/auth/login',{method:'POST',headers:{'Content-Type':'application/json','X-XSRF-TOKEN':decodeURIComponent(jars.get(base).get('XSRF-TOKEN'))},body:JSON.stringify(session.demoAccount)});
+  if(!login.ok)throw Error('Demo login failed '+login.status);
+  r=await request(base,path);
+ }
+ if(!r.ok)throw Error(r.status+' '+path);return r.json();
+};
 const expected={portfolio:'5c9b2e4391fcf5cbb0a3f4b15f0ca97ad25b8fe6ecad9252e718f4826fff3ca6',legacy:'6668dcb85d28e183c3e0f94cd9f1043616a96b1f978597fc6e8e3daca1b06c34'};
 const result={readOnly:true,datasets:{},migrations:{},counts:{},benchmarkBytes:{}};
 const baseline=JSON.parse(await readFile(new URL('docs/demo/artifacts/portfolio-evaluations.json',root),'utf8'));
