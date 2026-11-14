@@ -124,6 +124,12 @@ describe('Pricing Recommendations', () => {
     overview();
     await f.whenStable();
     expect(f.nativeElement.textContent).toContain('this page only');
+    expect(f.nativeElement.querySelector('.row-price').textContent).toContain('100.00 MAD');
+    expect(f.nativeElement.querySelector('.row-price').textContent).toContain('90.00 MAD');
+    expect(f.nativeElement.querySelector('.row-impact').textContent).toContain('1,209.88 MAD');
+    const compare = f.nativeElement.querySelector('app-pricing-result button');
+    expect(compare.textContent.trim()).toBe('Compare prices');
+    expect(compare.getAttribute('aria-label')).toContain('Compare prices');
     f.componentInstance.select('v1');
     detail();
     await f.whenStable();
@@ -153,6 +159,8 @@ describe('Pricing Recommendations', () => {
     await f.whenStable();
     const list = f.nativeElement.textContent;
     expect(list).toContain('Withheld · uncertain');
+    expect(f.nativeElement.querySelector('.row-price')).toBeNull();
+    expect(f.nativeElement.querySelector('.row-impact')).toBeNull();
     expect(list).not.toContain('90.0000');
     f.componentInstance.select('v1');
     detail(unsafe);

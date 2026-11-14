@@ -3,9 +3,12 @@
   <header class="pricing-header">
     <div>
       <h1 class="page-title">Pricing insights</h1>
-      <p class="muted">Review variant prices and supporting evidence.</p>
     </div>
   </header>
+  <p class="pricing-help">
+    Compare prices and estimated contribution, or review why a suggestion is withheld. No price is
+    applied.
+  </p>
   <form class="optimization-filters" [formGroup]="filters" (ngSubmit)="apply()">
     <div class="search-control">
       <label for="pricing-search">Search products or variants</label>
@@ -62,18 +65,26 @@
       · Historical demo
     }
   </p>
-  @if (isDemo()) {
-    <details class="demo-explanation">
-      <summary>How to read this demo</summary>
+  <details class="demo-explanation">
+    <summary>How to understand these results</summary>
+    <p>
+      Choose <strong>Suggestions</strong> to compare prices, or <strong>Needs evidence</strong> to
+      review missing inputs. Suggestions are experimental, not proven price improvements.
+    </p>
+    <p>
+      Contribution means sales minus known variable costs, before other business expenses. It is not
+      total profit.
+    </p>
+    @if (isDemo()) {
       <p>
         The sample shows why price suggestions may be withheld: some price patterns cannot be
         separated from calendar effects; other variants are inactive, lack a reference price, or
         have unreliable price sensitivity. Review an item for its actual reason. Adding records
         alone does not guarantee a recommendation.
       </p>
-      <a routerLink="/onboarding">Review data readiness</a>
-    </details>
-  }
+    }
+    <a routerLink="/onboarding">Review data readiness</a>
+  </details>
   <div class="result-controls">
     <div role="group" aria-label="Pricing result view">
       <button

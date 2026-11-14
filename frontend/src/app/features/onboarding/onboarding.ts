@@ -24,9 +24,27 @@ import { apiError } from '../catalog/services/catalog-api.service';
   template: `
     <h1 class="page-title">What should I fix next?</h1>
     <p class="readiness-intro">
-      Start with the highest-priority data issues below. Completing these inputs helps evaluation;
-      it does not guarantee a price suggestion.
+      Data readiness means checking whether your sales, prices, costs and stock history are useful
+      enough to evaluate pricing. Start with the first issue below; completing the checks does not
+      guarantee a reliable price suggestion.
     </p>
+    <details class="readiness-help">
+      <summary>What information does Valora need?</summary>
+      <dl>
+        <dt>Sales and prices</dt>
+        <dd>What sold, when, and at which price. Price changes help reveal historical patterns.</dd>
+        <dt>Unit costs</dt>
+        <dd>
+          What each item costs you, so estimated contribution can be calculated. Other expenses are
+          excluded.
+        </dd>
+        <dt>Stock history</dt>
+        <dd>
+          When a product was available. Low sales during a stockout do not show how many customers
+          wanted it.
+        </dd>
+      </dl>
+    </details>
 
     @if (error()) {
       <p class="error" role="alert">
@@ -40,6 +58,12 @@ import { apiError } from '../catalog/services/catalog-api.service';
       <p role="status">Assessing persisted records…</p>
     }
     @if (summary(); as s) {
+      @if (s.synthetic) {
+        <p class="notice">
+          This demo is read-only. You can inspect the issues, but changes must be made in your own
+          store.
+        </p>
+      }
       <section class="readiness-card priority-card">
         <div class="priority-heading">
           <h2>Your next steps</h2>
@@ -71,7 +95,8 @@ import { apiError } from '../catalog/services/catalog-api.service';
                   checksOpen.set(true);
                   check.href.includes('status=') && applyStatus(check.href.split('status=')[1])
                 "
-                >Fix / review<span class="sr-only">: {{ checkTitle(check.code) }}</span></a
+                >{{ checkAction(check.code)
+                }}<span class="sr-only">: {{ checkTitle(check.code) }}</span></a
               >
             </li>
           }
@@ -396,6 +421,30 @@ import { apiError } from '../catalog/services/catalog-api.service';
         color: var(--muted-foreground);
         font-size: 14px;
       }
+      .readiness-help {
+        margin: 16px 0 24px;
+        max-width: 80ch;
+      }
+      .readiness-help summary {
+        min-height: 44px;
+        padding-block: 10px;
+        color: var(--interactive-foreground);
+      }
+      .readiness-help dl {
+        margin: 8px 0 0;
+        padding-inline-start: 16px;
+        border-inline-start: 2px solid var(--border);
+      }
+      .readiness-help dt {
+        color: var(--foreground);
+        font-weight: 600;
+        margin: 12px 0 4px;
+      }
+      .readiness-help dd {
+        font-weight: 400;
+        color: var(--muted-foreground);
+        line-height: 1.6;
+      }
       .priority-heading {
         display: flex;
         justify-content: space-between;
@@ -499,6 +548,21 @@ import { apiError } from '../catalog/services/catalog-api.service';
   ],
 })
 export class Onboarding {
+  checkAction(code: string) {
+    return (
+      (
+        {
+          CONNECT_STORE: 'Connect Shopify',
+          IMPORT_OR_RESUME: 'Review imports',
+          RECONCILE_LOCAL_EDITS: 'Review conflicts',
+          COMPLETE_COSTS: 'Review costs',
+          REVIEW_INVENTORY: 'Review stock history',
+          REVIEW_SALES_COVERAGE: 'Review sales',
+          CHECK_VARIANT_DIAGNOSTICS: 'Review product evidence',
+        } as Record<string, string>
+      )[code] ?? 'Review issue'
+    );
+  }
   readonly allSteps = signal(false);
   readonly checksOpen = signal(!!inject(ActivatedRoute).snapshot.queryParamMap.get('status'));
   checkTitle(code: string) {

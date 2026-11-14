@@ -140,6 +140,10 @@ describe('Onboarding workflow and readiness', () => {
     const f = TestBed.createComponent(Onboarding);
     flush(f);
     expect(f.nativeElement.textContent).toContain('not connected');
+    expect(f.nativeElement.textContent).toContain('Data readiness means checking');
+    const action = f.nativeElement.querySelector('.review-link');
+    expect(action.textContent).toContain('Connect Shopify');
+    expect(action.getAttribute('href')).toBe('/store-connection');
     expect(f.nativeElement.textContent).toContain('No variants in this view');
     expect(f.nativeElement.textContent).toContain(
       'Imported records, usable analytics, supported forecasts and eligible price suggestions are different',

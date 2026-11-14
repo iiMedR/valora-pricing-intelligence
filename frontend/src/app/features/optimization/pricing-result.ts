@@ -24,8 +24,17 @@ import { ZardButtonComponent } from '../../shared/components/button';
         <p>{{ d.variant.name }} · {{ d.variant.sku }}</p>
       </div>
       <dl>
-        <dt>Current variant price</dt>
-        <dd>{{ money(d.inputs.currentPrice, d.window.currencyCode) }}</dd>
+        @if (eligible(d)) {
+          <dt>Current → model-suggested price</dt>
+          <dd class="row-price">
+            <span>{{ money(d.comparison.current.price, d.window.currencyCode) }}</span>
+            <span aria-hidden="true">→</span><span class="sr-only">to</span>
+            <strong>{{ money(d.comparison.candidate.price, d.window.currencyCode) }}</strong>
+          </dd>
+        } @else {
+          <dt>Current variant price</dt>
+          <dd>{{ money(d.inputs.currentPrice, d.window.currencyCode) }}</dd>
+        }
       </dl>
       <app-status-pill
         [label]="label(d)"
@@ -38,12 +47,19 @@ import { ZardButtonComponent } from '../../shared/components/button';
         [id]="'pricing-open-' + d.variant.variantId"
         type="button"
         (click)="inspect.emit(d.variant.variantId)"
-        [attr.aria-label]="'Review insight for ' + d.variant.sku"
+        [attr.aria-label]="
+          (eligible(d) ? 'Compare prices' : 'See why withheld') + ' for ' + d.variant.sku
+        "
       >
-        Review insight
+        {{ eligible(d) ? 'Compare prices' : 'See why withheld' }}
       </button>
       <div class="row-reason">
         @if (eligible(d)) {
+          <p class="row-impact">
+            Estimated contribution difference:
+            <strong>{{ money(d.comparison.estimatedUplift, d.window.currencyCode) }}</strong>
+            over {{ d.horizonDays }} days. Not guaranteed profit.
+          </p>
           <details>
             <summary>Estimate assumptions</summary>
             <p>{{ reason(d) }}</p>
@@ -109,6 +125,22 @@ import { ZardButtonComponent } from '../../shared/components/button';
       }
       .row-reason p {
         margin: 0;
+      }
+      .row-price {
+        display: flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 6px;
+        font-size: 14px;
+      }
+      .row-price > span:first-child {
+        font-weight: 400;
+        color: var(--muted-foreground);
+      }
+      .row-reason .row-impact {
+        margin-bottom: 8px;
+        color: var(--foreground);
+        font-size: 13px;
       }
       .row-reason summary {
         min-height: 32px;
