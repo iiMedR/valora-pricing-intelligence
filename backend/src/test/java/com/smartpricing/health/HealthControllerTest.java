@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(HealthController.class)
-@org.springframework.context.annotation.Import({com.smartpricing.auth.SecurityConfiguration.class,com.smartpricing.auth.AuthFoundation.class})
+@org.springframework.context.annotation.Import({com.smartpricing.auth.SecurityConfiguration.class,com.smartpricing.auth.AuthFoundation.class,com.smartpricing.auth.DemoAccess.class})
 class HealthControllerTest {
     @org.springframework.test.context.bean.override.mockito.MockitoBean com.smartpricing.auth.AccountService accounts;
     @org.springframework.test.context.bean.override.mockito.MockitoBean com.smartpricing.demo.config.DemoSafetyGuard guard;

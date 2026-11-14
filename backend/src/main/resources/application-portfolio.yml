@@ -10,6 +10,8 @@ server:
       cookie:
         name: SP_PORTFOLIO_SESSION
 app:
+  demo:
+    require-login: true
   mode: demo
   business-mode: ECOMMERCE
   frontend-origin: http://localhost:4207
