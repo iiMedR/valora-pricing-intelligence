@@ -13,9 +13,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EnvironmentIndicator } from './core/environment-indicator';
 import { SessionNav } from './core/session-nav';
 import { ConfirmDialog } from './core/confirmation';
+import { BrandMark } from './shared/merchant/brand-mark';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-  lucideChartNoAxesColumnIncreasing,
   lucideHouse,
   lucidePackage,
   lucideTags,
@@ -30,6 +30,7 @@ import {
 @Component({
   selector: 'app-root',
   imports: [
+    BrandMark,
     RouterLink,
     RouterLinkActive,
     RouterOutlet,
@@ -40,7 +41,6 @@ import {
   ],
   viewProviders: [
     provideIcons({
-      lucideChartNoAxesColumnIncreasing,
       lucideHouse,
       lucidePackage,
       lucideTags,
@@ -57,6 +57,7 @@ import {
   styleUrl: './app.css',
 })
 export class App {
+  readonly publicPage = signal(['/', '/welcome', '/login'].includes(window.location.pathname));
   readonly pageTitle = signal('Overview');
   readonly menuOpen = signal(false);
   private navigationScroll = 0;
@@ -69,7 +70,7 @@ export class App {
   private readonly router = inject(Router);
   setBusinessMode(mode: string) {
     this.saas.set(mode === 'SAAS_SUBSCRIPTION');
-    if (this.saas() && this.router.url === '/' && window.location.pathname === '/')
+    if (this.saas() && this.router.url === '/dashboard')
       void this.router.navigateByUrl('/saas').then(() => this.modeLoaded.set(true));
     else this.modeLoaded.set(true);
   }
@@ -94,7 +95,7 @@ export class App {
     {
       label: '',
       links: [
-        ['/', 'Overview', 'lucideHouse'],
+        ['/dashboard', 'Overview', 'lucideHouse'],
         ['/products', 'Products', 'lucidePackage'],
         ['/orders', 'Orders', 'lucideShoppingCart'],
       ],
@@ -125,7 +126,8 @@ export class App {
       )
       .subscribe((event) => {
         const path = (event as NavigationEnd).urlAfterRedirects.split('?')[0];
-        if (this.saas() && path === '/') {
+        this.publicPage.set(['/', '/welcome', '/login'].includes(path.split('#')[0]));
+        if (this.saas() && path === '/dashboard') {
           void this.router.navigateByUrl('/saas');
           return;
         }
@@ -136,7 +138,7 @@ export class App {
             .flatMap((group) => group.links)
             .find(
               (link) => path === link[0] || (link[0] !== '/' && path.startsWith(link[0] + '/')),
-            )?.[1] ?? 'SmartPricing',
+            )?.[1] ?? 'Valora',
         );
         clearTimeout(this.restoreTimer);
         this.menuOpen.set(false);

@@ -10,12 +10,16 @@ describe('Merchant application shell', () => {
   // JSDOM has no layout/scroll implementation; Chrome QA checks actual viewport behavior.
   beforeEach(() => {
     window.scrollTo = vi.fn();
+    window.history.replaceState(null, '', '/dashboard');
   });
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [App],
       providers: [
-        provideRouter([{ path: 'products/:id', component: RecordPage }]),
+        provideRouter([
+          { path: 'products/:id', component: RecordPage },
+          { path: 'welcome', component: RecordPage },
+        ]),
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
@@ -29,6 +33,7 @@ describe('Merchant application shell', () => {
   async function create(demo = false) {
     const f = TestBed.createComponent(App),
       http = TestBed.inject(HttpTestingController);
+    f.detectChanges();
     http.expectOne('/api/v1/auth/me').flush({
       mode: demo ? 'DEMO' : 'NORMAL',
       authenticated: false,
@@ -58,6 +63,27 @@ describe('Merchant application shell', () => {
         .querySelector('app-environment-indicator button')
         .getAttribute('aria-haspopup'),
     ).toBe('dialog');
+    expect(nav.querySelector('a').getAttribute('href')).toBe('/dashboard');
+  });
+  it('renders the public page without waiting for workspace metadata or exposing navigation', async () => {
+    const previous = window.location.href;
+    let fixture: ReturnType<typeof TestBed.createComponent<App>> | undefined;
+    try {
+      window.history.replaceState(null, '', '/welcome');
+      fixture = TestBed.createComponent(App);
+      await TestBed.inject(Router).navigateByUrl('/welcome');
+      await fixture.whenStable();
+      expect(fixture.nativeElement.querySelector('.public-content h1').textContent).toBe(
+        'Product record',
+      );
+      expect(fixture.nativeElement.querySelector('.workspace-header')).toBeNull();
+      expect(fixture.nativeElement.querySelector('.primary-navigation')).toBeNull();
+      TestBed.inject(HttpTestingController).expectNone('/api/v1/auth/me');
+      TestBed.inject(HttpTestingController).expectNone('/api/v1/environment');
+    } finally {
+      fixture?.destroy();
+      window.history.replaceState(null, '', previous);
+    }
   });
   it('keeps SaaS deep links and presents distinct navigation', async () => {
     const f = await create();

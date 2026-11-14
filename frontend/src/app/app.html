@@ -1,65 +1,67 @@
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="app-frame">
-  <header class="workspace-header">
-    <a class="brand" routerLink="/" aria-label="SmartPricing overview"
-      ><ng-icon name="lucideChartNoAxesColumnIncreasing" aria-hidden="true" /> SmartPricing</a
-    >
-    <button
-      #menu
-      class="menu-toggle"
-      type="button"
-      [attr.aria-expanded]="menuOpen()"
-      aria-controls="primary-navigation"
-      (click)="toggleMenu()"
-    >
-      {{ menuOpen() ? 'Close navigation' : 'Open navigation' }}
-    </button>
-    <app-environment-indicator (businessMode)="setBusinessMode($event)" />
-    <app-session-nav />
-  </header>
-  @if (menuOpen()) {
-    <button
-      class="navigation-backdrop"
-      type="button"
-      tabindex="-1"
-      aria-label="Close navigation"
-      (click)="closeMenu()"
-    ></button>
-  }
-  <nav
-    id="primary-navigation"
-    class="primary-navigation"
-    [class.is-open]="menuOpen()"
-    [attr.role]="menuOpen() ? 'dialog' : null"
-    [attr.aria-modal]="menuOpen() ? 'true' : null"
-    aria-label="Main navigation"
-  >
+@if (publicPage()) {
+  <main #content id="main" class="public-content" tabindex="-1"><router-outlet /></main>
+} @else {
+  <div class="app-frame">
+    <header class="workspace-header">
+      <a class="brand" routerLink="/dashboard" aria-label="Valora overview"><app-brand-mark /></a>
+      <button
+        #menu
+        class="menu-toggle"
+        type="button"
+        [attr.aria-expanded]="menuOpen()"
+        aria-controls="primary-navigation"
+        (click)="toggleMenu()"
+      >
+        {{ menuOpen() ? 'Close navigation' : 'Open navigation' }}
+      </button>
+      <app-environment-indicator (businessMode)="setBusinessMode($event)" />
+      <app-session-nav />
+    </header>
     @if (menuOpen()) {
-      <button class="drawer-close" type="button" (click)="closeMenu()">Close navigation</button>
+      <button
+        class="navigation-backdrop"
+        type="button"
+        tabindex="-1"
+        aria-label="Close navigation"
+        (click)="closeMenu()"
+      ></button>
     }
-    @for (group of groups; track group.label) {
-      <div class="nav-group">
-        @if (group.label) {
-          <p>{{ group.label }}</p>
-        }
-        @for (link of group.links; track link[0]) {
-          <a
-            [routerLink]="link[0]"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: link[0] === '/' || link[0] === '/saas' }"
-            ariaCurrentWhenActive="page"
-            ><ng-icon [name]="link[2]" aria-hidden="true" />{{ link[1] }}</a
-          >
-        }
-      </div>
-    }
-  </nav>
-  <div class="workspace-content">
-    <main #content id="main" tabindex="-1">
-      @if (modeLoaded()) {
-        <router-outlet />
+    <nav
+      id="primary-navigation"
+      class="primary-navigation"
+      [class.is-open]="menuOpen()"
+      [attr.role]="menuOpen() ? 'dialog' : null"
+      [attr.aria-modal]="menuOpen() ? 'true' : null"
+      aria-label="Main navigation"
+    >
+      @if (menuOpen()) {
+        <button class="drawer-close" type="button" (click)="closeMenu()">Close navigation</button>
       }
-    </main>
+      @for (group of groups; track group.label) {
+        <div class="nav-group">
+          @if (group.label) {
+            <p>{{ group.label }}</p>
+          }
+          @for (link of group.links; track link[0]) {
+            <a
+              [routerLink]="link[0]"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: link[0] === '/dashboard' || link[0] === '/saas' }"
+              ariaCurrentWhenActive="page"
+              ><ng-icon [name]="link[2]" aria-hidden="true" />{{ link[1] }}</a
+            >
+          }
+        </div>
+      }
+    </nav>
+    <div class="workspace-content">
+      <main #content id="main" tabindex="-1">
+        @if (modeLoaded()) {
+          <router-outlet />
+        }
+      </main>
+    </div>
   </div>
-</div>
+}
 <app-confirm-dialog />

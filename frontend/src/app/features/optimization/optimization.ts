@@ -16,7 +16,7 @@ import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
-import { SessionService } from '../../core/session.service';
+import { SessionService, canReadWorkspace } from '../../core/session.service';
 import { ModalFocus } from '../../core/confirmation';
 import { ZardButtonComponent } from '@/shared/components/button';
 import { ZardInputComponent } from '@/shared/components/input';
@@ -151,7 +151,7 @@ export class Optimization {
       });
     effect(() => {
       const s = this.session.value();
-      if (s?.mode === 'NORMAL' && !s.authenticated)
+      if (s && !canReadWorkspace(s))
         untracked(() => {
           this.request?.unsubscribe();
           this.catalogCheck.reset();

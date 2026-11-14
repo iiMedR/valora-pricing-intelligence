@@ -1,0 +1,65 @@
+<div class="landing">
+  <header class="landing-header content-width">
+    <a class="landing-brand" routerLink="/" aria-label="Valora home">
+      <app-brand-mark size="large" />
+    </a>
+    <nav aria-label="Product information">
+      <a href="/#how-it-works">How it works</a><a href="/#what-to-expect">What to expect</a>
+    </nav>
+    <a class="sign-in" [href]="signInHref()">Sign in</a>
+  </header>
+
+  <section class="hero content-width" aria-labelledby="landing-title">
+    <div class="hero-copy">
+      <h1 id="landing-title">Make your next pricing decision a clearer one.</h1>
+      <p class="hero-description">
+        Understand your sales, compare price scenarios, and see what your data can—and cannot—tell
+        you.
+      </p>
+      <div class="hero-actions">
+        <a class="landing-button primary-action" [href]="demoHref()">Explore the demo</a
+        ><a class="landing-button secondary-action" routerLink="/dashboard">Open workspace</a>
+      </div>
+      <p class="hero-note">Synthetic data. No automatic price changes.</p>
+    </div>
+
+    <app-landing-preview />
+  </section>
+
+  <section id="how-it-works" class="workflow content-width" aria-labelledby="workflow-title">
+    <h2 id="workflow-title">From store data to a decision you understand.</h2>
+    <div class="workflow-columns">
+      <article>
+        <ng-icon name="lucideChartNoAxesColumnIncreasing" aria-hidden="true" />
+        <h3>Understand your store</h3>
+        <p>Review sales, refunds and contribution with cost coverage in view.</p>
+      </article>
+      <article>
+        <ng-icon name="lucideArrowLeftRight" aria-hidden="true" />
+        <h3>Compare possibilities</h3>
+        <p>Explore prices and financial what-if scenarios with explicit assumptions.</p>
+      </article>
+      <article>
+        <ng-icon name="lucideClipboardCheck" aria-hidden="true" />
+        <h3>Know what to fix next</h3>
+        <p>Find missing sales, cost or stock history before trusting an estimate.</p>
+      </article>
+    </div>
+  </section>
+
+  <section
+    id="what-to-expect"
+    class="expectation content-width"
+    aria-labelledby="expectation-title"
+  >
+    <div>
+      <h2 id="expectation-title">See the numbers. Keep the judgment.</h2>
+      <p>Explore a read-only synthetic store, including cases where the model gets it wrong.</p>
+    </div>
+    <a class="landing-button primary-action" [href]="demoHref()">Explore the demo</a>
+  </section>
+  <footer class="landing-footer content-width">
+    <a class="landing-brand" routerLink="/"><app-brand-mark size="large" /></a>
+    <p>A full-stack portfolio project. Not an autonomous pricing service.</p>
+  </footer>
+</div>

@@ -6,11 +6,12 @@ import { SessionService } from './session.service';
   selector: 'app-session-nav',
   imports: [RouterLink],
   template: `
-    @if (session.value()?.mode === 'DEMO') {
-    } @else if (session.value()?.authenticated) {
+    @if (session.value()?.authenticated) {
       <span>{{ session.value()?.username }}</span>
       <button (click)="logout()" [disabled]="busy()">Sign out</button>
-    } @else if (session.value()) {
+    } @else if (
+      session.value() && (session.value()?.mode !== 'DEMO' || session.value()?.loginRequired)
+    ) {
       <a routerLink="/login">Sign in</a>
     } @else {
       <span role="status">Checking access…</span>

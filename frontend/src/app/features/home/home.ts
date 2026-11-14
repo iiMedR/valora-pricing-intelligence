@@ -14,7 +14,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { HealthService } from '../../core/health.service';
-import { SessionService } from '../../core/session.service';
+import { SessionService, canReadWorkspace } from '../../core/session.service';
 import {
   AnalyticsApi,
   Overview,
@@ -81,7 +81,7 @@ export class Home {
       .split('. ')[0]
       .replace(/\.$/, '') + '.';
   readonly isDemo = () => this.session.value()?.mode === 'DEMO';
-  readonly authorized = () => this.isDemo() || this.session.value()?.authenticated === true;
+  readonly authorized = () => canReadWorkspace(this.session.value());
   readonly period = signal('');
   readonly checklist = () =>
     this.isDemo()

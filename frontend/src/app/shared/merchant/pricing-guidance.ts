@@ -14,7 +14,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { ZardButtonComponent } from '@/shared/components/button';
 import { ZardInputComponent } from '@/shared/components/input';
-import { SessionService } from '../../core/session.service';
+import { SessionService, canReadWorkspace } from '../../core/session.service';
 import { apiError } from '../../features/catalog/services/catalog-api.service';
 import { formatMoney } from './foundation';
 
@@ -79,7 +79,7 @@ export class PricingGuidance {
   }
   private authorized() {
     const s = this.session.value();
-    return s?.mode === 'DEMO' || s?.authenticated === true;
+    return canReadWorkspace(s);
   }
   constructor() {
     effect(() => {

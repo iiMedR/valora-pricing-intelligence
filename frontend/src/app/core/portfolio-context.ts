@@ -94,7 +94,7 @@ export class PortfolioContext {
       e.businessMode === 'ECOMMERCE' &&
       s?.mode === 'DEMO' &&
       s.readOnly &&
-      !s.authenticated
+      (s.loginRequired ? s.authenticated : !s.authenticated)
     );
   });
   exampleByName(name: string) {

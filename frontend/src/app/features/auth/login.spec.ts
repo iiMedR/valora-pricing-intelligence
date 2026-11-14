@@ -11,6 +11,44 @@ describe('Sign in', () => {
     }),
   );
   afterEach(() => TestBed.inject(HttpTestingController).verify());
+  it('shows the real public viewer credentials without bypassing the sign-in form', async () => {
+    const navigate = vi.spyOn(TestBed.inject(Router), 'navigateByUrl').mockResolvedValue(true);
+    const f = TestBed.createComponent(Login);
+    f.detectChanges();
+    const http = TestBed.inject(HttpTestingController);
+    http
+      .expectOne('/api/v1/auth/me')
+      .flush({
+        mode: 'DEMO',
+        authenticated: false,
+        readOnly: true,
+        username: null,
+        loginRequired: true,
+        demoAccount: { username: 'demo', password: 'ValoraDemo2026!' },
+      });
+    await f.whenStable();
+    expect(navigate).not.toHaveBeenCalled();
+    expect(f.nativeElement.textContent).toContain('ValoraDemo2026!');
+    f.componentInstance.fillDemo();
+    expect(f.componentInstance.form.getRawValue()).toEqual({
+      username: 'demo',
+      password: 'ValoraDemo2026!',
+    });
+    http.expectNone('/api/v1/auth/login');
+    f.componentInstance.login();
+    http
+      .expectOne('/api/v1/auth/login')
+      .flush({
+        mode: 'DEMO',
+        authenticated: true,
+        readOnly: true,
+        username: 'demo',
+        loginRequired: true,
+      });
+    await f.whenStable();
+    expect(navigate).toHaveBeenCalledWith('/dashboard');
+    expect(f.componentInstance.form.controls.password.value).toBe('');
+  });
   it('submits credentials only to the login API and clears the password after success', async () => {
     const navigation = vi.spyOn(TestBed.inject(Router), 'navigateByUrl').mockResolvedValue(true);
     const f = TestBed.createComponent(Login);
@@ -28,7 +66,7 @@ describe('Sign in', () => {
     request.flush({ mode: 'NORMAL', authenticated: true, readOnly: false, username: 'owner' });
     await f.whenStable();
     expect(f.componentInstance.form.controls.password.value).toBe('');
-    expect(navigation).toHaveBeenCalledWith('/');
+    expect(navigation).toHaveBeenCalledWith('/dashboard');
   });
   it('shows sanitized failed login and clears typed password', async () => {
     const f = TestBed.createComponent(Login);

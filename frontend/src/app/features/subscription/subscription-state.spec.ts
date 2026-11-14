@@ -45,7 +45,7 @@ describe('Subscription URL selection', () => {
       '/saas?token=private',
       'https://elsewhere.test/saas',
     ])
-      expect(safeReturnUrl(url)).toBe('/');
+      expect(safeReturnUrl(url)).toBe('/dashboard');
   });
   it('uses a bounded window relative to a historical as-of date', () => {
     const state = subscriptionSelection(

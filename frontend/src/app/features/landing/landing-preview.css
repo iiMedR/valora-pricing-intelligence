@@ -1,0 +1,174 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.product-preview {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  min-width: 0;
+}
+.product-preview h2 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 6px;
+  letter-spacing: -0.9px;
+}
+.product-name {
+  font-size: 19px;
+  color: var(--muted-foreground);
+  margin: 0 0 12px;
+}
+.example-label {
+  display: inline-block;
+  background: var(--illustration-surface);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+.model-state {
+  color: var(--interactive-foreground);
+  background: var(--interactive-surface);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  width: fit-content;
+  margin: 16px 0 12px auto;
+}
+.price-preview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1.2fr);
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 18px;
+}
+dt {
+  color: var(--muted-foreground);
+  font-size: 14px;
+  margin: 0 0 6px;
+}
+.price-preview dd {
+  font-size: 30px;
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+}
+dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.price-preview > ng-icon {
+  color: var(--muted-foreground);
+  font-size: 30px;
+  margin-top: 18px;
+}
+.preview-metrics {
+  margin: 0;
+}
+.preview-metrics > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 10px 0;
+  border-block-start: 1px solid var(--border);
+}
+.preview-metrics > div:last-child {
+  border-block-end: 1px solid var(--border);
+}
+.preview-metrics dt {
+  color: var(--foreground);
+  font-size: 18px;
+  margin: 0;
+}
+.preview-metrics dd {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 18px;
+}
+.preview-metrics ng-icon {
+  color: var(--muted-foreground);
+  font-size: 18px;
+  flex: none;
+}
+.preview-note,
+.preview-period {
+  font-size: 13px;
+  color: var(--muted-foreground);
+  line-height: 1.5;
+  margin: 10px 0 0;
+}
+.preview-period {
+  margin-top: 8px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  font-size: 14px;
+}
+.model-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--warning-foreground);
+  background: var(--warning-surface);
+  border-radius: 10px;
+  margin: 18px 0 0;
+  padding: 14px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.model-warning ng-icon {
+  font-size: 20px;
+  flex: none;
+}
+@media (max-width: 1000px) {
+  .product-preview {
+    padding: 22px;
+  }
+  .price-preview {
+    gap: 8px;
+  }
+  .preview-metrics dd {
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 800px) {
+  .product-preview {
+    max-width: 620px;
+    width: 100%;
+  }
+}
+@media (max-width: 550px) {
+  .product-preview {
+    padding: 20px 16px;
+    border-radius: 14px;
+  }
+  .product-preview h2 {
+    font-size: 24px;
+  }
+  .product-name {
+    font-size: 17px;
+  }
+  .price-preview {
+    grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr);
+    gap: 7px;
+  }
+  .price-preview dt {
+    font-size: 12px;
+  }
+  .price-preview dd {
+    font-size: 22px;
+  }
+  .price-preview > ng-icon {
+    font-size: 20px;
+  }
+  .preview-metrics dd {
+    font-size: 14px;
+    gap: 7px;
+  }
+}

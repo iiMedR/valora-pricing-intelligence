@@ -3,13 +3,13 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { HttpErrorResponse, HttpInterceptorFn, HttpXsrfTokenExtractor } from '@angular/common/http';
 import { catchError, map, of, switchMap, throwError } from 'rxjs';
-import { SessionService, safeReturnUrl } from './session.service';
+import { SessionService, safeReturnUrl, canReadWorkspace } from './session.service';
 export const authGuard: CanActivateFn = (_route, state) => {
   const session = inject(SessionService),
     router = inject(Router);
   return session.ensure().pipe(
     map((v) =>
-      v.authenticated || v.mode === 'DEMO'
+      canReadWorkspace(v)
         ? true
         : router.createUrlTree(['/login'], {
             queryParams: { returnUrl: safeReturnUrl(state.url) },

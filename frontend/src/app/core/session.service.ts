@@ -6,6 +6,11 @@ export interface Session {
   authenticated: boolean;
   readOnly: boolean;
   username: string | null;
+  loginRequired?: boolean;
+  demoAccount?: { username: string; password: string } | null;
+}
+export function canReadWorkspace(s: Session | null): boolean {
+  return !!s && (s.authenticated || (s.mode === 'DEMO' && !s.loginRequired));
 }
 @Injectable({ providedIn: 'root' })
 export class SessionService {
@@ -21,7 +26,8 @@ export class SessionService {
           !v ||
           !['NORMAL', 'DEMO'].includes(v.mode) ||
           typeof v.authenticated !== 'boolean' ||
-          (v.mode === 'DEMO' && (v.authenticated || !v.readOnly))
+          (v.loginRequired !== undefined && typeof v.loginRequired !== 'boolean') ||
+          (v.mode === 'DEMO' && ((!v.loginRequired && v.authenticated) || !v.readOnly))
         )
           throw Error('Invalid session response');
         this.value.set(v);
@@ -47,22 +53,27 @@ export class SessionService {
     );
   }
   clear() {
-    this.value.set({ mode: 'NORMAL', authenticated: false, readOnly: false, username: null });
+    const current = this.value();
+    this.value.set(
+      current?.mode === 'DEMO' && current.loginRequired
+        ? { ...current, authenticated: false, username: null }
+        : { mode: 'NORMAL', authenticated: false, readOnly: false, username: null },
+    );
   }
 }
 export function safeReturnUrl(value: string | null): string {
-  if (!value || /[\\#\u0000-\u0020]/.test(value)) return '/';
+  if (!value || /[\\#\u0000-\u0020]/.test(value)) return '/dashboard';
   const [path, query] = value.split('?');
   if (
-    !/^\/(?:saas(?:\/(?:plans|subscriptions|revenue|insights|settings))?|onboarding(?:\/variants\/[a-zA-Z0-9-]+)?|products(?:\/[a-zA-Z0-9/-]+)?|categories|settings|orders(?:\/[a-zA-Z0-9/-]+)?|analytics|forecasting|optimization|store-connection)$/.test(
+    !/^\/(?:dashboard|saas(?:\/(?:plans|subscriptions|revenue|insights|settings))?|onboarding(?:\/variants\/[a-zA-Z0-9-]+)?|products(?:\/[a-zA-Z0-9/-]+)?|categories|settings|orders(?:\/[a-zA-Z0-9/-]+)?|analytics|forecasting|optimization|store-connection)$/.test(
       path,
     )
   )
-    return '/';
+    return '/dashboard';
   if (!query) return path;
   const parameters = new URLSearchParams(query);
   for (const [key, val] of parameters) {
-    if (parameters.getAll(key).length !== 1) return '/';
+    if (parameters.getAll(key).length !== 1) return '/dashboard';
     if (path === '/saas' || path.startsWith('/saas/')) {
       const date =
         /^\d{4}-\d{2}-\d{2}$/.test(val) &&
@@ -78,7 +89,7 @@ export function safeReturnUrl(value: string | null): string {
         (key === 'planId' && /^[A-Za-z0-9_-]{1,64}$/.test(val))
       )
         continue;
-      return '/';
+      return '/dashboard';
     }
     const catalog = path.startsWith('/products');
     const evidence = ['/analytics', '/forecasting', '/optimization'].includes(path);
@@ -115,8 +126,8 @@ export function safeReturnUrl(value: string | null): string {
       !(['startDate', 'endDate'].includes(key) && /^\d{4}-\d{2}-\d{2}$/.test(val)) &&
       !(key === 'horizonDays' && ['7', '14', '30'].includes(val))
     )
-      return '/';
-    if (parameters.getAll(key).length !== 1) return '/';
+      return '/dashboard';
+    if (parameters.getAll(key).length !== 1) return '/dashboard';
   }
   return path + '?' + parameters.toString();
 }

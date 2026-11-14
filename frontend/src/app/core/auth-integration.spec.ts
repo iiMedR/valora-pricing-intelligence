@@ -66,16 +66,49 @@ describe('Session and CSRF integration', () => {
       '/\\evil',
       '/store-connection/callback?code=private',
     ])
-      expect(safeReturnUrl(value)).toBe('/');
+      expect(safeReturnUrl(value)).toBe('/dashboard');
     expect(safeReturnUrl('/products/abc-123')).toBe('/products/abc-123');
     expect(safeReturnUrl('/products?search=coffee&page=1&view=list')).toBe(
       '/products?search=coffee&page=1&view=list',
     );
-    expect(safeReturnUrl('/products?search=a&search=b')).toBe('/');
-    expect(safeReturnUrl('/products?page=99999999')).toBe('/');
-    expect(safeReturnUrl('/optimization?variantId=secret')).toBe('/');
+    expect(safeReturnUrl('/products?search=a&search=b')).toBe('/dashboard');
+    expect(safeReturnUrl('/products?page=99999999')).toBe('/dashboard');
+    expect(safeReturnUrl('/optimization?variantId=secret')).toBe('/dashboard');
   });
-  it('allows anonymous demo reading while refusing the manual-order write route', async () => {
+  it('requires authentication for a login-enabled portfolio demo', async () => {
+    const router = TestBed.inject(Router);
+    const read = firstValueFrom(
+      TestBed.runInInjectionContext(() =>
+        authGuard({} as never, { url: '/dashboard' } as never),
+      ) as Observable<boolean | UrlTree>,
+    );
+    TestBed.inject(HttpTestingController)
+      .expectOne('/api/v1/auth/me')
+      .flush({
+        mode: 'DEMO',
+        authenticated: false,
+        readOnly: true,
+        username: null,
+        loginRequired: true,
+      });
+    expect(router.serializeUrl((await read) as UrlTree)).toBe('/login?returnUrl=%2Fdashboard');
+    const signedIn = firstValueFrom(
+      TestBed.runInInjectionContext(() =>
+        authGuard({} as never, { url: '/dashboard' } as never),
+      ) as Observable<boolean | UrlTree>,
+    );
+    TestBed.inject(HttpTestingController)
+      .expectOne('/api/v1/auth/me')
+      .flush({
+        mode: 'DEMO',
+        authenticated: true,
+        readOnly: true,
+        username: 'demo',
+        loginRequired: true,
+      });
+    expect(await signedIn).toBe(true);
+  });
+  it('allows anonymous legacy demo reading while refusing the manual-order write route', async () => {
     const router = TestBed.inject(Router);
     const read = firstValueFrom(
       TestBed.runInInjectionContext(() =>
@@ -119,7 +152,7 @@ describe('Session and CSRF integration', () => {
       '/products?returnUrl=https://evil.test',
       '/onboarding?startDate=2025-01-01&startDate=2025-02-01',
     ])
-      expect(safeReturnUrl(path)).toBe('/');
+      expect(safeReturnUrl(path)).toBe('/dashboard');
     const http = TestBed.inject(HttpTestingController);
     let errorStatus = 0;
     TestBed.inject(HttpClient)
