@@ -1,0 +1,262 @@
+{
+  "readOnly": true,
+  "datasets": {
+    "portfolio": {
+      "checksum": "5c9b2e4391fcf5cbb0a3f4b15f0ca97ad25b8fe6ecad9252e718f4826fff3ca6",
+      "summary": {
+        "generatorVersion": "portfolio-v1",
+        "seed": 20251114,
+        "startDate": "2025-01-01",
+        "endDate": "2025-12-31",
+        "categories": 5,
+        "products": 30,
+        "variants": 30,
+        "orders": 9863,
+        "orderLines": 9863,
+        "refunds": 54,
+        "priceObservations": 853,
+        "costObservations": 107,
+        "inventoryObservations": 9930,
+        "unknownCostLines": 166,
+        "zeroSalesVariantDates": 67,
+        "checksum": "5c9b2e4391fcf5cbb0a3f4b15f0ca97ad25b8fe6ecad9252e718f4826fff3ca6",
+        "scenarios": [
+          {
+            "scenario": "ELASTIC_HIGH",
+            "products": 3,
+            "orders": 1095,
+            "observedUnits": 55427,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "ELASTIC_LOW",
+            "products": 3,
+            "orders": 1095,
+            "observedUnits": 49881,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "SEASONAL",
+            "products": 3,
+            "orders": 1095,
+            "observedUnits": 51448,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "PROMOTION",
+            "products": 3,
+            "orders": 1095,
+            "observedUnits": 52662,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "STOCKOUT",
+            "products": 3,
+            "orders": 1081,
+            "observedUnits": 49608,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "SPARSE",
+            "products": 3,
+            "orders": 75,
+            "observedUnits": 3635,
+            "refunds": 0,
+            "inventoryObservations": 75
+          },
+          {
+            "scenario": "REFUND",
+            "products": 3,
+            "orders": 1095,
+            "observedUnits": 51122,
+            "refunds": 54,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "COST_CHANGE_UNKNOWN",
+            "products": 3,
+            "orders": 1095,
+            "observedUnits": 53968,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "ARCHIVE",
+            "products": 3,
+            "orders": 1095,
+            "observedUnits": 52049,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "ZERO_SALES",
+            "products": 3,
+            "orders": 1042,
+            "observedUnits": 52969,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          }
+        ]
+      },
+      "approved": 15,
+      "withheld": 15,
+      "outputsUnchanged": true
+    },
+    "legacy": {
+      "checksum": "6668dcb85d28e183c3e0f94cd9f1043616a96b1f978597fc6e8e3daca1b06c34",
+      "summary": {
+        "generatorVersion": "demo-v1",
+        "seed": 20250101,
+        "startDate": "2025-01-01",
+        "endDate": "2025-12-31",
+        "categories": 5,
+        "products": 30,
+        "variants": 30,
+        "orders": 9466,
+        "orderLines": 9466,
+        "refunds": 114,
+        "priceObservations": 117,
+        "costObservations": 57,
+        "inventoryObservations": 9870,
+        "unknownCostLines": 286,
+        "zeroSalesVariantDates": 404,
+        "checksum": "6668dcb85d28e183c3e0f94cd9f1043616a96b1f978597fc6e8e3daca1b06c34",
+        "scenarios": [
+          {
+            "scenario": "ELASTIC_HIGH",
+            "products": 3,
+            "orders": 1095,
+            "observedUnits": 20827,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "ELASTIC_LOW",
+            "products": 3,
+            "orders": 1095,
+            "observedUnits": 17338,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "SEASONAL",
+            "products": 3,
+            "orders": 1095,
+            "observedUnits": 18895,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "PROMOTION",
+            "products": 3,
+            "orders": 1095,
+            "observedUnits": 14742,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "STOCKOUT",
+            "products": 3,
+            "orders": 1035,
+            "observedUnits": 18697,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "SPARSE",
+            "products": 3,
+            "orders": 13,
+            "observedUnits": 13,
+            "refunds": 0,
+            "inventoryObservations": 15
+          },
+          {
+            "scenario": "REFUND",
+            "products": 3,
+            "orders": 1095,
+            "observedUnits": 11840,
+            "refunds": 114,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "COST_CHANGE_UNKNOWN",
+            "products": 3,
+            "orders": 1095,
+            "observedUnits": 13920,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "ARCHIVE",
+            "products": 3,
+            "orders": 912,
+            "observedUnits": 9795,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          },
+          {
+            "scenario": "ZERO_SALES",
+            "products": 3,
+            "orders": 936,
+            "observedUnits": 10928,
+            "refunds": 0,
+            "inventoryObservations": 1095
+          }
+        ]
+      },
+      "approved": 0,
+      "withheld": 30,
+      "outputsUnchanged": true
+    }
+  },
+  "migrations": {
+    "normal": [
+      "1|1436242292",
+      "2|581270318",
+      "3|-1414359703",
+      "4|56597636",
+      "5|147175724",
+      "6|-1432513541",
+      "7|-319300667"
+    ],
+    "legacy": [
+      "1|1436242292",
+      "2|581270318",
+      "3|-1414359703",
+      "4|56597636",
+      "5|147175724",
+      "6|-1432513541",
+      "7|-319300667"
+    ],
+    "portfolio": [
+      "1|1436242292",
+      "2|581270318",
+      "3|-1414359703",
+      "4|56597636",
+      "5|147175724",
+      "6|-1432513541",
+      "7|-319300667"
+    ]
+  },
+  "counts": {
+    "normal": "0|0|0|1|0|0",
+    "legacy": "30|9466|114|0|0|0",
+    "portfolio": "30|9863|54|0|0|0"
+  },
+  "benchmarkBytes": {
+    "11.12": {
+      "unchanged": true,
+      "sha256": "f7fd476447cb4e786e9e9ce5d6d67b4a35c562465964001ff688626a1e469427"
+    },
+    "11.13": {
+      "unchanged": true,
+      "sha256": "8f44c4bc5cd759862799c743a2e3f926bddf703a9f6e39c3d13858bcfd0bc010"
+    }
+  },
+  "twoFreshSeeds": "twoFreshRunsByteIdentical=true\nidempotent=true\nresetReproducible=true\nlegacyProfileRejectedPortfolioMarker=true\nchecksum=5c9b2e4391fcf5cbb0a3f4b15f0ca97ad25b8fe6ecad9252e718f4826fff3ca6\nfirstSeedMillis=86586\ncanonicalBytes=4878054\n"
+}

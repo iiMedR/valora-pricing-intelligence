@@ -4,7 +4,7 @@ A junior full-stack portfolio project using **Java 21, Spring Boot, Angular and 
 
 **MODEL NOT CAUSALLY VALIDATED.** An approved statistical suggestion can be wrong. Known synthetic failures are deliberately visible; no prices are applied automatically. This project demonstrates engineering and honest evaluation, not a commercial SaaS launch.
 
-![Synthetic portfolio catalog and example chooser](docs/demo/screenshots/milestone-11-15/chooser-expanded-1440.png)
+![Synthetic portfolio catalog and example chooser](docs/demo/screenshots/milestone-12-1/after/products-1440.png)
 
 ## Try it locally — Windows PowerShell
 
@@ -36,7 +36,7 @@ Open [localhost:4207/products](http://localhost:4207/products). The portfolio is
 4. Open **Missing costs** or a withheld insight. Missing inputs remain unavailable, rather than turning into invented zero profit or a forced recommendation.
 5. Inspect Analytics, Forecasting and Data readiness; technical evidence stays expandable.
 
-![Experimental price comparison with its limitations](docs/demo/screenshots/milestone-11-15/experimental-1440.png)
+![Experimental price comparison with its limitations](docs/demo/screenshots/milestone-12-1/after/experimental-1440.png)
 
 The immutable portfolio has 30 variants, 9,863 orders, 54 refunds and 15 approved / 15 withheld engine outcomes. **15 approvals do not mean 15 correct decisions.** Broader research still found unsafe TEST 65/260 and CHALLENGE 41/156, with hidden causal interval coverage 0/20. See [actual evaluations and known failures](docs/demo/portfolio-evaluation.md) and [canonical research](docs/pricing-research/milestone-11-13-results.md).
 
@@ -62,7 +62,7 @@ npm.cmd test --prefix frontend -- --watch=false
 npm.cmd run build --prefix frontend
 ```
 
-[Final verification](docs/milestone-12-verification.md) records exact local results, limitations and evidence. There is no CI workflow or claimed hosted CI run. Docker is required for PostgreSQL integration tests. [Interview notes](docs/portfolio-interview-notes.md) explain the design and defensible scope.
+[Final portfolio verification](docs/milestone-12-verification.md) and [visual polish verification](docs/milestone-12-1-verification.md) record exact local results, limitations and evidence. There is no CI workflow or claimed hosted CI run. Docker is required for PostgreSQL integration tests. [Interview notes](docs/portfolio-interview-notes.md) explain the design and defensible scope.
 
 ## Other installations and documentation
 

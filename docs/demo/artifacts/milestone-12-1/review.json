@@ -1,0 +1,23 @@
+{
+  "independentMerchantStudy": false,
+  "reviewer": "independent_review",
+  "finalResult": "No outstanding findings",
+  "findings": [
+    {
+      "status": "FIXED",
+      "issue": "Zard semantic badge layer precedence",
+      "evidence": "Scoped wrapper styles plus CLI computed colors"
+    },
+    {
+      "status": "FIXED",
+      "issue": "Full known-synthetic-failure label and chooser count contract",
+      "evidence": "Full label restored;10chooser/3starting links tested"
+    },
+    {
+      "status": "FIXED",
+      "issue": "Order label-in-name mismatch",
+      "evidence": "Visible label prefixes accessible name; exact original retained; regression and CLI checks"
+    }
+  ],
+  "type": "independent source and diff review"
+}

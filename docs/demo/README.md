@@ -81,3 +81,5 @@ PortfolioSeederIT compares two fresh isolated canonical exports, idempotency and
 ## Final verification
 
 See [Milestone12 verification](../milestone-12-verification.md) for the final local test matrix, fresh-seed evidence and publishing limits, and [interview notes](../portfolio-interview-notes.md) for a concise technical explanation. The root project license is still an owner decision; no public repository or deployment was created. Existing11.15 screenshots remain representative because no runtime UI changed in12; current browser evidence is versioned separately.
+
+Milestone12.1 refines the existing interface with shared semantic colors, compact catalog/forecast layouts and clearer evidence states. See [visual verification](../milestone-12-1-verification.md) and [matching before/after screenshots](screenshots/milestone-12-1/README.md). Dataset and model outputs remain unchanged.

@@ -1,0 +1,350 @@
+{
+  "integration": [
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.analytics.AnalyticsApiIT",
+      "tests": 3,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.auth.SecurityFlowIT",
+      "tests": 6,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.auth.SecurityHttpIT",
+      "tests": 1,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.auth.SecurityMigrationIT",
+      "tests": 1,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.catalog.CatalogApiIT",
+      "tests": 5,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.catalog.MigrationIT",
+      "tests": 1,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.demo.DemoNormalSafetyIT",
+      "tests": 1,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.demo.DemoReadOnlyIT",
+      "tests": 1,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.demo.DemoSeederIT",
+      "tests": 1,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.demo.PortfolioSeederIT",
+      "tests": 1,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.forecasting.ForecastApiIT",
+      "tests": 3,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.guidance.GuidanceIT",
+      "tests": 3,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.history.HistoryApiIT",
+      "tests": 5,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.history.HistoryMigrationIT",
+      "tests": 1,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.onboarding.OnboardingIT",
+      "tests": 7,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.optimization.ModelAuditMigrationIT",
+      "tests": 1,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.optimization.OptimizationApiIT",
+      "tests": 5,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.research.SubscriptionResearchIT",
+      "tests": 1,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.shopify.sync.SyncIT",
+      "tests": 11,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.shopify.sync.SyncMigrationIT",
+      "tests": 1,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.SmartPricingApplicationIT",
+      "tests": 1,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.subscription.SubscriptionGuidanceIT",
+      "tests": 1,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.subscription.SubscriptionIT",
+      "tests": 5,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.subscription.SubscriptionMigrationIT",
+      "tests": 1,
+      "skipped": 0,
+      "errors": 0
+    }
+  ],
+  "frontend": {
+    "failures": 0,
+    "tests": 157,
+    "files": 36
+  },
+  "build": "PASS",
+  "date": "2026-11-14",
+  "typecheck": "PASS",
+  "unit": [
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.analytics.AnalyticsRulesTest",
+      "tests": 5,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.auth.AuthRulesTest",
+      "tests": 4,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.business.BusinessServiceTest",
+      "tests": 3,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.catalog.CatalogServiceTest",
+      "tests": 18,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.demo.DemoGeneratorTest",
+      "tests": 4,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.demo.DemoSafetyGuardTest",
+      "tests": 4,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.demo.PortfolioGeneratorTest",
+      "tests": 2,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.forecasting.DemandModelTest",
+      "tests": 5,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.forecasting.IdentificationBenchmarkTest",
+      "tests": 5,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.guidance.GuidanceCalculatorTest",
+      "tests": 11,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.health.HealthControllerTest",
+      "tests": 3,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.history.HistoryRulesTest",
+      "tests": 13,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.onboarding.ReadinessRulesTest",
+      "tests": 3,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.optimization.ContributionOptimizerTest",
+      "tests": 5,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.optimization.OptimizationGateTest",
+      "tests": 4,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.research.DecisionSupportResearchTest",
+      "tests": 2,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.research.EvidenceQualityBenchmarkTest",
+      "tests": 2,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.research.LowDataBenchmarkTest",
+      "tests": 5,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.research.OptimizerSafetyRegressionTest",
+      "tests": 9,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.shopify.HttpProviderTest",
+      "tests": 3,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.shopify.ShopifyRulesTest",
+      "tests": 5,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.shopify.sync.GraphQlClientTest",
+      "tests": 5,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.shopify.sync.SyncRulesTest",
+      "tests": 2,
+      "skipped": 0,
+      "errors": 0
+    },
+    {
+      "failures": 0,
+      "suite": "com.smartpricing.subscription.BusinessModeTest",
+      "tests": 4,
+      "skipped": 0,
+      "errors": 0
+    }
+  ]
+}

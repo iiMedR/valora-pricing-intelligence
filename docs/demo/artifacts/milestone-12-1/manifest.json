@@ -1,0 +1,804 @@
+{
+  "hashConvention": "Raw PNG; UTF-8 text with CRLF normalized to LF; excludes itself",
+  "baseline": "a9675ea",
+  "files": [
+    {
+      "bytes": 147,
+      "path": ".gitignore",
+      "sha256": "151cca638f7e17249603e0b6ae7a3879ccf21e3b8caf06a20c0e5d825971b6fc",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 1478,
+      "path": "docs/demo/artifacts/milestone-12-1/cli-interactions.json",
+      "sha256": "b77a063bed92f99c0738909197b257db1c2cf15e94fb17df291f576e1f5fd6db",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 7262,
+      "path": "docs/demo/artifacts/milestone-12-1/invariants.json",
+      "sha256": "9ca0555851429d2acc2beff2f021620f310a6a04e4596e6245b9fcfd3bf8d3ee",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 8203,
+      "path": "docs/demo/artifacts/milestone-12-1/page-matrix.json",
+      "sha256": "5e0217b6ae92251b837f27a7ed8549e27b2680b22b58f1508a23b45df88b466f",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 781,
+      "path": "docs/demo/artifacts/milestone-12-1/performance.json",
+      "sha256": "a0012429c9e5daff9676a6993bcac27a4d2721137e1c8b205c7f7ce48f615cc1",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 21588,
+      "path": "docs/demo/artifacts/milestone-12-1/regression-browser-results.json",
+      "sha256": "3981973ee893fea493063045c0b8c6f1c6af3adc8b36af4d1360a6fa96fd72ec",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 735,
+      "path": "docs/demo/artifacts/milestone-12-1/review.json",
+      "sha256": "4fb6b0b7712ce635d28230d8f2a8ff933418aff694f8758edafb9b631c2478a4",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 1340,
+      "path": "docs/demo/artifacts/milestone-12-1/summary.json",
+      "sha256": "ecef1602fe6ab96b976d888857c831c22b3f92e55f3a4e61717081ffd164de97",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 7512,
+      "path": "docs/demo/artifacts/milestone-12-1/tests.json",
+      "sha256": "8f5585353fc31458b93dcd0854ab3f8efbf8680928334544ba4c5eee4066e7df",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 7910,
+      "path": "docs/demo/README.md",
+      "sha256": "b582f39587036b0d2d554b2926402408e3216d2e7cd9a66549c2296cd5c6fa82",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 84765,
+      "path": "docs/demo/screenshots/milestone-12-1/after/analytics-1440.png",
+      "sha256": "4d04698759f2f0b35b3bdcea3840d0bf16c3cd9dacb9d3dd457b2e1de46b2004",
+      "mode": "raw"
+    },
+    {
+      "bytes": 36980,
+      "path": "docs/demo/screenshots/milestone-12-1/after/analytics-320.png",
+      "sha256": "b66d439aa1e6e58e81cc6fd100127c48d483b5137764c4d931d17124bbe0cb78",
+      "mode": "raw"
+    },
+    {
+      "bytes": 38960,
+      "path": "docs/demo/screenshots/milestone-12-1/after/analytics-375.png",
+      "sha256": "7c901459b30036c67f16468ce2db5c44568557fa247df263844fc7a07645b759",
+      "mode": "raw"
+    },
+    {
+      "bytes": 53402,
+      "path": "docs/demo/screenshots/milestone-12-1/after/analytics-768.png",
+      "sha256": "96102c3f23e43e7bdea47b43dd189dfcd9e37bce17a0106fdc975362e2c12168",
+      "mode": "raw"
+    },
+    {
+      "bytes": 47967,
+      "path": "docs/demo/screenshots/milestone-12-1/after/business-settings-1440.png",
+      "sha256": "d4dc7520d7f01b9060e4f16963615c9cb6c65d97e6ea47dfcec84404233283bb",
+      "mode": "raw"
+    },
+    {
+      "bytes": 29259,
+      "path": "docs/demo/screenshots/milestone-12-1/after/business-settings-320.png",
+      "sha256": "cbc97105302bb4d81bf7c10a0374c1fb73e7f32fcd0009fb6554e29135b0448b",
+      "mode": "raw"
+    },
+    {
+      "bytes": 29347,
+      "path": "docs/demo/screenshots/milestone-12-1/after/business-settings-375.png",
+      "sha256": "6afd5efbab610ea50b6a1a3ec2b8b6cca69f2ad73cdfc1c8a5802a5533c32220",
+      "mode": "raw"
+    },
+    {
+      "bytes": 31496,
+      "path": "docs/demo/screenshots/milestone-12-1/after/business-settings-768.png",
+      "sha256": "935e861700d79e74568de97bb7510d08e5acb877dc263fa8a185072589e13d2c",
+      "mode": "raw"
+    },
+    {
+      "bytes": 70835,
+      "path": "docs/demo/screenshots/milestone-12-1/after/catalog-grid-filtered-1440.png",
+      "sha256": "21fc9096873c67dccf1219954508e2b48b08c3d3d7ea4b0be47f150162fe4256",
+      "mode": "raw"
+    },
+    {
+      "bytes": 76257,
+      "path": "docs/demo/screenshots/milestone-12-1/after/catalog-list-filtered-1440.png",
+      "sha256": "c82c2425c6455c3460e63861598e515e535fdc63785e51a3784c1df0bdbbfe96",
+      "mode": "raw"
+    },
+    {
+      "bytes": 47713,
+      "path": "docs/demo/screenshots/milestone-12-1/after/categories-1440.png",
+      "sha256": "e749a5fadad243d0556363773b5444e7946cfbf8f67054d9cde227a3aa1ff823",
+      "mode": "raw"
+    },
+    {
+      "bytes": 27958,
+      "path": "docs/demo/screenshots/milestone-12-1/after/categories-320.png",
+      "sha256": "b72faa8317be976f2af705be8504f5b0279d11849ff0d4108973f55e8878ba22",
+      "mode": "raw"
+    },
+    {
+      "bytes": 28235,
+      "path": "docs/demo/screenshots/milestone-12-1/after/categories-375.png",
+      "sha256": "68686edeb196975197ddce95fc62cf15f0b3eeb655a4b1a1852f6d37b487ab96",
+      "mode": "raw"
+    },
+    {
+      "bytes": 30348,
+      "path": "docs/demo/screenshots/milestone-12-1/after/categories-768.png",
+      "sha256": "65ee77cdf72ca2680b36d344b630e1aa6f149dd8205e50d7404433c9deda0af9",
+      "mode": "raw"
+    },
+    {
+      "bytes": 67832,
+      "path": "docs/demo/screenshots/milestone-12-1/after/data-readiness-1440.png",
+      "sha256": "b6396f8d1667773b0d3faff528a706054551f0fede7d4d3b4f34b650807c3355",
+      "mode": "raw"
+    },
+    {
+      "bytes": 42852,
+      "path": "docs/demo/screenshots/milestone-12-1/after/data-readiness-320.png",
+      "sha256": "129b9f41fe5dd62ca6df9ef03ae5ff946acf1a7aefc97a5a8b835edd87da0fcb",
+      "mode": "raw"
+    },
+    {
+      "bytes": 45440,
+      "path": "docs/demo/screenshots/milestone-12-1/after/data-readiness-375.png",
+      "sha256": "232a06982a4d548582cee44bcca61841ea9b8f000b662532349b4de4faf8b1f7",
+      "mode": "raw"
+    },
+    {
+      "bytes": 49295,
+      "path": "docs/demo/screenshots/milestone-12-1/after/data-readiness-768.png",
+      "sha256": "6244918d6d19a3572528a4c2b181f347ba6d8e222a192eeac8e8f71b861b65b6",
+      "mode": "raw"
+    },
+    {
+      "bytes": 83146,
+      "path": "docs/demo/screenshots/milestone-12-1/after/experimental-1440.png",
+      "sha256": "bdb61ae745f716d3e21936893626a194b848b9be71c93d2f6e038102e75283d9",
+      "mode": "raw"
+    },
+    {
+      "bytes": 42450,
+      "path": "docs/demo/screenshots/milestone-12-1/after/forecast-selected-375.png",
+      "sha256": "a9d860a5a66171f28764ddc2924f61c54995fe8db71c1a3149e73b4b11d6fd39",
+      "mode": "raw"
+    },
+    {
+      "bytes": 93311,
+      "path": "docs/demo/screenshots/milestone-12-1/after/forecasts-1440.png",
+      "sha256": "6284a6c9f41d5c37295446f1c2be9aebe8a05b26b210acc97e08af6f22c91718",
+      "mode": "raw"
+    },
+    {
+      "bytes": 44494,
+      "path": "docs/demo/screenshots/milestone-12-1/after/forecasts-320.png",
+      "sha256": "d35727bc61d7fea3dda7187772617572e872f03cd272512121809403528587a5",
+      "mode": "raw"
+    },
+    {
+      "bytes": 46163,
+      "path": "docs/demo/screenshots/milestone-12-1/after/forecasts-375.png",
+      "sha256": "b34c45ba71449abd95c040d480f69d61ab747ee8bf75951cdcb42f094a1544ac",
+      "mode": "raw"
+    },
+    {
+      "bytes": 74676,
+      "path": "docs/demo/screenshots/milestone-12-1/after/forecasts-768.png",
+      "sha256": "62fae9215bf1ed8faf2ecaf06db9e4775600e2f7be718cc062f189c3c2c1dcca",
+      "mode": "raw"
+    },
+    {
+      "bytes": 95581,
+      "path": "docs/demo/screenshots/milestone-12-1/after/order-reference-1440.png",
+      "sha256": "8da3d0a1822a5953535ff725595a4f76a80d021487fafcfde061d0a64bcd78f0",
+      "mode": "raw"
+    },
+    {
+      "bytes": 94239,
+      "path": "docs/demo/screenshots/milestone-12-1/after/orders-1440.png",
+      "sha256": "d5a482e621a5977deb19c2739b5407411727a8b9c46690564ffc1dee8588c754",
+      "mode": "raw"
+    },
+    {
+      "bytes": 34504,
+      "path": "docs/demo/screenshots/milestone-12-1/after/orders-320.png",
+      "sha256": "b5c388563ad5b9b77fbb2b9161d981852f6a1fad8186fd36a89324373474cb15",
+      "mode": "raw"
+    },
+    {
+      "bytes": 36500,
+      "path": "docs/demo/screenshots/milestone-12-1/after/orders-375.png",
+      "sha256": "2cb11daf48d81bc2e96b200e41d0166cc18a9e40137851bc318b3815a0ff4d58",
+      "mode": "raw"
+    },
+    {
+      "bytes": 56341,
+      "path": "docs/demo/screenshots/milestone-12-1/after/orders-768.png",
+      "sha256": "690be9aa835061124d8f7669087f3637a6f51c3e67658183674977eb933a2625",
+      "mode": "raw"
+    },
+    {
+      "bytes": 87939,
+      "path": "docs/demo/screenshots/milestone-12-1/after/overview-1440.png",
+      "sha256": "c9c08b130c10875a8227aeaf50f7167fafc42b286cf87ac9a59f5bf7ce6c021a",
+      "mode": "raw"
+    },
+    {
+      "bytes": 40718,
+      "path": "docs/demo/screenshots/milestone-12-1/after/overview-320.png",
+      "sha256": "776ad2c8d435f4586ed95f294b74842bae57ee14249a6e45ed7955fe6a9e588f",
+      "mode": "raw"
+    },
+    {
+      "bytes": 42280,
+      "path": "docs/demo/screenshots/milestone-12-1/after/overview-375.png",
+      "sha256": "6a021b53c7b415344160e99d562bdfe2132fb48ed11195cdf4e32ed982b3b9f0",
+      "mode": "raw"
+    },
+    {
+      "bytes": 55923,
+      "path": "docs/demo/screenshots/milestone-12-1/after/overview-768.png",
+      "sha256": "8ce1ba47b8161b8bc0fc172d91172d8e6e35cc48ef307de7fb4fc2cb733c6970",
+      "mode": "raw"
+    },
+    {
+      "bytes": 83992,
+      "path": "docs/demo/screenshots/milestone-12-1/after/pricing-insights-1440.png",
+      "sha256": "45da7667cba3491a0af9e816547ce8ec17c6fa2d08f1400c6966285321bd889c",
+      "mode": "raw"
+    },
+    {
+      "bytes": 41588,
+      "path": "docs/demo/screenshots/milestone-12-1/after/pricing-insights-320.png",
+      "sha256": "85d3efb4f65ef49da1811d2c4e3c93c0095f48a9fb7bb5db94c6f90261758c99",
+      "mode": "raw"
+    },
+    {
+      "bytes": 43617,
+      "path": "docs/demo/screenshots/milestone-12-1/after/pricing-insights-375.png",
+      "sha256": "c0bd11d6195d7a33f24eac1f633949b14de4f64eb620237c0d27bfc87bf9cf46",
+      "mode": "raw"
+    },
+    {
+      "bytes": 60284,
+      "path": "docs/demo/screenshots/milestone-12-1/after/pricing-insights-768.png",
+      "sha256": "857fdc12d2d4cd8638fbfba5f52e431ebf2c96e35526940be1d850f8142c96c2",
+      "mode": "raw"
+    },
+    {
+      "bytes": 69265,
+      "path": "docs/demo/screenshots/milestone-12-1/after/products-1440.png",
+      "sha256": "7346f868fa1ee80d15fbd821c46601db0f8bbabe5f9cb64562dbe0dcbe559c7e",
+      "mode": "raw"
+    },
+    {
+      "bytes": 36006,
+      "path": "docs/demo/screenshots/milestone-12-1/after/products-320.png",
+      "sha256": "cee8de411b852ec61361989daa6d7a28a6ee17cad1f5c2fc20bf0fa5170779ee",
+      "mode": "raw"
+    },
+    {
+      "bytes": 35824,
+      "path": "docs/demo/screenshots/milestone-12-1/after/products-375.png",
+      "sha256": "36eedf11f60679a01d79158e2031858a84456fb2f6f842b8fb17e19e3b866878",
+      "mode": "raw"
+    },
+    {
+      "bytes": 45923,
+      "path": "docs/demo/screenshots/milestone-12-1/after/products-768.png",
+      "sha256": "b77a51c1694ba1b25e1c2755a4fc7347625bbb625250aec640b7d97e93a7d959",
+      "mode": "raw"
+    },
+    {
+      "bytes": 53520,
+      "path": "docs/demo/screenshots/milestone-12-1/after/shopify-1440.png",
+      "sha256": "7df2853456dfa695483ddeed96e24764c920497ea9843b0d3aa3bc99b059a98d",
+      "mode": "raw"
+    },
+    {
+      "bytes": 34665,
+      "path": "docs/demo/screenshots/milestone-12-1/after/shopify-320.png",
+      "sha256": "7534abc75632418a57619371333c936ab25b85749113b69236a32ccd8fa8594c",
+      "mode": "raw"
+    },
+    {
+      "bytes": 34923,
+      "path": "docs/demo/screenshots/milestone-12-1/after/shopify-375.png",
+      "sha256": "9007b8daaa875dad56802fd12198d8c8a8115592d8d889844385f01e5551f40e",
+      "mode": "raw"
+    },
+    {
+      "bytes": 37018,
+      "path": "docs/demo/screenshots/milestone-12-1/after/shopify-768.png",
+      "sha256": "1a7c94b165f7f686ab8b8ae6082208bdcb527c45fece8fa5cbc927bccac3c2fd",
+      "mode": "raw"
+    },
+    {
+      "bytes": 78695,
+      "path": "docs/demo/screenshots/milestone-12-1/after/text-scale200-catalog-1440.png",
+      "sha256": "f7c24b525e49feaf8f116396b9c233d982afc2ac0f35b6097d4cf7a3d18cd1ed",
+      "mode": "raw"
+    },
+    {
+      "bytes": 99760,
+      "path": "docs/demo/screenshots/milestone-12-1/after/zoom200-analytics-1440.png",
+      "sha256": "a8e978a0c59bd34c03dd02e5df1e2882d7f9decf32504cad769293b5e815e8be",
+      "mode": "raw"
+    },
+    {
+      "bytes": 94073,
+      "path": "docs/demo/screenshots/milestone-12-1/after/zoom200-catalog-1440.png",
+      "sha256": "00263d925307cc33d4f21fa8c39ebe849d447b3b37b1fb05ba05ac2cca4184d2",
+      "mode": "raw"
+    },
+    {
+      "bytes": 97112,
+      "path": "docs/demo/screenshots/milestone-12-1/after/zoom200-overview-1440.png",
+      "sha256": "442d57183d82330a1a92faba0eb2804368a1693b546d66eeb07966e0fc6173cd",
+      "mode": "raw"
+    },
+    {
+      "bytes": 110158,
+      "path": "docs/demo/screenshots/milestone-12-1/after/zoom200-readiness-1440.png",
+      "sha256": "be414e4549579cf5994b342b9914de4384f348f5511645b258069471ed238c29",
+      "mode": "raw"
+    },
+    {
+      "bytes": 82461,
+      "path": "docs/demo/screenshots/milestone-12-1/before/analytics-1440.png",
+      "sha256": "5bf38b3dc107e8d6bf18e4243582d1aeaefc3a098f293756995ec4504211df62",
+      "mode": "raw"
+    },
+    {
+      "bytes": 35541,
+      "path": "docs/demo/screenshots/milestone-12-1/before/analytics-320.png",
+      "sha256": "9070a1067dc0b7ed86520ebdee7b633df74a1fa3961cafdbfc48cdff26ff78c7",
+      "mode": "raw"
+    },
+    {
+      "bytes": 36302,
+      "path": "docs/demo/screenshots/milestone-12-1/before/analytics-375.png",
+      "sha256": "f33170f71f7169e1f8e61de54ad6d516a92b9acce25c68ddeb02073518fffa10",
+      "mode": "raw"
+    },
+    {
+      "bytes": 54324,
+      "path": "docs/demo/screenshots/milestone-12-1/before/analytics-768.png",
+      "sha256": "88ff0435be58c0427f7d9981f398001d3512a78835b39ba25fc86e00a30c35e7",
+      "mode": "raw"
+    },
+    {
+      "bytes": 44711,
+      "path": "docs/demo/screenshots/milestone-12-1/before/business-settings-1440.png",
+      "sha256": "0c71355cdd0248df88708077f1cd3bbedc147854abc0b9d84f6937cae9b33ba6",
+      "mode": "raw"
+    },
+    {
+      "bytes": 25744,
+      "path": "docs/demo/screenshots/milestone-12-1/before/business-settings-320.png",
+      "sha256": "da75c26d16cdad9ef73faccd12156ef1c9b655e2393aa33e577b2fb51204946e",
+      "mode": "raw"
+    },
+    {
+      "bytes": 26026,
+      "path": "docs/demo/screenshots/milestone-12-1/before/business-settings-375.png",
+      "sha256": "7c8a09d158d4ac75df7639d7b2dc253d1ed5da6b75ef46482c202d5e8eab7cba",
+      "mode": "raw"
+    },
+    {
+      "bytes": 28058,
+      "path": "docs/demo/screenshots/milestone-12-1/before/business-settings-768.png",
+      "sha256": "00db61515f3637258780212a24d5c4f30d09439d3563cffab9385d53978050ef",
+      "mode": "raw"
+    },
+    {
+      "bytes": 57444,
+      "path": "docs/demo/screenshots/milestone-12-1/before/categories-1440.png",
+      "sha256": "b302918830b353e2ed19a58a3bd23bc48d2cc1d8bab73b63a18fb6d3f279d50c",
+      "mode": "raw"
+    },
+    {
+      "bytes": 29436,
+      "path": "docs/demo/screenshots/milestone-12-1/before/categories-320.png",
+      "sha256": "155e05079ebf4313fff16d1d7a41bc114a21ab32770c57cff9a2f395051cecda",
+      "mode": "raw"
+    },
+    {
+      "bytes": 35975,
+      "path": "docs/demo/screenshots/milestone-12-1/before/categories-375.png",
+      "sha256": "0208092ab2b7fb2784bc4804be5f58654e4d6568634844a173c333a601041662",
+      "mode": "raw"
+    },
+    {
+      "bytes": 38772,
+      "path": "docs/demo/screenshots/milestone-12-1/before/categories-768.png",
+      "sha256": "84d0013bbd48875850f112c432cb3ecd871516959aedb083296f65c11b853ba6",
+      "mode": "raw"
+    },
+    {
+      "bytes": 59744,
+      "path": "docs/demo/screenshots/milestone-12-1/before/data-readiness-1440.png",
+      "sha256": "efc43c28586c08bde0eaa3777b2c0a0394688be1fbbebdd1b1af2ffdb8ab8f70",
+      "mode": "raw"
+    },
+    {
+      "bytes": 39503,
+      "path": "docs/demo/screenshots/milestone-12-1/before/data-readiness-320.png",
+      "sha256": "170c3c0733904587a165e7aa28ff0cae89eaf346fca264d34b4fd1e96ce77a98",
+      "mode": "raw"
+    },
+    {
+      "bytes": 39468,
+      "path": "docs/demo/screenshots/milestone-12-1/before/data-readiness-375.png",
+      "sha256": "723cbbdbde1406c46fb833d92a0ea2d0a7c176cf70f436c5d93296e29258e9d6",
+      "mode": "raw"
+    },
+    {
+      "bytes": 42665,
+      "path": "docs/demo/screenshots/milestone-12-1/before/data-readiness-768.png",
+      "sha256": "3afd10b53446bd29d771c5f39f13763000331d8bc8f08ddd989ddc8d8ebeaf7c",
+      "mode": "raw"
+    },
+    {
+      "bytes": 75118,
+      "path": "docs/demo/screenshots/milestone-12-1/before/forecasts-1440.png",
+      "sha256": "7433d51cd16eea9b78fa7d4a0397d1c660698ee975c285b84431ceafe5f745ca",
+      "mode": "raw"
+    },
+    {
+      "bytes": 39217,
+      "path": "docs/demo/screenshots/milestone-12-1/before/forecasts-320.png",
+      "sha256": "005f77da4484b2c24e40447e11da0eae4783bcadc2b0c05e707403ad2edb1901",
+      "mode": "raw"
+    },
+    {
+      "bytes": 41385,
+      "path": "docs/demo/screenshots/milestone-12-1/before/forecasts-375.png",
+      "sha256": "63950a688042c5f67c5796ea368fffc97b55eca8564178b029063a05e32085bb",
+      "mode": "raw"
+    },
+    {
+      "bytes": 56432,
+      "path": "docs/demo/screenshots/milestone-12-1/before/forecasts-768.png",
+      "sha256": "98d93ce06ed1f305c0896618b9a09109b0282dd91f806cb018271d7d76a311c2",
+      "mode": "raw"
+    },
+    {
+      "bytes": 93187,
+      "path": "docs/demo/screenshots/milestone-12-1/before/orders-1440.png",
+      "sha256": "1983e6aadbc78c9ac637411ba9bf1a2a8a598b18e73e5ce8b7bbed7972555c9f",
+      "mode": "raw"
+    },
+    {
+      "bytes": 30758,
+      "path": "docs/demo/screenshots/milestone-12-1/before/orders-320.png",
+      "sha256": "48992dd868401749a655c0b6e3c4a6ec8b3bd9c7a7e11c03c6ebb57833ca33a9",
+      "mode": "raw"
+    },
+    {
+      "bytes": 33560,
+      "path": "docs/demo/screenshots/milestone-12-1/before/orders-375.png",
+      "sha256": "4ef37c4956a1a1ba94cf8d59c05aa9017d3e10644a831fa17f8eae55a64d37f1",
+      "mode": "raw"
+    },
+    {
+      "bytes": 57613,
+      "path": "docs/demo/screenshots/milestone-12-1/before/orders-768.png",
+      "sha256": "27b1ee8ce7fcd619df0dc6d8fbbaebfc147e50b114845aa217345d5810fe392c",
+      "mode": "raw"
+    },
+    {
+      "bytes": 78409,
+      "path": "docs/demo/screenshots/milestone-12-1/before/overview-1440.png",
+      "sha256": "3b5d0a52df679c5fdd4f456c85be71c9e93652a971deb6cb72a8c228bc050638",
+      "mode": "raw"
+    },
+    {
+      "bytes": 39170,
+      "path": "docs/demo/screenshots/milestone-12-1/before/overview-320.png",
+      "sha256": "9e7446db71670186976f5cb545705f4418f17cb8881e9107a9d0c987813f0f82",
+      "mode": "raw"
+    },
+    {
+      "bytes": 39089,
+      "path": "docs/demo/screenshots/milestone-12-1/before/overview-375.png",
+      "sha256": "70921b4d5aa4d1a3be1f40c67f227d6004b254c360599d8157bfbeb29b77b3b7",
+      "mode": "raw"
+    },
+    {
+      "bytes": 48150,
+      "path": "docs/demo/screenshots/milestone-12-1/before/overview-768.png",
+      "sha256": "42860e7f64149e93ba0e05f99def9a3361a3c74458b64d88e465c49fdabe0e2c",
+      "mode": "raw"
+    },
+    {
+      "bytes": 89170,
+      "path": "docs/demo/screenshots/milestone-12-1/before/pricing-insights-1440.png",
+      "sha256": "9e6e163bb7e88a9189c93a0ba31a5eb4b8b7b33bab31ef94106beb1ea78d0ad7",
+      "mode": "raw"
+    },
+    {
+      "bytes": 40232,
+      "path": "docs/demo/screenshots/milestone-12-1/before/pricing-insights-320.png",
+      "sha256": "d0a4cc6304891d5fdf913fe4d12f24c50e53255f5d34f4d86c3d612ffe34f6fd",
+      "mode": "raw"
+    },
+    {
+      "bytes": 41016,
+      "path": "docs/demo/screenshots/milestone-12-1/before/pricing-insights-375.png",
+      "sha256": "2df26204e5669a5a712edabad25a9025f855d19853f44318129f861ea28a519c",
+      "mode": "raw"
+    },
+    {
+      "bytes": 61574,
+      "path": "docs/demo/screenshots/milestone-12-1/before/pricing-insights-768.png",
+      "sha256": "7ff5cc7d3a1f47e3e64b702e5e841f3497fc29414a83b65e9e759feb01949062",
+      "mode": "raw"
+    },
+    {
+      "bytes": 70139,
+      "path": "docs/demo/screenshots/milestone-12-1/before/products-1440.png",
+      "sha256": "b6d050811d81178a35aa3bf38d77d0ad47626914811981b26b0cf568ddce0225",
+      "mode": "raw"
+    },
+    {
+      "bytes": 33141,
+      "path": "docs/demo/screenshots/milestone-12-1/before/products-320.png",
+      "sha256": "1f86d3c15a9ea171ef3c9bffe642acfd2b05989b901812107ccbb77520b07615",
+      "mode": "raw"
+    },
+    {
+      "bytes": 33617,
+      "path": "docs/demo/screenshots/milestone-12-1/before/products-375.png",
+      "sha256": "8963952e9350163dab8e1ac18d45949042c012ddf676c62af766a0bd47292186",
+      "mode": "raw"
+    },
+    {
+      "bytes": 43206,
+      "path": "docs/demo/screenshots/milestone-12-1/before/products-768.png",
+      "sha256": "a37a74619f082b7bd5cd8e546bc5c35475484101bf018a730c67213002a12ae7",
+      "mode": "raw"
+    },
+    {
+      "bytes": 54634,
+      "path": "docs/demo/screenshots/milestone-12-1/before/shopify-1440.png",
+      "sha256": "0d3540606527b7baa32a209a5e3f6998c017bafe878b03b48c21a3e28c0d46bc",
+      "mode": "raw"
+    },
+    {
+      "bytes": 33713,
+      "path": "docs/demo/screenshots/milestone-12-1/before/shopify-320.png",
+      "sha256": "2768fd7b7e88190301e5de65366f2be409b484ae56ac3bdddc64930a7c152c7e",
+      "mode": "raw"
+    },
+    {
+      "bytes": 33708,
+      "path": "docs/demo/screenshots/milestone-12-1/before/shopify-375.png",
+      "sha256": "bccbd880a162ffc12619fdc75c4665332ae52621b563fa97a4ee75d9a906eacf",
+      "mode": "raw"
+    },
+    {
+      "bytes": 36676,
+      "path": "docs/demo/screenshots/milestone-12-1/before/shopify-768.png",
+      "sha256": "3eaaccd19a3054e44180c79df61fd8d5bf56c3597b5b66f4656233e113d21057",
+      "mode": "raw"
+    },
+    {
+      "bytes": 5176,
+      "path": "docs/demo/screenshots/milestone-12-1/README.md",
+      "sha256": "1b5a388d52becca3ca733d98aa30ed4e49e7260a3a4f9339dc8a30b6a3105f25",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 3291,
+      "path": "docs/milestone-12-1-style-guide.md",
+      "sha256": "ae7ab0b4e93bd82eeb0e7c67f15ffcb7f70d2050c7362989a5e2967bb21b2acd",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 15138,
+      "path": "docs/milestone-12-1-verification.md",
+      "sha256": "9f93184a30b74f08aded0dca39ec08424b9db547e1c3bdc398800b81f5415aba",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 5194,
+      "path": "frontend/src/app/app.css",
+      "sha256": "1da5719274f36d1eac4c4121973c505d775435b8bf0c4079d0d1264bb69fc3aa",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 5755,
+      "path": "frontend/src/app/core/portfolio-context.spec.ts",
+      "sha256": "29eeda4b54cbe56cfa8075c30632a458d8ae19a998826d3f1f4609e6a045dd35",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 4662,
+      "path": "frontend/src/app/features/analytics/analytics.css",
+      "sha256": "e587335e0cbb6106fec16c56b1ab148f56273f6ae658a3d0ee7dc86d1d787947",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 19547,
+      "path": "frontend/src/app/features/analytics/analytics.html",
+      "sha256": "27b8cebf5885475143abd4172a0dbe0f32be6a5c7f8eefe91df106a545fb1bd8",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 2265,
+      "path": "frontend/src/app/features/catalog/components/product-entry.css",
+      "sha256": "5c66a4c52861ec9ea396ec0cf66c02fddd01f12c024a8ab7256c58a4599d4ee3",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 1493,
+      "path": "frontend/src/app/features/catalog/components/product-entry.ts",
+      "sha256": "d23d0baacfd726c73a5f7d13372c688c69d89409d1f7e59e8a80539ec1297917",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 818,
+      "path": "frontend/src/app/features/catalog/pages/categories.css",
+      "sha256": "458932d3c9a40120440b4c39d20a7f9d106f7cc10cfa029eaf52638c417ef43f",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 7071,
+      "path": "frontend/src/app/features/catalog/pages/categories.ts",
+      "sha256": "6b96cb4f5ce3c3de40b14208a509d6691b92d1c2e51a9829d35d195b7033cd9a",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 2437,
+      "path": "frontend/src/app/features/catalog/pages/product-list.css",
+      "sha256": "3d3141dee01a4a3ccdbb0ca6cb7913692f44292cabdde4c7586a348f6996b5e1",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 5017,
+      "path": "frontend/src/app/features/forecasting/forecasting.css",
+      "sha256": "e31dde56f8923679da27f0d29fdf32db1738cf2563420c41a13cf1c9c0cae833",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 16345,
+      "path": "frontend/src/app/features/forecasting/forecasting.html",
+      "sha256": "7908b6bae2fbc0d51aeca4515d68c9b022cb5811c08fc9ea46514147669caca2",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 1002,
+      "path": "frontend/src/app/features/history/orders.css",
+      "sha256": "6064e4dbcf981ce0e73b351d82e3fc0b584399e212bb5b3c0bcf8953bc096453",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 4369,
+      "path": "frontend/src/app/features/history/orders.spec.ts",
+      "sha256": "ca57ddda83f2a71c9851aa776b4852957117dc52a731098faf6a778394c33a86",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 8332,
+      "path": "frontend/src/app/features/history/orders.ts",
+      "sha256": "3e78d72f7505862e6f678b94f9ea93074669fdef5e18311da92167a7a2a4081e",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 2021,
+      "path": "frontend/src/app/features/home/home.css",
+      "sha256": "f90d96a0ed6fee41b1e86f43e40028a20c49ab12906db7ae99059e2355f43809",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 6940,
+      "path": "frontend/src/app/features/home/home.html",
+      "sha256": "ae60127648fce2a89e8aaf65b764839eaad48450960c8639e31b4bcd35b8527c",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 21875,
+      "path": "frontend/src/app/features/onboarding/onboarding.ts",
+      "sha256": "fb3a883b099d52b98adce9434015a8b1c057085dda74c8f886a679bf2141b292",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 3782,
+      "path": "frontend/src/app/features/optimization/optimization.css",
+      "sha256": "f24aff6489e9b3542587afdfed7f7d43edbc2c64620d558f9046cfc9b248ed65",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 4940,
+      "path": "frontend/src/app/features/optimization/pricing-result.ts",
+      "sha256": "a299102f4cf8d165e5a588de20d51bf89ad86bed0beea5243f35e4b0803749de",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 906,
+      "path": "frontend/src/app/features/settings/business-settings.css",
+      "sha256": "2269655d09a99b8076945c85e2b1c2d9a501782cc3fd6d69dee57d6e75f42933",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 5684,
+      "path": "frontend/src/app/features/settings/business-settings.ts",
+      "sha256": "b99f3b164085c67ed58194f7e4528eb55eb458bc187dbcaf8c07cc0595563a73",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 11147,
+      "path": "frontend/src/app/features/store-connection/store-connection.ts",
+      "sha256": "56d498d39cfdd280b9e85eaea18b59f2b5fe74365f32c3a004bfbd5aee237c5f",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 9767,
+      "path": "frontend/src/app/features/store-connection/sync-panel.ts",
+      "sha256": "f275f086196d00a587e31e5f70949d73dc834b8ccb8d598eb60c618ed62d9703",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 5209,
+      "path": "frontend/src/app/shared/merchant/foundation.ts",
+      "sha256": "52337f55853bc78d7a1f1188941783fb71ec0ceae38cf67c4236c6f1581ee10e",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 6623,
+      "path": "frontend/src/app/shared/merchant/portfolio-examples.ts",
+      "sha256": "1e1c6df8caf45f97edb628b499579e92ed85c29df726f6f942aa4022be97ed2a",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 3933,
+      "path": "frontend/src/app/shared/merchant/product-thumbnail.ts",
+      "sha256": "f50e12223525673278965e65f2aaa3c1a81b21960d1759deebdfc7ed0205a493",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 7231,
+      "path": "frontend/src/app/shared/merchant/sales-chart.ts",
+      "sha256": "7669857d48ef5879167da738d7608d8bbe9932c3d36bfdb7dbc06a61c5906873",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 24536,
+      "path": "frontend/src/styles.css",
+      "sha256": "66837c0f3ff0741215431ea8e8166785404695b2a4d80635557264bc25224073",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 5221,
+      "path": "frontend/src/zard-theme.css",
+      "sha256": "ca86b5635b3fc1fd8d8199c8f8ac68a4b4adbb596a5d69d5cd2f7de636565469",
+      "mode": "UTF8_LF"
+    },
+    {
+      "bytes": 6911,
+      "path": "README.md",
+      "sha256": "adf6734ebbfc1fef91ab419100c8c2bf4d1b866d80d75afa81cbddb39fee9833",
+      "mode": "UTF8_LF"
+    }
+  ]
+}

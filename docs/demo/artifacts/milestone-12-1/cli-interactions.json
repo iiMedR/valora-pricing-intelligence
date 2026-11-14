@@ -1,0 +1,72 @@
+{
+  "checks": [
+    {
+      "catalogSearchCategoryGridListAndNavigation": true
+    },
+    {
+      "orderFilteringKeyboardDisclosureAndDetailTraceability": true
+    },
+    {
+      "forecastSelectionAnd14DayHistoricalDates": true
+    },
+    {
+      "computedStatusColors": {
+        "experimental": "rgb(29, 78, 216)",
+        "warning": "rgb(146, 64, 14)"
+      },
+      "knownFailureRed": true
+    },
+    {
+      "cssZoom200PercentApproximation": true,
+      "rootTextScale200Percent": true,
+      "nativeBrowserZoomNotClaimed": true
+    }
+  ],
+  "scans": [
+    {
+      "name": "catalog-list-filtered-1440",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "catalog-grid-filtered-1440",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "order-reference-1440",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "forecast-selected-375",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "zoom200-overview-1440",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "zoom200-catalog-1440",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "zoom200-analytics-1440",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "zoom200-readiness-1440",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "text-scale200-catalog-1440",
+      "overflow": false,
+      "violations": []
+    }
+  ]
+}

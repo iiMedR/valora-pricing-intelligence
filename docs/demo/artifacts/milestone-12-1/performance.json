@@ -1,0 +1,24 @@
+{
+  "method": "Chrome headless, localhost4217 production static preview with portfolio API8087,3 fresh pages, initial catalog then one category filter; includes networkidle; not comparable with prior dev-server latency",
+  "runs": [
+    {
+      "catalogMs": 272,
+      "filterMs": 582,
+      "categoriesRequests": 1,
+      "productsRequests": 2
+    },
+    {
+      "catalogMs": 241,
+      "filterMs": 577,
+      "categoriesRequests": 1,
+      "productsRequests": 2
+    },
+    {
+      "catalogMs": 232,
+      "filterMs": 569,
+      "categoriesRequests": 1,
+      "productsRequests": 2
+    }
+  ],
+  "helperMethodLabel": "Chrome headless, localhost Angular dev server, 3 fresh pages, initial catalog then one explicit filter; includes networkidle wait, not a production speed claim"
+}

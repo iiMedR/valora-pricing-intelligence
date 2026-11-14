@@ -1,0 +1,325 @@
+{
+  "phase": "after",
+  "states": [
+    {
+      "name": "overview",
+      "width": 320,
+      "url": "http://localhost:4217/",
+      "title": "Overview | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "products",
+      "width": 320,
+      "url": "http://localhost:4217/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "orders",
+      "width": 320,
+      "url": "http://localhost:4217/orders",
+      "title": "Sales orders | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "analytics",
+      "width": 320,
+      "url": "http://localhost:4217/analytics",
+      "title": "Analytics | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "forecasts",
+      "width": 320,
+      "url": "http://localhost:4217/forecasting",
+      "title": "Demand Forecasting | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "pricing-insights",
+      "width": 320,
+      "url": "http://localhost:4217/optimization",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "shopify",
+      "width": 320,
+      "url": "http://localhost:4217/store-connection",
+      "title": "Store Connection | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "data-readiness",
+      "width": 320,
+      "url": "http://localhost:4217/onboarding",
+      "title": "Onboarding | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "business-settings",
+      "width": 320,
+      "url": "http://localhost:4217/settings",
+      "title": "Business settings | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "categories",
+      "width": 320,
+      "url": "http://localhost:4217/categories",
+      "title": "Categories | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "overview",
+      "width": 375,
+      "url": "http://localhost:4217/",
+      "title": "Overview | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "products",
+      "width": 375,
+      "url": "http://localhost:4217/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "orders",
+      "width": 375,
+      "url": "http://localhost:4217/orders",
+      "title": "Sales orders | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "analytics",
+      "width": 375,
+      "url": "http://localhost:4217/analytics",
+      "title": "Analytics | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "forecasts",
+      "width": 375,
+      "url": "http://localhost:4217/forecasting",
+      "title": "Demand Forecasting | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "pricing-insights",
+      "width": 375,
+      "url": "http://localhost:4217/optimization",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "shopify",
+      "width": 375,
+      "url": "http://localhost:4217/store-connection",
+      "title": "Store Connection | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "data-readiness",
+      "width": 375,
+      "url": "http://localhost:4217/onboarding",
+      "title": "Onboarding | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "business-settings",
+      "width": 375,
+      "url": "http://localhost:4217/settings",
+      "title": "Business settings | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "categories",
+      "width": 375,
+      "url": "http://localhost:4217/categories",
+      "title": "Categories | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "overview",
+      "width": 768,
+      "url": "http://localhost:4217/",
+      "title": "Overview | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "products",
+      "width": 768,
+      "url": "http://localhost:4217/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "orders",
+      "width": 768,
+      "url": "http://localhost:4217/orders",
+      "title": "Sales orders | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "analytics",
+      "width": 768,
+      "url": "http://localhost:4217/analytics",
+      "title": "Analytics | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "forecasts",
+      "width": 768,
+      "url": "http://localhost:4217/forecasting",
+      "title": "Demand Forecasting | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "pricing-insights",
+      "width": 768,
+      "url": "http://localhost:4217/optimization",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "shopify",
+      "width": 768,
+      "url": "http://localhost:4217/store-connection",
+      "title": "Store Connection | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "data-readiness",
+      "width": 768,
+      "url": "http://localhost:4217/onboarding",
+      "title": "Onboarding | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "business-settings",
+      "width": 768,
+      "url": "http://localhost:4217/settings",
+      "title": "Business settings | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "categories",
+      "width": 768,
+      "url": "http://localhost:4217/categories",
+      "title": "Categories | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "overview",
+      "width": 1440,
+      "url": "http://localhost:4217/",
+      "title": "Overview | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "products",
+      "width": 1440,
+      "url": "http://localhost:4217/products",
+      "title": "Products | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "orders",
+      "width": 1440,
+      "url": "http://localhost:4217/orders",
+      "title": "Sales orders | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "analytics",
+      "width": 1440,
+      "url": "http://localhost:4217/analytics",
+      "title": "Analytics | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "forecasts",
+      "width": 1440,
+      "url": "http://localhost:4217/forecasting",
+      "title": "Demand Forecasting | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "pricing-insights",
+      "width": 1440,
+      "url": "http://localhost:4217/optimization",
+      "title": "Pricing insights | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "shopify",
+      "width": 1440,
+      "url": "http://localhost:4217/store-connection",
+      "title": "Store Connection | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "data-readiness",
+      "width": 1440,
+      "url": "http://localhost:4217/onboarding",
+      "title": "Onboarding | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "business-settings",
+      "width": 1440,
+      "url": "http://localhost:4217/settings",
+      "title": "Business settings | SmartPricing",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "name": "categories",
+      "width": 1440,
+      "url": "http://localhost:4217/categories",
+      "title": "Categories | SmartPricing",
+      "overflow": false,
+      "violations": []
+    }
+  ]
+}
