@@ -251,3 +251,35 @@ footer {
     min-height: 44px;
   }
 }
+
+/* Active location is distinguishable by color, weight and the inset rail. */
+.primary-navigation {
+  background: var(--card);
+  gap: 28px;
+}
+.primary-navigation a {
+  font-size: 14px;
+  border-radius: 9px;
+}
+.primary-navigation a.active {
+  color: var(--interactive-foreground);
+  background: var(--interactive-surface);
+  box-shadow: inset 3px 0 var(--interactive);
+}
+.primary-navigation a.active ng-icon {
+  color: var(--interactive-foreground);
+}
+.nav-group p {
+  font-size: 12px;
+}
+main {
+  padding-block: 32px;
+}
+footer {
+  font-size: 12px;
+}
+@media (max-width: 500px) {
+  main {
+    padding-block: 24px;
+  }
+}

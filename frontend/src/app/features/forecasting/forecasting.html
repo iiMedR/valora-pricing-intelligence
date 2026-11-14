@@ -29,7 +29,7 @@
     </button>
   </details>
 </form>
-<p class="muted">
+<p class="muted forecast-period">
   Using sales from {{ historyWindow().startDate }} up to {{ historyWindow().endDate }} (end date not
   included). The forecast starts at that end date.
   @if (isDemo()) {
@@ -55,11 +55,17 @@
   } @else {
     <div class="forecast-product-grid">
       @for (row of report.results.content; track row.variant.variantId) {
-        <article class="decision-card">
-          <h2>{{ row.variant.productName }}</h2>
-          <p class="muted">{{ row.variant.name }} · {{ row.variant.sku }}</p>
-          <p class="muted">
-            {{ row.readiness.eligibleDays }} usable sales days out of {{ row.readiness.days }}.
+        <article
+          class="forecast-choice"
+          [class.is-selected]="selected()?.variantId === row.variant.variantId"
+        >
+          <div class="forecast-identity">
+            <h2>{{ row.variant.productName }}</h2>
+            <p class="muted">{{ row.variant.name }} · {{ row.variant.sku }}</p>
+          </div>
+          <p class="forecast-coverage">
+            <strong>{{ row.readiness.eligibleDays }} / {{ row.readiness.days }}</strong>
+            <span>usable sales days</span>
           </p>
           <button
             z-button
@@ -124,7 +130,7 @@
   <section #forecastPanel class="demand-detail" aria-labelledby="demand-title" tabindex="-1">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">VARIANT ANALYSIS</p>
+        <p class="eyebrow">Selected product</p>
         <h2 id="demand-title">{{ variant.sku }}</h2>
         <p>{{ variant.productName }} · {{ variant.status }}</p>
       </div>

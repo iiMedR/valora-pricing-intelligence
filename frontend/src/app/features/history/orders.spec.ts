@@ -12,6 +12,42 @@ describe('Orders', () => {
     }),
   );
   afterEach(() => TestBed.inject(HttpTestingController).verify());
+  it('keeps the exact long order reference accessible while shortening its visible link', async () => {
+    const f = TestBed.createComponent(Orders);
+    const reference = 'portfolio-v1/order/portfolio/COST_CHANGE_UNKNOWN/1/2025-12-31';
+    TestBed.inject(HttpTestingController)
+      .expectOne((r) => r.url === '/api/v1/sales/orders')
+      .flush({
+        content: [
+          {
+            id: 'order-123',
+            externalReference: reference,
+            placedAt: '2025-12-31T12:00:00Z',
+            status: 'COMPLETED',
+            source: 'DEMO',
+            currencyCode: 'MAD',
+            itemCount: 1,
+            totalQuantity: 2,
+            netMerchandise: '100.00',
+            recognizedNetMerchandise: '100.00',
+          },
+        ],
+        page: 0,
+        size: 20,
+        totalElements: 1,
+        totalPages: 1,
+      });
+    await f.whenStable();
+    const link = f.nativeElement.querySelector('a[href="/orders/order-123"]') as HTMLAnchorElement;
+    expect(link.textContent!.length).toBeLessThan(reference.length);
+    expect(link.textContent!.trim()).toBe('Cost change unknown · 1 · 2025-12-31');
+    expect(link.getAttribute('aria-label')).toContain(link.textContent!.trim());
+    expect(link.getAttribute('aria-label')).toContain(reference);
+    expect(f.nativeElement.querySelector('.full-reference span').textContent).toBe(reference);
+    expect(f.nativeElement.querySelector('.full-reference summary').textContent).toBe(
+      'Full reference',
+    );
+  });
   it('renders loading then empty and validates reversed date filters', async () => {
     const fixture = TestBed.createComponent(Orders);
     fixture.detectChanges();

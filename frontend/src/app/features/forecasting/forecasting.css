@@ -17,10 +17,6 @@ label {
   gap: 8px;
   font-size: 13px;
 }
-.preset {
-  margin: 16px 0;
-  padding: 9px 12px;
-}
 .scroll-region {
   overflow: auto;
   max-width: 100%;
@@ -55,13 +51,6 @@ small {
   display: block;
   margin-top: 6px;
   font-weight: 400;
-}
-.badge {
-  display: inline-block;
-  background: var(--muted);
-  border-radius: 4px;
-  padding: 5px 8px;
-  font-size: 11px;
 }
 .reasons {
   font-size: 12px;
@@ -151,7 +140,7 @@ svg text {
 }
 .observed {
   fill: none;
-  stroke: var(--primary);
+  stroke: var(--foreground);
   stroke-width: 2;
 }
 .predicted {
@@ -218,4 +207,93 @@ svg text {
 .history-window {
   flex-basis: 100%;
   margin: 8px 0;
+}
+
+.demand-filters {
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+  gap: 12px;
+}
+.demand-filters > label {
+  margin: 0;
+}
+.forecast-period {
+  max-width: 85ch;
+  margin: 16px 0 24px;
+  font-size: 13px;
+}
+.forecast-product-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card);
+}
+.forecast-choice {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.forecast-choice:last-child {
+  border-bottom: 0;
+}
+.forecast-choice:focus-within,
+.forecast-choice.is-selected {
+  background: var(--interactive-surface);
+}
+.forecast-identity {
+  min-width: 0;
+}
+.forecast-identity h2 {
+  font-size: 15px;
+  margin: 0 0 4px;
+  letter-spacing: -0.015em;
+}
+.forecast-identity p {
+  margin: 0;
+  font-size: 12px;
+}
+.forecast-coverage {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.forecast-coverage strong {
+  color: var(--foreground);
+  font-size: 14px;
+  font-weight: 600;
+}
+.forecast-choice button {
+  color: var(--interactive-foreground);
+  border-color: var(--input);
+}
+.demand-detail {
+  border-top: 3px solid var(--interactive);
+}
+@media (max-width: 600px) {
+  .demand-filters {
+    padding: 16px;
+  }
+  .forecast-choice {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 16px;
+  }
+  .forecast-identity {
+    grid-column: 1 / -1;
+  }
+  .forecast-choice button {
+    max-width: 155px;
+    white-space: normal;
+  }
 }

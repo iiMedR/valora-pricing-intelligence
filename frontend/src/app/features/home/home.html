@@ -1,5 +1,5 @@
 <app-page-header title="Overview" [description]="period()" />
-<app-portfolio-examples />
+<app-portfolio-examples [startingPoints]="true" />
 @if (!authorized()) {
   <app-empty-state
     title="Your store overview starts here"

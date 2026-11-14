@@ -152,7 +152,7 @@ export class SalesChart {
     },
   }));
   readonly series: ZardChartSeries[] = [
-    { dataKey: 'netSales', smooth: true, strokeWidth: 2, showSymbol: false },
+    { dataKey: 'netSales', smooth: true, strokeWidth: 2.5, showSymbol: false },
   ];
   readonly shortPeriod = (value: string) =>
     new Intl.DateTimeFormat('en', {
@@ -184,17 +184,17 @@ export class SalesChart {
     return {
       textStyle: {
         fontFamily: '-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif',
-        fontSize: 11,
+        fontSize: 12,
       },
       grid: { left: 8, right: 12, top: 22, bottom: 8, containLabel: true },
       yAxis: {
         min: Math.min(0, ...values),
         max: Math.max(0, ...values) || 1,
         name: this.data().range.currencyCode,
-        nameTextStyle: { fontSize: 11 },
-        axisLabel: { fontSize: 11 },
+        nameTextStyle: { fontSize: 12 },
+        axisLabel: { fontSize: 12 },
       },
-      xAxis: { axisLabel: { fontSize: 11, hideOverlap: true } },
+      xAxis: { axisLabel: { fontSize: 12, hideOverlap: true } },
       series: [{ smoothMonotone: 'x' }],
       tooltip: { formatter: this.tooltip },
     };

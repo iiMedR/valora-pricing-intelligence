@@ -227,3 +227,53 @@ small {
     grid-template-columns: 1fr;
   }
 }
+
+.featured {
+  background: var(--card);
+  color: var(--foreground);
+  border-top: 3px solid var(--interactive);
+}
+.featured .kpi-value {
+  color: var(--interactive-foreground);
+}
+.kpi {
+  border-radius: 12px;
+}
+.kpi h2 {
+  font-size: 13px;
+  font-weight: 550;
+}
+.kpi small {
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+.kpi .muted {
+  margin-top: 12px;
+}
+.report-filters {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+.report-filters label {
+  margin-bottom: 0;
+}
+.report-tag {
+  background: var(--card);
+}
+.trend-line {
+  stroke: var(--foreground);
+}
+.analytics-panel {
+  padding: 22px;
+}
+@media (max-width: 600px) {
+  .analytics-panel {
+    padding: 16px 12px;
+  }
+}
+
+.positive-contribution .kpi-value {
+  color: var(--success-foreground);
+}

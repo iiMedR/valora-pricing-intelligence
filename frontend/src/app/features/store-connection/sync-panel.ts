@@ -34,7 +34,7 @@ export interface SyncStatus {
   imports: [ZardButtonComponent, ZardInputComponent, FormsModule, DatePipe, KeyValuePipe],
   template: `
     <section class="sync-panel" aria-labelledby="sync-title">
-      <p class="eyebrow">READ-ONLY SHOPIFY IMPORT</p>
+      <p class="eyebrow">Read-only Shopify import</p>
       <h2 id="sync-title">Data synchronization</h2>
       @if (error()) {
         <p role="alert" class="error">{{ error() }}</p>
@@ -173,12 +173,10 @@ export interface SyncStatus {
   styles: [
     `
       .sync-panel {
-        max-width: 760px;
-        padding: 26px;
-        margin: 28px 0;
-        background: white;
-        border: 1px solid #d4dfd7;
-        border-radius: 10px;
+        padding: 24px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
       }
       p,
       li,
@@ -207,7 +205,7 @@ export interface SyncStatus {
       }
       .job {
         padding: 18px;
-        background: #f4f7f4;
+        background: var(--muted);
         margin: 18px 0;
       }
       dt {
@@ -217,7 +215,8 @@ export interface SyncStatus {
         margin: 0 0 7px;
       }
       h2 {
-        font-size: 24px;
+        font-size: 19px;
+        margin-bottom: 16px;
       }
       @media (max-width: 600px) {
         .sync-panel {

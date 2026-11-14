@@ -11,7 +11,8 @@ import { requiredText } from '../components/form-validation';
 import { SessionService } from '../../../core/session.service';
 @Component({
   imports: [ZardButtonComponent, ZardInputComponent, EditForm, ControlState, ReactiveFormsModule],
-  template: ` <p class="eyebrow">CATALOG ORGANIZATION</p>
+  styleUrl: './categories.css',
+  template: ` <p class="eyebrow">Catalog organization</p>
     <h1 class="page-title">Categories</h1>
     <p class="muted">Group products into flat categories. Categories in use cannot be deleted.</p>
     @if (error()) {
@@ -58,32 +59,40 @@ import { SessionService } from '../../../core/session.service';
     @if (loading()) {
       <p role="status">Loading categories…</p>
     } @else if (categories().length === 0 && !error()) {
-      <div class="empty">No categories yet. Create your first category above.</div>
+      <div class="empty">
+        {{
+          readOnly()
+            ? 'No categories in this view.'
+            : 'No categories yet. Create your first category above.'
+        }}
+      </div>
     } @else {
-      <div class="category-list">
+      <div class="category-list" role="list" aria-label="Catalog categories">
         @for (c of categories(); track c.id) {
-          <article class="variant-card section-heading">
+          <article class="category-row" role="listitem">
             <div>
               <h2>{{ c.name }}</h2>
               <p class="muted">{{ c.description || 'No description.' }}</p>
             </div>
-            <div class="actions">
-              <button
-                z-button
-                zType="outline"
-                (click)="edit(c)"
-                [disabled]="saving() || readOnly()"
-              >
-                Edit<span class="sr-only"> {{ c.name }}</span></button
-              ><button
-                z-button
-                zType="outline"
-                (click)="remove(c)"
-                [disabled]="saving() || readOnly()"
-              >
-                Delete<span class="sr-only"> {{ c.name }}</span>
-              </button>
-            </div>
+            @if (!readOnly()) {
+              <div class="actions">
+                <button
+                  z-button
+                  zType="outline"
+                  (click)="edit(c)"
+                  [disabled]="saving() || readOnly()"
+                >
+                  Edit<span class="sr-only"> {{ c.name }}</span></button
+                ><button
+                  z-button
+                  zType="outline"
+                  (click)="remove(c)"
+                  [disabled]="saving() || readOnly()"
+                >
+                  Delete<span class="sr-only"> {{ c.name }}</span>
+                </button>
+              </div>
+            }
           </article>
         }
       </div>

@@ -107,10 +107,32 @@ export class ProductIdentity {
   selector: 'app-status-pill',
   imports: [ZardBadgeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<z-badge zType="secondary" class="status-pill">{{ label() }}</z-badge>`,
+  template: `<z-badge zType="secondary" class="status-pill" [attr.data-tone]="tone()">{{
+    label()
+  }}</z-badge>`,
+  styles: [
+    `
+      .status-pill[data-tone='experimental'] {
+        color: var(--interactive-foreground);
+        background: var(--interactive-surface);
+        border-color: currentColor;
+      }
+      .status-pill[data-tone='warning'] {
+        color: var(--warning-foreground);
+        background: var(--warning-surface);
+        border-color: var(--warning-border);
+      }
+      .status-pill[data-tone='failure'] {
+        color: var(--error-foreground);
+        background: var(--error-surface);
+        border-color: var(--error-border);
+      }
+    `,
+  ],
 })
 export class StatusPill {
   readonly label = input.required<string>();
+  readonly tone = input<'neutral' | 'experimental' | 'warning' | 'failure'>('neutral');
 }
 @Component({
   selector: 'app-search-field',

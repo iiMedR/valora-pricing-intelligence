@@ -13,6 +13,7 @@ import { apiError } from '../catalog/services/catalog-api.service';
 import { HistoryApi, isoTime } from './history-api.service';
 import { Order } from './history.models';
 @Component({
+  styleUrl: './orders.css',
   imports: [ZardButtonComponent, ZardInputComponent, DatePipe, ReactiveFormsModule, RouterLink],
   template: ` <div class="page-heading">
       <div>
@@ -92,25 +93,44 @@ import { Order } from './history.models';
                 <th>Reference</th>
                 <th>Placed (UTC)</th>
                 <th>Status / source</th>
-                <th>Lines / units</th>
-                <th>Net merchandise</th>
-                <th>Recognized net</th>
+                <th class="numeric">Lines / units</th>
+                <th class="numeric">Net merchandise</th>
+                <th class="numeric">Recognized net</th>
               </tr>
             </thead>
             <tbody>
               @for (order of page.content; track order.id) {
                 <tr>
                   <td>
-                    <a [routerLink]="['/orders', order.id]">{{
-                      order.externalReference ||
-                        'Order ' + order.id.slice(0, 8) + '…' + order.id.slice(-4)
-                    }}</a>
+                    <a
+                      [routerLink]="['/orders', order.id]"
+                      [attr.aria-label]="
+                        shortReference(order) +
+                        '. Full reference: ' +
+                        (order.externalReference || order.id)
+                      "
+                      [title]="order.externalReference || order.id"
+                      >{{ shortReference(order) }}</a
+                    >
+                    <details class="full-reference">
+                      <summary>Full reference</summary>
+                      <span>{{ order.externalReference || order.id }}</span>
+                    </details>
                   </td>
-                  <td>{{ order.placedAt | date: 'medium' : 'UTC' }}</td>
-                  <td>{{ order.status }}<br />{{ order.source }}</td>
-                  <td>{{ order.itemCount }} / {{ order.totalQuantity }}</td>
-                  <td>{{ money(order.netMerchandise, order.currencyCode) }}</td>
-                  <td>{{ money(order.recognizedNetMerchandise, order.currencyCode) }}</td>
+                  <td>
+                    {{ order.placedAt | date: 'mediumDate' : 'UTC'
+                    }}<small>{{ order.placedAt | date: 'mediumTime' : 'UTC' }}</small>
+                  </td>
+                  <td>
+                    <span class="order-status">{{ order.status }}</span><small>{{
+                      order.source
+                    }}</small>
+                  </td>
+                  <td class="numeric">{{ order.itemCount }} / {{ order.totalQuantity }}</td>
+                  <td class="numeric">{{ money(order.netMerchandise, order.currencyCode) }}</td>
+                  <td class="numeric">
+                    {{ money(order.recognizedNetMerchandise, order.currencyCode) }}
+                  </td>
                 </tr>
               }
             </tbody>
@@ -138,6 +158,23 @@ import { Order } from './history.models';
     }`,
 })
 export class Orders {
+  shortReference(order: Order): string {
+    const reference = order.externalReference;
+    if (reference?.startsWith('portfolio-v1/order/portfolio/')) {
+      const [scenario, variant, date] = reference
+        .slice('portfolio-v1/order/portfolio/'.length)
+        .split('/');
+      if (scenario && variant && date) {
+        const label = scenario.charAt(0) + scenario.slice(1).toLowerCase().replaceAll('_', ' ');
+        return label + ' · ' + variant + ' · ' + date;
+      }
+    }
+    return reference
+      ? reference.length > 40
+        ? reference.slice(0, 16) + '…' + reference.slice(-20)
+        : reference
+      : 'Order ' + order.id.slice(0, 8) + '…' + order.id.slice(-4);
+  }
   readonly money = formatMoney;
   private readonly session = inject(SessionService);
   readonly readOnly = () => this.session.value()?.readOnly === true;

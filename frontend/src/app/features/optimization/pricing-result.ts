@@ -27,7 +27,12 @@ import { ZardButtonComponent } from '../../shared/components/button';
         <dt>Current variant price</dt>
         <dd>{{ money(d.inputs.currentPrice, d.window.currencyCode) }}</dd>
       </dl>
-      <app-status-pill [label]="label(d)" /><button
+      <app-status-pill
+        [label]="label(d)"
+        [tone]="
+          eligible(d) ? 'experimental' : d.status === 'INACTIVE_VARIANT' ? 'neutral' : 'warning'
+        "
+      /><button
         z-button
         zType="outline"
         [id]="'pricing-open-' + d.variant.variantId"
@@ -38,8 +43,15 @@ import { ZardButtonComponent } from '../../shared/components/button';
         Review insight
       </button>
       <div class="row-reason">
-        <p>{{ reason(d) }}</p>
-        <app-portfolio-story [sku]="d.variant.sku" />
+        @if (eligible(d)) {
+          <details>
+            <summary>Estimate assumptions</summary>
+            <p>{{ reason(d) }}</p>
+          </details>
+        } @else {
+          <p>{{ reason(d) }}</p>
+        }
+        <app-portfolio-story [sku]="d.variant.sku" [compact]="true" />
       </div>
     </article>`,
   styles: [
@@ -52,8 +64,11 @@ import { ZardButtonComponent } from '../../shared/components/button';
         grid-template-columns: 48px minmax(0, 1.6fr) minmax(130px, 1fr) minmax(130px, 1fr) auto;
         gap: 12px 20px;
         align-items: center;
-        padding: 18px 0;
-        border-bottom: 1px solid var(--border);
+        padding: 18px;
+        margin-bottom: 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--card);
       }
       app-product-thumbnail {
         width: 48px;
@@ -65,6 +80,7 @@ import { ZardButtonComponent } from '../../shared/components/button';
       }
       .pricing-identity a {
         font-weight: 600;
+        text-decoration: none;
         overflow-wrap: anywhere;
       }
       .pricing-identity p {
@@ -90,6 +106,16 @@ import { ZardButtonComponent } from '../../shared/components/button';
         margin: 0;
         font-size: 14px;
         color: var(--muted-foreground);
+      }
+      .row-reason p {
+        margin: 0;
+      }
+      .row-reason summary {
+        min-height: 32px;
+        font-size: 13px;
+      }
+      .row-reason details[open] p {
+        margin: 8px 0;
       }
       @media (max-width: 1200px) {
         .pricing-row {

@@ -76,3 +76,46 @@ p {
 .product-entry:not(.list-entry) app-product-thumbnail {
   aspect-ratio: 16/10;
 }
+
+.product-entry {
+  background: var(--card);
+  gap: 10px;
+  padding: 12px;
+  border-radius: 12px;
+}
+.product-entry:hover {
+  border-color: var(--interactive);
+}
+.product-entry:focus-visible {
+  outline: 2px solid var(--interactive);
+  outline-offset: 3px;
+}
+.product-entry:not(.list-entry) app-product-thumbnail {
+  aspect-ratio: 2/1;
+}
+h2 {
+  font-size: 16px;
+  line-height: 1.45;
+}
+p {
+  font-size: 13px;
+}
+.entry-action {
+  color: var(--interactive-foreground);
+  font-size: 13px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.list-entry .entry-action {
+  border: 0;
+  padding: 0;
+}
+.product-entry:not(.list-entry) .entry-identity {
+  grid-column: 1/-1;
+}
+.product-entry:not(.list-entry) app-status-pill {
+  grid-column: 1;
+}
+.product-entry:not(.list-entry) .entry-action {
+  grid-column: 1/-1;
+}

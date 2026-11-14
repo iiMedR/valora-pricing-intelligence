@@ -1172,3 +1172,111 @@
     font-weight: 500;
   }
 }
+
+/* Shared visual hierarchy; page layouts remain component-owned. */
+@layer components {
+  body {
+    background: var(--canvas);
+    font-size: 14px;
+  }
+  h1,
+  .page-title {
+    font-size: clamp(25px, 2.5vw, 28px);
+    font-weight: 650;
+  }
+  h2 {
+    font-size: 19px;
+  }
+  .merchant-page-header {
+    margin-bottom: 24px;
+  }
+  .merchant-page-header .muted,
+  .page-heading .muted {
+    font-size: 14px;
+  }
+  .merchant-metric {
+    font-size: clamp(22px, 2.2vw, 30px);
+    font-weight: 650;
+  }
+  .metric-context {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .primary,
+  button.primary:hover:enabled {
+    background: var(--interactive);
+  }
+  .primary:hover:enabled {
+    background: var(--interactive-foreground);
+  }
+  :focus-visible {
+    outline: 2px solid var(--interactive);
+    outline-offset: 3px;
+  }
+  .notice {
+    border: 1px solid var(--border);
+    background: var(--card);
+  }
+  .warning {
+    border: 1px solid var(--warning-border);
+  }
+  .filters {
+    padding: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  input,
+  textarea,
+  select {
+    border-color: var(--muted-foreground);
+    border-radius: 8px;
+  }
+  .table-wrap {
+    border-radius: 12px;
+  }
+  th {
+    color: var(--muted-foreground);
+    background: var(--canvas);
+    font-size: 12px;
+  }
+  tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+  tbody tr:hover {
+    background: var(--canvas);
+  }
+  td a {
+    color: var(--interactive-foreground);
+    font-weight: 550;
+    text-underline-offset: 3px;
+  }
+  .status-pill {
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+  .merchant-details {
+    background: var(--card);
+    border-radius: 10px;
+    padding-inline: 16px;
+  }
+  @media (max-width: 600px) {
+    .filters {
+      padding: 12px;
+    }
+    input,
+    textarea,
+    select {
+      font-size: 16px;
+    }
+  }
+}
+
+@layer components {
+  .overview-metrics app-metric-card:first-child z-card {
+    border-top: 3px solid var(--interactive);
+  }
+  .overview-metrics app-metric-card:first-child .merchant-metric {
+    color: var(--interactive-foreground);
+  }
+}

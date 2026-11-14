@@ -1,4 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  lucideNotebookPen,
+  lucideArmchair,
+  lucideUtensils,
+  lucideShoppingBag,
+  lucidePackage,
+} from '@ng-icons/lucide';
 /** Only public, credential-free supported image locations. Current catalog DTO has no image field. */
 export function productImageSource(
   source: string | null | undefined,
@@ -26,6 +34,16 @@ export function productImageSource(
 }
 @Component({
   selector: 'app-product-thumbnail',
+  imports: [NgIcon],
+  viewProviders: [
+    provideIcons({
+      lucideNotebookPen,
+      lucideArmchair,
+      lucideUtensils,
+      lucideShoppingBag,
+      lucidePackage,
+    }),
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `@if (safeSource(); as source) {
       <img
@@ -44,8 +62,14 @@ export function productImageSource(
         class="thumbnail-placeholder"
         role="img"
         [attr.aria-label]="'No image available for ' + name()"
-        ><span aria-hidden="true">{{ initials() }}</span></span
       >
+        @if (categoryIcon(); as icon) {
+          <ng-icon [name]="icon" aria-hidden="true" />
+          <small aria-hidden="true">{{ category() }} illustration</small>
+        } @else {
+          <span aria-hidden="true">{{ initials() }}</span>
+        }
+      </span>
     }`,
   styles: [
     `
@@ -63,6 +87,22 @@ export function productImageSource(
         height: 100%;
         object-fit: contain;
       }
+      .thumbnail-placeholder:has(ng-icon) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 12px;
+        background: var(--illustration-surface);
+      }
+      ng-icon {
+        font-size: var(--product-thumbnail-size, 42px);
+        stroke-width: 1.2;
+      }
+      small {
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 0;
+      }
       .thumbnail-placeholder {
         display: grid;
         place-items: center;
@@ -76,6 +116,17 @@ export function productImageSource(
 export class ProductThumbnail {
   readonly name = input.required<string>();
   readonly source = input<string | null>(null);
+  readonly category = input('');
+  readonly categoryIcon = computed(() => {
+    const icons: Record<string, string> = {
+      Stationery: 'lucideNotebookPen',
+      Home: 'lucideArmchair',
+      Kitchen: 'lucideUtensils',
+      Accessories: 'lucideShoppingBag',
+      Pantry: 'lucidePackage',
+    };
+    return icons[this.category()] ?? null;
+  });
   readonly failed = signal('');
   readonly safeSource = computed(() => {
     const source = productImageSource(this.source());

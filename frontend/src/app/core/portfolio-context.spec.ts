@@ -64,12 +64,16 @@ describe('Portfolio-only presentation', () => {
     TestBed.inject(EnvironmentService).value.set(environment);
     TestBed.inject(SessionService).value.set(demo);
     const f = TestBed.createComponent(PortfolioExamples);
+    f.componentRef.setInput('startingPoints', true);
     await f.whenStable();
-    const links = [...f.nativeElement.querySelectorAll('a')] as HTMLAnchorElement[];
+    const links = [...f.nativeElement.querySelectorAll('.example-links a')] as HTMLAnchorElement[];
     const marketing = links.find((a) => a.textContent!.includes('Hidden marketing'))!;
     expect(marketing.getAttribute('href')).toContain('search=Ceramic%20Mug');
     expect(marketing.textContent).toContain('Known synthetic failure');
     expect(links).toHaveLength(10);
+    const starting = f.nativeElement.querySelectorAll('.starting-links a');
+    expect(starting).toHaveLength(3);
+    expect(starting[1].textContent).toContain('Known synthetic failure');
   });
   it('keeps an approved comparison experimental, preserving API amounts and the known wrong-cost warning', async () => {
     TestBed.inject(EnvironmentService).value.set(environment);

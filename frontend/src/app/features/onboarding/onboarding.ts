@@ -23,7 +23,7 @@ import { apiError } from '../catalog/services/catalog-api.service';
   ],
   template: `
     <h1 class="page-title">What should I fix next?</h1>
-    <p>
+    <p class="readiness-intro">
       Start with the highest-priority data issues below. Completing these inputs helps evaluation;
       it does not guarantee a price suggestion.
     </p>
@@ -40,14 +40,28 @@ import { apiError } from '../catalog/services/catalog-api.service';
       <p role="status">Assessing persisted records…</p>
     }
     @if (summary(); as s) {
-      <section class="readiness-card">
-        <h2>Your next steps</h2>
-        <ol>
+      <section class="readiness-card priority-card">
+        <div class="priority-heading">
+          <h2>Your next steps</h2>
+          <span class="priority-label">In priority order</span>
+        </div>
+        @if (!s.checklist.length) {
+          <p class="muted">
+            No priority actions returned for this assessment. Review detailed checks before making a
+            pricing decision.
+          </p>
+        }
+        <ol class="priority-checklist">
           @for (check of allSteps() ? s.checklist : s.checklist.slice(0, 3); track check.code) {
             <li>
-              <h3>{{ checkTitle(check.code) }}</h3>
-              <p>{{ checkDescription(check.code, check.message, s) }}</p>
+              <div class="check-copy">
+                <h3>{{ checkTitle(check.code) }}</h3>
+                <p>{{ checkDescription(check.code, check.message, s) }}</p>
+              </div>
               <a
+                z-button
+                zType="outline"
+                class="review-link"
                 [routerLink]="check.href.split('?')[0].split('#')[0]"
                 [fragment]="check.href.includes('#') ? check.href.split('#')[1] : undefined"
                 [queryParams]="
@@ -57,7 +71,7 @@ import { apiError } from '../catalog/services/catalog-api.service';
                   checksOpen.set(true);
                   check.href.includes('status=') && applyStatus(check.href.split('status=')[1])
                 "
-                >Fix / review</a
+                >Fix / review<span class="sr-only">: {{ checkTitle(check.code) }}</span></a
               >
             </li>
           }
@@ -68,27 +82,29 @@ import { apiError } from '../catalog/services/catalog-api.service';
           </button>
         }
       </section>
-      <p class="muted">
-        <strong>{{
-          s.synthetic
-            ? 'Synthetic demo: no live store connection'
-            : s.synchronization.connected
-              ? 'Shopify connected'
-              : 'Shopify not connected'
-        }}</strong>
-        · Import:
-        {{
-          s.synchronization.latest ? label(s.synchronization.latest.state) : 'No import recorded'
-        }}
-      </p>
-      <p class="muted">
-        Last successful import through:
-        {{
-          s.synchronization.lastSuccessfulSync
-            ? (s.synchronization.lastSuccessfulSync | date: 'yyyy-MM-dd HH:mm' : 'UTC') + ' UTC'
-            : 'No completed import'
-        }}
-      </p>
+      <div class="import-summary">
+        <p class="muted">
+          <strong>{{
+            s.synthetic
+              ? 'Synthetic demo: no live store connection'
+              : s.synchronization.connected
+                ? 'Shopify connected'
+                : 'Shopify not connected'
+          }}</strong>
+          · Import:
+          {{
+            s.synchronization.latest ? label(s.synchronization.latest.state) : 'No import recorded'
+          }}
+        </p>
+        <p class="muted">
+          Last successful import through:
+          {{
+            s.synchronization.lastSuccessfulSync
+              ? (s.synchronization.lastSuccessfulSync | date: 'yyyy-MM-dd HH:mm' : 'UTC') + ' UTC'
+              : 'No completed import'
+          }}
+        </p>
+      </div>
       <details
         class="merchant-details"
         [open]="checksOpen()"
@@ -302,7 +318,7 @@ import { apiError } from '../catalog/services/catalog-api.service';
   styles: [
     `
       .readiness-card {
-        background: white;
+        background: var(--card);
         border: 1px solid var(--border);
         border-radius: 10px;
         padding: 24px;
@@ -375,6 +391,88 @@ import { apiError } from '../catalog/services/catalog-api.service';
         cursor: pointer;
         font-weight: 600;
       }
+      .readiness-intro {
+        max-width: 80ch;
+        color: var(--muted-foreground);
+        font-size: 14px;
+      }
+      .priority-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .priority-heading h2 {
+        margin: 0;
+      }
+      .priority-label {
+        font-size: 12px;
+        color: var(--warning-foreground);
+        background: var(--warning-surface);
+        border-radius: 999px;
+        padding: 3px 9px;
+      }
+      .priority-checklist {
+        list-style: none;
+        counter-reset: priority;
+        padding: 0;
+        margin: 0;
+      }
+      .priority-checklist li {
+        counter-increment: priority;
+        display: grid;
+        grid-template-columns: 32px minmax(0, 1fr) auto;
+        align-items: start;
+        gap: 14px;
+        padding: 22px 0;
+        margin: 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .priority-checklist li:last-child {
+        border-bottom: 0;
+      }
+      .priority-checklist li::before {
+        content: counter(priority);
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        margin-top: 2px;
+        border: 1px solid var(--warning-border);
+        border-radius: 8px;
+        background: var(--warning-surface);
+        color: var(--warning-foreground);
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .check-copy h3 {
+        font-size: 15px;
+        margin: 0 0 5px;
+      }
+      .check-copy p {
+        max-width: 80ch;
+        margin: 0;
+        color: var(--muted-foreground);
+        line-height: 1.65;
+      }
+      .review-link {
+        color: var(--interactive-foreground);
+        text-decoration: none;
+      }
+      .import-summary {
+        padding: 16px 20px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+      }
+      .import-summary p {
+        margin: 0;
+      }
+      .import-summary p + p {
+        margin-top: 6px;
+      }
       @media (max-width: 600px) {
         .readiness-card {
           padding: 18px 12px;
@@ -384,6 +482,17 @@ import { apiError } from '../catalog/services/catalog-api.service';
         }
         .page-title {
           font-size: 26px;
+        }
+        .priority-checklist li {
+          grid-template-columns: 30px minmax(0, 1fr);
+          gap: 10px;
+        }
+        .review-link {
+          grid-column: 2;
+          justify-self: start;
+        }
+        .import-summary {
+          padding: 16px;
         }
       }
     `,

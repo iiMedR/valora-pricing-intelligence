@@ -94,7 +94,7 @@ select {
   margin-top: 8px;
 }
 button[aria-pressed='true'] {
-  background: var(--foreground);
+  background: var(--interactive);
   color: var(--background);
 }
 h2 {

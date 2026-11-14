@@ -83,3 +83,27 @@
     margin: 20px 0;
   }
 }
+
+.overview-metrics {
+  gap: 16px;
+  margin-top: 24px;
+}
+.overview-text-link {
+  color: var(--interactive-foreground);
+  font-size: 14px;
+  text-underline-offset: 4px;
+}
+.overview-next-step {
+  padding: 18px;
+  border: 1px solid var(--warning-border);
+  background: var(--warning-surface);
+  border-radius: 12px;
+}
+.overview-next-step strong {
+  color: var(--warning-foreground);
+}
+@media (max-width: 600px) {
+  .overview-next-step {
+    flex-wrap: wrap;
+  }
+}

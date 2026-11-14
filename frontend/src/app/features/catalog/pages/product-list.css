@@ -75,3 +75,44 @@ button[aria-pressed='true'] {
     margin: 8px 0;
   }
 }
+
+.catalog-results {
+  gap: 16px;
+}
+.catalog-controls {
+  margin: 16px 0;
+}
+button[aria-pressed='true'] {
+  background: var(--interactive-surface);
+  color: var(--interactive-foreground);
+  border-color: var(--interactive);
+}
+.filter-actions {
+  flex-wrap: wrap;
+}
+
+/* Respond to the available content width, including magnified layouts. */
+:host {
+  display: block;
+  container: catalog / inline-size;
+}
+@container catalog (max-width: 650px) {
+  .filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .filters app-search-field,
+  .filter-actions {
+    grid-column: 1/-1;
+  }
+  .filter-actions {
+    justify-content: flex-start;
+  }
+  .catalog-results:not(.catalog-list) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@container catalog (max-width: 450px) {
+  .catalog-results:not(.catalog-list) {
+    grid-template-columns: 1fr;
+  }
+}

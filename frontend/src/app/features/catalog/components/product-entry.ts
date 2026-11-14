@@ -13,7 +13,10 @@ import { StatusPill } from '../../../shared/merchant/foundation';
     [class.list-entry]="view() === 'list'"
     [routerLink]="['/products', product().id]"
     [queryParams]="context()"
-    ><app-product-thumbnail [name]="product().name" />
+    ><app-product-thumbnail
+      [name]="product().name"
+      [category]="view() === 'grid' ? category() : ''"
+    />
     <div class="entry-identity">
       <h2>{{ product().name }}</h2>
       <p>{{ category() }}</p>

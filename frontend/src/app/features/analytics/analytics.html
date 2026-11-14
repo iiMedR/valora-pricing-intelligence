@@ -65,7 +65,13 @@
         {{ report.metrics.unitsRefunded.toLocaleString('en') }} returned
       </p>
     </article>
-    <article class="kpi">
+    <article
+      class="kpi"
+      [class.positive-contribution]="
+        report.metrics.knownContributionBeforeReturnRecovery !== null &&
+        +report.metrics.knownContributionBeforeReturnRecovery > 0
+      "
+    >
       <h2>Contribution from sales with known costs</h2>
       <p class="kpi-value">
         {{ number(report.metrics.knownContributionBeforeReturnRecovery) }}

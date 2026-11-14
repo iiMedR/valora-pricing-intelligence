@@ -11,7 +11,8 @@ import { requiredText } from '../catalog/components/form-validation';
 import { SessionService } from '../../core/session.service';
 @Component({
   imports: [ZardButtonComponent, ZardInputComponent, EditForm, ControlState, ReactiveFormsModule],
-  template: ` <p class="eyebrow">YOUR BUSINESS</p>
+  styleUrl: './business-settings.css',
+  template: ` <p class="eyebrow">Your business</p>
     <h1 class="page-title">Business settings</h1>
     <p class="muted">Set the display name and currency for this installation.</p>
     <p class="notice">
@@ -33,10 +34,19 @@ import { SessionService } from '../../core/session.service';
       <p role="status">Loading settings…</p>
     } @else if (settings()) {
       @if (readOnly()) {
-        <section class="editor">
+        <section class="editor business-profile">
           <h2>Read-only synthetic settings</h2>
-          <p>{{ settings()?.displayName }} · {{ settings()?.currencyCode }}</p>
-          <p>No merchant settings can be edited in the demo.</p>
+          <dl class="profile-fields">
+            <div>
+              <dt>Business name</dt>
+              <dd>{{ settings()?.displayName }}</dd>
+            </div>
+            <div>
+              <dt>Currency</dt>
+              <dd>{{ settings()?.currencyCode }}</dd>
+            </div>
+          </dl>
+          <p class="profile-restriction">No merchant settings can be edited in the demo.</p>
         </section>
       } @else {
         <form
