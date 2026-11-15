@@ -7,7 +7,9 @@ import { SessionService } from './session.service';
   imports: [RouterLink],
   template: `
     @if (session.value()?.authenticated) {
-      <span>{{ session.value()?.username }}</span>
+      <span class="session-username" [title]="session.value()?.username ?? ''">{{
+        session.value()?.username
+      }}</span>
       <button (click)="logout()" [disabled]="busy()">Sign out</button>
     } @else if (
       session.value() && (session.value()?.mode !== 'DEMO' || session.value()?.loginRequired)
@@ -31,6 +33,38 @@ import { SessionService } from './session.service';
       }
       button {
         padding: 8px 12px;
+      }
+      .session-username {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      @media (max-width: 1050px) {
+        :host {
+          gap: 6px;
+          font-size: 12px;
+          justify-content: flex-end;
+          flex-wrap: nowrap;
+          min-width: 0;
+        }
+        button {
+          min-height: 40px;
+          padding: 8px 10px;
+          font-size: 12px;
+          white-space: nowrap;
+        }
+        .session-username {
+          max-width: 64px;
+        }
+        [role='alert'] {
+          white-space: normal;
+        }
+      }
+      @media (max-width: 360px) {
+        .session-username {
+          display: none;
+        }
       }
     `,
   ],

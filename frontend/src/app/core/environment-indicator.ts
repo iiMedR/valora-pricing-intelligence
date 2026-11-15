@@ -5,6 +5,29 @@ import { EnvironmentService } from './environment.service';
 @Component({
   selector: 'app-environment-indicator',
   imports: [EnvironmentDetails],
+  styles: [
+    `
+      :host {
+        min-width: 0;
+      }
+      @media (max-width: 1050px) {
+        .workspace-mode-toggle {
+          min-height: 40px;
+          max-width: 100%;
+          padding: 8px 10px;
+          font-size: 12px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .environment-check,
+        .environment-warning {
+          font-size: 11px;
+          margin: 0;
+        }
+      }
+    `,
+  ],
   template: `
     @if (environment(); as mode) {
       <button

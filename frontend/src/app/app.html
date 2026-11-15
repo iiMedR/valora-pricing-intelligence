@@ -10,10 +10,11 @@
         class="menu-toggle"
         type="button"
         [attr.aria-expanded]="menuOpen()"
+        [attr.aria-label]="menuOpen() ? 'Close navigation' : 'Open navigation'"
         aria-controls="primary-navigation"
         (click)="toggleMenu()"
       >
-        {{ menuOpen() ? 'Close navigation' : 'Open navigation' }}
+        <ng-icon [name]="menuOpen() ? 'lucideX' : 'lucideMenu'" aria-hidden="true" />
       </button>
       <app-environment-indicator (businessMode)="setBusinessMode($event)" />
       <app-session-nav />
@@ -36,7 +37,16 @@
       aria-label="Main navigation"
     >
       @if (menuOpen()) {
-        <button class="drawer-close" type="button" (click)="closeMenu()">Close navigation</button>
+        <div class="drawer-heading">
+          <app-brand-mark /><button
+            class="drawer-close"
+            type="button"
+            aria-label="Close navigation"
+            (click)="closeMenu()"
+          >
+            <ng-icon name="lucideX" aria-hidden="true" />
+          </button>
+        </div>
       }
       @for (group of groups; track group.label) {
         <div class="nav-group">

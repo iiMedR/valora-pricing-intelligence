@@ -17,6 +17,8 @@ import { ConfirmDialog } from './core/confirmation';
 import { BrandMark } from './shared/merchant/brand-mark';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
+  lucideMenu,
+  lucideX,
   lucideHouse,
   lucidePackage,
   lucideTags,
@@ -43,6 +45,8 @@ import {
   ],
   viewProviders: [
     provideIcons({
+      lucideMenu,
+      lucideX,
       lucideHouse,
       lucidePackage,
       lucideTags,
