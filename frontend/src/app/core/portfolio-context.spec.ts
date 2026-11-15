@@ -105,6 +105,9 @@ describe('Portfolio-only presentation', () => {
     expect(f.nativeElement.textContent).toContain('Not causally validated');
     expect(f.nativeElement.textContent).toContain('Known synthetic failure');
     expect(f.nativeElement.textContent).toContain('6,123.4567');
+    expect(f.nativeElement.querySelector('.comparison-metrics').textContent).toContain('6,123.46');
+    expect(f.nativeElement.querySelector('.exact-values').textContent).toContain('6,123.4567');
+    expect(f.nativeElement.querySelector('.price-change').textContent).toContain('90.00');
     expect(result.status).toBe('ACTIONABLE');
     expect(result.recommendedPrice).toBe('90');
   });

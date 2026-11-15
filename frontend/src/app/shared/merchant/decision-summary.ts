@@ -1,6 +1,18 @@
 import { PortfolioStory } from './portfolio-examples';
 import { actionable } from './pricing-presentation';
-import { StatusPill } from './foundation';
+import { StatusPill, formatMoney } from './foundation';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  lucideArrowLeftRight,
+  lucideCalendarDays,
+  lucideArrowRight,
+  lucideInfo,
+  lucidePackage,
+  lucideCoins,
+  lucideChartNoAxesColumnIncreasing,
+  lucideCircleHelp,
+  lucideTrendingDown,
+} from '@ng-icons/lucide';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ZardButtonComponent } from '../components/button';
@@ -37,23 +49,127 @@ export function sensitivityText(elasticity: DemandDetail['elasticity']): string 
 
 @Component({
   selector: 'app-sensitivity-summary',
+  imports: [NgIcon],
+  providers: [provideIcons({ lucideTrendingDown, lucideArrowRight, lucideInfo })],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<section class="sensitivity-summary">
-    <h3>Observed price association</h3>
+  template: `<section class="response-summary">
+    <h3>
+      <ng-icon
+        [name]="explanation() ? 'lucideTrendingDown' : 'lucideInfo'"
+        aria-hidden="true"
+      />Price sensitivity
+    </h3>
     @if (explanation(); as text) {
-      <p>{{ text }}</p>
-      <p class="muted">
-        Estimated association, not a guaranteed effect. The 1% explanation is a local approximation.
-      </p>
+      <div class="response-content">
+        <div class="response-visual" aria-hidden="true">
+          <div><strong>1%</strong><span>higher price</span></div>
+          <ng-icon name="lucideArrowRight" />
+          <div>
+            <strong>{{ magnitude() }}%</strong><span>fewer units</span>
+          </div>
+        </div>
+        <div class="response-explanation">
+          <p>{{ text }}</p>
+          <p class="qualification">
+            Estimated association, not a guaranteed effect. The 1% explanation is a local
+            approximation.
+          </p>
+        </div>
+      </div>
     } @else {
       <p><strong>Price response cannot be estimated reliably yet.</strong></p>
-      <p class="muted">{{ reason() }}</p>
+      <p class="qualification">{{ reason() }}</p>
     }
   </section>`,
+  styles: [
+    `
+      :host {
+        display: block;
+        min-width: 0;
+      }
+      .response-summary {
+        padding: 20px;
+        background: var(--canvas);
+        border: 1px solid var(--border);
+        border-radius: 9px;
+      }
+      h3 {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 14px;
+        margin: 0 0 16px;
+      }
+      ng-icon {
+        font-size: 18px;
+        color: var(--muted-foreground);
+        flex-shrink: 0;
+      }
+      .response-content {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+      }
+      .response-visual {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex-shrink: 0;
+      }
+      .response-visual strong {
+        display: block;
+        font-size: 23px;
+        line-height: 1.2;
+        font-weight: 600;
+        letter-spacing: -0.025em;
+      }
+      .response-visual span {
+        display: block;
+        font-size: 11px;
+        color: var(--muted-foreground);
+        margin-top: 5px;
+      }
+      .response-explanation {
+        border-left: 1px solid var(--border);
+        padding-left: 24px;
+      }
+      p {
+        font-size: 13px;
+        line-height: 1.65;
+        margin: 0;
+        max-width: 85ch;
+      }
+      .qualification {
+        color: var(--muted-foreground);
+        font-size: 12px;
+        margin-top: 8px;
+      }
+      @media (max-width: 700px) {
+        .response-content {
+          flex-direction: column;
+          align-items: start;
+          gap: 18px;
+        }
+        .response-explanation {
+          border-left: 0;
+          padding: 0;
+        }
+        .response-summary {
+          padding: 16px;
+        }
+      }
+    `,
+  ],
 })
 export class SensitivitySummary {
   readonly elasticity = input.required<DemandDetail['elasticity']>();
   readonly explanation = () => sensitivityText(this.elasticity());
+  readonly magnitude = () => {
+    const value = this.elasticity().estimate;
+    return value == null
+      ? 'Unavailable'
+      : new Intl.NumberFormat('en', { maximumSignificantDigits: 3 }).format(Math.abs(value));
+  };
   readonly reason = () =>
     this.elasticity().identification?.status === 'WEAK_PRICE_IDENTIFICATION'
       ? 'Price changes overlap with calendar patterns, so we cannot separate their effects reliably.'
@@ -62,93 +178,29 @@ export class SensitivitySummary {
 
 @Component({
   selector: 'app-price-comparison',
-  imports: [StatusPill, RouterLink, ZardButtonComponent, SensitivitySummary, PortfolioStory],
+  imports: [
+    StatusPill,
+    RouterLink,
+    ZardButtonComponent,
+    SensitivitySummary,
+    PortfolioStory,
+    NgIcon,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `@let d = evaluation();
-    <article class="decision-card" [attr.aria-label]="d.variant.productName + ' pricing review'">
-      @if (showHeader()) {
-        <div class="decision-card-heading">
-          <div>
-            <h3>{{ d.variant.productName }}</h3>
-            <p class="muted">{{ d.variant.name }} · {{ d.variant.sku }}</p>
-          </div>
-          <app-status-pill [label]="eligible(d) ? 'Experimental suggestion' : 'Withheld'" />
-        </div>
-      }
-      <app-portfolio-story [sku]="d.variant.sku" />
-      @if (eligible(d)) {
-        <p class="muted">
-          <strong>Experimental model suggestion.</strong> Not causally validated or a proven optimal
-          price. No price is applied.
-        </p>
-        <div class="price-change">
-          <span><small>Current price</small>{{ number(d.inputs.currentPrice) }}</span
-          ><span aria-hidden="true">→</span
-          ><span><small>Model suggested price</small>{{ number(d.recommendedPrice) }}</span
-          ><small>{{ d.window.currencyCode }}</small>
-        </div>
-        <p class="decision-period">
-          {{ d.horizonDays }}-day comparison · {{ dates(d.window.endDate, d.horizonDays) }}
-        </p>
-        <dl class="decision-comparison">
-          <div>
-            <dt>Expected units sold</dt>
-            <dd>
-              <span>{{ number(d.comparison.current.expectedUnits) }}</span><span aria-hidden="true"
-                >→</span
-              ><span class="sr-only">to </span
-              ><strong>{{ number(d.comparison.candidate.expectedUnits) }}</strong>
-            </dd>
-          </div>
-          <div>
-            <dt>Estimated contribution · {{ d.window.currencyCode }}</dt>
-            <dd>
-              <span>{{ number(d.comparison.current.estimatedContribution) }}</span><span
-                aria-hidden="true"
-                >→</span
-              ><span class="sr-only">to </span
-              ><strong>{{ number(d.comparison.candidate.estimatedContribution) }}</strong>
-            </dd>
-          </div>
-          <div>
-            <dt>Estimated contribution difference · {{ d.window.currencyCode }}</dt>
-            <dd>
-              <strong>{{ number(d.comparison.estimatedUplift) }}</strong><span>{{
-                d.comparison.estimatedUpliftPercent == null
-                  ? 'Percentage unavailable'
-                  : number(d.comparison.estimatedUpliftPercent) + '%'
-              }}</span>
-            </dd>
-          </div>
-        </dl>
-        <p class="muted contribution-definition">
-          Sales minus known variable costs; other business expenses are excluded. This is an
-          estimate, not guaranteed profit.
-        </p>
-        <app-sensitivity-summary [elasticity]="d.elasticity" />
-        <button z-button zType="outline" type="button" (click)="inspect.emit(d.variant.variantId)">
-          {{ inspectLabel() ?? 'Why this suggestion?' }}
-        </button>
-      } @else {
-        <p>
-          Current price:
-          <strong>{{ number(d.inputs.currentPrice) }} {{ d.window.currencyCode }}</strong>
-        </p>
-        <p>{{ reason(d.reasons) }}</p>
-        <div class="actions">
-          <a
-            z-button
-            zType="outline"
-            [routerLink]="['/onboarding/variants', d.variant.variantId]"
-            [queryParams]="{ startDate: d.window.startDate, endDate: d.window.endDate }"
-            >Review what to fix</a
-          >
-          <button z-button zType="ghost" type="button" (click)="inspect.emit(d.variant.variantId)">
-            {{ inspectLabel() ?? 'Show details' }}
-          </button>
-        </div>
-      }
-    </article>`,
+  templateUrl: './price-comparison.html',
+  styleUrl: './price-comparison.css',
+  providers: [
+    provideIcons({
+      lucideArrowLeftRight,
+      lucideCalendarDays,
+      lucideArrowRight,
+      lucideInfo,
+      lucidePackage,
+      lucideCoins,
+      lucideChartNoAxesColumnIncreasing,
+      lucideCircleHelp,
+    }),
+  ],
 })
 export class PriceComparison {
   readonly eligible = actionable;
@@ -156,6 +208,19 @@ export class PriceComparison {
   readonly inspectLabel = input<string | null>(null);
   readonly evaluation = input.required<Evaluation>();
   readonly inspect = output<string>();
+  readonly money = formatMoney;
+  readonly amount = (value: string | null | undefined, currency: string) => {
+    const formatted = formatMoney(value, currency);
+    return formatted.endsWith(' ' + currency)
+      ? formatted.slice(0, -currency.length - 1)
+      : formatted;
+  };
+  readonly tone = (value: string | null) =>
+    !value || !/^-?\d+(\.\d+)?$/.test(value) || /^-?0+(\.0+)?$/.test(value)
+      ? 'neutral'
+      : value.startsWith('-')
+        ? 'negative'
+        : 'positive';
   readonly number = decisionNumber;
   readonly dates = comparisonDates;
   readonly reason = reasonSummary;

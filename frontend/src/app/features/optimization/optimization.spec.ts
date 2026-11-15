@@ -174,7 +174,7 @@ describe('Pricing Recommendations', () => {
     expect(
       f.nativeElement.querySelector('[aria-label="Contribution comparison table"]'),
     ).toBeNull();
-    expect(f.nativeElement.querySelector('svg')).toBeNull();
+    expect(f.nativeElement.querySelector('svg[role="img"]')).toBeNull();
   });
   it('shows empty normal data without fabricated suggestions', async () => {
     const f = TestBed.createComponent(Optimization);
@@ -182,7 +182,7 @@ describe('Pricing Recommendations', () => {
     overview([]);
     await f.whenStable();
     expect(f.nativeElement.textContent).toContain('No variants to evaluate');
-    expect(f.nativeElement.querySelector('svg')).toBeNull();
+    expect(f.nativeElement.querySelector('svg[role="img"]')).toBeNull();
   });
   it('handles loading failure and retry then missing cost detail', async () => {
     const f = TestBed.createComponent(Optimization);
@@ -388,7 +388,7 @@ describe('Pricing Recommendations', () => {
     await f.whenStable();
     http.expectNone((r) => r.url.endsWith('/recommendation'));
     expect(f.nativeElement.querySelector('dialog')).toBeNull();
-    expect(f.nativeElement.querySelector('svg')).toBeNull();
+    expect(f.nativeElement.querySelector('svg[role="img"]')).toBeNull();
     const why = [...f.nativeElement.querySelectorAll('button')].find((b: any) =>
       b.textContent.includes('Why this result?'),
     ) as HTMLButtonElement;

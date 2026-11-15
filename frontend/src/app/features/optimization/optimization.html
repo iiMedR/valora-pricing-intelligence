@@ -284,9 +284,6 @@
           <br />Historical demo window; not a prediction for today.
         }
       </p>
-      @if (!eligible(d)) {
-        <h2>No reliable price suggestion yet</h2>
-      }
       <app-price-comparison
         [evaluation]="d"
         [showHeader]="false"

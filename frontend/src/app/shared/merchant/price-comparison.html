@@ -1,0 +1,174 @@
+@let d = evaluation();
+<article class="decision-card" [attr.aria-label]="d.variant.productName + ' pricing review'">
+  @if (showHeader()) {
+    <div class="decision-card-heading">
+      <div>
+        <h3>{{ d.variant.productName }}</h3>
+        <p class="muted">{{ d.variant.name }} · {{ d.variant.sku }}</p>
+      </div>
+      <app-status-pill [label]="eligible(d) ? 'Experimental suggestion' : 'Withheld'" />
+    </div>
+  }
+  <app-portfolio-story [sku]="d.variant.sku" />
+  @if (eligible(d)) {
+    <div class="comparison-heading">
+      <h2><ng-icon name="lucideArrowLeftRight" aria-hidden="true" />Price comparison</h2>
+      <span class="period"
+        ><ng-icon name="lucideCalendarDays" aria-hidden="true" />{{ d.horizonDays }} days</span
+      >
+    </div>
+    <div class="price-change" aria-label="Current and model suggested prices">
+      <div class="price-block">
+        <span
+          >Current price <small>{{ d.window.currencyCode }}</small></span
+        ><strong>{{ amount(d.inputs.currentPrice, d.window.currencyCode) }}</strong>
+      </div>
+      <span class="price-arrow" aria-hidden="true"><ng-icon name="lucideArrowRight" /></span
+      ><span class="sr-only">compared with</span>
+      <div class="price-block suggested">
+        <span
+          >Model suggested price <small>{{ d.window.currencyCode }}</small></span
+        ><strong>{{ amount(d.recommendedPrice, d.window.currencyCode) }}</strong>
+      </div>
+    </div>
+    <p class="decision-period">Comparison dates: {{ dates(d.window.endDate, d.horizonDays) }}</p>
+    <div class="model-notice">
+      <ng-icon name="lucideInfo" aria-hidden="true" />
+      <p>
+        <strong>Experimental model suggestion.</strong> Not causally validated or a proven optimal
+        price. No price is applied.
+      </p>
+    </div>
+    <div class="comparison-metrics">
+      <section class="comparison-metric" aria-label="Expected units sold">
+        <h3><ng-icon name="lucidePackage" aria-hidden="true" />Expected units sold</h3>
+        <dl>
+          <div>
+            <dt>At current price</dt>
+            <dd>{{ number(d.comparison.current.expectedUnits) }}</dd>
+          </div>
+          <div class="candidate-row">
+            <dt>At suggested price</dt>
+            <dd>{{ number(d.comparison.candidate.expectedUnits) }}</dd>
+          </div>
+        </dl>
+      </section>
+      <section class="comparison-metric" aria-label="Estimated contribution">
+        <h3><ng-icon name="lucideCoins" aria-hidden="true" />Estimated contribution</h3>
+        <dl>
+          <div>
+            <dt>At current price</dt>
+            <dd>{{ amount(d.comparison.current.estimatedContribution, d.window.currencyCode) }}</dd>
+          </div>
+          <div class="candidate-row">
+            <dt>At suggested price</dt>
+            <dd>
+              {{ amount(d.comparison.candidate.estimatedContribution, d.window.currencyCode) }}
+            </dd>
+          </div>
+        </dl>
+        <p class="metric-currency">{{ d.window.currencyCode }}</p>
+      </section>
+      <section
+        class="comparison-metric uplift-metric"
+        aria-label="Estimated contribution difference"
+      >
+        <h3>
+          <ng-icon name="lucideChartNoAxesColumnIncreasing" aria-hidden="true" />Estimated
+          difference
+        </h3>
+        <p
+          class="uplift-value"
+          [class.positive]="tone(d.comparison.estimatedUplift) === 'positive'"
+          [class.negative]="tone(d.comparison.estimatedUplift) === 'negative'"
+        >
+          {{ amount(d.comparison.estimatedUplift, d.window.currencyCode)
+          }}<span>{{ d.window.currencyCode }}</span>
+        </p>
+        <p class="uplift-percent">
+          {{
+            d.comparison.estimatedUpliftPercent == null
+              ? 'Percentage unavailable'
+              : number(d.comparison.estimatedUpliftPercent) + '%'
+          }}<span>versus the current price</span>
+        </p>
+        <p class="estimate-note">Model estimate, not guaranteed profit.</p>
+      </section>
+    </div>
+    <p class="contribution-definition">
+      <ng-icon name="lucideInfo" aria-hidden="true" /><span
+        >Sales minus known variable costs; other business expenses are excluded. This is an
+        estimate, not guaranteed profit.</span
+      >
+    </p>
+    <app-sensitivity-summary [elasticity]="d.elasticity" />
+    <div class="decision-footer">
+      <details class="exact-values">
+        <summary>Exact comparison values</summary>
+        <p>
+          Summary amounts are rounded for display. These are the unchanged values returned by the
+          API.
+        </p>
+        <dl>
+          <div>
+            <dt>Current price · {{ d.window.currencyCode }}</dt>
+            <dd>{{ number(d.inputs.currentPrice) }}</dd>
+          </div>
+          <div>
+            <dt>Suggested price · {{ d.window.currencyCode }}</dt>
+            <dd>{{ number(d.recommendedPrice) }}</dd>
+          </div>
+          <div>
+            <dt>Current / suggested units</dt>
+            <dd>
+              {{ number(d.comparison.current.expectedUnits) }} →
+              {{ number(d.comparison.candidate.expectedUnits) }}
+            </dd>
+          </div>
+          <div>
+            <dt>Current / suggested contribution · {{ d.window.currencyCode }}</dt>
+            <dd>
+              {{ number(d.comparison.current.estimatedContribution) }} →
+              {{ number(d.comparison.candidate.estimatedContribution) }}
+            </dd>
+          </div>
+          <div>
+            <dt>Contribution difference · {{ d.window.currencyCode }}</dt>
+            <dd>{{ number(d.comparison.estimatedUplift) }}</dd>
+          </div>
+          <div>
+            <dt>Contribution difference · %</dt>
+            <dd>{{ number(d.comparison.estimatedUpliftPercent) }}</dd>
+          </div>
+        </dl>
+      </details>
+      <button z-button zType="outline" type="button" (click)="inspect.emit(d.variant.variantId)">
+        <ng-icon name="lucideCircleHelp" aria-hidden="true" />{{
+          inspectLabel() ?? 'Why this suggestion?'
+        }}
+      </button>
+    </div>
+  } @else {
+    <div class="withheld-summary">
+      <ng-icon name="lucideInfo" aria-hidden="true" />
+      <div>
+        <h2>No reliable price suggestion yet</h2>
+        <p>
+          Current price: <strong>{{ money(d.inputs.currentPrice, d.window.currencyCode) }}</strong>
+        </p>
+        <p>{{ reason(d.reasons) }}</p>
+      </div>
+    </div>
+    <div class="decision-footer">
+      <a
+        z-button
+        zType="outline"
+        [routerLink]="['/onboarding/variants', d.variant.variantId]"
+        [queryParams]="{ startDate: d.window.startDate, endDate: d.window.endDate }"
+        >Review what to fix</a
+      ><button z-button zType="ghost" type="button" (click)="inspect.emit(d.variant.variantId)">
+        {{ inspectLabel() ?? 'Show details' }}
+      </button>
+    </div>
+  }
+</article>
