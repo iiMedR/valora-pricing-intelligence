@@ -12,7 +12,7 @@ Status: deployment files are prepared and tested locally. No Render service or C
    - Build command: `npm ci && npm run build`.
    - Output directory: `dist/frontend/browser`.
    - Node: `24.22.1` (also specified in `frontend/.node-version`).
-   - The initial static page may work before its backend is configured; API requests will return a controlled 503 until `BACKEND_ORIGIN` is supplied.
+   - The initial static page may work before its backend is configured; API requests will return a controlled 503 if the configured Render origin is unavailable.
 3. Note the actual Pages URL. On your local machine run:
 
    ```powershell
@@ -27,13 +27,13 @@ Status: deployment files are prepared and tested locally. No Render service or C
    - `FRONTEND_ORIGIN`: the exact Pages origin, with HTTPS and no trailing slash.
 
    The Blueprint already sets `demo,portfolio,neon,cloud` and disables Shopify. Do not use the Neon admin connection. Render supplies `PORT`; the app binds to `0.0.0.0`. Health path: `/api/v1/health`.
-6. Once Render is healthy, copy its exact HTTPS URL. In Cloudflare Pages **Settings → Variables and Secrets**, add the production variable:
+6. The production Pages runtime binding is versioned in `frontend/wrangler.jsonc`:
 
-   ```text
-   BACKEND_ORIGIN=https://YOUR-SERVICE.onrender.com
+   ```json
+   { "vars": { "BACKEND_ORIGIN": "https://valora-backend-qf12.onrender.com" } }
    ```
 
-   No database credentials belong in Cloudflare. Redeploy Pages after changing bindings. Leave preview deployments without this binding unless their exact origins are deliberately added to the backend's trusted configuration; production trusts only its one frontend origin.
+   Wrangler is the source of truth for Pages runtime bindings. If the Render service URL changes, edit this file and redeploy Pages; setting a dashboard build variable alone is insufficient. The URL is public, not a credential. No database secrets belong in Cloudflare. Preview bindings are intentionally empty, so preview deployments do not call the production backend.
 7. Verify the deployed URLs:
    - `/` shows the landing page.
    - Direct `/dashboard`, `/products`, and `/forecasting` navigation works; anonymous users reach login.
@@ -98,3 +98,5 @@ References: [Render Blueprint](https://render.com/docs/blueprint-spec), [Cloudfl
 - The initial dependency-prefetch image build was unnecessarily slow; the final Dockerfile uses a cached Maven package step. Wrangler's local self-signed certificate can emit certificate-handshake notices during testing; only local browser QA ignores that development certificate. Production TLS verification remains enabled.
 
 Public account setup and live Render/Pages deployment remain pending until the owner is available. No public-host verification or publication is claimed.
+
+Production login follow-up: the public Render session API responded successfully, but Pages returned its missing/invalid-gateway-configuration 503. The public Render URL is now declared in Wrangler rather than relying on a dashboard-only build variable. A separate direct request with the public Origin returned `Invalid CORS request`; Render's `FRONTEND_ORIGIN` must match the actual Pages origin exactly.
