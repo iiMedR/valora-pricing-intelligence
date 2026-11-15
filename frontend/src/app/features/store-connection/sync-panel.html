@@ -1,0 +1,186 @@
+<section class="sync-panel" aria-labelledby="sync-title">
+  <header class="sync-heading">
+    <div class="sync-title">
+      <span class="heading-icon"><ng-icon name="lucideCloudDownload" aria-hidden="true" /></span>
+      <div>
+        <h2 id="sync-title">Data imports</h2>
+        <p>Bring records into Valora when you choose.</p>
+      </div>
+    </div>
+    <button
+      z-button
+      zType="ghost"
+      (click)="load()"
+      [disabled]="busy()"
+      aria-label="Refresh import status"
+    >
+      <ng-icon name="lucideRefreshCw" [class.is-refreshing]="busy()" aria-hidden="true" /><span
+        >Refresh</span
+      >
+    </button>
+  </header>
+  <div class="sync-content">
+    @if (error()) {
+      <p role="alert" class="import-error">{{ error() }}</p>
+    }
+    @if (result(); as sync) {
+      @if (sync.demo) {
+        <div class="import-empty">
+          <span class="empty-icon"><ng-icon name="lucideCloudDownload" aria-hidden="true" /></span>
+          <h3>No live import activity</h3>
+          <p>Synthetic demo: imports are disabled. Existing demo data remains unchanged.</p>
+          <a routerLink="/onboarding"
+            >Review your demo data<ng-icon name="lucideArrowRight" aria-hidden="true"
+          /></a>
+        </div>
+      } @else {
+        <div class="import-metadata">
+          <span>Last successful import through (UTC)</span
+          ><strong>{{
+            sync.lastSuccessfulSync
+              ? (sync.lastSuccessfulSync | date: 'yyyy-MM-dd HH:mm' : 'UTC')
+              : 'No completed import'
+          }}</strong>
+        </div>
+        @if (!sync.connected) {
+          <div class="disconnected-note">
+            <ng-icon name="lucideLockKeyhole" aria-hidden="true" />
+            <p>
+              Connect Shopify before importing data. Authorize your store above to choose a
+              historical import.
+            </p>
+          </div>
+        }
+        @if (sync.connected) {
+          <div class="import-controls">
+            <label>Historical start (UTC)<input z-input type="date" [(ngModel)]="from" /></label
+            ><label
+              >Historical end, exclusive (UTC)<input z-input type="date" [(ngModel)]="to"
+            /></label>
+          </div>
+          <div class="import-actions">
+            <button
+              z-button
+              class="primary"
+              (click)="start('INITIAL')"
+              [disabled]="busy() || active() || !sync.connected || !from || !to"
+            >
+              <ng-icon name="lucideDownload" aria-hidden="true" />Import historical data</button
+            ><button
+              z-button
+              zType="outline"
+              (click)="start('INCREMENTAL')"
+              [disabled]="busy() || active() || !sync.connected || !sync.lastSuccessfulSync"
+            >
+              Sync latest changes
+            </button>
+          </div>
+          <p class="date-help">Import up to 31 days within the recent 59 days.</p>
+        }
+        @if (sync.latest; as job) {
+          <div class="job" role="status" aria-live="polite">
+            <div class="job-heading">
+              <h3>Latest import: {{ job.state }}</h3>
+              <span
+                >{{
+                  job.kind === 'INITIAL'
+                    ? 'Historical'
+                    : job.kind === 'INCREMENTAL'
+                      ? 'Latest changes'
+                      : job.kind
+                }}
+                · attempt {{ job.attempts }}</span
+              >
+            </div>
+            <p>
+              {{ job.from | date: 'yyyy-MM-dd HH:mm' : 'UTC' }} →
+              {{ job.to | date: 'yyyy-MM-dd HH:mm' : 'UTC' }} UTC
+            </p>
+            <div class="checkpoint-list">
+              @for (point of sync.checkpoints; track point.resource) {
+                <p>
+                  {{ point.resource }}:
+                  <strong>{{ point.complete ? 'Complete' : 'Pending / page saved' }}</strong>
+                </p>
+              }
+            </div>
+            <dl class="import-counts">
+              @for (entry of job.counts | keyvalue; track entry.key) {
+                <div>
+                  <dt>{{ entry.key }}</dt>
+                  <dd>{{ entry.value }}</dd>
+                </div>
+              }
+            </dl>
+            @if (job.errorCode) {
+              <p class="import-error">
+                Import stopped: {{ job.errorCode }}. Resolve the cause before resuming; committed
+                pages are retained.
+              </p>
+            }
+            @if (job.state === 'PARTIAL' || job.state === 'FAILED') {
+              <button
+                z-button
+                zType="outline"
+                (click)="resume(job.id)"
+                [disabled]="busy() || !sync.connected"
+              >
+                Resume failed import
+              </button>
+            }
+            @if (job.warnings.length) {
+              <h4>Coverage and warnings</h4>
+              <ul>
+                @for (warning of job.warnings; track warning) {
+                  <li>{{ warning.replaceAll('_', ' ').toLowerCase() }}</li>
+                }
+              </ul>
+            }
+          </div>
+        }
+        <details class="import-details">
+          <summary>Import coverage & limitations</summary>
+          <p>
+            {{
+              sync.liveValidation === 'LIVE_SHOPIFY_NOT_VERIFIED'
+                ? 'Live store sync has not been verified with a real Shopify store.'
+                : 'Live store verification status is unavailable.'
+            }}
+          </p>
+          <p>
+            Required read scopes: {{ sync.requiredScopes.join(', ') || 'Unavailable' }}. Import
+            progress and readiness are assessed separately.
+          </p>
+          <p>
+            Each attempt permits 100 pages; a partial job can resume from its saved page. Latest
+            changes use a 48-hour overlap and scan current catalog/inventory.
+          </p>
+          <p>
+            Costs may be unavailable. Current prices, costs and stock are point observations, not
+            historical series. Older orders require extra Shopify approval. Ambiguous financial
+            changes stop for reconciliation; nothing is written to Shopify.
+          </p>
+        </details>
+        <div class="history-actions">
+          <button z-button zType="outline" (click)="history()" [disabled]="busy()">
+            View import history
+          </button>
+        </div>
+        @if (jobs(); as records) {
+          <ul class="history-list">
+            @for (record of records; track record.id) {
+              <li>
+                {{ record.kind }} · {{ record.state }} ·
+                {{ record.from | date: 'yyyy-MM-dd' : 'UTC' }}
+              </li>
+            } @empty {
+              <li>No import jobs.</li>
+            }
+          </ul>
+        }
+      }
+    } @else if (!error()) {
+      <p role="status">Loading synchronization status…</p>
+    }
+  </div>
+</section>

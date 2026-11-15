@@ -1,0 +1,52 @@
+<aside aria-label="Integration guide">
+  <section class="panel setup-guide" aria-labelledby="setup-guide-title">
+    <h2 id="setup-guide-title">How setup works</h2>
+    <ol>
+      <li [class.step-complete]="connected()">
+        <span class="step-marker">
+          @if (connected()) {
+            <ng-icon name="lucideCircleCheck" aria-hidden="true" />
+          } @else {
+            1
+          }
+        </span>
+        <div>
+          <h3>Authorize your store</h3>
+          <p>Approve read-only Shopify access.</p>
+        </div>
+      </li>
+      <li [class.step-complete]="imported()">
+        <span class="step-marker">
+          @if (imported()) {
+            <ng-icon name="lucideCircleCheck" aria-hidden="true" />
+          } @else {
+            2
+          }
+        </span>
+        <div>
+          <h3>Import your records</h3>
+          <p>Choose a date range and start an import.</p>
+        </div>
+      </li>
+      <li>
+        <span class="step-marker">3</span>
+        <div>
+          <a routerLink="/onboarding"
+            >Review data readiness<ng-icon name="lucideArrowUpRight" aria-hidden="true"
+          /></a>
+          <p>Find gaps before reviewing estimates.</p>
+        </div>
+      </li>
+    </ol>
+    @if (demo()) {
+      <p class="guide-note">Synthetic demo: live setup steps are disabled.</p>
+    }
+  </section>
+  <div class="privacy-note">
+    <ng-icon name="lucideShieldCheck" aria-hidden="true" />
+    <p>
+      <strong>Your store stays in your hands.</strong> Valora reads records for analysis. It does
+      not publish prices or modify your Shopify store.
+    </p>
+  </div>
+</aside>

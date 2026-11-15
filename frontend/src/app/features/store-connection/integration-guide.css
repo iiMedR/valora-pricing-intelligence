@@ -1,0 +1,113 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+p {
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+ng-icon {
+  flex-shrink: 0;
+  font-size: 18px;
+}
+aside {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-width: 0;
+  overflow: hidden;
+}
+.setup-guide {
+  padding: 22px;
+}
+.setup-guide h2 {
+  font-size: 15px;
+  margin: 0;
+}
+h3,
+.setup-guide a {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 3px;
+  letter-spacing: normal;
+}
+.setup-guide li p {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin: 0;
+}
+.setup-guide ol {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0 0;
+  display: grid;
+  gap: 20px;
+}
+.setup-guide li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.step-marker {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+.step-complete .step-marker {
+  color: var(--success-foreground);
+  border-color: var(--success-border);
+}
+.setup-guide a {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--interactive-foreground);
+}
+.setup-guide a ng-icon {
+  font-size: 14px;
+}
+.guide-note {
+  color: var(--muted-foreground);
+  font-size: 12px;
+  margin: 20px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.privacy-note {
+  display: flex;
+  gap: 10px;
+  padding: 0 4px;
+  color: var(--muted-foreground);
+}
+.privacy-note ng-icon {
+  margin-top: 3px;
+}
+.privacy-note p {
+  font-size: 12px;
+  margin: 0;
+}
+.privacy-note strong {
+  display: block;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 3px;
+}
+@media (max-width: 560px) {
+  aside {
+    grid-template-columns: 1fr;
+  }
+  .setup-guide {
+    padding: 20px;
+  }
+}

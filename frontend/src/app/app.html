@@ -49,7 +49,9 @@
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: link[0] === '/dashboard' || link[0] === '/saas' }"
               ariaCurrentWhenActive="page"
-              ><ng-icon [name]="link[2]" aria-hidden="true" />{{ link[1] }}</a
+            >
+              <ng-icon [name]="link[2]" aria-hidden="true" />
+              {{ link[1] }}</a
             >
           }
         </div>

@@ -13,7 +13,22 @@ import {
   validAuthorizationUrl,
 } from './store-api.service';
 import { apiError } from '../catalog/services/catalog-api.service';
-import { SyncPanel } from './sync-panel';
+import { SyncPanel, type SyncStatus } from './sync-panel';
+import { IntegrationGuide } from './integration-guide';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  lucideSettings2,
+  lucideCircleAlert,
+  lucidePlug,
+  lucideShieldCheck,
+  lucideCloudDownload,
+  lucideLockKeyhole,
+  lucideArrowRight,
+  lucideCircleCheck,
+  lucideLink2,
+  lucideWarehouse,
+  lucideRefreshCw,
+} from '@ng-icons/lucide';
 @Component({
   imports: [
     ZardButtonComponent,
@@ -23,256 +38,32 @@ import { SyncPanel } from './sync-panel';
     ReactiveFormsModule,
     RouterLink,
     SyncPanel,
+    IntegrationGuide,
+    NgIcon,
   ],
-  template: `
-    <div class="page-heading">
-      <div>
-        <p class="eyebrow">Store integration</p>
-        <h1 class="page-title">Store Connection</h1>
-        <p class="muted">Authorize Shopify access, then explicitly import store data.</p>
-      </div>
-      <a routerLink="/settings">Business settings</a>
-    </div>
-    @if (error()) {
-      <div class="error" role="alert">
-        {{ error() }}
-        <button z-button zType="outline" (click)="load()" [disabled]="busy()">Retry status</button>
-      </div>
-    }
-    <div class="connection-layout">
-      @if (loading()) {
-        <p role="status">Checking store connection…</p>
-      } @else if (result(); as store) {
-        <section class="connection-card" [class.demo-connection]="store.status === 'DEMO_DISABLED'">
-          <p class="connection-label">Connection status</p>
-          <h2>
-            {{
-              store.status === 'CONNECTED'
-                ? 'Connected to Shopify'
-                : store.status === 'DEMO_DISABLED'
-                  ? 'Synthetic demo — connections disabled'
-                  : 'Connection status: ' + label(store.status)
-            }}
-          </h2>
-          @if (store.status === 'DEMO_DISABLED') {
-            <p>
-              This workspace contains synthetic data and permits read-only browsing. Real Shopify
-              connections and credentials are disabled.
-            </p>
-          } @else {
-            @if (!store.configured) {
-              <p class="notice">
-                Server configuration is required before Shopify authorization. Authorization remains
-                disabled until configuration is complete.
-              </p>
-            }
-            @if (store.status === 'CONNECTED') {
-              <p class="notice">
-                Connected authorization is separate from import completion. Check synchronization
-                below.
-              </p>
-              <p>
-                Authorization is not a claim that catalog, inventory, orders or costs are ready.
-              </p>
-            }
-            @if (store.status === 'PENDING') {
-              <p>
-                Authorization pending. Complete Shopify approval in this browser, or start a new
-                attempt.
-              </p>
-            }
-            @if (store.status === 'REAUTHORIZATION_REQUIRED') {
-              <p>
-                Access has expired. Import jobs attempt server-side refresh; if renewal fails,
-                disconnect and authorize again.
-              </p>
-            }
-            @if (store.shop) {
-              <dl>
-                <dt>Canonical shop</dt>
-                <dd>{{ store.shop }}</dd>
-                <dt>Granted scopes</dt>
-                <dd>{{ store.scopes.join(', ') || 'Not granted' }}</dd>
-                <dt>Connected (UTC)</dt>
-                <dd>
-                  {{
-                    store.connectedAt
-                      ? (store.connectedAt | date: 'yyyy-MM-dd HH:mm' : 'UTC')
-                      : 'Not connected'
-                  }}
-                </dd>
-                <dt>Access expires (UTC)</dt>
-                <dd>
-                  {{
-                    store.accessExpiresAt
-                      ? (store.accessExpiresAt | date: 'yyyy-MM-dd HH:mm' : 'UTC')
-                      : 'Unavailable'
-                  }}
-                </dd>
-              </dl>
-            }
-            @if (store.lastError) {
-              <p role="status">{{ errorLabel(store.lastError) }}</p>
-            }
-            @if (store.status !== 'CONNECTED' && store.status !== 'REAUTHORIZATION_REQUIRED') {
-              <form (ngSubmit)="connect()">
-                <label
-                  >Shopify shop domain<input
-                    z-input
-                    [formControl]="shop"
-                    placeholder="your-store.myshopify.com"
-                    autocomplete="off"
-                    maxlength="80"
-                    required
-                /></label>
-                <p class="muted">
-                  Use the canonical myshopify.com domain, without https://, paths or ports.
-                </p>
-                <button
-                  z-button
-                  class="primary"
-                  [disabled]="busy() || shop.invalid || !store.configured"
-                >
-                  {{ busy() ? 'Working…' : 'Connect to Shopify' }}
-                </button>
-              </form>
-            }
-            @if (store.shop) {
-              <button
-                z-button
-                zType="outline"
-                class="disconnect"
-                (click)="confirming.set(true)"
-                [disabled]="busy()"
-              >
-                Disconnect Shopify
-              </button>
-            }
-            <button z-button zType="outline" (click)="load()" [disabled]="busy()">
-              Refresh status
-            </button>
-          }
-        </section>
-      }
-      <app-sync-panel />
-    </div>
-    @if (confirming() && result()?.status !== 'DEMO_DISABLED') {
-      <dialog
-        appModal
-        (modalCancelled)="confirming.set(false)"
-        class="confirmation"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="disconnect-title"
-      >
-        <h2 id="disconnect-title">Disconnect Shopify?</h2>
-        <p>
-          This removes local provider credentials and requests app uninstall from Shopify. Existing
-          catalog and historical records remain here. If remote revocation fails, remove the app in
-          Shopify admin.
-        </p>
-        <div class="actions">
-          <button z-button zType="outline" (click)="disconnect()" [disabled]="busy()">
-            Confirm disconnect</button
-          ><button
-            z-button
-            zType="outline"
-            autofocus
-            (click)="confirming.set(false)"
-            [disabled]="busy()"
-          >
-            Cancel
-          </button>
-        </div>
-      </dialog>
-    }
-  `,
-  styles: [
-    `
-      .connection-card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 24px;
-        min-width: 0;
-      }
-      .connection-card h2 {
-        font-size: 19px;
-        margin-bottom: 16px;
-      }
-      .connection-layout {
-        display: grid;
-        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-        gap: 20px;
-        align-items: start;
-        margin: 24px 0;
-      }
-      .connection-label {
-        color: var(--muted-foreground);
-        font-size: 12px;
-        font-weight: 600;
-        margin: 0 0 10px;
-      }
-      .demo-connection {
-        border-top: 3px solid var(--interactive);
-      }
-      .notice {
-        padding: 16px;
-        background: var(--warning-surface);
-        color: var(--warning-foreground);
-        border-radius: 6px;
-      }
-      p,
-      dd {
-        font-size: 13px;
-        line-height: 1.8;
-        overflow-wrap: anywhere;
-      }
-      label {
-        display: grid;
-        gap: 10px;
-        font-size: 13px;
-      }
-      form {
-        margin: 24px 0;
-      }
-      dd {
-        margin: 4px 0 16px;
-      }
-      dt {
-        font-size: 12px;
-        font-weight: 600;
-      }
-      .disconnect {
-        margin: 16px 12px 16px 0;
-      }
-      .confirmation {
-        border: 2px solid var(--warning-foreground);
-      }
-      .actions {
-        flex-wrap: wrap;
-      }
-      @media (max-width: 900px) {
-        .connection-layout {
-          grid-template-columns: 1fr;
-        }
-      }
-      @media (max-width: 600px) {
-        .connection-card,
-        .confirmation {
-          padding: 18px 12px;
-        }
-        .page-title {
-          font-size: 26px;
-        }
-      }
-    `,
+  templateUrl: './store-connection.html',
+  styleUrl: './store-connection.css',
+  providers: [
+    provideIcons({
+      lucideSettings2,
+      lucideCircleAlert,
+      lucidePlug,
+      lucideShieldCheck,
+      lucideCloudDownload,
+      lucideLockKeyhole,
+      lucideArrowRight,
+      lucideCircleCheck,
+      lucideLink2,
+      lucideWarehouse,
+      lucideRefreshCw,
+    }),
   ],
 })
 export class StoreConnection {
   private readonly api = inject(StoreApi);
   private readonly navigate = inject(SHOPIFY_NAVIGATE);
   readonly result = signal<StoreStatus | null>(null);
+  readonly syncStatus = signal<SyncStatus | null>(null);
   readonly loading = signal(true);
   readonly busy = signal(false);
   readonly error = signal('');
@@ -286,6 +77,23 @@ export class StoreConnection {
   });
   constructor() {
     this.load();
+  }
+  importLabel() {
+    const sync = this.syncStatus();
+    if (!sync) return 'Status unavailable';
+    if (sync.latest)
+      return (
+        (
+          {
+            PENDING: 'Queued',
+            RUNNING: 'Importing',
+            SUCCEEDED: 'Completed',
+            PARTIAL: 'Partially imported',
+            FAILED: 'Needs attention',
+          } as Record<string, string>
+        )[sync.latest.state] ?? 'Review import'
+      );
+    return sync.lastSuccessfulSync ? 'Previously imported' : 'Not imported yet';
   }
   label(value: string) {
     return value.replaceAll('_', ' ').toLowerCase();

@@ -1,9 +1,18 @@
 import { ZardInputComponent } from '@/shared/components/input';
 import { ZardButtonComponent } from '@/shared/components/button';
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal, output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe, KeyValuePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  lucideCloudDownload,
+  lucideRefreshCw,
+  lucideArrowRight,
+  lucideLockKeyhole,
+  lucideDownload,
+} from '@ng-icons/lucide';
 import { interval, finalize, timeout } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { apiError } from '../catalog/services/catalog-api.service';
@@ -31,210 +40,31 @@ export interface SyncStatus {
 }
 @Component({
   selector: 'app-sync-panel',
-  imports: [ZardButtonComponent, ZardInputComponent, FormsModule, DatePipe, KeyValuePipe],
-  template: `
-    <section class="sync-panel" aria-labelledby="sync-title">
-      <p class="eyebrow">Read-only Shopify import</p>
-      <h2 id="sync-title">Data synchronization</h2>
-      @if (error()) {
-        <p role="alert" class="error">{{ error() }}</p>
-      }
-      @if (result(); as sync) {
-        @if (sync.demo) {
-          <p>Synthetic demo: imports are disabled. Existing demo data remains unchanged.</p>
-        } @else {
-          <p>
-            {{
-              sync.connected
-                ? 'Connected store: ' + sync.shop
-                : 'Connect Shopify before importing data.'
-            }}
-          </p>
-          <p>
-            Last successful import through (UTC):
-            {{
-              sync.lastSuccessfulSync
-                ? (sync.lastSuccessfulSync | date: 'yyyy-MM-dd HH:mm' : 'UTC')
-                : 'No completed import'
-            }}
-          </p>
-          <p class="muted">
-            {{
-              sync.liveValidation === 'LIVE_SHOPIFY_NOT_VERIFIED'
-                ? 'Live store sync has not been verified with a real Shopify store.'
-                : 'Live store verification status is unavailable.'
-            }}
-          </p>
-          <p class="muted">
-            Required read scopes: {{ sync.requiredScopes.join(', ') }}. Import progress and
-            readiness are assessed separately.
-          </p>
-          <div class="import-controls">
-            <label>Historical start (UTC)<input z-input type="date" [(ngModel)]="from" /></label>
-            <label
-              >Historical end, exclusive (UTC)<input z-input type="date" [(ngModel)]="to"
-            /></label>
-            <button
-              z-button
-              class="primary"
-              (click)="start('INITIAL')"
-              [disabled]="busy() || active() || !sync.connected || !from || !to"
-            >
-              Import historical data
-            </button>
-            <button
-              z-button
-              zType="outline"
-              (click)="start('INCREMENTAL')"
-              [disabled]="busy() || active() || !sync.connected || !sync.lastSuccessfulSync"
-            >
-              Sync latest changes
-            </button>
-          </div>
-          <p class="muted">
-            Choose up to 31 days within the recent 59 days. Each attempt permits 100 pages; a
-            partial job can resume from its saved page. Latest changes use a 48-hour overlap and
-            scan current catalog/inventory.
-          </p>
-          @if (sync.latest; as job) {
-            <div class="job" role="status" aria-live="polite">
-              <h3>Latest import: {{ job.state }}</h3>
-              <p>{{ job.kind }} · attempt {{ job.attempts }}</p>
-              <p>
-                {{ job.from | date: 'yyyy-MM-dd HH:mm' : 'UTC' }} →
-                {{ job.to | date: 'yyyy-MM-dd HH:mm' : 'UTC' }} UTC
-              </p>
-              @for (point of sync.checkpoints; track point.resource) {
-                <p>
-                  {{ point.resource }}: {{ point.complete ? 'Complete' : 'Pending / page saved' }}
-                </p>
-              }
-              <dl>
-                @for (entry of job.counts | keyvalue; track entry.key) {
-                  <dt>{{ entry.key }}</dt>
-                  <dd>{{ entry.value }}</dd>
-                }
-              </dl>
-              @if (job.errorCode) {
-                <p class="error">
-                  Import stopped: {{ job.errorCode }}. Resolve the cause before resuming; committed
-                  pages are retained.
-                </p>
-              }
-              @if (job.state === 'PARTIAL' || job.state === 'FAILED') {
-                <button
-                  z-button
-                  zType="outline"
-                  (click)="resume(job.id)"
-                  [disabled]="busy() || !sync.connected"
-                >
-                  Resume failed import
-                </button>
-              }
-              @if (job.warnings.length) {
-                <h4>Coverage and warnings</h4>
-                <ul>
-                  @for (warning of job.warnings; track warning) {
-                    <li>{{ warning.replaceAll('_', ' ').toLowerCase() }}</li>
-                  }
-                </ul>
-              }
-            </div>
-          }
-          <p>
-            Costs may be unavailable. Current prices, costs and stock are point observations, not
-            historical series. Older orders require extra Shopify approval. Ambiguous financial
-            changes stop for reconciliation; nothing is written to Shopify.
-          </p>
-          <button z-button zType="outline" (click)="history()" [disabled]="busy()">
-            View import history
-          </button>
-          @if (jobs(); as records) {
-            <ul>
-              @for (record of records; track record.id) {
-                <li>
-                  {{ record.kind }} · {{ record.state }} ·
-                  {{ record.from | date: 'yyyy-MM-dd' : 'UTC' }}
-                </li>
-              } @empty {
-                <li>No import jobs.</li>
-              }
-            </ul>
-          }
-        }
-      } @else {
-        <p role="status">Loading synchronization status…</p>
-      }
-      <button z-button zType="outline" (click)="load()" [disabled]="busy()">
-        Refresh import status
-      </button>
-    </section>
-  `,
-  styles: [
-    `
-      .sync-panel {
-        padding: 24px;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-      }
-      p,
-      li,
-      dt,
-      dd,
-      label {
-        font-size: 13px;
-        line-height: 1.8;
-        overflow-wrap: anywhere;
-      }
-      .import-controls {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 14px;
-        align-items: end;
-        margin: 22px 0;
-      }
-      label {
-        display: grid;
-        gap: 7px;
-        max-width: 100%;
-      }
-      input {
-        max-width: 100%;
-        box-sizing: border-box;
-      }
-      .job {
-        padding: 18px;
-        background: var(--muted);
-        margin: 18px 0;
-      }
-      dt {
-        font-weight: 600;
-      }
-      dd {
-        margin: 0 0 7px;
-      }
-      h2 {
-        font-size: 19px;
-        margin-bottom: 16px;
-      }
-      @media (max-width: 600px) {
-        .sync-panel {
-          padding: 18px 12px;
-        }
-        .import-controls {
-          display: grid;
-        }
-        .job {
-          padding: 12px;
-        }
-      }
-    `,
+  imports: [
+    ZardButtonComponent,
+    ZardInputComponent,
+    FormsModule,
+    DatePipe,
+    KeyValuePipe,
+    RouterLink,
+    NgIcon,
+  ],
+  templateUrl: './sync-panel.html',
+  styleUrl: './sync-panel.css',
+  providers: [
+    provideIcons({
+      lucideCloudDownload,
+      lucideRefreshCw,
+      lucideArrowRight,
+      lucideLockKeyhole,
+      lucideDownload,
+    }),
   ],
 })
 export class SyncPanel {
   private readonly http = inject(HttpClient);
   readonly result = signal<SyncStatus | null>(null);
+  readonly statusChange = output<SyncStatus | null>();
   readonly jobs = signal<SyncJob[] | null>(null);
   readonly busy = signal(false);
   readonly error = signal('');
@@ -263,9 +93,13 @@ export class SyncPanel {
       .subscribe({
         next: (s) => {
           this.result.set(s);
+          this.statusChange.emit(s);
           this.error.set('');
         },
-        error: (e) => this.error.set(apiError(e)),
+        error: (e) => {
+          this.error.set(apiError(e));
+          this.statusChange.emit(null);
+        },
       });
   }
   start(kind: string) {

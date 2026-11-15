@@ -1,0 +1,266 @@
+<div class="integration-page">
+  <div class="integration-heading">
+    <div>
+      <h1>Shopify integration</h1>
+      <p>Bring your store data together. Stay in control of every import.</p>
+    </div>
+    <a z-button zType="outline" routerLink="/settings"
+      ><ng-icon name="lucideSettings2" aria-hidden="true" />Business settings</a
+    >
+  </div>
+  @if (error()) {
+    <div class="status-error" role="alert">
+      <ng-icon name="lucideCircleAlert" aria-hidden="true" />
+      <p>{{ error() }}</p>
+      <button z-button zType="outline" (click)="load()" [disabled]="busy()">Retry status</button>
+    </div>
+  }
+  @if (loading()) {
+    <p class="loading-status" role="status">Checking store connection…</p>
+  }
+  @if (!loading() && result(); as store) {
+    <div class="status-overview" aria-label="Integration overview">
+      <div class="status-tile">
+        <span class="tile-icon"><ng-icon name="lucidePlug" aria-hidden="true" /></span>
+        <div>
+          <p>Store connection</p>
+          <strong>{{
+            store.status === 'DEMO_DISABLED'
+              ? 'Demo workspace'
+              : store.status === 'CONNECTED'
+                ? 'Connected'
+                : store.status === 'DISCONNECTED'
+                  ? 'Not connected'
+                  : 'Needs attention'
+          }}</strong><span>{{ store.shop || 'No live store linked' }}</span>
+        </div>
+      </div>
+      <div class="status-tile">
+        <span class="tile-icon"><ng-icon name="lucideShieldCheck" aria-hidden="true" /></span>
+        <div>
+          <p>Shopify access</p>
+          <strong>Read-only</strong><span>No changes written to your store</span>
+        </div>
+      </div>
+      <div class="status-tile">
+        <span class="tile-icon"><ng-icon name="lucideCloudDownload" aria-hidden="true" /></span>
+        <div>
+          <p>Data imports</p>
+          <strong>{{
+            store.status === 'DEMO_DISABLED' ? 'Disabled in demo' : importLabel()
+          }}</strong><span>{{
+            store.status === 'DEMO_DISABLED'
+              ? 'Synthetic records stay separate'
+              : 'Connection and import are separate'
+          }}</span>
+        </div>
+      </div>
+    </div>
+  }
+  <div class="integration-layout">
+    <div class="integration-main">
+      @if (!loading() && result(); as store) {
+        <section
+          class="connection-card panel"
+          id="shopify-connection"
+          aria-labelledby="connection-title"
+        >
+          <div class="provider-header">
+            <a
+              class="provider-logo"
+              href="https://www.shopify.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Shopify website (opens in a new tab)"
+              ><img src="/brand/shopify/shopify-logo.svg" width="126" height="36" alt="Shopify"
+            /></a>
+            <span
+              class="connection-badge"
+              [class.is-connected]="store.status === 'CONNECTED'"
+              [class.is-warning]="
+                ['DEMO_DISABLED', 'REAUTHORIZATION_REQUIRED', 'PENDING'].includes(store.status)
+              "
+              [class.is-failed]="store.status === 'FAILED'"
+              ><span class="status-dot" aria-hidden="true"></span
+              >{{ store.status === 'DEMO_DISABLED' ? 'Demo mode' : label(store.status) }}</span
+            >
+          </div>
+          <div class="connection-body">
+            <h2 id="connection-title">
+              {{
+                store.status === 'DEMO_DISABLED'
+                  ? 'Your store data, all in one place'
+                  : store.status === 'CONNECTED'
+                    ? 'Your Shopify store is connected'
+                    : 'Connect your Shopify store'
+              }}
+            </h2>
+            @if (store.status === 'DEMO_DISABLED') {
+              <p class="connection-description">
+                Explore how your catalog, orders and inventory work together in Valora. This
+                workspace uses synthetic data, so your real store stays separate.
+              </p>
+              <div class="demo-notice">
+                <ng-icon name="lucideLockKeyhole" aria-hidden="true" />
+                <div>
+                  <strong>Real connections are disabled in this demo</strong>
+                  <p>No Shopify account or credentials are needed to explore.</p>
+                </div>
+              </div>
+              <div class="connection-actions">
+                <a z-button routerLink="/products"
+                  >Explore demo catalog<ng-icon name="lucideArrowRight" aria-hidden="true" /></a
+                ><a z-button zType="outline" routerLink="/onboarding">Review data readiness</a>
+              </div>
+            } @else {
+              <p class="connection-description">
+                Authorize read-only access to your store, then choose which history to import.
+                Valora never changes your Shopify prices or orders.
+              </p>
+              @if (!store.configured) {
+                <p class="notice">
+                  Server configuration is required before Shopify authorization. Authorization
+                  remains disabled until configuration is complete.
+                </p>
+              }
+              @if (store.status === 'CONNECTED') {
+                <p class="connection-note">
+                  <ng-icon name="lucideCircleCheck" aria-hidden="true" /><span
+                    >Connected authorization is separate from import completion. Choose an import
+                    below, then review data readiness.</span
+                  >
+                </p>
+              }
+              @if (store.status === 'PENDING') {
+                <p class="notice">
+                  Authorization pending. Complete Shopify approval in this browser, or start a new
+                  attempt.
+                </p>
+              }
+              @if (store.status === 'REAUTHORIZATION_REQUIRED') {
+                <p class="notice">
+                  Access has expired. Import jobs attempt server-side refresh; if renewal fails,
+                  disconnect and authorize again.
+                </p>
+              }
+              @if (store.lastError) {
+                <p class="notice" role="status">{{ errorLabel(store.lastError) }}</p>
+              }
+              @if (store.status !== 'CONNECTED' && store.status !== 'REAUTHORIZATION_REQUIRED') {
+                <form (ngSubmit)="connect()">
+                  <label for="shop-domain">Shopify shop domain</label>
+                  <input
+                    z-input
+                    id="shop-domain"
+                    [formControl]="shop"
+                    placeholder="your-store.myshopify.com"
+                    autocomplete="off"
+                    maxlength="80"
+                    aria-describedby="shop-domain-help"
+                    required
+                  />
+                  <p id="shop-domain-help" class="field-help">
+                    Use the canonical myshopify.com domain, without https://, paths or ports.
+                  </p>
+                  @if (shop.invalid && shop.dirty) {
+                    <p class="field-error">Enter a domain such as your-store.myshopify.com.</p>
+                  }
+                  <button
+                    z-button
+                    class="primary"
+                    [disabled]="busy() || shop.invalid || !store.configured"
+                  >
+                    <ng-icon name="lucideLink2" aria-hidden="true" />{{
+                      busy() ? 'Working…' : 'Connect to Shopify'
+                    }}
+                  </button>
+                </form>
+              }
+              @if (store.shop) {
+                <div class="store-domain">
+                  <ng-icon name="lucideWarehouse" aria-hidden="true" /><span>{{ store.shop }}</span>
+                </div>
+                <details class="authorization-details">
+                  <summary>Authorization details</summary>
+                  <dl>
+                    <dt>Canonical shop</dt>
+                    <dd>{{ store.shop }}</dd>
+                    <dt>Granted scopes</dt>
+                    <dd>{{ store.scopes.join(', ') || 'Not granted' }}</dd>
+                    <dt>Connected (UTC)</dt>
+                    <dd>
+                      {{
+                        store.connectedAt
+                          ? (store.connectedAt | date: 'yyyy-MM-dd HH:mm' : 'UTC')
+                          : 'Not connected'
+                      }}
+                    </dd>
+                    <dt>Access expires (UTC)</dt>
+                    <dd>
+                      {{
+                        store.accessExpiresAt
+                          ? (store.accessExpiresAt | date: 'yyyy-MM-dd HH:mm' : 'UTC')
+                          : 'Unavailable'
+                      }}
+                    </dd>
+                  </dl>
+                </details>
+              }
+              <div class="connection-actions secondary-actions">
+                <button z-button zType="outline" (click)="load()" [disabled]="busy()">
+                  <ng-icon name="lucideRefreshCw" aria-hidden="true" />Refresh status
+                </button>
+                @if (store.shop) {
+                  <button z-button zType="ghost" (click)="confirming.set(true)" [disabled]="busy()">
+                    Disconnect Shopify
+                  </button>
+                }
+              </div>
+            }
+          </div>
+          <div class="connection-footer">
+            <ng-icon name="lucideShieldCheck" aria-hidden="true" /><span
+              >You choose when data is imported. No automatic price changes.</span
+            >
+          </div>
+        </section>
+      }
+      <app-sync-panel (statusChange)="syncStatus.set($event)" />
+    </div>
+    <app-integration-guide
+      [connected]="result()?.status === 'CONNECTED'"
+      [imported]="!!syncStatus()?.lastSuccessfulSync"
+      [demo]="result()?.status === 'DEMO_DISABLED'"
+    />
+  </div>
+  @if (confirming() && result()?.status !== 'DEMO_DISABLED') {
+    <dialog
+      appModal
+      (modalCancelled)="confirming.set(false)"
+      class="confirmation"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="disconnect-title"
+    >
+      <h2 id="disconnect-title">Disconnect Shopify?</h2>
+      <p>
+        This removes local provider credentials and requests app uninstall from Shopify. Existing
+        catalog and historical records remain here. If remote revocation fails, remove the app in
+        Shopify admin.
+      </p>
+      <div class="connection-actions">
+        <button z-button zType="outline" (click)="disconnect()" [disabled]="busy()">
+          Confirm disconnect</button
+        ><button
+          z-button
+          zType="outline"
+          autofocus
+          (click)="confirming.set(false)"
+          [disabled]="busy()"
+        >
+          Cancel
+        </button>
+      </div>
+    </dialog>
+  }
+</div>

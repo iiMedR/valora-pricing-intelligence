@@ -1,0 +1,264 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+.sync-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.sync-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.sync-title {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+}
+.heading-icon,
+.empty-icon {
+  display: grid;
+  place-items: center;
+  background: var(--canvas);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+}
+ng-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+h2 {
+  font-size: 16px;
+  margin: 0 0 4px;
+}
+.sync-title p {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin: 0;
+}
+.sync-content {
+  padding: 24px;
+}
+p,
+li,
+dt,
+dd,
+label {
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.import-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 8px 12px 14px;
+}
+.empty-icon {
+  width: 46px;
+  height: 46px;
+  margin-bottom: 16px;
+  background: var(--interactive-surface);
+  border-color: transparent;
+  color: var(--interactive-foreground);
+}
+.empty-icon ng-icon {
+  font-size: 23px;
+}
+h3 {
+  font-size: 15px;
+  letter-spacing: -0.015em;
+  margin: 0 0 8px;
+}
+.import-empty p {
+  max-width: 47ch;
+  color: var(--muted-foreground);
+  margin: 0;
+  font-size: 12px;
+}
+.import-empty a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--interactive-foreground);
+  font-weight: 500;
+  font-size: 12px;
+  margin-top: 18px;
+  min-height: 32px;
+}
+.import-empty a ng-icon {
+  font-size: 15px;
+}
+.import-metadata {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.import-metadata strong {
+  color: var(--foreground);
+  font-weight: 500;
+}
+.import-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 22px 0 16px;
+}
+label {
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+}
+input {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.import-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.date-help {
+  color: var(--muted-foreground);
+  font-size: 12px;
+  margin: 12px 0 0;
+}
+.disconnected-note {
+  display: flex;
+  gap: 10px;
+  align-items: start;
+  padding: 18px 0 0;
+  color: var(--muted-foreground);
+}
+.disconnected-note p {
+  margin: 0;
+}
+.job {
+  padding: 18px;
+  background: var(--canvas);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 20px;
+}
+.job-heading span,
+.job p,
+.job li {
+  font-size: 12px;
+}
+.job-heading span {
+  color: var(--muted-foreground);
+}
+.job > p {
+  margin-top: 10px;
+}
+.checkpoint-list {
+  margin-top: 12px;
+}
+.checkpoint-list p {
+  margin: 5px 0;
+}
+.import-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin: 16px 0;
+}
+.import-counts dt {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.import-counts dd {
+  font-size: 18px;
+  margin: 0;
+  font-weight: 600;
+}
+.import-details {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+}
+.import-details summary {
+  cursor: pointer;
+  font-weight: 500;
+}
+.import-details p {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin: 12px 0 0;
+}
+.history-actions {
+  margin-top: 18px;
+}
+.history-list {
+  margin: 14px 0 0;
+  padding-left: 18px;
+}
+.import-error {
+  color: var(--error-foreground);
+  background: var(--error-surface);
+  padding: 12px;
+  border-radius: 6px;
+}
+.is-refreshing {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .is-refreshing {
+    animation: none;
+  }
+}
+@media (max-width: 560px) {
+  .sync-heading,
+  .sync-content {
+    padding: 20px;
+  }
+  .sync-heading {
+    align-items: start;
+  }
+  .sync-heading button span {
+    display: none;
+  }
+  .sync-heading button {
+    padding-inline: 10px;
+  }
+  .sync-title {
+    gap: 9px;
+  }
+  .heading-icon {
+    display: none;
+  }
+  .import-controls {
+    grid-template-columns: 1fr;
+  }
+  .import-empty {
+    padding-inline: 0;
+  }
+  .import-actions button {
+    flex: 1 1 auto;
+  }
+}

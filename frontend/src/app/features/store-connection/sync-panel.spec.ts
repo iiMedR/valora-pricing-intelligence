@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { SyncPanel, SyncStatus } from './sync-panel';
 const status: SyncStatus = {
@@ -16,7 +17,7 @@ describe('Shopify synchronization panel', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [SyncPanel],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     }),
   );
   afterEach(() => TestBed.inject(HttpTestingController).verify());

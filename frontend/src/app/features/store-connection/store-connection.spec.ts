@@ -3,6 +3,8 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { StoreConnection } from './store-connection';
+import { SyncPanel } from './sync-panel';
+import { By } from '@angular/platform-browser';
 import { StoreStatus, SHOPIFY_NAVIGATE, validAuthorizationUrl } from './store-api.service';
 const status: StoreStatus = {
   status: 'DISCONNECTED',
@@ -117,12 +119,58 @@ describe('Shopify connection', () => {
     await f.whenStable();
     expect(f.nativeElement.textContent).toContain('Synthetic demo');
     expect(f.nativeElement.textContent).not.toContain('Connect to Shopify');
+    expect(f.nativeElement.querySelector('a[href="/products"]')?.textContent).toContain(
+      'Explore demo catalog',
+    );
+    expect(f.nativeElement.querySelector('.connection-badge')?.textContent).toContain('Demo mode');
+    expect(f.nativeElement.querySelectorAll('.step-complete').length).toBe(0);
     f.componentInstance.shop.setValue('example-shop.myshopify.com');
     f.componentInstance.connect();
     f.componentInstance.confirming.set(true);
     f.componentInstance.disconnect();
     TestBed.inject(HttpTestingController).expectNone('/api/v1/integrations/shopify/connect');
     TestBed.inject(HttpTestingController).expectNone('/api/v1/integrations/shopify/disconnect');
+  });
+  it('keeps authorization separate from import completion and clears an unavailable import summary', async () => {
+    const f = initial({ ...status, status: 'CONNECTED', shop: 'example-shop.myshopify.com' });
+    await f.whenStable();
+    const summary = () =>
+      f.nativeElement.querySelectorAll('.status-tile strong')[2].textContent.trim();
+    expect(summary()).toBe('Not imported yet');
+    expect(f.nativeElement.querySelectorAll('.step-complete').length).toBe(1);
+    const panel = f.debugElement.query(By.directive(SyncPanel)).componentInstance as SyncPanel;
+    panel.load();
+    TestBed.inject(HttpTestingController)
+      .expectOne('/api/v1/shopify/sync/status')
+      .flush({
+        demo: false,
+        connected: true,
+        shop: 'example-shop.myshopify.com',
+        lastSuccessfulSync: null,
+        latest: {
+          id: 'partial',
+          kind: 'INITIAL',
+          state: 'PARTIAL',
+          from: '2026-11-01',
+          to: '2026-11-08',
+          counts: {},
+          warnings: [],
+          errorCode: null,
+          attempts: 1,
+        },
+        checkpoints: [],
+        requiredScopes: [],
+        liveValidation: 'LIVE_SHOPIFY_NOT_VERIFIED',
+      });
+    await f.whenStable();
+    expect(summary()).toBe('Partially imported');
+    expect(f.nativeElement.querySelectorAll('.step-complete').length).toBe(1);
+    panel.load();
+    TestBed.inject(HttpTestingController)
+      .expectOne('/api/v1/shopify/sync/status')
+      .flush({ message: 'Status unavailable.' }, { status: 503, statusText: 'Unavailable' });
+    await f.whenStable();
+    expect(summary()).toBe('Status unavailable');
   });
   it('renders safe OAuth failures and status retry without leaking raw provider data', async () => {
     const f = initial({
