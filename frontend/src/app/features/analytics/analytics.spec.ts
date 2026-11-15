@@ -131,10 +131,19 @@ describe('Analytics', () => {
     const text = f.nativeElement.textContent;
     expect(text).toContain('32.4936');
     expect(text).toContain('50.0000%');
-    expect(text).toContain('PARTIAL');
-    expect(text).toContain('ARCHIVED');
+    expect(f.nativeElement.querySelector('app-performance-coverage').textContent).toContain(
+      'Partial',
+    );
+    expect(f.nativeElement.querySelector('app-performance-coverage progress').value).toBe(50);
+    expect(
+      f.nativeElement.querySelector('app-product-performance .net-sales').textContent,
+    ).toContain('32.49');
+    expect(
+      f.nativeElement.querySelector('app-product-performance .financial-details').textContent,
+    ).toContain('32.4936');
+    expect(text).toContain('Archived');
     expect(text).toContain('Unknown');
-    expect(text).toContain('KNOWN_STOCKOUT');
+    expect(text).toContain('Observed stockout');
     expect(text).toContain('Stale');
     // DOM-only tests have no graphics engine. First paint may be loading or
     // unavailable; the exact-value table must remain accessible in every state.

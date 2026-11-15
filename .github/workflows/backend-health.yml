@@ -1,0 +1,26 @@
+name: Backend health
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "3,13,23,33,43,53 * * * *"
+permissions: {}
+concurrency:
+  group: backend-health
+  cancel-in-progress: false
+jobs:
+  health:
+    if: ${{ vars.BACKEND_HEALTH_URL != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    env:
+      HEALTH_URL: ${{ vars.BACKEND_HEALTH_URL }}
+    steps:
+      - name: Request backend health
+        shell: bash
+        run: |
+          case "$HEALTH_URL" in
+            https://*) ;;
+            *) echo "BACKEND_HEALTH_URL must use HTTPS"; exit 1 ;;
+          esac
+          curl --fail --silent --show-error --max-time 90 --retry 1 --retry-delay 10 --output /dev/null "$HEALTH_URL"
+          echo "Backend health check passed."

@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: valora-backend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: demo,portfolio,neon,cloud
+      - key: NEON_JDBC_URL
+        sync: false
+      - key: NEON_DB_PASSWORD
+        sync: false
+      - key: FRONTEND_ORIGIN
+        sync: false
+      - key: SHOPIFY_ENABLED
+        value: "false"

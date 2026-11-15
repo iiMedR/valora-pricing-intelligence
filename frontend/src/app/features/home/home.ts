@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { HealthService } from '../../core/health.service';
+
 import { SessionService, canReadWorkspace } from '../../core/session.service';
 import {
   AnalyticsApi,
@@ -107,11 +107,8 @@ export class Home {
           { label: 'Review products & costs', href: '/products' },
           { label: 'Review data readiness', href: '/onboarding' },
         ];
-  private readonly health = inject(HealthService);
   private readonly destroyRef = inject(DestroyRef);
-  readonly status = signal<'loading' | 'connected' | 'unavailable'>('loading');
   constructor() {
-    this.refresh();
     effect((onCleanup) => {
       onCleanup(() => this.request?.unsubscribe());
       if (this.authorized()) untracked(() => this.load());
@@ -151,17 +148,6 @@ export class Home {
           this.error.set(true);
           this.loading.set(false);
         },
-      });
-  }
-  refresh() {
-    this.status.set('loading');
-    this.health
-      .check()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (response) =>
-          this.status.set(response?.status === 'UP' ? 'connected' : 'unavailable'),
-        error: () => this.status.set('unavailable'),
       });
   }
 }

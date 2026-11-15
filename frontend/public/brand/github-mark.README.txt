@@ -1,0 +1,5 @@
+GitHub mark
+Source: https://github.com/primer/octicons/blob/main/icons/mark-github-16.svg
+Upstream license: https://github.com/primer/octicons/blob/main/LICENSE
+Downloaded from GitHub's official Primer Octicons repository on 15 November 2026.
+GitHub's logo identifies the linked source-code repository; it does not imply endorsement.

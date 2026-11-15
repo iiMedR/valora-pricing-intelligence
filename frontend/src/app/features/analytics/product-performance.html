@@ -1,0 +1,165 @@
+<section class="product-performance" aria-labelledby="products-title">
+  <div class="performance-heading">
+    <div>
+      <h2 id="products-title">Product performance</h2>
+      <p>Sales by product, including archived products.</p>
+    </div>
+    <span class="currency-label">Values in {{ data().range.currencyCode }}</span>
+  </div>
+  <form class="performance-toolbar" [formGroup]="filters()" (ngSubmit)="update.emit()">
+    <label class="search-field"
+      ><span class="sr-only">Search product name</span
+      ><ng-icon name="lucideSearch" aria-hidden="true" /><input
+        z-input
+        formControlName="search"
+        type="search"
+        maxlength="100"
+        placeholder="Search products…" /></label
+    ><label class="sort-field"
+      ><span class="sr-only">Sort products</span
+      ><select formControlName="sort">
+        <option value="NET_DESC">Net sales: high to low</option>
+        <option value="GROSS_DESC">Gross sales: high to low</option>
+        <option value="NAME_ASC">Name: A to Z</option></select
+      ><ng-icon name="lucideChevronDown" aria-hidden="true" /></label
+    ><button z-button zType="outline" type="submit">
+      <ng-icon name="lucideRefreshCw" aria-hidden="true" />Update products
+    </button>
+  </form>
+  <p class="scroll-hint">Scroll horizontally to see all product metrics.</p>
+  <div class="performance-scroll" role="region" aria-label="Product performance table" tabindex="0">
+    <table>
+      <caption class="sr-only">
+        Product performance in
+        {{
+          data().range.currencyCode
+        }}. Contribution uses only sales with known costs.
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Product</th>
+          <th scope="col" class="numeric">Net sales</th>
+          <th scope="col" class="numeric">Units sold</th>
+          <th scope="col" class="numeric">Orders</th>
+          <th scope="col">Cost coverage</th>
+          <th scope="col" class="numeric">Known contribution*</th>
+          <th scope="col"><span class="sr-only">Inspect product variants</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of data().results.content; track row.productId) {
+          <tr>
+            <th scope="row">
+              <div class="product-identity">
+                <app-product-thumbnail [name]="row.name" />
+                <div>
+                  <a [routerLink]="['/products', row.productId]">{{ row.name }}</a><span
+                    class="product-status"
+                    >{{ label(row.status) }}</span
+                  >
+                  <span class="mobile-sales"><small>Net sales</small><strong>{{ amount(row.metrics.netSales) }} {{ data().range.currencyCode }}</strong></span>
+                  <details class="financial-details">
+                    <summary>Exact financials</summary>
+                    <dl>
+                      <div>
+                        <dt>Gross sales</dt>
+                        <dd>{{ exact(row.metrics.grossSales) }}</dd>
+                      </div>
+                      <div>
+                        <dt>Refunds</dt>
+                        <dd>{{ exact(row.metrics.refundAmount) }}</dd>
+                      </div>
+                      <div>
+                        <dt>Net sales</dt>
+                        <dd>{{ exact(row.metrics.netSales) }}</dd>
+                      </div>
+                      <div>
+                        <dt>Known contribution*</dt>
+                        <dd>{{ exact(row.metrics.knownContributionBeforeReturnRecovery) }}</dd>
+                      </div>
+                      <div>
+                        <dt>Cost coverage</dt>
+                        <dd>
+                          {{
+                            row.metrics.salesCostCoveragePercent === null
+                              ? 'No sales denominator'
+                              : row.metrics.salesCostCoveragePercent + '%'
+                          }}
+                        </dd>
+                      </div>
+                    </dl>
+                  </details>
+                </div>
+              </div>
+            </th>
+            <td class="numeric net-sales">{{ amount(row.metrics.netSales) }}</td>
+            <td class="numeric">
+              {{ count(row.metrics.unitsSold)
+              }}<small>{{ count(row.metrics.unitsRefunded) }} returned</small>
+            </td>
+            <td class="numeric">{{ count(row.metrics.orders) }}</td>
+            <td>
+              <app-performance-coverage [metrics]="row.metrics" [productName]="row.name" />
+            </td>
+            <td class="numeric contribution">
+              {{ amount(row.metrics.knownContributionBeforeReturnRecovery) }}
+              @if (row.metrics.costCoverageState === 'PARTIAL') {
+                <small>Known-cost lines only</small>
+              }
+            </td>
+            <td class="row-action">
+              <button
+                z-button
+                zType="outline"
+                type="button"
+                (click)="inspect.emit(row)"
+                [attr.aria-label]="'Inspect variants for ' + row.name"
+              >
+                Variants<ng-icon name="lucideArrowUpRight" aria-hidden="true" />
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="empty-products">
+              <ng-icon name="lucideSearch" aria-hidden="true" /><strong
+                >No products match this search.</strong
+              ><span>Try a different product name.</span>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="performance-pagination">
+    <p>
+      {{ data().results.totalElements }} products<span
+        >Page {{ data().results.page + 1 }} of {{ data().results.totalPages || 1 }}</span
+      >
+    </p>
+    <div>
+      <button
+        z-button
+        zType="outline"
+        type="button"
+        (click)="pageChange.emit(-1)"
+        [disabled]="data().results.page === 0"
+      >
+        <ng-icon name="lucideChevronLeft" aria-hidden="true" />Previous products</button
+      ><button
+        z-button
+        zType="outline"
+        type="button"
+        (click)="pageChange.emit(1)"
+        [disabled]="data().results.page + 1 >= data().results.totalPages"
+      >
+        Next products<ng-icon name="lucideChevronRight" aria-hidden="true" />
+      </button>
+    </div>
+  </div>
+  <ng-content />
+  <p class="performance-note">
+    * Contribution is before return cost recovery. Product order counts can overlap across products.
+    Current product names are shown alongside historical financials.
+  </p>
+</section>

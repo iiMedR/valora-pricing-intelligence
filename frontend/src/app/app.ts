@@ -10,6 +10,7 @@ import {
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BackendStatus } from './core/backend-status';
 import { EnvironmentIndicator } from './core/environment-indicator';
 import { SessionNav } from './core/session-nav';
 import { ConfirmDialog } from './core/confirmation';
@@ -31,6 +32,7 @@ import {
   selector: 'app-root',
   imports: [
     BrandMark,
+    BackendStatus,
     RouterLink,
     RouterLinkActive,
     RouterOutlet,

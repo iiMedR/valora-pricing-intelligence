@@ -202,115 +202,14 @@
       [open]="productsDetailsOpen()"
       (toggle)="productsDetailsOpen.set($any($event.target).open)"
     >
-      <summary>Product performance: search, sort and drill down</summary>
-      <section class="analytics-panel" aria-labelledby="products-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">CATALOG PERFORMANCE</p>
-            <h2 id="products-title">Products, including archived</h2>
-          </div>
-          <span>Current names · historical financials</span>
-        </div>
-        <form class="performance-filters" [formGroup]="filters" (ngSubmit)="apply()">
-          <label
-            >Search product name<input
-              z-input
-              formControlName="search"
-              maxlength="100"
-              type="search" /></label
-          ><label
-            >Sort products<select formControlName="sort">
-              <option value="NET_DESC">Net sales ↓</option>
-              <option value="GROSS_DESC">Gross sales ↓</option>
-              <option value="NAME_ASC">Name A–Z</option>
-            </select></label
-          ><button z-button zType="outline">Update products</button>
-        </form>
-        <div
-          class="analytics-scroll"
-          role="region"
-          aria-label="Product performance table"
-          tabindex="0"
-        >
-          <table>
-            <caption class="sr-only">
-              Product performance in
-              {{
-                report.range.currencyCode
-              }}
-            </caption>
-            <thead>
-              <tr>
-                <th>Product / status</th>
-                <th>Gross</th>
-                <th>Refunds</th>
-                <th>Net</th>
-                <th>Sold / returned</th>
-                <th>Orders</th>
-                <th>Cost coverage</th>
-                <th>Known contribution*</th>
-                <th>Inspect</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (row of performance.results.content; track row.productId) {
-                <tr>
-                  <th scope="row">
-                    <a [routerLink]="['/products', row.productId]">{{ row.name }}</a><small>{{
-                      row.status
-                    }}</small>
-                  </th>
-                  <td>{{ money(row.metrics.grossSales) }}</td>
-                  <td>{{ money(row.metrics.refundAmount) }}</td>
-                  <td>{{ money(row.metrics.netSales) }}</td>
-                  <td>{{ row.metrics.unitsSold }} / {{ row.metrics.unitsRefunded }}</td>
-                  <td>{{ row.metrics.orders }}</td>
-                  <td>
-                    {{ row.metrics.costCoverageState
-                    }}<small>{{
-                      row.metrics.salesCostCoveragePercent === null
-                        ? 'No sales denominator'
-                        : row.metrics.salesCostCoveragePercent + '% of sales lines'
-                    }}</small>
-                  </td>
-                  <td>{{ money(row.metrics.knownContributionBeforeReturnRecovery) }}</td>
-                  <td>
-                    <button
-                      z-button
-                      zType="outline"
-                      (click)="showVariants(row)"
-                      [attr.aria-label]="'Inspect variants for ' + row.name"
-                    >
-                      Variants
-                    </button>
-                  </td>
-                </tr>
-              } @empty {
-                <tr>
-                  <td colspan="9">No products match this search.</td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-        <div class="pagination">
-          <span
-            >{{ performance.results.totalElements }} products · Page
-            {{ performance.results.page + 1 }} of {{ performance.results.totalPages || 1 }}</span
-          >
-          <div class="actions">
-            <button z-button zType="outline" (click)="changePage(-1)" [disabled]="page === 0">
-              Previous products</button
-            ><button
-              z-button
-              zType="outline"
-              (click)="changePage(1)"
-              [disabled]="page + 1 >= performance.results.totalPages"
-            >
-              Next products
-            </button>
-          </div>
-        </div>
+      <summary>Product performance</summary>
+      <app-product-performance
+        [data]="performance"
+        [filters]="filters"
+        (update)="apply()"
+        (pageChange)="changePage($event)"
+        (inspect)="showVariants($event)"
+      >
         @if (selectedProduct(); as selected) {
           <div class="variant-detail">
             <div class="section-heading">
@@ -409,10 +308,7 @@
             }
           </div>
         }
-        <p class="muted">
-          * Before return cost recovery. Product order counts can overlap across products.
-        </p>
-      </section>
+      </app-product-performance>
     </details>
   }
   @if (inventory(); as stock) {
@@ -422,98 +318,11 @@
       (toggle)="inventoryDetailsOpen.set($any($event.target).open)"
     >
       <summary>Inventory observations and data quality</summary>
-      <section class="analytics-panel" aria-labelledby="inventory-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">INVENTORY SIGNALS</p>
-            <h2 id="inventory-title">Last observed stock</h2>
-          </div>
-          <span>Before {{ stock.asOf | date: 'yyyy-MM-dd HH:mm' : 'UTC' }} UTC</span>
-        </div>
-        <p>
-          {{ stock.summary.variants }} variants · {{ stock.summary.stockouts }} observed stockouts ·
-          {{ stock.summary.unknown }} unknown · {{ stock.summary.uncertain }} uncertain ·
-          {{ stock.summary.stale }} stale
-        </p>
-        <p class="muted">
-          Stale means older than {{ stock.staleAfterHours }} hours at the selected reporting end.
-          Stockouts and stale counts may overlap. These observations do not establish current
-          availability or lost demand.
-        </p>
-        <div
-          class="analytics-scroll"
-          role="region"
-          aria-label="Inventory observations table"
-          tabindex="0"
-        >
-          <table>
-            <caption class="sr-only">
-              Latest observed inventory before reporting end
-            </caption>
-            <thead>
-              <tr>
-                <th>Product / SKU</th>
-                <th>Status</th>
-                <th>Quantity</th>
-                <th>Signal</th>
-                <th>Observed (UTC)</th>
-                <th>Freshness</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (row of stock.results.content; track row.variantId) {
-                <tr>
-                  <th scope="row">
-                    {{ row.productName }}<small>{{ row.sku }}</small>
-                  </th>
-                  <td>{{ row.status }} / {{ row.productStatus }}</td>
-                  <td>{{ row.quantityAvailable === null ? 'Unknown' : row.quantityAvailable }}</td>
-                  <td>{{ row.stockState }}</td>
-                  <td>
-                    {{
-                      row.observedAt
-                        ? (row.observedAt | date: 'yyyy-MM-dd HH:mm' : 'UTC')
-                        : 'Unknown'
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      row.observedAt === null ? 'Unknown' : row.stale ? 'Stale' : 'Within 24 hours'
-                    }}
-                  </td>
-                </tr>
-              } @empty {
-                <tr>
-                  <td colspan="6">No variants in the catalog.</td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-        <div class="pagination">
-          <span
-            >{{ stock.results.totalElements }} variants · Page {{ stock.results.page + 1 }} of
-            {{ stock.results.totalPages || 1 }}</span
-          >
-          <div class="actions">
-            <button
-              z-button
-              zType="outline"
-              (click)="changePage(-1, true)"
-              [disabled]="inventoryPage === 0"
-            >
-              Previous inventory</button
-            ><button
-              z-button
-              zType="outline"
-              (click)="changePage(1, true)"
-              [disabled]="inventoryPage + 1 >= stock.results.totalPages"
-            >
-              Next inventory
-            </button>
-          </div>
-        </div>
-      </section>
+      <app-inventory-observations
+        [stock]="stock"
+        [page]="inventoryPage"
+        (pageChange)="changePage($event, true)"
+      />
     </details>
   }
 }

@@ -39,7 +39,7 @@ import { apiError } from '../catalog/services/catalog-api.service';
       </p>
       <section class="readiness-card">
         <h2>Separate readiness decisions</h2>
-        <p>Ready for analytics: {{ row.analytics.status }} — {{ row.analytics.message }}</p>
+        <p>Ready for analytics: {{ row.analytics.status }}: {{ row.analytics.message }}</p>
         <p>Forecast evaluable: {{ row.forecasting.status }} · {{ row.forecastStatus }}</p>
         <p>
           Eligible for optimization:

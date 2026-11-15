@@ -1,3 +1,5 @@
+import { InventoryObservations } from './inventory-observations';
+import { ProductPerformance } from './product-performance';
 import { ProductContext } from '../../shared/merchant/product-context';
 import { insightWindow } from '../../shared/merchant/insight-window';
 import { ActivatedRoute } from '@angular/router';
@@ -9,7 +11,7 @@ import { HelpTooltip } from '../../shared/merchant/primitives';
 import { decisionNumber } from '../../shared/merchant/decision-summary';
 import { initialWindow } from '../analytics/analytics-api.service';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
+
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -30,9 +32,11 @@ import {
 @Component({
   imports: [
     ProductContext,
+    ProductPerformance,
+    InventoryObservations,
     ZardButtonComponent,
     ZardInputComponent,
-    DatePipe,
+
     ReactiveFormsModule,
     RouterLink,
     SalesChart,

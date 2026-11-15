@@ -18,8 +18,10 @@ import { apiError } from '../catalog/services/catalog-api.service';
       <p>Sign in to explore the protected workspace.</p>
       @if (demoAccount(); as account) {
         <aside class="demo-access" aria-labelledby="demo-access-title">
-          <h2 id="demo-access-title">Try the public demo account</h2>
-          <p>Real session authentication, with read-only access to synthetic store data.</p>
+          <div class="demo-heading">
+            <h2 id="demo-access-title">Explore the demo</h2>
+            <span class="demo-badge">Read-only</span>
+          </div>
           <dl>
             <div>
               <dt>Account name</dt>
@@ -34,12 +36,9 @@ import { apiError } from '../catalog/services/catalog-api.service';
               </dd>
             </div>
           </dl>
-          <button z-button zType="outline" type="button" (click)="fillDemo()">
+          <button z-button zType="outline" class="demo-fill" type="button" (click)="fillDemo()">
             Use demo credentials
           </button>
-          <p class="demo-note">
-            You can browse and compare results. Editing, imports and price changes remain blocked.
-          </p>
         </aside>
       } @else {
         <p class="muted">
@@ -98,17 +97,32 @@ import { apiError } from '../catalog/services/catalog-api.service';
         margin-top: 24px;
       }
       .demo-access h2 {
-        font-size: 16px;
-        margin: 0 0 8px;
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0;
       }
-      .demo-access p {
-        font-size: 13px;
-        line-height: 1.6;
+      .demo-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .demo-badge {
+        font-size: 11px;
+        color: var(--muted-foreground);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 3px 7px;
+        white-space: nowrap;
       }
       .demo-access dl {
         display: grid;
-        gap: 10px;
+        gap: 0;
         margin: 16px 0;
+        padding: 0 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--background);
       }
       .demo-access dl div {
         display: flex;
@@ -116,17 +130,22 @@ import { apiError } from '../catalog/services/catalog-api.service';
         align-items: baseline;
         justify-content: space-between;
         gap: 6px 12px;
+        padding: 11px 0;
+      }
+      .demo-access dl div + div {
+        border-top: 1px solid var(--border);
       }
       .demo-access dt {
         margin: 0;
         font-size: 13px;
+        color: var(--muted-foreground);
       }
       .demo-access dd {
-        font-size: 14px;
+        font-size: 13px;
+        margin: 0;
       }
-      .demo-access .demo-note {
-        margin: 12px 0 0;
-        color: var(--muted-foreground);
+      .demo-fill {
+        width: 100%;
       }
       form,
       label {

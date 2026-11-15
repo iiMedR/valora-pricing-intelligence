@@ -1,0 +1,8 @@
+target
+.git
+.env
+.env.*
+*.log
+*.local
+.idea
+src/test

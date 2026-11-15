@@ -1,69 +1,69 @@
 :host {
   display: block;
   min-width: 0;
+  height: 100%;
 }
-
 .product-preview {
+  height: 100%;
   border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 24px;
+  border-radius: 12px;
+  padding: 30px;
+  background: white;
   min-width: 0;
 }
-.product-preview h2 {
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 1.2;
-  margin: 0 0 6px;
-  letter-spacing: -0.9px;
+h2 {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 8px;
+  letter-spacing: -0.035em;
 }
 .product-name {
-  font-size: 19px;
+  font-size: 14px;
   color: var(--muted-foreground);
   margin: 0 0 12px;
 }
-.example-label {
+.example-label,
+.model-state {
   display: inline-block;
-  background: var(--illustration-surface);
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-size: 13px;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 11px;
   color: var(--muted-foreground);
+  background: var(--canvas);
 }
 .model-state {
+  display: block;
   color: var(--interactive-foreground);
   background: var(--interactive-surface);
-  border-radius: 8px;
-  padding: 5px 10px;
-  font-size: 13px;
-  font-weight: 600;
   width: fit-content;
-  margin: 16px 0 12px auto;
+  margin: 22px 0 16px;
 }
 .price-preview {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1.2fr);
+  grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1fr);
   align-items: center;
-  gap: 12px;
-  margin: 0 0 18px;
+  gap: 10px;
+  margin: 0 0 22px;
 }
 dt {
   color: var(--muted-foreground);
-  font-size: 14px;
-  margin: 0 0 6px;
-}
-.price-preview dd {
-  font-size: 30px;
-  font-weight: 750;
-  line-height: 1.2;
-  letter-spacing: -0.8px;
+  font-size: 12px;
+  margin: 0 0 7px;
 }
 dd {
   margin: 0;
   font-variant-numeric: tabular-nums;
 }
+.price-preview dd {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.035em;
+}
 .price-preview > ng-icon {
   color: var(--muted-foreground);
-  font-size: 30px;
+  font-size: 20px;
   margin-top: 18px;
 }
 .preview-metrics {
@@ -74,101 +74,73 @@ dd {
   justify-content: space-between;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: 8px 16px;
-  padding: 10px 0;
-  border-block-start: 1px solid var(--border);
+  gap: 8px 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
 }
 .preview-metrics > div:last-child {
-  border-block-end: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 .preview-metrics dt {
   color: var(--foreground);
-  font-size: 18px;
+  font-size: 12px;
   margin: 0;
 }
 .preview-metrics dd {
   display: flex;
   align-items: center;
-  gap: 9px;
-  font-size: 18px;
+  flex-wrap: wrap;
+  gap: 7px;
+  font-size: 13px;
 }
 .preview-metrics ng-icon {
   color: var(--muted-foreground);
-  font-size: 18px;
+  font-size: 15px;
   flex: none;
 }
 .preview-note,
 .preview-period {
-  font-size: 13px;
+  font-size: 11px;
   color: var(--muted-foreground);
-  line-height: 1.5;
+  line-height: 1.6;
   margin: 10px 0 0;
-}
-.preview-period {
-  margin-top: 8px;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 8px;
-  font-size: 14px;
 }
 .model-warning {
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: start;
+  gap: 9px;
   color: var(--warning-foreground);
   background: var(--warning-surface);
-  border-radius: 10px;
-  margin: 18px 0 0;
-  padding: 14px;
-  font-size: 12px;
-  line-height: 1.5;
+  border-radius: 7px;
+  margin: 20px 0 0;
+  padding: 12px;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.model-warning strong {
+  font-weight: 500;
 }
 .model-warning ng-icon {
-  font-size: 20px;
+  font-size: 17px;
   flex: none;
+  margin-top: 2px;
 }
-@media (max-width: 1000px) {
+@media (max-width: 850px) {
   .product-preview {
-    padding: 22px;
-  }
-  .price-preview {
-    gap: 8px;
-  }
-  .preview-metrics dd {
-    flex-wrap: wrap;
-  }
-}
-@media (max-width: 800px) {
-  .product-preview {
-    max-width: 620px;
-    width: 100%;
-  }
-}
-@media (max-width: 550px) {
-  .product-preview {
-    padding: 20px 16px;
-    border-radius: 14px;
-  }
-  .product-preview h2 {
-    font-size: 24px;
-  }
-  .product-name {
-    font-size: 17px;
-  }
-  .price-preview {
-    grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr);
-    gap: 7px;
-  }
-  .price-preview dt {
-    font-size: 12px;
+    padding: 24px;
   }
   .price-preview dd {
     font-size: 22px;
   }
-  .price-preview > ng-icon {
-    font-size: 20px;
+}
+@media (max-width: 420px) {
+  .product-preview {
+    padding: 24px 20px;
   }
-  .preview-metrics dd {
-    font-size: 14px;
+  .price-preview {
     gap: 7px;
+  }
+  .price-preview dd {
+    font-size: 22px;
   }
 }

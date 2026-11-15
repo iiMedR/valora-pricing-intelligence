@@ -1,0 +1,135 @@
+:host {
+  display: block;
+}
+
+.optimization-filters {
+  display: grid;
+  grid-template-columns: minmax(180px, 2fr) minmax(120px, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+}
+.optimization-filters label,
+.search-control {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  margin: 0;
+}
+input,
+select {
+  min-width: 0;
+  width: 100%;
+}
+.search-input {
+  position: relative;
+}
+.search-input input {
+  padding-right: 48px;
+}
+.clear-search {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  font-size: 24px;
+}
+.search-input input::-webkit-search-cancel-button {
+  appearance: none;
+}
+.history-window {
+  grid-column: 1/-1;
+}
+.history-window {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  margin-top: 4px;
+}
+.history-window summary {
+  cursor: pointer;
+  font-size: 12px;
+  padding: 4px 0;
+}
+.history-window p {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin: 12px 0;
+}
+.history-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  gap: 12px;
+  align-items: end;
+}
+.history-fields label {
+  margin: 0;
+}
+.history-fields button {
+  align-self: end;
+}
+.history-caption {
+  color: var(--muted-foreground);
+}
+.history-caption {
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 12px 0;
+}
+@media (max-width: 650px) {
+  .optimization-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .search-control {
+    grid-column: 1/-1;
+  }
+  .optimization-filters > button[type='submit'] {
+    align-self: end;
+  }
+}
+
+.demo-explanation {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  margin: 16px 0;
+}
+.demo-explanation summary {
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 12px;
+}
+.explanation-content {
+  padding: 0 16px 16px;
+  max-width: 85ch;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.explanation-content p {
+  margin: 0 0 12px;
+}
+.explanation-content a {
+  color: var(--interactive-foreground);
+  font-weight: 500;
+}
+@media (max-width: 800px) {
+  .history-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .history-fields button {
+    grid-column: 1/-1;
+    justify-self: start;
+  }
+}
+@media (max-width: 450px) {
+  .history-fields {
+    grid-template-columns: 1fr;
+  }
+  .optimization-filters {
+    padding: 14px;
+  }
+}

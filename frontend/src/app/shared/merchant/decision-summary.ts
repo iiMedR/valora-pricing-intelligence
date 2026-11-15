@@ -231,7 +231,7 @@ export class PriceComparison {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<details class="teaching-example">
     <summary>See a worked pricing example</summary>
-    <h2>Worked example — illustrative, not your store’s recommendation</h2>
+    <h2>Worked example: illustrative, not your store’s recommendation</h2>
     <p>
       Assume 100 units sold over 30 days at a price of 100, a unit variable cost of 40, and price
       sensitivity of −2.

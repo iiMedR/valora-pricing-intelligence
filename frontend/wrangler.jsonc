@@ -1,0 +1,6 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "valora-pricing-intelligence",
+  "pages_build_output_dir": "./dist/frontend/browser",
+  "compatibility_date": "2026-11-13",
+}

@@ -6,7 +6,7 @@ Valora is a full-stack portfolio application for exploring sales, demand forecas
 
 Built to demonstrate end-to-end product development: domain modeling, secured APIs, database migrations, analytical calculations, responsive interfaces and integration testing.
 
-[Quick start](#quick-start) · [Architecture](#architecture) · [Demo walkthrough](#a-five-minute-walkthrough) · [Testing](#testing-and-verification) · [Documentation](#documentation)
+[Quick start](#quick-start) · [Architecture](#architecture) · [Demo walkthrough](#a-five-minute-walkthrough) · [Testing](#testing-and-verification) · [Hosting](docs/public-deployment.md) · [Documentation](#documentation)
 
 ![Valora dashboard showing synthetic store performance, portfolio examples and a monthly sales chart](docs/demo/screenshots/valora/dashboard-1440.png)
 

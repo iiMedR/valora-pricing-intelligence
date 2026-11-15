@@ -1,0 +1,123 @@
+<section class="inventory-panel" aria-labelledby="inventory-title">
+  <div class="section-heading">
+    <div>
+      <h2 id="inventory-title">Inventory observations</h2>
+    </div>
+    <span>Before {{ stock().asOf | date: 'yyyy-MM-dd HH:mm' : 'UTC' }} UTC</span>
+  </div>
+  <div class="stock-summary" aria-label="Inventory summary">
+    <div>
+      <strong>{{ stock().summary.variants | number }}</strong
+      ><span>Variants</span>
+    </div>
+    <div [class.warning]="stock().summary.stockouts > 0">
+      <strong>{{ stock().summary.stockouts | number }}</strong
+      ><span>Observed stockouts</span>
+    </div>
+    <div [class.warning]="stock().summary.unknown > 0">
+      <strong>{{ stock().summary.unknown | number }}</strong
+      ><span>Unknown stock</span>
+    </div>
+    <div [class.warning]="stock().summary.uncertain > 0">
+      <strong>{{ stock().summary.uncertain | number }}</strong
+      ><span>Uncertain</span>
+    </div>
+    <div [class.warning]="stock().summary.stale > 0">
+      <strong>{{ stock().summary.stale | number }}</strong
+      ><span>Stale records</span>
+    </div>
+  </div>
+  <p class="inventory-note">Historical observations, not current availability or lost demand.</p>
+  <div
+    class="analytics-scroll"
+    role="region"
+    aria-label="Inventory observations table"
+    tabindex="0"
+  >
+    <table>
+      <caption class="sr-only">
+        Latest observed inventory before reporting end
+      </caption>
+      <thead>
+        <tr>
+          <th>Product / SKU</th>
+          <th>Catalog status</th>
+          <th class="quantity">Units available</th>
+          <th>Stock signal</th>
+          <th>Observed (UTC)</th>
+          <th>Freshness</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of stock().results.content; track row.variantId) {
+          <tr>
+            <th scope="row">
+              <a [routerLink]="['/products', row.productId]">{{ row.productName }}</a><small
+                >{{ row.name }} · {{ row.sku }}</small
+              >
+            </th>
+            <td>
+              <span class="catalog-status">{{ label(row.status) }}</span>
+              @if (row.status !== row.productStatus) {
+                <small>Product: {{ label(row.productStatus) }}</small>
+              }
+            </td>
+            <td class="quantity">
+              {{ row.quantityAvailable === null ? 'Unknown' : (row.quantityAvailable | number) }}
+            </td>
+            <td>
+              <span
+                class="stock-badge"
+                [class.available]="row.stockState === 'AVAILABLE'"
+                [class.warning]="row.stockState !== 'AVAILABLE'"
+                >{{ stockLabel(row.stockState) }}</span
+              >
+            </td>
+            <td>
+              {{ row.observedAt ? (row.observedAt | date: 'yyyy-MM-dd HH:mm' : 'UTC') : 'Unknown' }}
+            </td>
+            <td>
+              {{
+                row.observedAt === null
+                  ? 'Unknown'
+                  : row.stale
+                    ? 'Stale'
+                    : 'Within ' + stock().staleAfterHours + ' hours'
+              }}
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6">No variants in the catalog.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <details class="observation-help">
+    <summary>How to read these records</summary>
+    <p>
+      Stale means older than {{ stock().staleAfterHours }} hours at the reporting end. Stockout and
+      stale counts may overlap. These observations do not establish current availability or lost
+      demand.
+    </p>
+  </details>
+  <div class="pagination">
+    <span
+      >{{ stock().results.totalElements }} variants · Page {{ stock().results.page + 1 }} of
+      {{ stock().results.totalPages || 1 }}</span
+    >
+    <div class="actions">
+      <button z-button zType="outline" (click)="pageChange.emit(-1)" [disabled]="page() === 0">
+        Previous inventory</button
+      ><button
+        z-button
+        zType="outline"
+        (click)="pageChange.emit(1)"
+        [disabled]="page() + 1 >= stock().results.totalPages"
+      >
+        Next inventory
+      </button>
+    </div>
+  </div>
+</section>

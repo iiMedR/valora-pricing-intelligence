@@ -66,6 +66,18 @@ const detail: DemandDetail = {
   ],
 };
 describe('Demand Forecasting', () => {
+  // JSDOM has no layout observer; browser QA verifies real chart layout.
+  beforeEach(() =>
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      },
+    ),
+  );
+  afterEach(() => vi.unstubAllGlobals());
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [Forecasting],
@@ -121,9 +133,9 @@ describe('Demand Forecasting', () => {
     expect(f.nativeElement.textContent).toContain('-2.690');
     expect(f.nativeElement.textContent).toContain('Association is not causation');
     expect(f.nativeElement.textContent).toContain('Trailing mean');
-    expect(f.nativeElement.querySelector('svg[role="img"] title').textContent).toContain(
-      'Observed units',
-    );
+    expect(
+      f.nativeElement.querySelector('app-forecast-chart figure').getAttribute('aria-label'),
+    ).toContain('Observed units');
     expect(f.nativeElement.querySelector('[aria-label="Forecast values table"]')).toBeTruthy();
     expect(f.nativeElement.textContent).toContain('No calibrated uncertainty');
     expect(f.nativeElement.textContent).toContain('No uncertainty interval available');
@@ -134,7 +146,7 @@ describe('Demand Forecasting', () => {
     overview(true);
     await f.whenStable();
     expect(f.nativeElement.textContent).toContain('No variants found');
-    expect(f.nativeElement.querySelector('svg')).toBeNull();
+    expect(f.nativeElement.querySelector('app-forecast-chart')).toBeNull();
   });
   it('shows insufficient and baseline-only without a fake elasticity', async () => {
     const f = TestBed.createComponent(Forecasting);
@@ -242,6 +254,6 @@ describe('Demand Forecasting', () => {
     expect(request.request.params.get('endDate')).toBe('2026-01-01');
     request.flush({ results: { content: [], page: 0, size: 10, totalElements: 0, totalPages: 0 } });
     await f.whenStable();
-    expect(f.nativeElement.textContent).toContain('Using sales from 2025-01-01 up to 2026-01-01');
+    expect(f.nativeElement.textContent).toContain('Sales history: 2025-01-01 to 2026-01-01');
   });
 });

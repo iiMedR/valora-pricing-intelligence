@@ -9,7 +9,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "start:portfolio": "ng serve --host localhost --port 4207 --proxy-config proxy.portfolio.conf.json"
+    "start:portfolio": "ng serve --host localhost --port 4207 --proxy-config proxy.portfolio.conf.json",
+    "start:neon": "ng serve --host localhost --port 4208 --proxy-config proxy.neon.conf.json"
   },
   "private": true,
   "packageManager": "npm@11.19.1",

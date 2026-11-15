@@ -1,23 +1,19 @@
+import { ForecastProductChoice } from './forecast-product-choice';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { lucideSearch, lucideCalendarDays } from '@ng-icons/lucide';
 import { ProductContext, validCatalogId } from '../../shared/merchant/product-context';
 import { ZardInputComponent } from '@/shared/components/input';
 import { ZardButtonComponent } from '@/shared/components/button';
 import { SessionService } from '../../core/session.service';
 import { initialWindow } from '../analytics/analytics-api.service';
 import { statusLabel, explainReason, reasonSummary } from '../../core/presentation';
-import {
-  Component,
-  DestroyRef,
-  ElementRef,
-  computed,
-  inject,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, DestroyRef, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SensitivitySummary, comparisonDates } from '../../shared/merchant/decision-summary';
 import { insightWindow } from '../../shared/merchant/insight-window';
+import { ForecastChart } from '../../shared/merchant/forecast-chart';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { forkJoin, Subscription } from 'rxjs';
 import { apiError } from '../catalog/services/catalog-api.service';
@@ -33,13 +29,17 @@ import {
 @Component({
   imports: [
     ProductContext,
+    ForecastProductChoice,
+    NgIcon,
     ZardButtonComponent,
     ZardInputComponent,
     DecimalPipe,
     ReactiveFormsModule,
     RouterLink,
     SensitivitySummary,
+    ForecastChart,
   ],
+  providers: [provideIcons({ lucideSearch, lucideCalendarDays })],
   templateUrl: './forecasting.html',
   styleUrl: './forecasting.css',
 })
@@ -84,29 +84,6 @@ export class Forecasting {
   page = 0;
   private applied: ForecastQuery = this.filters.getRawValue();
   readonly historyWindow = () => this.applied;
-  readonly chart = computed(() => {
-    const d = this.detail();
-    const history = d?.history.slice(-90) ?? [],
-      future = d?.forecast.daily ?? [];
-    const max = Math.max(
-      1,
-      ...history.map((r) => r.units),
-      ...future.map((r) => Number(r.expectedUnits)),
-    );
-    const n = history.length + future.length;
-    const x = (i: number) => 40 + (i / Math.max(1, n - 1)) * 720,
-      y = (v: number) => 190 - (v / max) * 160;
-    return {
-      observed: history.map((r, i) => `${x(i)},${y(r.units)}`).join(' '),
-      predicted: future
-        .map((r, i) => `${x(history.length + i)},${y(Number(r.expectedUnits))}`)
-        .join(' '),
-      censored: history.flatMap((r, i) => (r.censored ? [{ x: x(i), y: y(r.units) }] : [])),
-      max: Math.ceil(max),
-      first: history[0]?.date,
-      last: future.at(-1)?.date ?? history.at(-1)?.date,
-    };
-  });
   constructor() {
     this.destroy.onDestroy(() => clearTimeout(this.focusTimer));
     this.load();

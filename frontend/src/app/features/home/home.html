@@ -146,35 +146,3 @@
     >
   }
 }
-<details class="system-health">
-  <summary>Application connection status</summary>
-  <section class="status-card" aria-labelledby="connection-title">
-    <div>
-      <h2 id="connection-title">Backend service</h2>
-      <div role="status" aria-live="polite" aria-atomic="true">
-        @switch (status()) {
-          @case ('loading') {
-            <p>Checking connection…</p>
-          }
-          @case ('connected') {
-            <p>Connected</p>
-            <p class="muted">The backend reports UP.</p>
-          }
-          @case ('unavailable') {
-            <p>Backend unavailable</p>
-            <p class="muted">Check the backend connection and try again.</p>
-          }
-        }
-      </div>
-    </div>
-    <button
-      z-button
-      zType="outline"
-      type="button"
-      (click)="refresh()"
-      [disabled]="status() === 'loading'"
-    >
-      Check again
-    </button>
-  </section>
-</details>

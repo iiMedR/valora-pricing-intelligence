@@ -8,9 +8,17 @@
   </div>
 </div>
 <form class="demand-filters" [formGroup]="filters" (ngSubmit)="apply()">
-  <label
-    >Search products<input z-input type="search" formControlName="search" maxlength="100"
-  /></label>
+  <label class="product-search"
+    >Search products
+    <div class="search-input">
+      <ng-icon name="lucideSearch" aria-hidden="true" /><input
+        z-input
+        type="search"
+        placeholder="Search by product name or SKU"
+        formControlName="search"
+        maxlength="100"
+      /></div
+  ></label>
   <button z-button type="submit">Find products</button>
   <details class="merchant-details history-window">
     <summary>Change sales history</summary>
@@ -29,13 +37,21 @@
     </button>
   </details>
 </form>
-<p class="muted forecast-period">
-  Using sales from {{ historyWindow().startDate }} up to {{ historyWindow().endDate }} (end date not
-  included). The forecast starts at that end date.
+<div class="forecast-period">
+  <span
+    ><ng-icon name="lucideCalendarDays" aria-hidden="true" /> Sales history:
+    {{ historyWindow().startDate }} to {{ historyWindow().endDate }} (end excluded)</span
+  >
   @if (isDemo()) {
-    This is a historical demo, not a prediction for today.
+    <span class="historical-badge">Historical demo</span>
   }
-</p>
+  <p>
+    Forecasts start at the history end date.
+    @if (isDemo()) {
+      Not a prediction for today.
+    }
+  </p>
+</div>
 @if (error()) {
   <div class="error" role="alert">
     {{ error() }} <button z-button zType="outline" (click)="load()">Retry variants</button>
@@ -55,27 +71,12 @@
   } @else {
     <div class="forecast-product-grid">
       @for (row of report.results.content; track row.variant.variantId) {
-        <article
-          class="forecast-choice"
-          [class.is-selected]="selected()?.variantId === row.variant.variantId"
-        >
-          <div class="forecast-identity">
-            <h2>{{ row.variant.productName }}</h2>
-            <p class="muted">{{ row.variant.name }} · {{ row.variant.sku }}</p>
-          </div>
-          <p class="forecast-coverage">
-            <strong>{{ row.readiness.eligibleDays }} / {{ row.readiness.days }}</strong>
-            <span>usable sales days</span>
-          </p>
-          <button
-            z-button
-            zType="outline"
-            (click)="select(row.variant)"
-            [attr.aria-label]="'Inspect demand for ' + row.variant.sku"
-          >
-            View sales forecast
-          </button>
-        </article>
+        <app-forecast-product-choice
+          [variant]="row.variant"
+          [readiness]="row.readiness"
+          [selected]="selected()?.variantId === row.variant.variantId"
+          (inspect)="select($event)"
+        />
       }
     </div>
     <details class="merchant-details">
@@ -97,9 +98,9 @@
             @for (row of report.results.content; track row.variant.variantId) {
               <tr>
                 <th scope="row">{{ row.variant.productName }}</th>
-                <td>{{ row.readiness.status }}</td>
+                <td>{{ statusLabel(row.readiness.status) }}</td>
                 <td>{{ row.readiness.unknownDays }} / {{ row.readiness.censoredDays }}</td>
-                <td>{{ reasonSummary(row.readiness.reasons) }}</td>
+                <td class="reasons">{{ reasonSummary(row.readiness.reasons) }}</td>
               </tr>
             }
           </tbody>
@@ -253,32 +254,7 @@
       </details>
       <div class="chart-panel">
         <h3>Observed sales and forecast</h3>
-        <p class="legend">
-          <span>Solid: last 90 observed sales days</span><span>Dashed amber: forecast</span
-          ><span>Red dots: censored observations</span>
-        </p>
-        <svg
-          viewBox="0 0 800 230"
-          role="img"
-          aria-labelledby="demand-chart-title demand-chart-desc"
-        >
-          <title id="demand-chart-title">Observed units and expected sales forecast</title>
-          <desc id="demand-chart-desc">
-            Zero baseline. Observed and forecast series are distinct. Censored stock observations
-            have red markers. Exact values and exclusions are in the tables below. No uncertainty
-            band is claimed.
-          </desc>
-          <line x1="40" y1="190" x2="760" y2="190" class="baseline" />
-          <polyline [attr.points]="chart().observed" class="observed" />
-          <polyline [attr.points]="chart().predicted" class="predicted" />
-          @for (point of chart().censored; track $index) {
-            <circle [attr.cx]="point.x" [attr.cy]="point.y" r="3" fill="var(--destructive)" />
-          }
-          <text x="40" y="18">{{ chart().max }} units</text>
-          <text x="40" y="208">0</text>
-          <text x="40" y="229">{{ chart().first }}</text>
-          <text x="760" y="229" text-anchor="end">{{ chart().last }}</text>
-        </svg>
+        <app-forecast-chart [detail]="d" />
       </div>
       <details>
         <summary>Exact observed history and exclusions ({{ d.history.length }} dates)</summary>

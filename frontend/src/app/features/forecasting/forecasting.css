@@ -120,35 +120,6 @@ summary {
 .chart-panel {
   padding: 20px 0;
 }
-.legend {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  font-size: 12px;
-}
-svg {
-  width: 100%;
-  height: auto;
-  min-height: 150px;
-}
-svg text {
-  font-size: 11px;
-  fill: var(--muted-foreground);
-}
-.baseline {
-  stroke: var(--border);
-}
-.observed {
-  fill: none;
-  stroke: var(--foreground);
-  stroke-width: 2;
-}
-.predicted {
-  fill: none;
-  stroke: var(--warning-foreground);
-  stroke-width: 3;
-  stroke-dasharray: 5 4;
-}
 .fold {
   border-top: 1px solid var(--border);
   margin: 20px 0;
@@ -220,62 +191,68 @@ svg text {
   margin: 0;
 }
 .forecast-period {
-  max-width: 85ch;
-  margin: 16px 0 24px;
-  font-size: 13px;
+  margin: 16px 0 22px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.forecast-period > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.forecast-period p {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 12px;
+}
+.historical-badge {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 7px;
+  background: var(--card);
+  font-size: 11px;
 }
 .forecast-product-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--card);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
-.forecast-choice {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  align-items: center;
-  gap: 20px;
-  padding: 18px 20px;
-  border-bottom: 1px solid var(--border);
+.search-input {
+  position: relative;
 }
-.forecast-choice:last-child {
-  border-bottom: 0;
-}
-.forecast-choice:focus-within,
-.forecast-choice.is-selected {
-  background: var(--interactive-surface);
-}
-.forecast-identity {
-  min-width: 0;
-}
-.forecast-identity h2 {
-  font-size: 15px;
-  margin: 0 0 4px;
-  letter-spacing: -0.015em;
-}
-.forecast-identity p {
-  margin: 0;
-  font-size: 12px;
-}
-.forecast-coverage {
-  display: grid;
-  gap: 2px;
-  margin: 0;
+.search-input ng-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   color: var(--muted-foreground);
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
 }
-.forecast-coverage strong {
-  color: var(--foreground);
-  font-size: 14px;
-  font-weight: 600;
+.search-input input {
+  padding-left: 36px;
 }
-.forecast-choice button {
-  color: var(--interactive-foreground);
-  border-color: var(--input);
+.history-window summary {
+  padding: 10px 0;
+}
+.history-window {
+  border: 0 !important;
+  padding: 0 !important;
+}
+.page-heading .muted {
+  font-size: 13px;
+}
+@media (min-width: 1450px) {
+  .forecast-product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 650px) {
+  .forecast-product-grid {
+    grid-template-columns: 1fr;
+  }
 }
 .demand-detail {
   border-top: 3px solid var(--interactive);
@@ -283,17 +260,5 @@ svg text {
 @media (max-width: 600px) {
   .demand-filters {
     padding: 16px;
-  }
-  .forecast-choice {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 12px;
-    padding: 16px;
-  }
-  .forecast-identity {
-    grid-column: 1 / -1;
-  }
-  .forecast-choice button {
-    max-width: 155px;
-    white-space: normal;
   }
 }

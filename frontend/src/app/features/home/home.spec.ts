@@ -4,7 +4,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { provideRouter } from '@angular/router';
 import { Home } from './home';
 import { SessionService } from '../../core/session.service';
-describe('Home health connection', () => {
+describe('Home workspace', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [Home],
@@ -12,41 +12,11 @@ describe('Home health connection', () => {
     }),
   );
   afterEach(() => TestBed.inject(HttpTestingController).verify());
-  it('shows loading followed by a real successful response', async () => {
-    const fixture = TestBed.createComponent(Home);
-    fixture.detectChanges();
-    expect(fixture.nativeElement.textContent).toContain('Checking connection');
-    TestBed.inject(HttpTestingController).expectOne('/api/v1/health').flush({ status: 'UP' });
-    await fixture.whenStable();
-    expect(fixture.nativeElement.querySelector('[role="status"]').textContent).toContain(
-      'Connected',
-    );
-  });
-  it('shows failure and supports retry', async () => {
-    const fixture = TestBed.createComponent(Home);
-    fixture.detectChanges();
-    const http = TestBed.inject(HttpTestingController);
-    http.expectOne('/api/v1/health').flush({}, { status: 503, statusText: 'Unavailable' });
-    await fixture.whenStable();
-    expect(fixture.nativeElement.textContent).toContain('Backend unavailable');
-    fixture.nativeElement.querySelector('button').click();
-    http.expectOne('/api/v1/health').flush({ status: 'UP' });
-    await fixture.whenStable();
-    expect(fixture.componentInstance.status()).toBe('connected');
-  });
-  it('rejects unexpected status', async () => {
-    const fixture = TestBed.createComponent(Home);
-    fixture.detectChanges();
-    TestBed.inject(HttpTestingController).expectOne('/api/v1/health').flush({ status: 'DOWN' });
-    await fixture.whenStable();
-    expect(fixture.componentInstance.status()).toBe('unavailable');
-  });
   it('waits for authorized access and clears protected records when access is lost', async () => {
     const fixture = TestBed.createComponent(Home);
     const http = TestBed.inject(HttpTestingController);
     const session = TestBed.inject(SessionService);
     fixture.detectChanges();
-    http.expectOne('/api/v1/health').flush({ status: 'UP' });
     http.expectNone((r) => r.url.includes('/analytics/') || r.url.includes('/onboarding/'));
     session.value.set({ mode: 'DEMO', authenticated: false, readOnly: true, username: null });
     await fixture.whenStable();
@@ -75,7 +45,6 @@ describe('Home health connection', () => {
     const fixture = TestBed.createComponent(Home);
     const http = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
-    http.expectOne('/api/v1/health').flush({ status: 'UP' });
     const range = {
       startDate: '2025-01-01',
       endDate: '2026-01-01',

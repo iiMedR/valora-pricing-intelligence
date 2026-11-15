@@ -1,65 +1,120 @@
 <div class="landing">
   <header class="landing-header content-width">
-    <a class="landing-brand" routerLink="/" aria-label="Valora home">
-      <app-brand-mark size="large" />
-    </a>
+    <a class="landing-brand" routerLink="/" aria-label="Valora home"><app-brand-mark /></a>
     <nav aria-label="Product information">
-      <a href="/#how-it-works">How it works</a><a href="/#what-to-expect">What to expect</a>
+      <a href="/#how-it-works">Product</a><a href="/#integrations">Integrations</a
+      ><a href="/#what-to-expect">About the demo</a>
     </nav>
-    <a class="sign-in" [href]="signInHref()">Sign in</a>
+    <div class="header-actions">
+      <a class="sign-in" [href]="signInHref()">Sign in</a
+      ><a class="landing-button header-cta" [href]="demoHref()">Try the demo</a>
+    </div>
   </header>
 
   <section class="hero content-width" aria-labelledby="landing-title">
-    <div class="hero-copy">
-      <h1 id="landing-title">Make your next pricing decision a clearer one.</h1>
-      <p class="hero-description">
-        Understand your sales, compare price scenarios, and see what your data can—and cannot—tell
-        you.
-      </p>
-      <div class="hero-actions">
-        <a class="landing-button primary-action" [href]="demoHref()">Explore the demo</a
-        ><a class="landing-button secondary-action" routerLink="/dashboard">Open workspace</a>
-      </div>
-      <p class="hero-note">Synthetic data. No automatic price changes.</p>
+    <h1 id="landing-title">Make your next pricing decision a clearer one.</h1>
+    <p class="hero-description">
+      Understand your sales, compare price scenarios, and see what your data can and cannot tell
+      you.
+    </p>
+    <div class="hero-actions">
+      <a class="landing-button primary-action" [href]="demoHref()"
+        >Explore the demo<ng-icon name="lucideArrowUpRight" aria-hidden="true" /></a
+      ><a
+        class="landing-button secondary-action"
+        href="https://github.com/iiMedR/valora-pricing-intelligence"
+        target="_blank"
+        rel="noopener noreferrer"
+        ><img src="/brand/github-mark.svg" width="17" height="17" alt="" aria-hidden="true" />View
+        on GitHub</a
+      >
     </div>
-
-    <app-landing-preview />
+    <p class="hero-note">Synthetic data. Read-only access. No automatic price changes.</p>
   </section>
+
+  <figure
+    id="product-preview"
+    class="platform-preview content-width"
+    aria-labelledby="platform-caption"
+  >
+    <div class="preview-frame">
+      <div class="preview-window">
+        <img
+          src="/landing/optimization-preview.png"
+          width="1868"
+          height="914"
+          alt="Valora pricing optimization showing current and suggested prices, estimated contribution and observed price sensitivity"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+    <figcaption id="platform-caption">
+      Pricing optimization with synthetic portfolio data.
+    </figcaption>
+  </figure>
 
   <section id="how-it-works" class="workflow content-width" aria-labelledby="workflow-title">
-    <h2 id="workflow-title">From store data to a decision you understand.</h2>
+    <div class="section-heading">
+      <h2 id="workflow-title">Less guesswork.<br />More clarity in every decision.</h2>
+      <p>
+        Follow your store's numbers from recorded sales to a price comparison you can understand.
+      </p>
+    </div>
     <div class="workflow-columns">
       <article>
-        <ng-icon name="lucideChartNoAxesColumnIncreasing" aria-hidden="true" />
+        <span class="feature-icon"
+          ><ng-icon name="lucideChartNoAxesColumnIncreasing" aria-hidden="true"
+        /></span>
         <h3>Understand your store</h3>
-        <p>Review sales, refunds and contribution with cost coverage in view.</p>
+        <p>Review sales, refunds and contribution, with known-cost coverage always in view.</p>
       </article>
       <article>
-        <ng-icon name="lucideArrowLeftRight" aria-hidden="true" />
+        <span class="feature-icon"><ng-icon name="lucideArrowLeftRight" aria-hidden="true" /></span>
         <h3>Compare possibilities</h3>
-        <p>Explore prices and financial what-if scenarios with explicit assumptions.</p>
+        <p>
+          See current and suggested prices, estimated contribution, and the assumptions behind them.
+        </p>
       </article>
       <article>
-        <ng-icon name="lucideClipboardCheck" aria-hidden="true" />
+        <span class="feature-icon"><ng-icon name="lucideClipboardCheck" aria-hidden="true" /></span>
         <h3>Know what to fix next</h3>
-        <p>Find missing sales, cost or stock history before trusting an estimate.</p>
+        <p>Find gaps in sales, cost or stock history before putting confidence in an estimate.</p>
       </article>
     </div>
   </section>
+
+  <app-landing-integrations id="integrations" class="content-width" />
 
   <section
     id="what-to-expect"
     class="expectation content-width"
     aria-labelledby="expectation-title"
   >
-    <div>
-      <h2 id="expectation-title">See the numbers. Keep the judgment.</h2>
-      <p>Explore a read-only synthetic store, including cases where the model gets it wrong.</p>
+    <div class="section-heading">
+      <h2 id="expectation-title">See the numbers.<br />Keep the judgment.</h2>
+      <p>
+        Explore a read-only synthetic store, including cases where the model gets it wrong.
+        Experimental suggestions remain yours to review.
+      </p>
     </div>
-    <a class="landing-button primary-action" [href]="demoHref()">Explore the demo</a>
+    <div class="hero-actions">
+      <a class="landing-button primary-action" [href]="demoHref()"
+        >Explore the demo<ng-icon name="lucideArrowUpRight" aria-hidden="true" /></a
+      ><a
+        class="landing-button secondary-action"
+        href="https://github.com/iiMedR/valora-pricing-intelligence"
+        target="_blank"
+        rel="noopener noreferrer"
+        >View source on GitHub</a
+      >
+    </div>
+    <p class="hero-note">A full-stack portfolio project. Not an autonomous pricing service.</p>
   </section>
   <footer class="landing-footer content-width">
-    <a class="landing-brand" routerLink="/"><app-brand-mark size="large" /></a>
-    <p>A full-stack portfolio project. Not an autonomous pricing service.</p>
+    <a class="landing-brand" routerLink="/" aria-label="Valora home"><app-brand-mark /></a>
+    <p>Pricing decisions, with the evidence in view.</p>
+    <a href="/#landing-title"
+      >Back to top<ng-icon name="lucideArrowUpRight" aria-hidden="true"
+    /></a>
   </footer>
 </div>

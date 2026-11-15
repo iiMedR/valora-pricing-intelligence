@@ -1,0 +1,14 @@
+# Loaded after demo,portfolio,neon; only the isolated portfolio database is allowed.
+server:
+  address: 0.0.0.0
+  port: ${PORT:10000}
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      cookie:
+        secure: true
+        same-site: lax
+app:
+  frontend-origin: ${FRONTEND_ORIGIN}
+  cors:
+    allowed-origins: ${FRONTEND_ORIGIN}

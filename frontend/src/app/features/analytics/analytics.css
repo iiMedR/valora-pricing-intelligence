@@ -9,8 +9,7 @@
   font-size: 12px;
   white-space: nowrap;
 }
-.report-filters,
-.performance-filters {
+.report-filters {
   display: flex;
   align-items: end;
   flex-wrap: wrap;
@@ -166,13 +165,6 @@ small {
   font-weight: 400;
   margin-top: 5px;
 }
-.performance-filters {
-  margin: 20px 0;
-}
-.performance-filters label:first-child {
-  flex: 1;
-  min-width: 180px;
-}
 .variant-detail {
   border-top: 1px solid var(--border);
   padding-top: 24px;
@@ -213,8 +205,7 @@ small {
   .report-filters label {
     flex-basis: 100%;
   }
-  .report-filters button,
-  .performance-filters button {
+  .report-filters button {
     width: 100%;
   }
 }

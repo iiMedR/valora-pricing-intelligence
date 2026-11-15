@@ -34,6 +34,7 @@ describe('Merchant application shell', () => {
     const f = TestBed.createComponent(App),
       http = TestBed.inject(HttpTestingController);
     f.detectChanges();
+    http.expectOne('/api/v1/health').flush({ status: 'UP' });
     http.expectOne('/api/v1/auth/me').flush({
       mode: demo ? 'DEMO' : 'NORMAL',
       authenticated: false,

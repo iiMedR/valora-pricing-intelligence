@@ -1,3 +1,4 @@
+import { PricingFilters } from './pricing-filters';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,7 +20,7 @@ import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 import { SessionService, canReadWorkspace } from '../../core/session.service';
 import { ModalFocus } from '../../core/confirmation';
 import { ZardButtonComponent } from '@/shared/components/button';
-import { ZardInputComponent } from '@/shared/components/input';
+
 import { StatusPill } from '../../shared/merchant/foundation';
 import { ProductThumbnail } from '../../shared/merchant/product-thumbnail';
 import { ProductContext, validCatalogId } from '../../shared/merchant/product-context';
@@ -45,12 +46,13 @@ import { PricingEvidence } from './pricing-evidence';
 @Component({
   selector: 'app-optimization',
   imports: [
+    PricingFilters,
     DatePipe,
     RouterLink,
     ReactiveFormsModule,
     ModalFocus,
     ZardButtonComponent,
-    ZardInputComponent,
+
     StatusPill,
     ProductThumbnail,
     ProductContext,
