@@ -6,8 +6,8 @@
       ><a href="/#what-to-expect">About the demo</a>
     </nav>
     <div class="header-actions">
-      <a class="sign-in" [href]="signInHref()">Sign in</a
-      ><a class="landing-button header-cta" [href]="demoHref()">Try the demo</a>
+      <a class="sign-in" routerLink="/login">Sign in</a
+      ><a class="landing-button header-cta" routerLink="/login">Try the demo</a>
     </div>
   </header>
 
@@ -18,7 +18,7 @@
       you.
     </p>
     <div class="hero-actions">
-      <a class="landing-button primary-action" [href]="demoHref()"
+      <a class="landing-button primary-action" routerLink="/login"
         >Explore the demo<ng-icon name="lucideArrowUpRight" aria-hidden="true" /></a
       ><a
         class="landing-button secondary-action"
@@ -98,7 +98,7 @@
       </p>
     </div>
     <div class="hero-actions">
-      <a class="landing-button primary-action" [href]="demoHref()"
+      <a class="landing-button primary-action" routerLink="/login"
         >Explore the demo<ng-icon name="lucideArrowUpRight" aria-hidden="true" /></a
       ><a
         class="landing-button secondary-action"
